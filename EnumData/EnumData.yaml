@@ -1,0 +1,371 @@
+- Name: YesNo
+  EnumValues:
+  - 否
+  - 是
+- Name: Difficulty
+  EnumValues:
+  - Easy
+  - Normal
+  - Hard
+  - Lunatic
+  - Extra
+- Name: Stage
+  EnumValues:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - Extra
+- Name: LastStage
+  EnumValues:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - Extra
+  - All Clear
+- Name: Th06Chara
+  EnumValues:
+  - 灵梦A
+  - 灵梦B
+  - 魔理沙A
+  - 魔理沙B
+- Name: Th07Stage
+  EnumValues:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - Extra/Phantasm
+- Name: Th07Chara
+  EnumValues:
+  - 灵梦A
+  - 灵梦B
+  - 魔理沙A
+  - 魔理沙B
+  - 咲夜A
+  - 咲夜B
+- Name: Th07Difficulty
+  EnumValues:
+  - Easy
+  - Normal
+  - Hard
+  - Lunatic
+  - Extra
+  - Phantasm
+- Name: Th08Stage
+  EnumValues:
+  - 1
+  - 2
+  - 3
+  - 4A
+  - 4B
+  - 5
+  - 6A
+  - 6B
+  - Extra
+- Name: Th08Time
+  EnumValues:
+  - "PM 11:00"
+  - "PM 11:30"
+  - "AM 0:00"
+  - "AM 0:30"
+  - "AM 1:00"
+  - "AM 1:30"
+  - "AM 2:00"
+  - "AM 2:30"
+  - "AM 3:00"
+  - "AM 3:30"
+  - "AM 4:00"
+  - "AM 4:30"
+  - "AM 5:00"
+- Name: Th08Chara
+  EnumValues:
+  - 灵梦 & 紫
+  - 魔理沙 & 爱丽丝
+  - 咲夜 & 蕾米莉亚
+  - 妖梦 & 幽幽子
+  - 灵梦
+  - 紫
+  - 魔理沙
+  - 爱丽丝
+  - 咲夜
+  - 蕾米莉亚
+  - 妖梦
+  - 幽幽子
+- Name: Th09Stage
+  EnumValues:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 对战
+- Name: Th09Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+  - 咲夜
+  - 妖梦
+  - 铃仙
+  - 琪露诺
+  - 莉莉卡
+  - 米斯蒂娅
+  - 帝
+  - 幽香
+  - 文
+  - 梅蒂欣
+  - 小町
+  - 映姬
+  - 梅露兰
+  - 露娜萨
+- Name: Th09Place
+  EnumValues:
+  - 随机选择
+  - 预定的场所
+  - 迷途竹林 灵梦
+  - 迷途竹林 魔理沙
+  - 幻草原 咲夜
+  - 白玉楼阶梯 妖梦
+  - 永远亭 铃仙
+  - 雾之湖 琪露诺
+  - 幽明结界 莉莉卡
+  - 妖怪兽道 米斯蒂娅
+  - 迷途竹林 帝
+  - 太阳花田 幽香
+  - 大蛤蟆之池 文
+  - 无名之丘 梅蒂欣
+  - 再思之道 小町
+  - 无缘塚 映姬
+- Name: Th09PlayerType
+  EnumValues:
+  - 人
+  - 式
+- Name: Th09ChargeType
+  EnumValues:
+  - 低速
+  - 蓄力
+- Name: Th10Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+- Name: Th10CharaType
+  EnumValues:
+  - A
+  - B
+  - C
+- Name: LastStageAlco
+  EnumValues:
+  - 1
+  - 2
+  - 3
+  - All Clear
+- Name: Th12Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+  - 早苗
+- Name: Th12CharaType
+  EnumValues:
+  - A
+  - B
+- Name: Th12LifeFragment
+  EnumValues:
+  - 0
+  - 
+  - 1
+  - 2
+  - 3
+- Name: Th12BombFragment
+  EnumValues:
+  - 0
+  - 
+  - 1
+  - 
+  - 2
+- Name: Th12UFO
+  EnumValues:
+  - 空
+  - 红
+  - 蓝
+  - 绿
+- Name: Th125Chara
+  EnumValues:
+  - 文
+  - 果
+- Name: Th128Stage
+  EnumValues:
+  - A1-1
+  - A1-2
+  - A1-3
+  - A2-2
+  - A2-3
+  - B1-1
+  - B1-2
+  - B1-3
+  - B2-2
+  - B2-3
+  - C1-1
+  - C1-2
+  - C1-3
+  - C2-2
+  - C2-3
+  - EX
+- Name: Th128LastStage
+  EnumValues:
+  - A1-1
+  - A1-2
+  - A1-3
+  - A2-2
+  - A2-3
+  - B1-1
+  - B1-2
+  - B1-3
+  - B2-2
+  - B2-3
+  - C1-1
+  - C1-2
+  - C1-3
+  - C2-2
+  - C2-3
+  - EX
+  - A1 All Clear
+  - A2 All Clear
+  - B1 All Clear
+  - B2 All Clear
+  - C1 All Clear
+  - C2 All Clear
+  - EX All Clear
+- Name: Th13Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+  - 早苗
+  - 妖梦
+- Name: Th13ExtentCount
+  EnumValues:
+  - 8
+  - 10
+  - 12
+  - 15
+  - 18
+  - 20
+  - 25
+- Name: Th13TrialExtentCount
+  EnumValues:
+  - 10
+  - 15
+  - 20
+  - 25
+  - 30
+  - 35
+  - 40
+- Name: Th13Difficulty
+  EnumValues:
+  - Easy
+  - Normal
+  - Hard
+  - Lunatic
+  - Extra
+  - OverDrive
+- Name: Th14Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+  - 咲夜
+- Name: Th14CharaType
+  EnumValues:
+  - A
+  - B
+- Name: Th143Item
+  EnumValues:
+  - 闪避布
+  - 天狗的玩具相机
+  - 隙间的折叠伞
+  - 亡灵的送行提灯
+  - 渴望鲜血的阴阳玉
+  - 四尺魔法炸弹
+  - 替身地藏
+  - 被诅咒的诱饵人偶
+  - 万宝槌（仿制品）
+  - 无
+- Name: Th15Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+  - 早苗
+  - 铃仙
+- Name: Th16Chara
+  EnumValues:
+  - 灵梦
+  - 琪露诺
+  - 文
+  - 魔理沙
+- Name: Th16CharaType
+  EnumValues:
+  - 春
+  - 夏
+  - 秋
+  - 冬
+  - 土用
+- Name: Th165DayName
+  EnumValues:
+  - 星期日
+  - 星期一
+  - 星期二
+  - 星期三
+  - 星期四
+  - 星期五
+  - 星期六
+  - 里·星期日
+  - 里·星期一
+  - 里·星期二
+  - 里·星期三
+  - 里·星期四
+  - 里·星期五
+  - 里·星期六
+  - 噩梦周日
+  - 噩梦周一
+  - 噩梦周二
+  - 噩梦周三
+  - 噩梦周四
+  - 噩梦周五
+  - 噩梦周六
+  - 噩梦日记
+- Name: Th17Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+  - 妖梦
+- Name: Th17CharaType
+  EnumValues:
+  - 野狼
+  - 水獭
+  - 大鹫
+- Name: Th17Spirit
+  EnumValues:
+  - 空
+  - 野狼
+  - 水獭
+  - 大鹫
+  - 符卡
+  - 残机
+  - P点
+  - 蓝点
+  - 水母
+  - 牛
+  - 小鸡
+  - 龟
+  - 埴轮
+  - 埴轮（马）
+  - 三只小鸡

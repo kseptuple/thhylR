@@ -1,0 +1,249 @@
+- GameName: Th17
+  Identifier: t17r
+  GameDisplayName: 东方鬼形兽　～ Wily Beast and Weakest Creature.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0xa0
+    TotalStageCount: 0x84
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0x158
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x34
+      Type: uint
+      Modifier: "{.}*10"
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x78
+      Type: int
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x7c
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x84
+      Type: int
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x88
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x68
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x5c
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x5c
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x44
+      Type: int
+    - Name: SpiritCount
+      DisplayName: 动物灵数量
+      Offset: 0x98
+      Type: int
+    - Name: Spirit
+      DisplayName: 动物灵
+      Offset: 0x9c
+      Type: int[]
+      Count: 5
+      CapAt: SpiritCount
+      AfterCapValue: 0
+      EnumList: Th17Spirit
+    - Name: RoaringGauge
+      Offset: 0xe0
+      Type: int
+      Modifier: "{.}<=0?0:{.}"
+      IsVisible: false
+    - Name: RoaringGaugeMax
+      Offset: 0xf0
+      Type: int
+      Modifier: "{RoaringGauge}<=0?0:{.}"
+      IsVisible: false
+    - Name: RoaringGaugeSecond
+      Offset: 0xe0
+      Type: int
+      Modifier: "{.}<=0?0:{.}/60"
+      IsVisible: false
+    - Name: RoaringGaugeMaxSecond
+      Offset: 0xf0
+      Type: int
+      Modifier: "{RoaringGauge}<=0?0:{.}/60"
+      IsVisible: false
+    - Name: RoaringGaugeDisplay
+      DisplayName: 咆哮模式时间
+      Formatter: "{RoaringGaugeSecond:0.00}/{RoaringGaugeMaxSecond:0.00}秒 ({RoaringGauge}/{RoaringGaugeMax}帧)"
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0x80
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd hh:mm:ss
+  - Name: Chara
+    Offset: 0x88
+    Type: int
+    EnumList: Th17Chara
+    IsVisible: false
+  - Name: CharaType
+    Offset: 0x8c
+    Type: int
+    EnumList: Th17CharaType
+    IsVisible: false
+  - Name: CharaDisplay
+    DisplayName: 角色
+    Formatter: "{Chara} {CharaType}"
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x90
+    Type: int
+    EnumList: Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x94
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+    IsVisible: "{SpellNo}==(-1)"
+  - Name: SpellNoPlusOne
+    Offset: 0x9c
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0x9c
+    Type: int
+    EnumList: Th17SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x18
+    Type: uint
+    Modifier: "{.}*10"
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x80
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x44
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x44
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo
+- GameName: Th17Trial
+  Identifier: t17t
+  Alias: Th17
+  OverrideFields:
+  - GameName
+  - Identifier
+- GameName: Th18
+  Identifier: t18r
+  GameDisplayName: 东方虹龙洞　～ Unconnected Marketeers.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0xc8
+    TotalStageCount: 0xa8
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0x126c
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+- GameName: Th18Trial
+  Identifier: t18t
+  Alias: Th18
+  OverrideFields:
+  - GameName
+  - Identifier
+  StageSetting:
+    OverrideFields:
+    - StageHeaderSizeData
+    StageHeaderSizeData: 0x96c

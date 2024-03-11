@@ -1,0 +1,613 @@
+- GameName: Th13
+  Identifier: t13r
+  GameDisplayName: 东方神灵庙　～ Ten Desires.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  GameVersion: 0x10
+  MatchingGameVersion:
+  - 0x100
+  - 0
+  ReplayVersion: 0x04
+  MatchingReplayVersion:
+  - 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0x74
+    TotalStageCount: 0x58
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0xc4
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x1c
+      Type: uint
+      Modifier: "{.}*10"
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x50
+      Type: int
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x54
+      Type: int
+      Formatter: "{.}/{ExtentCount}"
+    - Name: ExtentCount
+      Offset: 0x58
+      Type: int
+      EnumList: Th13ExtentCount
+      IsVisible: false
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x5c
+      Type: int
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x60
+      Type: int
+      Formatter: "{.}/8"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x44
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x38
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x38
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x2c
+      Type: int
+    - Name: SpiritGauge
+      DisplayName: 灵界槽
+      Offset: 0x64
+      Type: int
+      Modifier: "{.}/200"
+      Formatter: "{.:0.00} ({SpiritGaugeRaw}/600)"
+    - Name: SpiritGaugeRaw
+      Offset: 0x64
+      Type: int
+      IsVisible: false
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x0c
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd hh:mm:ss
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x5c
+    Type: int
+    EnumList: Th13Chara
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x64
+    Type: int
+    EnumList: Th13Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x68
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+    IsVisible: "{SpellNo}==(-1)"
+  - Name: SpellNoPlusOne
+    Offset: 0x70
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0x70
+    Type: int
+    EnumList: Th13SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x14
+    Type: uint
+    Modifier: "{.}*10"
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x54
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo
+- GameName: Th13Trial
+  Identifier: t13r
+  Alias: Th13
+  OverrideFields:
+  - GameName
+  - MatchingGameVersion
+  - MatchingReplayVersion
+  - CustomReplayInfo
+  MatchingGameVersion:
+  - 0x1
+  MatchingReplayVersion:
+  - 1
+  StageSetting:
+    OverrideFields:
+    - FirstStageData
+    - StageHeaderSizeData
+    - CustomStageInfo
+    FirstStageData: 0x70
+    StageHeaderSizeData: 0xc0
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x1c
+      Type: uint
+      Modifier: "{.}*10"
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x4c
+      Type: int
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x50
+      Type: int
+      Formatter: "{.}/{ExtentCount}"
+    - Name: ExtentCount
+      Offset: 0x54
+      Type: int
+      EnumList: Th13TrialExtentCount
+      IsVisible: false
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x58
+      Type: int
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x5c
+      Type: int
+      Formatter: "{.}/8"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x40
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x34
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x34
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x2c
+      Type: int
+    - Name: SpiritGauge
+      DisplayName: 灵界槽
+      Offset: 0x60
+      Type: int
+      Modifier: "{.}/200"
+      Formatter: "{.:0.00} ({SpiritGaugeRaw}/600)"
+    - Name: SpiritGaugeRaw
+      Offset: 0x60
+      Type: int
+      IsVisible: false
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x0c
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd hh:mm:ss
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x5c
+    Type: int
+    EnumList: Th13Chara
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x64
+    Type: int
+    EnumList: Th13Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x68
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x14
+    Type: uint
+    Modifier: "{.}*10"
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x54
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo
+- GameName: Th14
+  Identifier: t13r
+  GameDisplayName: 东方辉针城　～ Double Dealing Character.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0x94
+    TotalStageCount: 0x78
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0xdc
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x1c
+      Type: uint
+      Modifier: "{.}*10"
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x50
+      Type: int
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x54
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x5c
+      Type: int
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x60
+      Type: int
+      Formatter: "{.}/8"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x44
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x38
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x38
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x2c
+      Type: int
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0x58
+      Type: int
+    - Name: NormalFragmentCount
+      DisplayName: 非2.0x奖励次数
+      Offset: 0x80
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x0c
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd hh:mm:ss
+  - Name: Chara
+    Offset: 0x7c
+    Type: int
+    IsVisible: false
+    EnumList: Th14Chara
+  - Name: CharaType
+    Offset: 0x80
+    Type: int
+    EnumList: Th14CharaType
+    IsVisible: false
+  - Name: CharaDisplay
+    DisplayName: 角色
+    Formatter: "{Chara}{CharaType}"
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x84
+    Type: int
+    EnumList: Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x88
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+    IsVisible: "{SpellNo}==(-1)"
+  - Name: SpellNoPlusOne
+    Offset: 0x90
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0x90
+    Type: int
+    EnumList: Th14SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x14
+    Type: uint
+    Modifier: "{.}*10"
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x74
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo
+- GameName: Th143
+  Identifier: t143
+  GameDisplayName: 弹幕天邪鬼　～ Impossible Spell Card.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  NeedStage: false
+  StageSetting:
+    FirstStageData: 0xa8
+    TotalStageCountData: 1
+    StageHeaderSizeData: 0x10c
+    KeySizeData: 6
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x14
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd hh:mm:ss
+  - Name: DayNo
+    Offset: 0x88
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SceneNo
+    Offset: 0x8c
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: StageNo
+    DisplayName: 关卡
+    Offset: 0x90
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: Th143SpellList
+    Formatter: "{DayNo}-{SceneNo} {.}"
+  - Name: MainItem
+    DisplayName: 主道具
+    Offset: 0x94
+    Type: int
+    EnumList: Th143Item
+  - Name: MainItemCount
+    DisplayName: 主道具数量
+    Offset: 0xa0
+    Type: int
+  - Name: MainItemDuaration
+    DisplayName: 主道具持续时间
+    Offset: 0xa4
+    Type: int
+    Modifier: "{.}/60"
+    IsVisible: "{MainItem}!=1&&{MainItem}!=4&&{MainItem}!=5&&{MainItem}!=8"
+    Formatter: "{.:0.00}秒"
+  - Name: MainItemRange
+    DisplayName: 主道具范围
+    Offset: 0xa4
+    Type: int
+    Modifier: "{MainItem}==1?{.}:{.}/128*100"
+    IsVisible: "{MainItem}==1||{MainItem}==5"
+    Formatter: "{.:0}%"
+  - Name: SubItem
+    DisplayName: 副道具
+    Offset: 0x98
+    Type: int
+    Modifier: "{.}==0&&{SubItemCount}==0?9:{.}"
+    EnumList: Th143Item
+  - Name: SubItemCount
+    DisplayName: 副道具数量
+    Offset: 0x9c
+    Type: int
+    IsVisible: "{SubItem}!=9"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x1c
+    Type: uint
+    Modifier: "{.}*10"
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x7c
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x58
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x58
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo

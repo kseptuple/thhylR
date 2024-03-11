@@ -1,0 +1,10 @@
+- Name: StageEnum
+  EnumValues:
+  - Name: Th07
+    Value: Th07Stage
+  - Name: Th08
+    Value: Th08Stage
+  - Name: Th09
+    Value: Th09Stage
+  - Name: Th128
+    Value: Th128Stage

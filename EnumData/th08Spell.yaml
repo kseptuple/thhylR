@@ -1,0 +1,224 @@
+- Name: Th08SpellList
+  EnumValues:
+  - 萤符「地上的流星」
+  - 萤符「地上的彗星」
+  - 灯符「Firefly Phenomenon」
+  - 灯符「Firefly Phenomenon」
+  - 灯符「Firefly Phenomenon」
+  - 灯符「Firefly Phenomenon」
+  - 蠢符「Little Bug」
+  - 蠢符「Little Bug Storm」
+  - 蠢符「Night Bug Storm」
+  - 蠢符「Night Bug Tornado」
+  - 隐虫「永夜蛰居」
+  - 隐虫「永夜蛰居」
+  - 隐虫「永夜蛰居」
+  - 声符「枭的夜鸣声」
+  - 声符「枭的夜鸣声」
+  - 声符「木菟的咆哮」
+  - 声符「木菟的咆哮」
+  - 蛾符「天蛾的蛊道」
+  - 蛾符「天蛾的蛊道」
+  - 毒符「毒蛾的鳞粉」
+  - 猛毒「毒蛾的黑暗演舞」
+  - 鹰符「Ill-Starred Dive」
+  - 鹰符「Ill-Starred Dive」
+  - 鹰符「Ill-Starred Dive」
+  - 鹰符「Ill-Starred Dive」
+  - 夜盲「夜雀之歌」
+  - 夜盲「夜雀之歌」
+  - 夜盲「夜雀之歌」
+  - 夜盲「夜雀之歌」
+  - 夜雀「午夜的合唱指挥」
+  - 夜雀「午夜的合唱指挥」
+  - 夜雀「午夜的合唱指挥」
+  - 产灵「First Pyramid」
+  - 产灵「First Pyramid」
+  - 产灵「First Pyramid」
+  - 产灵「First Pyramid」
+  - 始符「Ephemerality 137」
+  - 始符「Ephemerality 137」
+  - 始符「Ephemerality 137」
+  - 野符「武烈的危机」
+  - 野符「将门的危机」
+  - 野符「义满的危机」
+  - 野符「GHQ的危机」
+  - 国符「三种神器　剑」
+  - 国符「三种神器　玉」
+  - 国符「三种神器　镜」
+  - 国体「三种神器　乡」
+  - 终符「幻想天皇」
+  - 终符「幻想天皇」
+  - 虚史「幻想乡传说」
+  - 虚史「幻想乡传说」
+  - 未来「高天原」
+  - 未来「高天原」
+  - 未来「高天原」
+  - 梦符「二重结界」
+  - 梦符「二重结界」
+  - 梦境「二重大结界」
+  - 梦境「二重大结界」
+  - 灵符「梦想封印　散」
+  - 灵符「梦想封印　散」
+  - 散灵「梦想封印　寂」
+  - 散灵「梦想封印　寂」
+  - 梦符「封魔阵」
+  - 梦符「封魔阵」
+  - 神技「八方鬼缚阵」
+  - 神技「八方龙杀阵」
+  - 灵符「梦想封印　集」
+  - 灵符「梦想封印　集」
+  - 回灵「梦想封印　侘」
+  - 回灵「梦想封印　侘」
+  - 境界「二重弹幕结界」
+  - 境界「二重弹幕结界」
+  - 大结界「博丽弹幕结界」
+  - 大结界「博丽弹幕结界」
+  - 神灵「梦想封印　瞬」
+  - 神灵「梦想封印　瞬」
+  - 神灵「梦想封印　瞬」
+  - 魔符「Milky Way」
+  - 魔符「Milky Way」
+  - 魔空「Asteroid Belt」
+  - 魔空「Asteroid Belt」
+  - 魔符「Stardust Reverie」
+  - 魔符「Stardust Reverie」
+  - 黑魔「Event Horizon」
+  - 黑魔「Event Horizon」
+  - 恋符「Non-Directional Laser」
+  - 恋符「Non-Directional Laser」
+  - 恋风「Starlight Typhoon」
+  - 恋风「Starlight Typhoon」
+  - 恋符「Master Spark」
+  - 恋符「Master Spark」
+  - 恋心「Double Spark」（二重火花）
+  - 恋心「Double Spark」（二重火花）
+  - 光符「Earth Light Ray」
+  - 光符「Earth Light Ray」
+  - 光击「Shoot the Moon」
+  - 光击「Shoot the Moon」
+  - 魔炮「Final Spark」（究极火花）
+  - 魔炮「Final Spark」（究极火花）
+  - 魔炮「Final Master Spark」（超究极火花）
+  - 波符「赤眼催眠(Mind Shaker)」
+  - 波符「赤眼催眠(Mind Shaker)」
+  - 幻波「赤眼催眠(Mind Blowing)」
+  - 幻波「赤眼催眠(Mind Blowing)」
+  - 狂符「幻视调律(Visionary Tuning)」
+  - 狂符「幻视调律(Visionary Tuning)」
+  - 狂视「狂视调律(Illusion Seeker)」
+  - 狂视「狂视调律(Illusion Seeker)」
+  - 懒符「生神停止(Idling Wave)」
+  - 懒符「生神停止(Idling Wave)」
+  - 懒惰「生神停止(Mind Stopper)」
+  - 懒惰「生神停止(Mind Stopper)」
+  - 散符「真实之月(Invisible Full Moon)」
+  - 散符「真实之月(Invisible Full Moon)」
+  - 散符「真实之月(Invisible Full Moon)」
+  - 散符「真实之月(Invisible Full Moon)」
+  - 月眼「月兔远程催眠术(Tele-Mesmerism)」
+  - 月眼「月兔远程催眠术(Tele-Mesmerism)」
+  - 月眼「月兔远程催眠术(Tele-Mesmerism)」
+  - 天丸「壶中的天地」
+  - 天丸「壶中的天地」
+  - 天丸「壶中的天地」
+  - 天丸「壶中的天地」
+  - 觉神「神代的记忆」
+  - 觉神「神代的记忆」
+  - 神符「天人的族谱」
+  - 神符「天人的族谱」
+  - 苏活「生命游戏 -Life Game-」
+  - 苏活「生命游戏 -Life Game-」
+  - 苏生「Rising Game」
+  - 苏生「Rising Game」
+  - 操神「Omoikane Device」
+  - 操神「Omoikane Device」
+  - 神脑「Omoikane Brain」
+  - 神脑「Omoikane Brain」
+  - 天咒「Apollo 13」
+  - 天咒「Apollo 13」
+  - 天咒「Apollo 13」
+  - 天咒「Apollo 13」
+  - 秘术「天文密葬法」
+  - 秘术「天文密葬法」
+  - 秘术「天文密葬法」
+  - 秘术「天文密葬法」
+  - 禁药「蓬莱之药」
+  - 禁药「蓬莱之药」
+  - 禁药「蓬莱之药」
+  - 禁药「蓬莱之药」
+  - 药符「壶中的大银河」
+  - 药符「壶中的大银河」
+  - 药符「壶中的大银河」
+  - 药符「壶中的大银河」
+  - 难题「龙颈之玉　-五色的弹丸-」
+  - 难题「龙颈之玉　-五色的弹丸-」
+  - 神宝「Brilliant Dragon Bullet」
+  - 神宝「Brilliant Dragon Bullet」
+  - 难题「佛御石之钵　-不碎的意志-」
+  - 难题「佛御石之钵　-不碎的意志-」
+  - 神宝「Buddhist Diamond」
+  - 神宝「Buddhist Diamond」
+  - 难题「火鼠的皮衣　-不焦躁的内心-」
+  - 难题「火鼠的皮衣　-不焦躁的内心-」
+  - 神宝「Salamander Shield」
+  - 神宝「Salamander Shield」
+  - 难题「燕的子安贝　-永命线-」
+  - 难题「燕的子安贝　-永命线-」
+  - 神宝「Life Spring Infinity」
+  - 神宝「Life Spring Infinity」
+  - 难题「蓬莱的弹枝　-七色的弹幕-」
+  - 难题「蓬莱的弹枝　-七色的弹幕-」
+  - 神宝「蓬莱的玉枝　-梦色之乡-」
+  - 神宝「蓬莱的玉枝　-梦色之乡-」
+  - 「永夜归返　-初月-」
+  - 「永夜归返　-新月-」
+  - 「永夜归返　-上弦月-」
+  - 「永夜归返　-待宵-」
+  - 「永夜归返　-子之刻-」
+  - 「永夜归返　-子时二刻-」
+  - 「永夜归返　-子时三刻-」
+  - 「永夜归返　-子时四刻-」
+  - 「永夜归返　-丑之刻-」
+  - 「永夜归返　-丑时二刻-」
+  - 「永夜归返　-丑时三刻-」
+  - 「永夜归返　-丑时四刻-」
+  - 「永夜归返　-寅之刻-」
+  - 「永夜归返　-寅时二刻-」
+  - 「永夜归返　-寅时三刻-」
+  - 「永夜归返　-寅时四刻-」
+  - 「永夜归返　-朝霭-」
+  - 「永夜归返　-拂晓-」
+  - 「永夜归返　-破晓明星-」
+  - 「永夜归返　-世间开明-」
+  - 旧史「旧秘境史 -古代史-」
+  - 转世「一条归桥」
+  - 新史「新幻想史 -现代史-」
+  - 时效「月岩笠的诅咒」
+  - 不死「火鸟　-凤翼天翔-」
+  - 藤原「灭罪寺院伤」
+  - 不死「徐福时空」
+  - 灭罪「正直者之死」
+  - 虚人「无」
+  - 不灭「不死鸟之尾」
+  - 蓬莱「凯风快晴　-Fujiyama Volcano-」
+  - 「Possessed by Phoenix」
+  - 「蓬莱人形」
+  - 「Imperishable Shooting」
+  - 「不合时令的蝶雨」
+  - 「Blind Night-Bird」
+  - 「日出国之天子」
+  - 「幻胧月睨(Lunatic Red Eyes)」
+  - 「天网蛛网捕蝶之法」
+  - 「蓬莱的树海」
+  - 「不死鸟重生」
+  - 「Ancient Duper」
+  - 「无何有的净化」
+  - 「梦想天生」
+  - 「Blazing Star」
+  - 「Deflation World」
+  - 「待宵反射卫星斩」
+  - 「猎奇剧团里的怪人」
+  - 「Scarlet Destiny」
+  - 「西行寺无余涅槃」
+  - 「深弹幕结界 -梦幻泡影-」
