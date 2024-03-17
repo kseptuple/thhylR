@@ -259,11 +259,15 @@ namespace thhylR.Common
             if (gameData.ReplayStructVersion == 1)
             {
                 stages = GetStagePointersV1(header, stageSetting.FirstStage, stageSetting.TotalStageCountData, afterDecompressData.Length);
-
             }
             else if (gameData.ReplayStructVersion == 2)
             {
-                stages = GetStagePointersV2(afterDecompressData, gameData.StageSetting);
+                bool isCorrupted = false;
+                stages = GetStagePointersV2(afterDecompressData, gameData.StageSetting, out isCorrupted);
+                if (isCorrupted)
+                {
+                    result.ReplayProblem |= ReplayProblemEnum.StageLengthError;
+                }
             }
             if (stages == null)
             {
@@ -904,8 +908,9 @@ namespace thhylR.Common
             return result;
         }
 
-        public static List<DataOffsetAndLength> GetStagePointersV2(byte[] decompressedData, StageOffsets stageData)
+        public static List<DataOffsetAndLength> GetStagePointersV2(byte[] decompressedData, StageOffsets stageData, out bool isLengthCorrupted)
         {
+            isLengthCorrupted = false;
             List<DataOffsetAndLength> result = new List<DataOffsetAndLength>();
             for (int i = 0; i < stageData.TotalStageCountData * 2; i++)
             {
@@ -947,18 +952,26 @@ namespace thhylR.Common
                 {
                     rawStageLength = keyCount;
                 }
-                item.Length = rawStageLength + stageData.StageHeaderSizeData;
-                fpsItem.Offset = item.Length + currentStageStart;
+
                 if (stageData.UseFpsSize)
                 {
-                    Debug.Assert(dataSize < rawStageLength, "dataSize > rawStageLength when UseFpsSize");
                     fpsItem.Length = dataSize;
                 }
                 else
                 {
-                    Debug.Assert(dataSize > rawStageLength, "dataSize < rawStageLength when not UseFpsSize");
+                    if (dataSize < rawStageLength)
+                    {
+                        isLengthCorrupted = true;
+                        keyCount = (int)Math.Floor(dataSize / (stageData.KeySizeData + 1.0 / 30));
+                        rawStageLength = keyCount * stageData.KeySizeData;
+                        Debug.Assert(keyCount / 30 + 1 + rawStageLength == dataSize);
+                    }
                     fpsItem.Length = dataSize - rawStageLength;
                 }
+
+                item.Length = rawStageLength + stageData.StageHeaderSizeData;
+                fpsItem.Offset = item.Length + currentStageStart;
+
                 if (item.Offset + item.Length > decompressedData.Length || fpsItem.Offset + fpsItem.Length > decompressedData.Length)
                 {
                     return null;

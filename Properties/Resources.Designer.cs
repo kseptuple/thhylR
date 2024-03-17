@@ -59,5 +59,41 @@ namespace thhylR.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 {0} 不是该程序支持的录像文件！ 的本地化字符串。
+        /// </summary>
+        internal static string NotSupportedFile {
+            get {
+                return ResourceManager.GetString("NotSupportedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错 的本地化字符串。
+        /// </summary>
+        internal static string ProblemCHSVersion {
+            get {
+                return ResourceManager.GetString("ProblemCHSVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 该录像文件关卡长度不正确，可能会导致游戏出错 的本地化字符串。
+        /// </summary>
+        internal static string ProblemLengthError {
+            get {
+                return ResourceManager.GetString("ProblemLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 原始数据|*.bin 的本地化字符串。
+        /// </summary>
+        internal static string RawDataFilter {
+            get {
+                return ResourceManager.GetString("RawDataFilter", resourceCulture);
+            }
+        }
     }
 }

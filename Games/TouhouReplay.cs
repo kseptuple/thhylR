@@ -18,6 +18,8 @@ namespace thhylR.Games
         public short ReplayVersion { get; set; }
         //public int GameVersion { get; set; }
 
+        public string FilePath { get; set; }
+
         public byte[] Header { get; set; }
         public byte[] RawData { get; set; }
         public byte[] InfoBlockRawData { get; set; }

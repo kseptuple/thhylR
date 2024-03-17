@@ -44,8 +44,13 @@
             ExportAllToolStripMenuItem = new ToolStripMenuItem();
             ExportCustomToolStripMenuItem = new ToolStripMenuItem();
             saveFileDialog = new SaveFileDialog();
+            textBoxPath = new TextBox();
+            treeViewFiles = new TreeView();
+            fileSystemWatcherFolder = new FileSystemWatcher();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
             menuStripMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
             SuspendLayout();
             // 
             // openReplayDialog
@@ -54,7 +59,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(37, 418);
+            button1.Location = new Point(1010, 59);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 2;
@@ -80,7 +85,7 @@
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
             dataGridInfo.DefaultCellStyle = dataGridViewCellStyle1;
-            dataGridInfo.Location = new Point(498, 95);
+            dataGridInfo.Location = new Point(224, 178);
             dataGridInfo.MultiSelect = false;
             dataGridInfo.Name = "dataGridInfo";
             dataGridInfo.ReadOnly = true;
@@ -90,7 +95,7 @@
             dataGridInfo.RowTemplate.Height = 29;
             dataGridInfo.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridInfo.ShowCellToolTips = false;
-            dataGridInfo.Size = new Size(746, 444);
+            dataGridInfo.Size = new Size(621, 444);
             dataGridInfo.TabIndex = 3;
             dataGridInfo.SelectionChanged += dataGridInfo_SelectionChanged;
             // 
@@ -116,12 +121,12 @@
             // 
             // textBoxInfo
             // 
-            textBoxInfo.Location = new Point(161, 403);
+            textBoxInfo.Location = new Point(851, 178);
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(308, 220);
+            textBoxInfo.Size = new Size(382, 444);
             textBoxInfo.TabIndex = 5;
             // 
             // menuStripMain
@@ -181,11 +186,53 @@
             ExportCustomToolStripMenuItem.Size = new Size(169, 26);
             ExportCustomToolStripMenuItem.Text = "自定义(&C)...";
             // 
+            // textBoxPath
+            // 
+            textBoxPath.Location = new Point(253, 85);
+            textBoxPath.Name = "textBoxPath";
+            textBoxPath.Size = new Size(582, 27);
+            textBoxPath.TabIndex = 7;
+            // 
+            // treeViewFiles
+            // 
+            treeViewFiles.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            treeViewFiles.HideSelection = false;
+            treeViewFiles.Location = new Point(32, 178);
+            treeViewFiles.Name = "treeViewFiles";
+            treeViewFiles.Size = new Size(166, 444);
+            treeViewFiles.TabIndex = 8;
+            treeViewFiles.DrawNode += treeViewFiles_DrawNode;
+            treeViewFiles.AfterSelect += treeViewFiles_AfterSelect;
+            // 
+            // fileSystemWatcherFolder
+            // 
+            fileSystemWatcherFolder.EnableRaisingEvents = true;
+            fileSystemWatcherFolder.Filter = "*.rpy";
+            fileSystemWatcherFolder.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            fileSystemWatcherFolder.SynchronizingObject = this;
+            fileSystemWatcherFolder.Created += fileSystemWatcherFolder_Events;
+            fileSystemWatcherFolder.Deleted += fileSystemWatcherFolder_Events;
+            fileSystemWatcherFolder.Renamed += fileSystemWatcherFolder_Renamed;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(19, 115);
+            button2.Name = "button2";
+            button2.Size = new Size(263, 22);
+            button2.TabIndex = 9;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // FormMain
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1307, 695);
+            Controls.Add(button2);
+            Controls.Add(treeViewFiles);
+            Controls.Add(textBoxPath);
             Controls.Add(textBoxInfo);
             Controls.Add(dataGridInfo);
             Controls.Add(button1);
@@ -193,9 +240,12 @@
             MainMenuStrip = menuStripMain;
             Name = "FormMain";
             Text = "Form1";
+            DragDrop += FormMain_DragDrop;
+            DragEnter += FormMain_DragEnter;
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).EndInit();
             menuStripMain.ResumeLayout(false);
             menuStripMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -216,5 +266,9 @@
         private ToolStripMenuItem ExportAllToolStripMenuItem;
         private ToolStripMenuItem ExportCustomToolStripMenuItem;
         private SaveFileDialog saveFileDialog;
+        private TextBox textBoxPath;
+        private TreeView treeViewFiles;
+        private FileSystemWatcher fileSystemWatcherFolder;
+        private Button button2;
     }
 }
