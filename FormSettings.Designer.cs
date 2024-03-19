@@ -1,0 +1,496 @@
+﻿namespace thhylR
+{
+    partial class FormSettings
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            tabControlMain = new TabControl();
+            tabPage1 = new TabPage();
+            groupBox1 = new GroupBox();
+            labelBomb = new Label();
+            labelLife = new Label();
+            label4 = new Label();
+            label5 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            checkBoxShowEmpty = new CheckBox();
+            comboBoxLifeStyle = new ComboBox();
+            comboBoxScoreStyle = new ComboBox();
+            tabPage2 = new TabPage();
+            checkBoxRegisterAll = new CheckBox();
+            checkBoxRegisterCurrent = new CheckBox();
+            checkBoxAutoSwitch = new CheckBox();
+            checkBoxOnTop = new CheckBox();
+            checkBoxConfirmDelete = new CheckBox();
+            tabPage3 = new TabPage();
+            groupBox2 = new GroupBox();
+            checkBoxEncode5 = new CheckBox();
+            checkBoxEncode4 = new CheckBox();
+            checkBoxEncode3 = new CheckBox();
+            checkBoxEncode2 = new CheckBox();
+            checkBoxEncode1 = new CheckBox();
+            comboBoxEncode5 = new ComboBox();
+            comboBoxEncode4 = new ComboBox();
+            comboBoxEncode3 = new ComboBox();
+            comboBoxEncode2 = new ComboBox();
+            comboBoxEncode1 = new ComboBox();
+            radioButton2 = new RadioButton();
+            radioButton1 = new RadioButton();
+            listBoxTabs = new ListBox();
+            tabControlMain.SuspendLayout();
+            tabPage1.SuspendLayout();
+            groupBox1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tabPage3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            SuspendLayout();
+            // 
+            // tabControlMain
+            // 
+            tabControlMain.Appearance = TabAppearance.FlatButtons;
+            tabControlMain.Controls.Add(tabPage1);
+            tabControlMain.Controls.Add(tabPage2);
+            tabControlMain.Controls.Add(tabPage3);
+            tabControlMain.ItemSize = new Size(40, 20);
+            tabControlMain.Location = new Point(168, 12);
+            tabControlMain.Name = "tabControlMain";
+            tabControlMain.SelectedIndex = 0;
+            tabControlMain.Size = new Size(554, 274);
+            tabControlMain.SizeMode = TabSizeMode.Fixed;
+            tabControlMain.TabIndex = 7;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(groupBox1);
+            tabPage1.Controls.Add(label2);
+            tabPage1.Controls.Add(label1);
+            tabPage1.Controls.Add(checkBoxShowEmpty);
+            tabPage1.Controls.Add(comboBoxLifeStyle);
+            tabPage1.Controls.Add(comboBoxScoreStyle);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(546, 246);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "显示格式";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(labelBomb);
+            groupBox1.Controls.Add(labelLife);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Location = new Point(9, 107);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(241, 72);
+            groupBox1.TabIndex = 14;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "效果示例";
+            // 
+            // labelBomb
+            // 
+            labelBomb.AutoSize = true;
+            labelBomb.Location = new Point(66, 43);
+            labelBomb.Name = "labelBomb";
+            labelBomb.Size = new Size(0, 20);
+            labelBomb.TabIndex = 15;
+            // 
+            // labelLife
+            // 
+            labelLife.AutoSize = true;
+            labelLife.Location = new Point(66, 23);
+            labelLife.Name = "labelLife";
+            labelLife.Size = new Size(0, 20);
+            labelLife.TabIndex = 14;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(6, 23);
+            label4.Name = "label4";
+            label4.Size = new Size(54, 20);
+            label4.TabIndex = 12;
+            label4.Text = "残机：";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 43);
+            label5.Name = "label5";
+            label5.Size = new Size(54, 20);
+            label5.TabIndex = 13;
+            label5.Text = "符卡：";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(9, 46);
+            label2.Name = "label2";
+            label2.Size = new Size(114, 20);
+            label2.TabIndex = 10;
+            label2.Text = "残机符卡显示：";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(9, 12);
+            label1.Name = "label1";
+            label1.Size = new Size(84, 20);
+            label1.TabIndex = 9;
+            label1.Text = "得分显示：";
+            // 
+            // checkBoxShowEmpty
+            // 
+            checkBoxShowEmpty.AutoSize = true;
+            checkBoxShowEmpty.Enabled = false;
+            checkBoxShowEmpty.Location = new Point(12, 77);
+            checkBoxShowEmpty.Name = "checkBoxShowEmpty";
+            checkBoxShowEmpty.Size = new Size(205, 24);
+            checkBoxShowEmpty.TabIndex = 8;
+            checkBoxShowEmpty.Text = "数量小于8时显示空心符号";
+            checkBoxShowEmpty.UseVisualStyleBackColor = true;
+            checkBoxShowEmpty.CheckedChanged += checkBoxShowEmpty_CheckedChanged;
+            // 
+            // comboBoxLifeStyle
+            // 
+            comboBoxLifeStyle.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxLifeStyle.FormattingEnabled = true;
+            comboBoxLifeStyle.Items.AddRange(new object[] { "数值", "♥︎和★︎", "★︎" });
+            comboBoxLifeStyle.Location = new Point(164, 40);
+            comboBoxLifeStyle.Name = "comboBoxLifeStyle";
+            comboBoxLifeStyle.Size = new Size(180, 28);
+            comboBoxLifeStyle.TabIndex = 7;
+            comboBoxLifeStyle.SelectedIndexChanged += comboBoxLifeStyle_SelectedIndexChanged;
+            // 
+            // comboBoxScoreStyle
+            // 
+            comboBoxScoreStyle.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxScoreStyle.FormattingEnabled = true;
+            comboBoxScoreStyle.Items.AddRange(new object[] { "1234567890", "1,234,567,890", "12亿3456万7890" });
+            comboBoxScoreStyle.Location = new Point(164, 6);
+            comboBoxScoreStyle.Name = "comboBoxScoreStyle";
+            comboBoxScoreStyle.Size = new Size(180, 28);
+            comboBoxScoreStyle.TabIndex = 6;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(checkBoxRegisterAll);
+            tabPage2.Controls.Add(checkBoxRegisterCurrent);
+            tabPage2.Controls.Add(checkBoxAutoSwitch);
+            tabPage2.Controls.Add(checkBoxOnTop);
+            tabPage2.Controls.Add(checkBoxConfirmDelete);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(546, 246);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "程序";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRegisterAll
+            // 
+            checkBoxRegisterAll.AutoSize = true;
+            checkBoxRegisterAll.Location = new Point(6, 126);
+            checkBoxRegisterAll.Name = "checkBoxRegisterAll";
+            checkBoxRegisterAll.Size = new Size(209, 24);
+            checkBoxRegisterAll.TabIndex = 4;
+            checkBoxRegisterAll.Text = "关联.rpy文件（所有用户）";
+            checkBoxRegisterAll.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRegisterCurrent
+            // 
+            checkBoxRegisterCurrent.AutoSize = true;
+            checkBoxRegisterCurrent.Location = new Point(6, 96);
+            checkBoxRegisterCurrent.Name = "checkBoxRegisterCurrent";
+            checkBoxRegisterCurrent.Size = new Size(209, 24);
+            checkBoxRegisterCurrent.TabIndex = 3;
+            checkBoxRegisterCurrent.Text = "关联.rpy文件（当前用户）";
+            checkBoxRegisterCurrent.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAutoSwitch
+            // 
+            checkBoxAutoSwitch.AutoSize = true;
+            checkBoxAutoSwitch.Location = new Point(6, 66);
+            checkBoxAutoSwitch.Name = "checkBoxAutoSwitch";
+            checkBoxAutoSwitch.Size = new Size(247, 24);
+            checkBoxAutoSwitch.TabIndex = 2;
+            checkBoxAutoSwitch.Text = "文件移动/删除后打开下一个文件";
+            checkBoxAutoSwitch.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxOnTop
+            // 
+            checkBoxOnTop.AutoSize = true;
+            checkBoxOnTop.Location = new Point(6, 6);
+            checkBoxOnTop.Name = "checkBoxOnTop";
+            checkBoxOnTop.Size = new Size(91, 24);
+            checkBoxOnTop.TabIndex = 1;
+            checkBoxOnTop.Text = "窗口置顶";
+            checkBoxOnTop.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxConfirmDelete
+            // 
+            checkBoxConfirmDelete.AutoSize = true;
+            checkBoxConfirmDelete.Location = new Point(6, 36);
+            checkBoxConfirmDelete.Name = "checkBoxConfirmDelete";
+            checkBoxConfirmDelete.Size = new Size(136, 24);
+            checkBoxConfirmDelete.TabIndex = 0;
+            checkBoxConfirmDelete.Text = "删除文件时确认";
+            checkBoxConfirmDelete.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(groupBox2);
+            tabPage3.Controls.Add(radioButton2);
+            tabPage3.Controls.Add(radioButton1);
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Size = new Size(546, 246);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "编码切换";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(checkBoxEncode5);
+            groupBox2.Controls.Add(checkBoxEncode4);
+            groupBox2.Controls.Add(checkBoxEncode3);
+            groupBox2.Controls.Add(checkBoxEncode2);
+            groupBox2.Controls.Add(checkBoxEncode1);
+            groupBox2.Controls.Add(comboBoxEncode5);
+            groupBox2.Controls.Add(comboBoxEncode4);
+            groupBox2.Controls.Add(comboBoxEncode3);
+            groupBox2.Controls.Add(comboBoxEncode2);
+            groupBox2.Controls.Add(comboBoxEncode1);
+            groupBox2.Location = new Point(6, 66);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(534, 193);
+            groupBox2.TabIndex = 3;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "常用编码";
+            // 
+            // checkBoxEncode5
+            // 
+            checkBoxEncode5.AutoSize = true;
+            checkBoxEncode5.Location = new Point(6, 160);
+            checkBoxEncode5.Name = "checkBoxEncode5";
+            checkBoxEncode5.Size = new Size(153, 24);
+            checkBoxEncode5.TabIndex = 9;
+            checkBoxEncode5.Text = "启用快捷键（F5）";
+            checkBoxEncode5.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEncode4
+            // 
+            checkBoxEncode4.AutoSize = true;
+            checkBoxEncode4.Location = new Point(6, 128);
+            checkBoxEncode4.Name = "checkBoxEncode4";
+            checkBoxEncode4.Size = new Size(153, 24);
+            checkBoxEncode4.TabIndex = 8;
+            checkBoxEncode4.Text = "启用快捷键（F4）";
+            checkBoxEncode4.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEncode3
+            // 
+            checkBoxEncode3.AutoSize = true;
+            checkBoxEncode3.Location = new Point(6, 94);
+            checkBoxEncode3.Name = "checkBoxEncode3";
+            checkBoxEncode3.Size = new Size(153, 24);
+            checkBoxEncode3.TabIndex = 7;
+            checkBoxEncode3.Text = "启用快捷键（F3）";
+            checkBoxEncode3.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEncode2
+            // 
+            checkBoxEncode2.AutoSize = true;
+            checkBoxEncode2.Location = new Point(6, 60);
+            checkBoxEncode2.Name = "checkBoxEncode2";
+            checkBoxEncode2.Size = new Size(153, 24);
+            checkBoxEncode2.TabIndex = 6;
+            checkBoxEncode2.Text = "启用快捷键（F2）";
+            checkBoxEncode2.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxEncode1
+            // 
+            checkBoxEncode1.AutoSize = true;
+            checkBoxEncode1.Checked = true;
+            checkBoxEncode1.CheckState = CheckState.Checked;
+            checkBoxEncode1.Enabled = false;
+            checkBoxEncode1.Location = new Point(6, 26);
+            checkBoxEncode1.Name = "checkBoxEncode1";
+            checkBoxEncode1.Size = new Size(153, 24);
+            checkBoxEncode1.TabIndex = 5;
+            checkBoxEncode1.Text = "启用快捷键（F1）";
+            checkBoxEncode1.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxEncode5
+            // 
+            comboBoxEncode5.DisplayMember = "Name";
+            comboBoxEncode5.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEncode5.FormattingEnabled = true;
+            comboBoxEncode5.Location = new Point(165, 160);
+            comboBoxEncode5.Name = "comboBoxEncode5";
+            comboBoxEncode5.Size = new Size(151, 28);
+            comboBoxEncode5.TabIndex = 4;
+            comboBoxEncode5.ValueMember = "CodePage";
+            // 
+            // comboBoxEncode4
+            // 
+            comboBoxEncode4.DisplayMember = "Name";
+            comboBoxEncode4.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEncode4.FormattingEnabled = true;
+            comboBoxEncode4.Location = new Point(165, 126);
+            comboBoxEncode4.Name = "comboBoxEncode4";
+            comboBoxEncode4.Size = new Size(151, 28);
+            comboBoxEncode4.TabIndex = 3;
+            comboBoxEncode4.ValueMember = "CodePage";
+            // 
+            // comboBoxEncode3
+            // 
+            comboBoxEncode3.DisplayMember = "Name";
+            comboBoxEncode3.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEncode3.FormattingEnabled = true;
+            comboBoxEncode3.Location = new Point(165, 92);
+            comboBoxEncode3.Name = "comboBoxEncode3";
+            comboBoxEncode3.Size = new Size(151, 28);
+            comboBoxEncode3.TabIndex = 2;
+            comboBoxEncode3.ValueMember = "CodePage";
+            // 
+            // comboBoxEncode2
+            // 
+            comboBoxEncode2.DisplayMember = "Name";
+            comboBoxEncode2.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEncode2.FormattingEnabled = true;
+            comboBoxEncode2.Location = new Point(165, 58);
+            comboBoxEncode2.Name = "comboBoxEncode2";
+            comboBoxEncode2.Size = new Size(151, 28);
+            comboBoxEncode2.TabIndex = 1;
+            comboBoxEncode2.ValueMember = "CodePage";
+            // 
+            // comboBoxEncode1
+            // 
+            comboBoxEncode1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEncode1.Enabled = false;
+            comboBoxEncode1.FormattingEnabled = true;
+            comboBoxEncode1.Items.AddRange(new object[] { "自动选择" });
+            comboBoxEncode1.Location = new Point(165, 24);
+            comboBoxEncode1.Name = "comboBoxEncode1";
+            comboBoxEncode1.Size = new Size(151, 28);
+            comboBoxEncode1.TabIndex = 0;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(6, 36);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(135, 24);
+            radioButton2.TabIndex = 2;
+            radioButton2.Text = "只显示常用编码";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Checked = true;
+            radioButton1.Location = new Point(6, 6);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(120, 24);
+            radioButton1.TabIndex = 1;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "显示全部编码";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // listBoxTabs
+            // 
+            listBoxTabs.FormattingEnabled = true;
+            listBoxTabs.ItemHeight = 20;
+            listBoxTabs.Location = new Point(12, 12);
+            listBoxTabs.Name = "listBoxTabs";
+            listBoxTabs.Size = new Size(150, 264);
+            listBoxTabs.TabIndex = 8;
+            listBoxTabs.SelectedIndexChanged += listBoxTabs_SelectedIndexChanged;
+            // 
+            // FormSettings
+            // 
+            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(731, 437);
+            Controls.Add(listBoxTabs);
+            Controls.Add(tabControlMain);
+            Name = "FormSettings";
+            Text = "Settings";
+            Load += FormSettings_Load;
+            tabControlMain.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private TabControl tabControlMain;
+        private TabPage tabPage1;
+        private GroupBox groupBox1;
+        private Label labelBomb;
+        private Label labelLife;
+        private Label label4;
+        private Label label5;
+        private Label label2;
+        private Label label1;
+        private CheckBox checkBoxShowEmpty;
+        private ComboBox comboBoxLifeStyle;
+        private ComboBox comboBoxScoreStyle;
+        private TabPage tabPage2;
+        private ListBox listBoxTabs;
+        private TabPage tabPage3;
+        private CheckBox checkBoxAutoSwitch;
+        private CheckBox checkBoxOnTop;
+        private CheckBox checkBoxConfirmDelete;
+        private GroupBox groupBox2;
+        private ComboBox comboBoxEncode4;
+        private ComboBox comboBoxEncode3;
+        private ComboBox comboBoxEncode2;
+        private ComboBox comboBoxEncode1;
+        private RadioButton radioButton2;
+        private RadioButton radioButton1;
+        private CheckBox checkBoxEncode5;
+        private CheckBox checkBoxEncode4;
+        private CheckBox checkBoxEncode3;
+        private CheckBox checkBoxEncode2;
+        private CheckBox checkBoxEncode1;
+        private ComboBox comboBoxEncode5;
+        private CheckBox checkBoxRegisterAll;
+        private CheckBox checkBoxRegisterCurrent;
+    }
+}

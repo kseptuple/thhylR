@@ -48,6 +48,8 @@
             treeViewFiles = new TreeView();
             fileSystemWatcherFolder = new FileSystemWatcher();
             button2 = new Button();
+            ToolToolStripMenuItem = new ToolStripMenuItem();
+            OptionToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
@@ -132,7 +134,7 @@
             // menuStripMain
             // 
             menuStripMain.ImageScalingSize = new Size(20, 20);
-            menuStripMain.Items.AddRange(new ToolStripItem[] { FileToolStripMenuItem, EditToolStripMenuItem });
+            menuStripMain.Items.AddRange(new ToolStripItem[] { FileToolStripMenuItem, EditToolStripMenuItem, ToolToolStripMenuItem });
             menuStripMain.Location = new Point(0, 0);
             menuStripMain.Name = "menuStripMain";
             menuStripMain.Size = new Size(1307, 28);
@@ -149,13 +151,13 @@
             // SplitToolStripMenuItem
             // 
             SplitToolStripMenuItem.Name = "SplitToolStripMenuItem";
-            SplitToolStripMenuItem.Size = new Size(197, 6);
+            SplitToolStripMenuItem.Size = new Size(221, 6);
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             ExitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
-            ExitToolStripMenuItem.Size = new Size(200, 26);
+            ExitToolStripMenuItem.Size = new Size(224, 26);
             ExitToolStripMenuItem.Text = "退出(&X)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -170,20 +172,20 @@
             // 
             ExportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportAllToolStripMenuItem, ExportCustomToolStripMenuItem });
             ExportToolStripMenuItem.Name = "ExportToolStripMenuItem";
-            ExportToolStripMenuItem.Size = new Size(201, 26);
+            ExportToolStripMenuItem.Size = new Size(224, 26);
             ExportToolStripMenuItem.Text = "导出原始数据(&P)";
             // 
             // ExportAllToolStripMenuItem
             // 
             ExportAllToolStripMenuItem.Name = "ExportAllToolStripMenuItem";
-            ExportAllToolStripMenuItem.Size = new Size(169, 26);
+            ExportAllToolStripMenuItem.Size = new Size(224, 26);
             ExportAllToolStripMenuItem.Text = "全部(&A)";
             ExportAllToolStripMenuItem.Click += ExportAllToolStripMenuItem_Click;
             // 
             // ExportCustomToolStripMenuItem
             // 
             ExportCustomToolStripMenuItem.Name = "ExportCustomToolStripMenuItem";
-            ExportCustomToolStripMenuItem.Size = new Size(169, 26);
+            ExportCustomToolStripMenuItem.Size = new Size(224, 26);
             ExportCustomToolStripMenuItem.Text = "自定义(&C)...";
             // 
             // textBoxPath
@@ -223,6 +225,20 @@
             button2.Text = "button2";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
+            // 
+            // ToolToolStripMenuItem
+            // 
+            ToolToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OptionToolStripMenuItem });
+            ToolToolStripMenuItem.Name = "ToolToolStripMenuItem";
+            ToolToolStripMenuItem.Size = new Size(72, 24);
+            ToolToolStripMenuItem.Text = "工具(&T)";
+            // 
+            // OptionToolStripMenuItem
+            // 
+            OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
+            OptionToolStripMenuItem.Size = new Size(224, 26);
+            OptionToolStripMenuItem.Text = "选项(&O)...";
+            OptionToolStripMenuItem.Click += OptionToolStripMenuItem_Click;
             // 
             // FormMain
             // 
@@ -270,5 +286,7 @@
         private TreeView treeViewFiles;
         private FileSystemWatcher fileSystemWatcherFolder;
         private Button button2;
+        private ToolStripMenuItem ToolToolStripMenuItem;
+        private ToolStripMenuItem OptionToolStripMenuItem;
     }
 }

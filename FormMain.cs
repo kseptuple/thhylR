@@ -1,7 +1,9 @@
 using System.Data;
 using System.Drawing;
+using System.Text;
 using thhylR.Common;
 using thhylR.Games;
+using thhylR.Helper;
 using thhylR.Properties;
 
 namespace thhylR
@@ -14,6 +16,8 @@ namespace thhylR
             InitializeComponent();
             GameData.Init();
             EnumData.Init();
+            SettingProvider.Init();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             dataGridInfo.AutoGenerateColumns = false;
         }
 
@@ -147,7 +151,6 @@ namespace thhylR
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 e.Effect = DragDropEffects.Move;
-
             }
             else
             {
@@ -192,6 +195,12 @@ namespace thhylR
         private void button2_Click(object sender, EventArgs e)
         {
             MessageBox.Show("\u2665\uFE0E");
+        }
+
+        private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormSettings formSettings = new FormSettings();
+            formSettings.ShowDialog(this);
         }
     }
 }

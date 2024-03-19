@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using thhylR.Helper;
+using YamlDotNet.Serialization;
 
 namespace thhylR.Common
 {
@@ -37,21 +38,19 @@ namespace thhylR.Common
         public static void Init()
         {
             EnumDataList = new List<EnumItemList>();
-            var deserializer = new YamlDotNet.Serialization.DeserializerBuilder().IgnoreUnmatchedProperties().Build();
+            var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
             string[] yamlFiles = Directory.GetFiles("EnumData\\", "*.yaml");
             foreach (var yamlFile in yamlFiles)
             {
-                using (var input = new StreamReader(yamlFile, Encoding.UTF8))
+                using var input = new StreamReader(yamlFile, Encoding.UTF8);
+                try
                 {
-                    try
-                    {
-                        List<EnumItemList> tmpGameData = deserializer.Deserialize<List<EnumItemList>>(input);
-                        EnumDataList.AddRange(tmpGameData);
-                    }
-                    catch
-                    {
+                    List<EnumItemList> tmpGameData = deserializer.Deserialize<List<EnumItemList>>(input);
+                    EnumDataList.AddRange(tmpGameData);
+                }
+                catch
+                {
 
-                    }
                 }
             }
         }

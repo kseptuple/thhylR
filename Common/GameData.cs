@@ -15,21 +15,19 @@ namespace thhylR.Common
         public static void Init()
         {
             GameDataList = new List<GameOffsets>();
-            var deserializer = new YamlDotNet.Serialization.DeserializerBuilder().IgnoreUnmatchedProperties().Build();
+            var deserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
             string[] yamlFiles = Directory.GetFiles("GameSettings\\", "*.yaml");
             foreach (var yamlFile in yamlFiles)
             {
-                using (var input = new StreamReader(yamlFile, Encoding.UTF8))
+                using var input = new StreamReader(yamlFile, Encoding.UTF8);
+                try
                 {
-                    try
-                    {
-                        List<GameOffsets> tmpGameData = deserializer.Deserialize<List<GameOffsets>>(input);
-                        GameDataList.AddRange(tmpGameData);
-                    }
-                    catch
-                    {
+                    List<GameOffsets> tmpGameData = deserializer.Deserialize<List<GameOffsets>>(input);
+                    GameDataList.AddRange(tmpGameData);
+                }
+                catch
+                {
 
-                    }
                 }
             }
 

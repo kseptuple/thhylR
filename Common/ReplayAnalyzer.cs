@@ -22,7 +22,7 @@ namespace thhylR.Common
         public static int defaultCodePage = 932;
         static ReplayAnalyzer()
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
         public static List<InfoBlock> GetReplayInfoBlocks(byte[] replayData, int infoBlockStart)
         {
