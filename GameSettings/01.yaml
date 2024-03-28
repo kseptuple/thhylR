@@ -19,14 +19,17 @@
       DisplayName: 得分
       Offset: 0x0
       Type: int
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x9
       Type: byte
+      Formatter: life
     - Name: Bomb
       DisplayName: 符卡
       Offset: 0x0a
       Type: byte
+      Formatter: bomb
     - Name: Power
       DisplayName: 灵力
       Offset: 0x8
@@ -68,6 +71,7 @@
     DisplayName: 得分
     Offset: 0x24
     Type: int
+    Formatter: score
     UseAlternativeSource: true
   - Name: SlowRate
     DisplayName: 处理落率
@@ -100,14 +104,17 @@
       Offset: 0x0
       Type: int
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x23
       Type: byte
+      Formatter: life
     - Name: Bomb
       DisplayName: 符卡
       Offset: 0x24
       Type: byte
+      Formatter: bomb
     - Name: Power
       DisplayName: 灵力
       Offset: 0x22
@@ -176,6 +183,7 @@
     Offset: 0x18
     Type: int
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x78
@@ -213,14 +221,17 @@
       Offset: 0x0
       Type: int
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x1d
       Type: byte
+      Formatter: life
     - Name: Bomb
       DisplayName: 符卡
       Offset: 0x1e
       Type: byte
+      Formatter: bomb
     - Name: Power
       DisplayName: 灵力
       Offset: 0x1c
@@ -301,6 +312,7 @@
     Offset: 0x48
     Type: int
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0xb0
@@ -338,6 +350,7 @@
       Offset: 0x0
       Type: int
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Chara
       Offset: 0x6
       Type: byte
@@ -369,6 +382,7 @@
       DisplayName: 残机
       Offset: 0x8
       Type: byte
+      Formatter: life
   CustomReplayInfo:
   - Name: Player
     DisplayName: 玩家
@@ -386,13 +400,13 @@
     Type: byte
     EnumList: Difficulty
   - Name: LifeStartP1
-    DisplayName: 1P初始残机
+    DisplayName: 1P初始生命值
     Offset: 0x126
     Type: byte
     Modifier: "{.}/2"
     Formatter: "0.0"
   - Name: LifeStartP2
-    DisplayName: 2P初始残机
+    DisplayName: 2P初始生命值
     Offset: 0x127
     Type: byte
     Modifier: "{.}/2"

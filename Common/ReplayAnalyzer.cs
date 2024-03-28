@@ -345,7 +345,6 @@ namespace thhylR.Common
                     {
                         stageId = -1;
                     }
-                    //insertIntoDisplayTable(string.Empty, null, stageId, "StageRaw", stageId, string.Empty, string.Empty, "false");
                     addVSGameStageDisplayData(stageSetting.CustomStageInfo, p1Data.GameCustomData, p2Data.GameCustomData, stageId);
                 }
             }
@@ -364,12 +363,9 @@ namespace thhylR.Common
                     {
                         stageId = -1;
                     }
-                    //insertIntoDisplayTable(string.Empty, null, stageId, "StageRaw", stageId, string.Empty, string.Empty, "false");
                     addDisplayData(stageData.GameRelatedData, stageData.GameCustomData, stageData.GameCustomData, stageId);
                 }
             }
-
-            //result.DisplayData.AcceptChanges();
 
             ProcessDisplayData(result.DisplayData);
 
@@ -524,6 +520,7 @@ namespace thhylR.Common
                 dr["Visible"] = isVisible;
                 dr["EnumList"] = enumList;
                 dr["Stage"] = stage;
+                //dr["IsSymbol"] = false;
                 result.DisplayData.Rows.Add(dr);
             }
 
@@ -533,210 +530,220 @@ namespace thhylR.Common
             }
         }
 
+        public static void ReformatData(ref TouhouReplay replay)
+        {
+            ProcessDisplayData(replay.DisplayData, true);
+            replay.DisplayData.AcceptChanges();
+        }
+
         private static readonly Regex modifierReplacer = new Regex(@"\{[^\{\}]*?\}", RegexOptions.Compiled);
         private static readonly Regex formatterReplacer = new Regex(@"(\{[^\{\}]*?\})|(\{[^\{\}:]*?:[^\{\}:]*?\})", RegexOptions.Compiled);
 
-        private static void ProcessDisplayData(DataTable data)
+        private static void ProcessDisplayData(DataTable data, bool onlyFormat = false)
         {
-            //Modifier
-            foreach (DataRow dr in data.Rows)
+            if (!onlyFormat)
             {
-                var currentValue = dr["RawValue"];
-                if (dr["Modifier"] == null || dr["Modifier"].ToString() == string.Empty)
+                //Modifier
+                foreach (DataRow dr in data.Rows)
                 {
-                    dr["Value"] = dr["RawValue"];
-                    continue;
-                }
-
-                string modifier = dr["Modifier"].ToString();
-
-                if (currentValue != null && currentValue is IList)
-                {
-                    List<object> resultList = new List<object>();
-                    var currentValueList = (IList)currentValue;
-                    for (int i = 0; i < currentValueList.Count; i++)
+                    var currentValue = dr["RawValue"];
+                    if (dr["Modifier"] == null || dr["Modifier"].ToString() == string.Empty)
                     {
-                        var item = currentValueList[i];
-                        resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"]));
+                        dr["Value"] = dr["RawValue"];
+                        continue;
                     }
-                    dr["Value"] = resultList;
-                }
-                else
-                {
-                    dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"]);
-                }
-            }
 
-            object calculateItem(object item, int index, string modifier, int stage)
-            {
-                MatchEvaluator modifierEvaluator = m =>
-                {
-                    object itemToCalc = null;
-                    var value = m.Value[1..^1];
-                    if (value == ".")
+                    string modifier = dr["Modifier"].ToString();
+
+                    if (currentValue != null && currentValue is IList)
                     {
-                        return "(" + item.ToString() + ")";
+                        List<object> resultList = new List<object>();
+                        var currentValueList = (IList)currentValue;
+                        for (int i = 0; i < currentValueList.Count; i++)
+                        {
+                            var item = currentValueList[i];
+                            resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"]));
+                        }
+                        dr["Value"] = resultList;
                     }
                     else
                     {
-                        var dataRows = data.Select($"Id='{value}' and (Stage={stage} or Stage=-1)");
-                        if (dataRows == null || dataRows.Length == 0)
+                        dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"]);
+                    }
+                }
+
+                object calculateItem(object item, int index, string modifier, int stage)
+                {
+                    MatchEvaluator modifierEvaluator = m =>
+                    {
+                        object itemToCalc = null;
+                        var value = m.Value[1..^1];
+                        if (value == ".")
                         {
-                            return "(" + value + ")";
+                            return "(" + item.ToString() + ")";
                         }
                         else
                         {
-                            itemToCalc = dataRows[0]["RawValue"] ?? string.Empty;
-                            object actualItemToCalc = null;
-                            if (itemToCalc is IList)
+                            var dataRows = data.Select($"Id='{value}' and (Stage={stage} or Stage=-1)");
+                            if (dataRows == null || dataRows.Length == 0)
                             {
-                                var itemToCalcList = (IList)itemToCalc;
-                                if (itemToCalcList.Count <= index)
-                                {
-                                    actualItemToCalc = string.Empty;
-                                }
-                                else
-                                {
-                                    actualItemToCalc = itemToCalcList[index];
-                                }
-                                itemToCalc = actualItemToCalc;
+                                return "(" + value + ")";
                             }
-                            return "(" + itemToCalc.ToString() + ")";
+                            else
+                            {
+                                itemToCalc = dataRows[0]["RawValue"] ?? string.Empty;
+                                object actualItemToCalc = null;
+                                if (itemToCalc is IList)
+                                {
+                                    var itemToCalcList = (IList)itemToCalc;
+                                    if (itemToCalcList.Count <= index)
+                                    {
+                                        actualItemToCalc = string.Empty;
+                                    }
+                                    else
+                                    {
+                                        actualItemToCalc = itemToCalcList[index];
+                                    }
+                                    itemToCalc = actualItemToCalc;
+                                }
+                                return "(" + itemToCalc.ToString() + ")";
+                            }
                         }
-                    }
-                };
+                    };
 
-                modifier = modifier.Replace("{{", "\uFDD0");
-                modifier = modifierReplacer.Replace(modifier, modifierEvaluator);
-                modifier = modifier.Replace("\uFDD0", "{");
-                try
-                {
-                    return ExpressionAnalyzer.getValue(modifier);
-                }
-                catch
-                {
-                    return "ERROR";
-                }
-            }
-
-            //Visible
-            foreach (DataRow dr in data.Rows)
-            {
-                MatchEvaluator visibleEvaluator = m =>
-                {
-                    var value = m.Value[1..^1];
-                    if (value == ".")
+                    modifier = modifier.Replace("{{", "\uFDD0");
+                    modifier = modifierReplacer.Replace(modifier, modifierEvaluator);
+                    modifier = modifier.Replace("\uFDD0", "{");
+                    try
                     {
-                        return "(" + dr["Value"].ToString() + ")";
+                        return ExpressionAnalyzer.getValue(modifier);
                     }
-                    else
+                    catch
                     {
-                        var dataRows = data.Select($"Id='{value}' and (Stage={dr["Stage"]} or Stage=-1)");
-                        if (dataRows != null && dataRows.Length > 0)
+                        return "ERROR";
+                    }
+                }
+
+                //Visible
+                foreach (DataRow dr in data.Rows)
+                {
+                    MatchEvaluator visibleEvaluator = m =>
+                    {
+                        var value = m.Value[1..^1];
+                        if (value == ".")
                         {
-                            return "(" + dataRows[0]["Value"].ToString() + ")";
+                            return "(" + dr["Value"].ToString() + ")";
                         }
                         else
                         {
-                            return "(" + value + ")";
+                            var dataRows = data.Select($"Id='{value}' and (Stage={dr["Stage"]} or Stage=-1)");
+                            if (dataRows != null && dataRows.Length > 0)
+                            {
+                                return "(" + dataRows[0]["Value"].ToString() + ")";
+                            }
+                            else
+                            {
+                                return "(" + value + ")";
+                            }
                         }
-                    }
-                };
+                    };
 
-                if (dr["Visible"] != null && dr["Visible"].ToString() != string.Empty)
-                {
-                    string visible = dr["Visible"].ToString();
-                    if (visible == "true")
+                    if (dr["Visible"] != null && dr["Visible"].ToString() != string.Empty)
                     {
-                        dr["Visible"] = "1";
-                    }
-                    else if (visible == "false")
-                    {
-                        dr["Visible"] = "0";
-                    }
-                    else
-                    {
-                        visible = visible.Replace("{{", "\uFDD0");
-                        visible = modifierReplacer.Replace(visible, visibleEvaluator);
-                        visible = visible.Replace("\uFDD0", "{");
-                        try
-                        {
-                            var value = ExpressionAnalyzer.getValue(visible);
-                            dr["Visible"] = value;
-                        }
-                        catch
+                        string visible = dr["Visible"].ToString();
+                        if (visible == "true")
                         {
                             dr["Visible"] = "1";
                         }
-                    }
-                }
-                else
-                {
-                    dr["Visible"] = "1";
-                }
-            }
-
-            //Enum
-            foreach (DataRow dr in data.Rows)
-            {
-                dr["RawValue"] = dr["Value"];
-                var currentValue = dr["RawValue"];
-                if (dr["EnumList"] == null || dr["EnumList"].ToString() == string.Empty)
-                {
-                    continue;
-                }
-
-                string enumName = dr["EnumList"].ToString();
-
-                if (currentValue != null && currentValue is IList)
-                {
-                    List<string> resultList = new List<string>();
-                    var currentValueList = (IList)currentValue;
-                    for (int i = 0; i < currentValueList.Count; i++)
-                    {
-                        var item = currentValueList[i];
-                        resultList.Add(getEnumValue(item.ToString(), enumName));
-                    }
-                    dr["RawValue"] = resultList;
-                }
-                else
-                {
-                    dr["RawValue"] = getEnumValue(currentValue.ToString(), enumName);
-                }
-            }
-
-            string getEnumValue(string item, string enumName)
-            {
-                if (string.IsNullOrEmpty(item)) return string.Empty;
-
-                EnumItemList enumItemList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == enumName);
-                if (enumItemList != null)
-                {
-                    if (enumItemList.UseEnumName)
-                    {
-                        EnumItem enumResult = enumItemList.EnumValues.FirstOrDefault(e => e.Name == item);
-                        if (enumResult != null)
+                        else if (visible == "false")
                         {
-                            return enumResult.Value;
+                            dr["Visible"] = "0";
                         }
                         else
                         {
-                            return item;
+                            visible = visible.Replace("{{", "\uFDD0");
+                            visible = modifierReplacer.Replace(visible, visibleEvaluator);
+                            visible = visible.Replace("\uFDD0", "{");
+                            try
+                            {
+                                var value = ExpressionAnalyzer.getValue(visible);
+                                dr["Visible"] = value;
+                            }
+                            catch
+                            {
+                                dr["Visible"] = "1";
+                            }
                         }
                     }
                     else
                     {
-                        if (int.TryParse(item, out int enumIndex) && enumIndex >= 0 && enumIndex < enumItemList.EnumValues.Count)
+                        dr["Visible"] = "1";
+                    }
+                }
+
+                //Enum
+                foreach (DataRow dr in data.Rows)
+                {
+                    dr["RawValue"] = dr["Value"];
+                    var currentValue = dr["RawValue"];
+                    if (dr["EnumList"] == null || dr["EnumList"].ToString() == string.Empty)
+                    {
+                        continue;
+                    }
+
+                    string enumName = dr["EnumList"].ToString();
+
+                    if (currentValue != null && currentValue is IList)
+                    {
+                        List<string> resultList = new List<string>();
+                        var currentValueList = (IList)currentValue;
+                        for (int i = 0; i < currentValueList.Count; i++)
                         {
-                            return enumItemList.EnumValues[enumIndex].Value;
+                            var item = currentValueList[i];
+                            resultList.Add(getEnumValue(item.ToString(), enumName));
+                        }
+                        dr["RawValue"] = resultList;
+                    }
+                    else
+                    {
+                        dr["RawValue"] = getEnumValue(currentValue.ToString(), enumName);
+                    }
+                }
+
+                string getEnumValue(string item, string enumName)
+                {
+                    if (string.IsNullOrEmpty(item)) return string.Empty;
+
+                    EnumItemList enumItemList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == enumName);
+                    if (enumItemList != null)
+                    {
+                        if (enumItemList.UseEnumName)
+                        {
+                            EnumItem enumResult = enumItemList.EnumValues.FirstOrDefault(e => e.Name == item);
+                            if (enumResult != null)
+                            {
+                                return enumResult.Value;
+                            }
+                            else
+                            {
+                                return item;
+                            }
                         }
                         else
                         {
-                            return item;
+                            if (int.TryParse(item, out int enumIndex) && enumIndex >= 0 && enumIndex < enumItemList.EnumValues.Count)
+                            {
+                                return enumItemList.EnumValues[enumIndex].Value;
+                            }
+                            else
+                            {
+                                return item;
+                            }
                         }
                     }
+                    return item;
                 }
-                return item;
+
             }
 
             //Formatter
@@ -744,6 +751,8 @@ namespace thhylR.Common
 
             foreach (DataRow dr in data.Rows)
             {
+                bool isSymbol = false;
+                bool _tmpIsSymbol = false;
                 var currentValue = dr["RawValue"];
 
                 string formatter = null;
@@ -758,7 +767,11 @@ namespace thhylR.Common
                     for (int i = 0; i < currentValueList.Count; i++)
                     {
                         var item = currentValueList[i];
-                        resultBuilder.Append(formatItem(item, i, formatter, (int)dr["Stage"]));
+                        resultBuilder.Append(formatItem(item, i, formatter, (int)dr["Stage"], out _tmpIsSymbol));
+                        if (_tmpIsSymbol && !isSymbol)
+                        {
+                            isSymbol = true;
+                        }
                         if (i < currentValueList.Count - 1)
                         {
                             resultBuilder.Append(", ");
@@ -768,19 +781,29 @@ namespace thhylR.Common
                 }
                 else
                 {
-                    dr["Value"] = formatItem(currentValue, 0, formatter, (int)dr["Stage"]);
+                    dr["Value"] = formatItem(currentValue, 0, formatter, (int)dr["Stage"], out isSymbol);
                 }
 
                 dr["DisplayValue"] = dr["Value"].ToString().Replace('\t', ' ').Replace("\r\n", " ");
+                if (isSymbol)
+                {
+                    dr["IsSymbol"] = true;
+                }
+                else
+                {
+                    dr["IsSymbol"] = false;
+                }
             }
 
-            string formatItem(object item, int index, string formatter, int stage)
+            string formatItem(object item, int index, string formatter, int stage, out bool isSymbol)
             {
+                isSymbol = false;
                 if (!string.IsNullOrEmpty(formatter))
                 {
                     string result = formatter.Replace("{{", "\uFDD0");
                     if (result.Contains('{'))
                     {
+                        bool _isSymbol = false;
                         MatchEvaluator formatterEvaluator = m =>
                         {
                             var value = m.Value[1..^1];
@@ -828,16 +851,17 @@ namespace thhylR.Common
                                 {
                                     result.Append(formatItems[i]);
                                 }
-                                return callToString(itemToFormat, result.ToString());
+                                return callToString(itemToFormat, result.ToString(), out _isSymbol);
                             }
 
                         };
 
                         result = formatterReplacer.Replace(result, formatterEvaluator);
+                        isSymbol = _isSymbol;
                     }
                     else
                     {
-                        result = callToString(item, result);
+                        result = callToString(item, result, out isSymbol);
                     }
 
                     result = result.Replace("\uFDD0", "{");
@@ -849,11 +873,78 @@ namespace thhylR.Common
                 }
             }
 
-            string callToString(object item, string formatter)
+            string callToString(object item, string formatter, out bool isSymbol)
             {
+                isSymbol = false;
                 if (item == null)
                 {
                     return string.Empty;
+                }
+                if (formatter == "life")
+                {
+                    switch (SettingProvider.Settings.LifeBombType)
+                    {
+                        case LifeBombFormat.Number:
+                            return item.ToString();
+                        case LifeBombFormat.Heart:
+                            isSymbol = true;
+                            return getSymbolString(item, "\u2665\ufe0e", "\u2661\ufe0e");
+                        case LifeBombFormat.Star:
+                            isSymbol = true;
+                            return getSymbolString(item, "\u2605\ufe0e", "\u2606\ufe0e");
+                    }
+                }
+                else if (formatter == "bomb")
+                {
+                    switch (SettingProvider.Settings.LifeBombType)
+                    {
+                        case LifeBombFormat.Number:
+                            return item.ToString();
+                        case LifeBombFormat.Heart:
+                        case LifeBombFormat.Star:
+                            isSymbol = true;
+                            return getSymbolString(item, "\u2605\ufe0e", "\u2606\ufe0e");
+                    }
+                }
+                else if (formatter == "score")
+                {
+                    string itemStr = item.ToString();
+                    switch (SettingProvider.Settings.ScoreType)
+                    {
+                        case ScoreFormat.Plain:
+                            return item.ToString();
+                        case ScoreFormat.Comma:
+                            StringBuilder itemBuilder = new StringBuilder();
+                            for (int i = itemStr.Length; i >= 0; i -= 3)
+                            {
+                                if (i - 3 >= 0)
+                                {
+                                    itemBuilder.Insert(0, itemStr[(i - 3)..i]);
+                                    if (i != 3)
+                                    {
+                                        itemBuilder.Insert(0, ",");
+                                    }
+                                }
+                                else
+                                {
+                                    itemBuilder.Insert(0, itemStr[0..i]);
+                                }
+                            }
+                            return itemBuilder.ToString();
+                        case ScoreFormat.Character:
+                            if (itemStr.Length > 4 && itemStr.Length <= 8)
+                            {
+                                return $"{itemStr[0..^4]}万{itemStr[^4..]}";
+                            }
+                            else if (itemStr.Length > 8)
+                            {
+                                return $"{itemStr[0..^8]}亿{itemStr[^8..^4]}万{itemStr[^4..]}";
+                            }
+                            else
+                            {
+                                return itemStr;
+                            }
+                    }
                 }
                 var toStringMethod = item.GetType().GetMethod("ToString", argumentTypes);
                 if (toStringMethod == null)
@@ -863,6 +954,49 @@ namespace thhylR.Common
                 else
                 {
                     return (string)toStringMethod.Invoke(item, new object[] { formatter });
+                }
+
+                string getSymbolString(object item, string symbol, string emptySymbol)
+                {
+                    decimal decItem = 0;
+                    if (tryConvertToDecimal(item, out decItem))
+                    {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (decimal i = 0; i < decItem; i++)
+                        {
+                            stringBuilder.Append(symbol);
+                        }
+                        if (SettingProvider.Settings.ShowEmptyIcon && decItem < 8)
+                        {
+                            if (decItem < 8)
+                            {
+                                decimal remain = 8 - decItem;
+                                for (decimal i = 0; i < remain; i++)
+                                {
+                                    stringBuilder.Append(emptySymbol);
+                                }
+                            }
+                        }
+                        return stringBuilder.ToString();
+                    }
+                    else
+                    {
+                        return item.ToString();
+                    }
+                }
+            }
+
+            bool tryConvertToDecimal(object value, out decimal result)
+            {
+                try
+                {
+                    result = Convert.ToDecimal(value);
+                    return true;
+                }
+                catch
+                {
+                    result = 0M;
+                    return false;
                 }
             }
         }
@@ -997,11 +1131,6 @@ namespace thhylR.Common
 
             return result;
         }
-
-        //public static GameId DetectGameId(uint MagicNumber)
-        //{
-        //    return GameData.GameMagicNumber[MagicNumber];
-        //}
 
         public static string GetStringFromByteArray(int codePage, byte[] bytes)
         {

@@ -48,6 +48,7 @@
     DisplayName: 得分
     Offset: 0x14
     Type: int
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0xe0
@@ -100,10 +101,12 @@
       Offset: 0x0c
       Type: int
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x1c
       Type: int
+      Formatter: life
     - Name: Power
       DisplayName: 灵力
       Offset: 0x10
@@ -181,6 +184,7 @@
     Offset: 0x10
     Type: int
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x48
@@ -241,6 +245,7 @@
       DisplayName: 得分
       Offset: 0x0c
       Type: int
+      Formatter: score
   CustomReplayInfo:
   - Name: Player
     DisplayName: 玩家
@@ -262,6 +267,7 @@
     DisplayName: 得分
     Offset: 0x10
     Type: int
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x48
@@ -308,10 +314,12 @@
       Offset: 0x0c
       Type: int
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x18
       Type: short
+      Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
       Offset: 0x1a
@@ -393,6 +401,7 @@
     Offset: 0x14
     Type: int
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x54

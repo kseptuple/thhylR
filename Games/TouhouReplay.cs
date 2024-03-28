@@ -51,6 +51,7 @@ namespace thhylR.Games
             DisplayData.Columns.Add("Visible");
             DisplayData.Columns.Add("EnumList");
             DisplayData.Columns.Add(new DataColumn("Stage", typeof(int)));
+            DisplayData.Columns.Add(new DataColumn("IsSymbol", typeof(bool)));
             DisplayData.AcceptChanges();
         }
     }

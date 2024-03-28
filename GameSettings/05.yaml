@@ -37,10 +37,12 @@
       Offset: 0x30
       Type: uint
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x74
       Type: int
+      Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
       Offset: 0x78
@@ -50,6 +52,7 @@
       DisplayName: 符卡
       Offset: 0x80
       Type: int
+      Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
       Offset: 0x84
@@ -133,6 +136,7 @@
     Offset: 0x14
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x84
@@ -192,14 +196,17 @@
       Offset: 0x34
       Type: uint
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x78
       Type: int
+      Formatter: life
     - Name: Bomb
       DisplayName: 符卡
       Offset: 0x84
       Type: int
+      Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
       Offset: 0x88
@@ -331,6 +338,7 @@
     Offset: 0x14
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x7c
@@ -427,6 +435,7 @@
   #   DisplayName: 得分
   #   Offset: 0x1c
   #   Type: uint
+  #   Formatter: score
   - Name: Retried
     DisplayName: 是否重试过
     Offset: 0x9c

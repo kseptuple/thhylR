@@ -33,10 +33,12 @@
       Offset: 0x34
       Type: uint
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x78
       Type: int
+      Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
       Offset: 0x7c
@@ -46,6 +48,7 @@
       DisplayName: 符卡
       Offset: 0x84
       Type: int
+      Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
       Offset: 0x88
@@ -185,6 +188,7 @@
     Offset: 0x18
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x80

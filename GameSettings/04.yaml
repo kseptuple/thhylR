@@ -40,10 +40,12 @@
       Offset: 0x1c
       Type: uint
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x50
       Type: int
+      Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
       Offset: 0x54
@@ -58,6 +60,7 @@
       DisplayName: 符卡
       Offset: 0x5c
       Type: int
+      Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
       Offset: 0x60
@@ -160,6 +163,7 @@
     Offset: 0x14
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x54
@@ -202,10 +206,12 @@
       Offset: 0x1c
       Type: uint
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x4c
       Type: int
+      Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
       Offset: 0x50
@@ -220,6 +226,7 @@
       DisplayName: 符卡
       Offset: 0x58
       Type: int
+      Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
       Offset: 0x5c
@@ -309,6 +316,7 @@
     Offset: 0x14
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x54
@@ -361,10 +369,12 @@
       Offset: 0x1c
       Type: uint
       Modifier: "{.}*10"
+      Formatter: score
     - Name: Life
       DisplayName: 残机
       Offset: 0x50
       Type: int
+      Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
       Offset: 0x54
@@ -374,6 +384,7 @@
       DisplayName: 符卡
       Offset: 0x5c
       Type: int
+      Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
       Offset: 0x60
@@ -482,6 +493,7 @@
     Offset: 0x14
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x74
@@ -594,6 +606,7 @@
     Offset: 0x1c
     Type: uint
     Modifier: "{.}*10"
+    Formatter: score
   - Name: SlowRate
     DisplayName: 处理落率
     Offset: 0x7c

@@ -129,4 +129,13 @@
   <data name="RawDataFilter" xml:space="preserve">
     <value>原始数据|*.bin</value>
   </data>
+  <data name="RegistryExtensionName" xml:space="preserve">
+    <value>东方Project录像文件</value>
+  </data>
+  <data name="RegistrySetFail" xml:space="preserve">
+    <value>需要管理员权限才能设置，是否以管理员身份重新启动？</value>
+  </data>
+  <data name="RestartFail" xml:space="preserve">
+    <value>重新启动失败，请尝试手动以管理员身份运行。</value>
+  </data>
 </root>

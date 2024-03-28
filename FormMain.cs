@@ -1,4 +1,5 @@
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using thhylR.Common;
@@ -19,9 +20,14 @@ namespace thhylR
             SettingProvider.Init();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             dataGridInfo.AutoGenerateColumns = false;
+            systemFont = dataGridInfo.DefaultCellStyle.Font;
+            symbolFont = new Font("Segoe UI Symbol", systemFont.Size);
         }
 
         private TouhouReplay currentReplay = null;
+
+        private Font systemFont;
+        private Font symbolFont;
 
         private void showOpenReplayDialog()
         {
@@ -48,17 +54,39 @@ namespace thhylR
             {
                 textBoxPath.Text = fileName;
                 currentReplay.FilePath = fileName;
-                dataGridInfo.DataSource = currentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
+                displayData();
+
                 if (refreshFileList)
                 {
                     var replayPath = Path.GetDirectoryName(fileName);
                     setFiles(replayPath, Path.GetFileName(fileName));
                     fileSystemWatcherFolder.Path = replayPath;
                 }
+
+                //dataGridInfo.Rows[0].Cells[0].Style.Font
             }
             else
             {
                 MessageBox.Show(string.Format(Resources.NotSupportedFile, Path.GetFileName(fileName)), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void displayData()
+        {
+            if (currentReplay == null) return;
+            DataTable allData = currentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
+            dataGridInfo.DataSource = allData;
+
+            for (int i = 0; i < allData.Rows.Count; i++)
+            {
+                if ((bool)allData.Rows[i]["IsSymbol"])
+                {
+                    dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = symbolFont;
+                }
+                else
+                {
+                    dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = systemFont;
+                }
             }
         }
 
@@ -192,15 +220,16 @@ namespace thhylR
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("\u2665\uFE0E");
-        }
-
         private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormSettings formSettings = new FormSettings();
             formSettings.ShowDialog(this);
+            if (currentReplay != null)
+            {
+                ReplayAnalyzer.ReformatData(ref currentReplay);
+                displayData();
+            }
+            
         }
     }
 }

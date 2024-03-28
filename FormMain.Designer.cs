@@ -30,7 +30,7 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             openReplayDialog = new OpenFileDialog();
-            button1 = new Button();
+            buttonOpen = new Button();
             dataGridInfo = new DataGridView();
             dataGridColumnName = new DataGridViewTextBoxColumn();
             dataGridColumnValue = new DataGridViewTextBoxColumn();
@@ -43,13 +43,13 @@
             ExportToolStripMenuItem = new ToolStripMenuItem();
             ExportAllToolStripMenuItem = new ToolStripMenuItem();
             ExportCustomToolStripMenuItem = new ToolStripMenuItem();
+            ToolToolStripMenuItem = new ToolStripMenuItem();
+            OptionToolStripMenuItem = new ToolStripMenuItem();
             saveFileDialog = new SaveFileDialog();
             textBoxPath = new TextBox();
             treeViewFiles = new TreeView();
             fileSystemWatcherFolder = new FileSystemWatcher();
             button2 = new Button();
-            ToolToolStripMenuItem = new ToolStripMenuItem();
-            OptionToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
@@ -59,15 +59,15 @@
             // 
             openReplayDialog.Filter = "录像文件|*.rpy";
             // 
-            // button1
+            // buttonOpen
             // 
-            button1.Location = new Point(1010, 59);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 2;
-            button1.Text = "buttonOpen";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += buttonOpen_Click;
+            buttonOpen.Location = new Point(1010, 59);
+            buttonOpen.Name = "buttonOpen";
+            buttonOpen.Size = new Size(94, 29);
+            buttonOpen.TabIndex = 2;
+            buttonOpen.Text = "buttonOpen";
+            buttonOpen.UseVisualStyleBackColor = true;
+            buttonOpen.Click += buttonOpen_Click;
             // 
             // dataGridInfo
             // 
@@ -151,13 +151,13 @@
             // SplitToolStripMenuItem
             // 
             SplitToolStripMenuItem.Name = "SplitToolStripMenuItem";
-            SplitToolStripMenuItem.Size = new Size(221, 6);
+            SplitToolStripMenuItem.Size = new Size(197, 6);
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             ExitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
-            ExitToolStripMenuItem.Size = new Size(224, 26);
+            ExitToolStripMenuItem.Size = new Size(200, 26);
             ExitToolStripMenuItem.Text = "退出(&X)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -172,21 +172,35 @@
             // 
             ExportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportAllToolStripMenuItem, ExportCustomToolStripMenuItem });
             ExportToolStripMenuItem.Name = "ExportToolStripMenuItem";
-            ExportToolStripMenuItem.Size = new Size(224, 26);
+            ExportToolStripMenuItem.Size = new Size(201, 26);
             ExportToolStripMenuItem.Text = "导出原始数据(&P)";
             // 
             // ExportAllToolStripMenuItem
             // 
             ExportAllToolStripMenuItem.Name = "ExportAllToolStripMenuItem";
-            ExportAllToolStripMenuItem.Size = new Size(224, 26);
+            ExportAllToolStripMenuItem.Size = new Size(169, 26);
             ExportAllToolStripMenuItem.Text = "全部(&A)";
             ExportAllToolStripMenuItem.Click += ExportAllToolStripMenuItem_Click;
             // 
             // ExportCustomToolStripMenuItem
             // 
             ExportCustomToolStripMenuItem.Name = "ExportCustomToolStripMenuItem";
-            ExportCustomToolStripMenuItem.Size = new Size(224, 26);
+            ExportCustomToolStripMenuItem.Size = new Size(169, 26);
             ExportCustomToolStripMenuItem.Text = "自定义(&C)...";
+            // 
+            // ToolToolStripMenuItem
+            // 
+            ToolToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OptionToolStripMenuItem });
+            ToolToolStripMenuItem.Name = "ToolToolStripMenuItem";
+            ToolToolStripMenuItem.Size = new Size(72, 24);
+            ToolToolStripMenuItem.Text = "工具(&T)";
+            // 
+            // OptionToolStripMenuItem
+            // 
+            OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
+            OptionToolStripMenuItem.Size = new Size(156, 26);
+            OptionToolStripMenuItem.Text = "选项(&O)...";
+            OptionToolStripMenuItem.Click += OptionToolStripMenuItem_Click;
             // 
             // textBoxPath
             // 
@@ -224,21 +238,6 @@
             button2.TabIndex = 9;
             button2.Text = "button2";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // ToolToolStripMenuItem
-            // 
-            ToolToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OptionToolStripMenuItem });
-            ToolToolStripMenuItem.Name = "ToolToolStripMenuItem";
-            ToolToolStripMenuItem.Size = new Size(72, 24);
-            ToolToolStripMenuItem.Text = "工具(&T)";
-            // 
-            // OptionToolStripMenuItem
-            // 
-            OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
-            OptionToolStripMenuItem.Size = new Size(224, 26);
-            OptionToolStripMenuItem.Text = "选项(&O)...";
-            OptionToolStripMenuItem.Click += OptionToolStripMenuItem_Click;
             // 
             // FormMain
             // 
@@ -251,7 +250,7 @@
             Controls.Add(textBoxPath);
             Controls.Add(textBoxInfo);
             Controls.Add(dataGridInfo);
-            Controls.Add(button1);
+            Controls.Add(buttonOpen);
             Controls.Add(menuStripMain);
             MainMenuStrip = menuStripMain;
             Name = "FormMain";
@@ -268,7 +267,7 @@
 
         #endregion
         private OpenFileDialog openReplayDialog;
-        private Button button1;
+        private Button buttonOpen;
         private DataGridView dataGridInfo;
         private DataGridViewTextBoxColumn dataGridColumnName;
         private DataGridViewTextBoxColumn dataGridColumnValue;

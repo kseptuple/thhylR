@@ -58,9 +58,12 @@
             comboBoxEncode3 = new ComboBox();
             comboBoxEncode2 = new ComboBox();
             comboBoxEncode1 = new ComboBox();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
+            radioButtonCommonEncoding = new RadioButton();
+            radioButtonAllEncoding = new RadioButton();
             listBoxTabs = new ListBox();
+            buttonOK = new Button();
+            buttonCancel = new Button();
+            buttonApply = new Button();
             tabControlMain.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -75,7 +78,7 @@
             tabControlMain.Controls.Add(tabPage1);
             tabControlMain.Controls.Add(tabPage2);
             tabControlMain.Controls.Add(tabPage3);
-            tabControlMain.ItemSize = new Size(40, 20);
+            tabControlMain.ItemSize = new Size(0, 1);
             tabControlMain.Location = new Point(168, 12);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
@@ -91,10 +94,10 @@
             tabPage1.Controls.Add(checkBoxShowEmpty);
             tabPage1.Controls.Add(comboBoxLifeStyle);
             tabPage1.Controls.Add(comboBoxScoreStyle);
-            tabPage1.Location = new Point(4, 24);
+            tabPage1.Location = new Point(4, 5);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(546, 246);
+            tabPage1.Size = new Size(546, 265);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "显示格式";
             tabPage1.UseVisualStyleBackColor = true;
@@ -115,6 +118,7 @@
             // labelBomb
             // 
             labelBomb.AutoSize = true;
+            labelBomb.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
             labelBomb.Location = new Point(66, 43);
             labelBomb.Name = "labelBomb";
             labelBomb.Size = new Size(0, 20);
@@ -204,10 +208,10 @@
             tabPage2.Controls.Add(checkBoxAutoSwitch);
             tabPage2.Controls.Add(checkBoxOnTop);
             tabPage2.Controls.Add(checkBoxConfirmDelete);
-            tabPage2.Location = new Point(4, 24);
+            tabPage2.Location = new Point(4, 5);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(546, 246);
+            tabPage2.Size = new Size(546, 265);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "程序";
             tabPage2.UseVisualStyleBackColor = true;
@@ -217,9 +221,9 @@
             checkBoxRegisterAll.AutoSize = true;
             checkBoxRegisterAll.Location = new Point(6, 126);
             checkBoxRegisterAll.Name = "checkBoxRegisterAll";
-            checkBoxRegisterAll.Size = new Size(209, 24);
+            checkBoxRegisterAll.Size = new Size(344, 24);
             checkBoxRegisterAll.TabIndex = 4;
-            checkBoxRegisterAll.Text = "关联.rpy文件（所有用户）";
+            checkBoxRegisterAll.Text = "关联.rpy文件（所有用户）（需要管理员权限）";
             checkBoxRegisterAll.UseVisualStyleBackColor = true;
             // 
             // checkBoxRegisterCurrent
@@ -265,11 +269,11 @@
             // tabPage3
             // 
             tabPage3.Controls.Add(groupBox2);
-            tabPage3.Controls.Add(radioButton2);
-            tabPage3.Controls.Add(radioButton1);
-            tabPage3.Location = new Point(4, 24);
+            tabPage3.Controls.Add(radioButtonCommonEncoding);
+            tabPage3.Controls.Add(radioButtonAllEncoding);
+            tabPage3.Location = new Point(4, 5);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(546, 246);
+            tabPage3.Size = new Size(546, 265);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "编码切换";
             tabPage3.UseVisualStyleBackColor = true;
@@ -302,6 +306,7 @@
             checkBoxEncode5.TabIndex = 9;
             checkBoxEncode5.Text = "启用快捷键（F5）";
             checkBoxEncode5.UseVisualStyleBackColor = true;
+            checkBoxEncode5.CheckedChanged += checkBoxEncode5_CheckedChanged;
             // 
             // checkBoxEncode4
             // 
@@ -312,6 +317,7 @@
             checkBoxEncode4.TabIndex = 8;
             checkBoxEncode4.Text = "启用快捷键（F4）";
             checkBoxEncode4.UseVisualStyleBackColor = true;
+            checkBoxEncode4.CheckedChanged += checkBoxEncode4_CheckedChanged;
             // 
             // checkBoxEncode3
             // 
@@ -322,6 +328,7 @@
             checkBoxEncode3.TabIndex = 7;
             checkBoxEncode3.Text = "启用快捷键（F3）";
             checkBoxEncode3.UseVisualStyleBackColor = true;
+            checkBoxEncode3.CheckedChanged += checkBoxEncode3_CheckedChanged;
             // 
             // checkBoxEncode2
             // 
@@ -332,6 +339,7 @@
             checkBoxEncode2.TabIndex = 6;
             checkBoxEncode2.Text = "启用快捷键（F2）";
             checkBoxEncode2.UseVisualStyleBackColor = true;
+            checkBoxEncode2.CheckedChanged += checkBoxEncode2_CheckedChanged;
             // 
             // checkBoxEncode1
             // 
@@ -401,27 +409,27 @@
             comboBoxEncode1.Size = new Size(151, 28);
             comboBoxEncode1.TabIndex = 0;
             // 
-            // radioButton2
+            // radioButtonCommonEncoding
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(6, 36);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(135, 24);
-            radioButton2.TabIndex = 2;
-            radioButton2.Text = "只显示常用编码";
-            radioButton2.UseVisualStyleBackColor = true;
+            radioButtonCommonEncoding.AutoSize = true;
+            radioButtonCommonEncoding.Location = new Point(6, 36);
+            radioButtonCommonEncoding.Name = "radioButtonCommonEncoding";
+            radioButtonCommonEncoding.Size = new Size(180, 24);
+            radioButtonCommonEncoding.TabIndex = 2;
+            radioButtonCommonEncoding.Text = "主界面只显示常用编码";
+            radioButtonCommonEncoding.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioButtonAllEncoding
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Checked = true;
-            radioButton1.Location = new Point(6, 6);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(120, 24);
-            radioButton1.TabIndex = 1;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "显示全部编码";
-            radioButton1.UseVisualStyleBackColor = true;
+            radioButtonAllEncoding.AutoSize = true;
+            radioButtonAllEncoding.Checked = true;
+            radioButtonAllEncoding.Location = new Point(6, 6);
+            radioButtonAllEncoding.Name = "radioButtonAllEncoding";
+            radioButtonAllEncoding.Size = new Size(165, 24);
+            radioButtonAllEncoding.TabIndex = 1;
+            radioButtonAllEncoding.TabStop = true;
+            radioButtonAllEncoding.Text = "主界面显示全部编码";
+            radioButtonAllEncoding.UseVisualStyleBackColor = true;
             // 
             // listBoxTabs
             // 
@@ -433,15 +441,54 @@
             listBoxTabs.TabIndex = 8;
             listBoxTabs.SelectedIndexChanged += listBoxTabs_SelectedIndexChanged;
             // 
+            // buttonOK
+            // 
+            buttonOK.Location = new Point(424, 292);
+            buttonOK.Name = "buttonOK";
+            buttonOK.Size = new Size(94, 29);
+            buttonOK.TabIndex = 9;
+            buttonOK.Text = "确定";
+            buttonOK.UseVisualStyleBackColor = true;
+            buttonOK.Click += buttonOK_Click;
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.Location = new Point(524, 292);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(94, 29);
+            buttonCancel.TabIndex = 10;
+            buttonCancel.Text = "取消";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
+            // 
+            // buttonApply
+            // 
+            buttonApply.Enabled = false;
+            buttonApply.Location = new Point(624, 292);
+            buttonApply.Name = "buttonApply";
+            buttonApply.Size = new Size(94, 29);
+            buttonApply.TabIndex = 11;
+            buttonApply.Text = "应用";
+            buttonApply.UseVisualStyleBackColor = true;
+            buttonApply.Click += buttonApply_Click;
+            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(731, 437);
+            ClientSize = new Size(731, 330);
+            Controls.Add(buttonApply);
+            Controls.Add(buttonCancel);
+            Controls.Add(buttonOK);
             Controls.Add(listBoxTabs);
             Controls.Add(tabControlMain);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FormSettings";
-            Text = "Settings";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            Text = "设置";
             Load += FormSettings_Load;
             tabControlMain.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -482,8 +529,8 @@
         private ComboBox comboBoxEncode3;
         private ComboBox comboBoxEncode2;
         private ComboBox comboBoxEncode1;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
+        private RadioButton radioButtonCommonEncoding;
+        private RadioButton radioButtonAllEncoding;
         private CheckBox checkBoxEncode5;
         private CheckBox checkBoxEncode4;
         private CheckBox checkBoxEncode3;
@@ -492,5 +539,8 @@
         private ComboBox comboBoxEncode5;
         private CheckBox checkBoxRegisterAll;
         private CheckBox checkBoxRegisterCurrent;
+        private Button buttonOK;
+        private Button buttonCancel;
+        private Button buttonApply;
     }
 }

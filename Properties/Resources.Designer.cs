@@ -95,5 +95,32 @@ namespace thhylR.Properties {
                 return ResourceManager.GetString("RawDataFilter", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 东方Project录像文件 的本地化字符串。
+        /// </summary>
+        internal static string RegistryExtensionName {
+            get {
+                return ResourceManager.GetString("RegistryExtensionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 需要管理员权限才能设置，是否以管理员身份重新启动？ 的本地化字符串。
+        /// </summary>
+        internal static string RegistrySetFail {
+            get {
+                return ResourceManager.GetString("RegistrySetFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重新启动失败，请尝试手动以管理员身份运行。 的本地化字符串。
+        /// </summary>
+        internal static string RestartFail {
+            get {
+                return ResourceManager.GetString("RestartFail", resourceCulture);
+            }
+        }
     }
 }
