@@ -117,25 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NotSupportedFile" xml:space="preserve">
-    <value>{0} 不是该程序支持的录像文件！</value>
-  </data>
-  <data name="ProblemCHSVersion" xml:space="preserve">
-    <value>该录像文件并非通过日文原版游戏保存，可能会导致游戏出错</value>
-  </data>
-  <data name="ProblemLengthError" xml:space="preserve">
-    <value>该录像文件关卡长度不正确，可能会导致游戏出错</value>
-  </data>
-  <data name="RawDataFilter" xml:space="preserve">
-    <value>原始数据|*.bin</value>
-  </data>
-  <data name="RegistryExtensionName" xml:space="preserve">
-    <value>东方Project录像文件</value>
-  </data>
-  <data name="RegistrySetFail" xml:space="preserve">
-    <value>需要管理员权限才能设置，是否以管理员身份重新启动？</value>
-  </data>
-  <data name="RestartFail" xml:space="preserve">
-    <value>重新启动失败，请尝试手动以管理员身份运行。</value>
-  </data>
 </root>

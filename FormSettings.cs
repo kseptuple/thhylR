@@ -18,31 +18,45 @@ namespace thhylR
         public FormSettings()
         {
             InitializeComponent();
+            ResourceLoader.SetText(this);
             listBoxTabs.DataSource = tabControlMain.TabPages;
             listBoxTabs.DisplayMember = "Text";
             comboBoxEncode1.SelectedIndex = 0;
-            systemFont = labelLife.Font;
-            symbolFont = new Font("Segoe UI Symbol", systemFont.Size);
+
+            comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType1"));
+            comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType2"));
+            comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType3"));
+            comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType1"));
+            comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType2"));
+            comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType3"));
+
+            isAdmin = PrivilegeHelper.IsAdministrator();
         }
 
         private Font symbolFont;
         private Font systemFont;
 
+        private bool isAdmin;
+
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            var nullItem = new { Name = "无", CodePage = -1 };
+            systemFont = labelLife.Font;
+            symbolFont = new Font("Segoe UI Symbol", systemFont.Size);
+
+            var nullItem = new { Name = ResourceLoader.getTextResource("EncodingNone"), CodePage = -1 };
             comboBoxEncode2.Items.Add(nullItem);
             comboBoxEncode3.Items.Add(nullItem);
             comboBoxEncode4.Items.Add(nullItem);
             comboBoxEncode5.Items.Add(nullItem);
 
-            var defaultItem = new { Name = "系统默认", CodePage = 0 };
+            var defaultItem = new { Name = ResourceLoader.getTextResource("EncodingDefault"), CodePage = 0 };
             comboBoxEncode2.Items.Add(defaultItem);
             comboBoxEncode3.Items.Add(defaultItem);
             comboBoxEncode4.Items.Add(defaultItem);
             comboBoxEncode5.Items.Add(defaultItem);
 
-            var encodingInfoList = Encoding.GetEncodings();
+            var encodingInfoList = Encoding.GetEncodings().ToList();
+            encodingInfoList = encodingInfoList.OrderBy(e => e.Name.ToLower()).ToList();
             foreach (var encodingInfo in encodingInfoList)
             {
                 comboBoxEncode2.Items.Add(encodingInfo);
@@ -125,10 +139,12 @@ namespace thhylR
             if (comboBoxLifeStyle.SelectedIndex == 0)
             {
                 checkBoxShowEmpty.Enabled = false;
+                buttonFontSymbol.Enabled = false;
             }
             else
             {
                 checkBoxShowEmpty.Enabled = true;
+                buttonFontSymbol.Enabled = true;
             }
             setLifeBombExample();
         }
@@ -235,7 +251,7 @@ namespace thhylR
             settings.ShowAllEncodings = radioButtonAllEncoding.Checked;
 
             settings.Encodings[0].UseEncoding = checkBoxEncode2.Checked;
-            
+
             settings.Encodings[0].EncodingId = (int)comboBoxEncode2.GetSelectedValue();
             settings.Encodings[1].UseEncoding = checkBoxEncode3.Checked;
             settings.Encodings[1].EncodingId = (int)comboBoxEncode3.GetSelectedValue();
@@ -245,29 +261,54 @@ namespace thhylR
             settings.Encodings[3].EncodingId = (int)comboBoxEncode5.GetSelectedValue();
 
             SettingProvider.SaveSettings();
+            try
+            {
+                settings.RegisterReplayUser = checkBoxRegisterCurrent.Checked;
+            }
+            catch
+            {
+                MessageBox.Show(ResourceLoader.getTextResource("RegistrySetFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                checkBoxRegisterCurrent.Checked = settings.RegisterReplayUser;
+                buttonApply.Enabled = false;
+                return;
+            }
 
-            settings.RegisterReplayUser = checkBoxRegisterCurrent.Checked;
             try
             {
                 settings.RegisterReplaySystem = checkBoxRegisterAll.Checked;
             }
             catch
             {
-                var result = MessageBox.Show(Resources.RegistrySetFail, Text, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                if (result == DialogResult.Yes)
+                if (isAdmin)
                 {
-                    if (!PrivilegeHelper.Promote())
-                    {
-                        MessageBox.Show(Resources.RestartFail, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
+                    MessageBox.Show(ResourceLoader.getTextResource("RegistrySetFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     checkBoxRegisterAll.Checked = settings.RegisterReplaySystem;
                     buttonApply.Enabled = false;
                 }
+                else
+                {
+                    var result = MessageBox.Show(ResourceLoader.getTextResource("RegistrySetFailAdmin"), Text,
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                    if (result == DialogResult.Yes)
+                    {
+                        if (!PrivilegeHelper.Promote())
+                        {
+                            MessageBox.Show(ResourceLoader.getTextResource("RestartFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        checkBoxRegisterAll.Checked = settings.RegisterReplaySystem;
+                        buttonApply.Enabled = false;
+                    }
+                }
+                return;
             }
-            
+        }
+
+        private void buttonFontNormal_Click(object sender, EventArgs e)
+        {
+            fontDialogSetting.ShowDialog(this);
         }
     }
 

@@ -1,0 +1,70 @@
+FormMain: 
+  - 东方回映录 Remake
+  - buttonOpen: 打开
+  - menuStripMain:
+    - FileToolStripMenuItem: 
+      - 文件(&F)
+      - ExitToolStripMenuItem: 退出(&X)
+    - EditToolStripMenuItem: 
+      - 编辑(&E)
+      - ExportToolStripMenuItem: 
+        - 导出原始数据(&P)
+        - ExportAllToolStripMenuItem: 全部(&A)
+        - ExportCustomToolStripMenuItem: 自定义(&C)...
+    - ToolToolStripMenuItem: 
+      - 工具(&T)
+      - OptionToolStripMenuItem: 选项(&O)...
+FormSettings: 
+  - 设置
+  - tabControlMain: 
+    - tabPage1: 
+      - 显示格式
+      - label1: 得分显示：
+      - label2: 残机符卡显示：
+      - checkBoxShowEmpty: 数量小于8时显示空心符号
+      - groupBox1: 
+        - 效果示例
+        - label4: 残机：
+        - label5: 符卡：
+      - buttonFontNormal: 字体...
+      - buttonFontSymbol: 符号字体...
+    - tabPage2:
+      - 程序
+      - checkBoxOnTop: 窗口置顶
+      - checkBoxConfirmDelete: 删除文件时确认
+      - checkBoxAutoSwitch: 文件移动/删除后打开下一个文件
+      - checkBoxRegisterCurrent: 关联.rpy文件（当前用户）
+      - checkBoxRegisterAll: 关联.rpy文件（所有用户）（需要管理员权限）
+    - tabPage3:
+      - 编码切换
+      - radioButtonAllEncoding: 主界面显示全部编码
+      - radioButtonCommonEncoding: 主界面只显示常用编码
+      - groupBox2:
+        - 常用编码
+        - checkBoxEncode1: 启用快捷键（F1）
+        - checkBoxEncode2: 启用快捷键（F2）
+        - checkBoxEncode3: 启用快捷键（F3）
+        - checkBoxEncode4: 启用快捷键（F4）
+        - checkBoxEncode5: 启用快捷键（F5）
+  - buttonOK: 确定
+  - buttonCancel: 取消
+  - buttonApply: 应用
+text:
+  - RawDataFilter: 原始数据|*.bin
+  - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
+  - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错
+  - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错
+  - RegistryExtensionName: 东方Project录像文件
+  - RegistrySetFailAdmin: 需要管理员权限才能设置，是否以管理员身份重新启动？
+  - RegistrySetFail: 设置文件关联失败！
+  - RestartFail: 重新启动失败，请尝试手动以管理员身份运行。
+  - EncodingNone: 无
+  - EncodingDefault: 系统默认
+  - ScoreType1: "1234567890"
+  - ScoreType2: 1,234,567,890
+  - ScoreType3: 12亿3456万7890
+  - LifeBombType1: 数值
+  - LifeBombType2: "\u2665\ufe0e和\u2605\ufe0e"
+  - LifeBombType3: "\u2605\ufe0e"
+  - AdminHint: "[管理员]"
+

@@ -18,10 +18,16 @@ namespace thhylR
             GameData.Init();
             EnumData.Init();
             SettingProvider.Init();
+            ResourceLoader.Init();
+            ResourceLoader.SetText(this);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             dataGridInfo.AutoGenerateColumns = false;
             systemFont = dataGridInfo.DefaultCellStyle.Font;
             symbolFont = new Font("Segoe UI Symbol", systemFont.Size);
+            if (PrivilegeHelper.IsAdministrator())
+            {
+                Text += $" {ResourceLoader.getTextResource("AdminHint")}";
+            }
         }
 
         private TouhouReplay currentReplay = null;
@@ -45,7 +51,8 @@ namespace thhylR
             var fileExt = Path.GetExtension(fileName);
             if (fileExt.ToLower() != ".rpy")
             {
-                MessageBox.Show(string.Format(Resources.NotSupportedFile, Path.GetFileName(fileName)), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)), 
+                    Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             byte[] fileData = File.ReadAllBytes(fileName);
@@ -67,7 +74,8 @@ namespace thhylR
             }
             else
             {
-                MessageBox.Show(string.Format(Resources.NotSupportedFile, Path.GetFileName(fileName)), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)), 
+                    Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -138,8 +146,8 @@ namespace thhylR
                 Array.Copy(currentReplay.RawData, 0, result, currentReplay.Header.Length, currentReplay.RawData.Length);
                 Array.Copy(currentReplay.InfoBlockRawData, 0,
                     result, currentReplay.Header.Length + currentReplay.RawData.Length, currentReplay.InfoBlockRawData.Length);
-                saveFileDialog.Filter = Resources.RawDataFilter;
-                var dialogResult = saveFileDialog.ShowDialog();
+                saveFileDialog.Filter = ResourceLoader.getTextResource("RawDataFilter");
+                var dialogResult = saveFileDialog.ShowDialog(this);
                 if (dialogResult == DialogResult.OK)
                 {
                     File.WriteAllBytes(saveFileDialog.FileName, result);

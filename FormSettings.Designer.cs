@@ -30,6 +30,8 @@
         {
             tabControlMain = new TabControl();
             tabPage1 = new TabPage();
+            buttonFontSymbol = new Button();
+            buttonFontNormal = new Button();
             groupBox1 = new GroupBox();
             labelBomb = new Label();
             labelLife = new Label();
@@ -64,6 +66,7 @@
             buttonOK = new Button();
             buttonCancel = new Button();
             buttonApply = new Button();
+            fontDialogSetting = new FontDialog();
             tabControlMain.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -78,7 +81,7 @@
             tabControlMain.Controls.Add(tabPage1);
             tabControlMain.Controls.Add(tabPage2);
             tabControlMain.Controls.Add(tabPage3);
-            tabControlMain.ItemSize = new Size(0, 1);
+            tabControlMain.ItemSize = new Size(40, 20);
             tabControlMain.Location = new Point(168, 12);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
@@ -88,19 +91,41 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(buttonFontSymbol);
+            tabPage1.Controls.Add(buttonFontNormal);
             tabPage1.Controls.Add(groupBox1);
             tabPage1.Controls.Add(label2);
             tabPage1.Controls.Add(label1);
             tabPage1.Controls.Add(checkBoxShowEmpty);
             tabPage1.Controls.Add(comboBoxLifeStyle);
             tabPage1.Controls.Add(comboBoxScoreStyle);
-            tabPage1.Location = new Point(4, 5);
+            tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(546, 265);
+            tabPage1.Size = new Size(546, 246);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "显示格式";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // buttonFontSymbol
+            // 
+            buttonFontSymbol.Enabled = false;
+            buttonFontSymbol.Location = new Point(208, 185);
+            buttonFontSymbol.Name = "buttonFontSymbol";
+            buttonFontSymbol.Size = new Size(193, 29);
+            buttonFontSymbol.TabIndex = 16;
+            buttonFontSymbol.Text = "符号字体...";
+            buttonFontSymbol.UseVisualStyleBackColor = true;
+            // 
+            // buttonFontNormal
+            // 
+            buttonFontNormal.Location = new Point(9, 185);
+            buttonFontNormal.Name = "buttonFontNormal";
+            buttonFontNormal.Size = new Size(193, 29);
+            buttonFontNormal.TabIndex = 15;
+            buttonFontNormal.Text = "字体...";
+            buttonFontNormal.UseVisualStyleBackColor = true;
+            buttonFontNormal.Click += buttonFontNormal_Click;
             // 
             // groupBox1
             // 
@@ -110,7 +135,7 @@
             groupBox1.Controls.Add(label5);
             groupBox1.Location = new Point(9, 107);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(241, 72);
+            groupBox1.Size = new Size(392, 72);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "效果示例";
@@ -184,10 +209,9 @@
             // 
             comboBoxLifeStyle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxLifeStyle.FormattingEnabled = true;
-            comboBoxLifeStyle.Items.AddRange(new object[] { "数值", "♥︎和★︎", "★︎" });
-            comboBoxLifeStyle.Location = new Point(164, 40);
+            comboBoxLifeStyle.Location = new Point(192, 43);
             comboBoxLifeStyle.Name = "comboBoxLifeStyle";
-            comboBoxLifeStyle.Size = new Size(180, 28);
+            comboBoxLifeStyle.Size = new Size(209, 28);
             comboBoxLifeStyle.TabIndex = 7;
             comboBoxLifeStyle.SelectedIndexChanged += comboBoxLifeStyle_SelectedIndexChanged;
             // 
@@ -195,10 +219,9 @@
             // 
             comboBoxScoreStyle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxScoreStyle.FormattingEnabled = true;
-            comboBoxScoreStyle.Items.AddRange(new object[] { "1234567890", "1,234,567,890", "12亿3456万7890" });
-            comboBoxScoreStyle.Location = new Point(164, 6);
+            comboBoxScoreStyle.Location = new Point(192, 9);
             comboBoxScoreStyle.Name = "comboBoxScoreStyle";
-            comboBoxScoreStyle.Size = new Size(180, 28);
+            comboBoxScoreStyle.Size = new Size(209, 28);
             comboBoxScoreStyle.TabIndex = 6;
             // 
             // tabPage2
@@ -208,10 +231,10 @@
             tabPage2.Controls.Add(checkBoxAutoSwitch);
             tabPage2.Controls.Add(checkBoxOnTop);
             tabPage2.Controls.Add(checkBoxConfirmDelete);
-            tabPage2.Location = new Point(4, 5);
+            tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(546, 265);
+            tabPage2.Size = new Size(546, 246);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "程序";
             tabPage2.UseVisualStyleBackColor = true;
@@ -271,9 +294,9 @@
             tabPage3.Controls.Add(groupBox2);
             tabPage3.Controls.Add(radioButtonCommonEncoding);
             tabPage3.Controls.Add(radioButtonAllEncoding);
-            tabPage3.Location = new Point(4, 5);
+            tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(546, 265);
+            tabPage3.Size = new Size(546, 246);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "编码切换";
             tabPage3.UseVisualStyleBackColor = true;
@@ -359,7 +382,7 @@
             comboBoxEncode5.DisplayMember = "Name";
             comboBoxEncode5.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEncode5.FormattingEnabled = true;
-            comboBoxEncode5.Location = new Point(165, 160);
+            comboBoxEncode5.Location = new Point(202, 158);
             comboBoxEncode5.Name = "comboBoxEncode5";
             comboBoxEncode5.Size = new Size(151, 28);
             comboBoxEncode5.TabIndex = 4;
@@ -370,7 +393,7 @@
             comboBoxEncode4.DisplayMember = "Name";
             comboBoxEncode4.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEncode4.FormattingEnabled = true;
-            comboBoxEncode4.Location = new Point(165, 126);
+            comboBoxEncode4.Location = new Point(202, 126);
             comboBoxEncode4.Name = "comboBoxEncode4";
             comboBoxEncode4.Size = new Size(151, 28);
             comboBoxEncode4.TabIndex = 3;
@@ -381,7 +404,7 @@
             comboBoxEncode3.DisplayMember = "Name";
             comboBoxEncode3.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEncode3.FormattingEnabled = true;
-            comboBoxEncode3.Location = new Point(165, 92);
+            comboBoxEncode3.Location = new Point(202, 92);
             comboBoxEncode3.Name = "comboBoxEncode3";
             comboBoxEncode3.Size = new Size(151, 28);
             comboBoxEncode3.TabIndex = 2;
@@ -392,7 +415,7 @@
             comboBoxEncode2.DisplayMember = "Name";
             comboBoxEncode2.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxEncode2.FormattingEnabled = true;
-            comboBoxEncode2.Location = new Point(165, 58);
+            comboBoxEncode2.Location = new Point(202, 58);
             comboBoxEncode2.Name = "comboBoxEncode2";
             comboBoxEncode2.Size = new Size(151, 28);
             comboBoxEncode2.TabIndex = 1;
@@ -404,7 +427,7 @@
             comboBoxEncode1.Enabled = false;
             comboBoxEncode1.FormattingEnabled = true;
             comboBoxEncode1.Items.AddRange(new object[] { "自动选择" });
-            comboBoxEncode1.Location = new Point(165, 24);
+            comboBoxEncode1.Location = new Point(202, 24);
             comboBoxEncode1.Name = "comboBoxEncode1";
             comboBoxEncode1.Size = new Size(151, 28);
             comboBoxEncode1.TabIndex = 0;
@@ -542,5 +565,8 @@
         private Button buttonOK;
         private Button buttonCancel;
         private Button buttonApply;
+        private FontDialog fontDialogSetting;
+        private Button buttonFontSymbol;
+        private Button buttonFontNormal;
     }
 }
