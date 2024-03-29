@@ -66,5 +66,6 @@ text:
   - LifeBombType1: 数值
   - LifeBombType2: "\u2665\ufe0e和\u2605\ufe0e"
   - LifeBombType3: "\u2605\ufe0e"
+  - ScoreChara: 万亿兆京垓
   - AdminHint: "[管理员]"
 

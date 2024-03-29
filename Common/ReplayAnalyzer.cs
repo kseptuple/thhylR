@@ -917,7 +917,7 @@ namespace thhylR.Common
                             StringBuilder itemBuilder = new StringBuilder();
                             for (int i = itemStr.Length; i >= 0; i -= 3)
                             {
-                                if (i - 3 >= 0)
+                                if (i >= 3)
                                 {
                                     itemBuilder.Insert(0, itemStr[(i - 3)..i]);
                                     if (i != 3)
@@ -932,18 +932,27 @@ namespace thhylR.Common
                             }
                             return itemBuilder.ToString();
                         case ScoreFormat.Character:
-                            if (itemStr.Length > 4 && itemStr.Length <= 8)
+                            string chara = ResourceLoader.getTextResource("ScoreChara");
+                            StringBuilder itemBuilderChara = new StringBuilder();
+                            int currentChara = 0;
+                            for (int i = itemStr.Length; i >= 0; i -= 4)
                             {
-                                return $"{itemStr[0..^4]}万{itemStr[^4..]}";
+                                if (i >= 4 && currentChara < chara.Length)
+                                {
+                                    itemBuilderChara.Insert(0, itemStr[(i - 4)..i]);
+                                    if (i != 4)
+                                    {
+                                        itemBuilderChara.Insert(0, chara[currentChara]);
+                                    }
+                                }
+                                else
+                                {
+                                    itemBuilderChara.Insert(0, itemStr[0..i]);
+                                    break;
+                                }
+                                currentChara++;
                             }
-                            else if (itemStr.Length > 8)
-                            {
-                                return $"{itemStr[0..^8]}亿{itemStr[^8..^4]}万{itemStr[^4..]}";
-                            }
-                            else
-                            {
-                                return itemStr;
-                            }
+                            return itemBuilderChara.ToString();
                     }
                 }
                 var toStringMethod = item.GetType().GetMethod("ToString", argumentTypes);
