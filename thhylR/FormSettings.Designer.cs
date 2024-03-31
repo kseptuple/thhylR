@@ -67,6 +67,8 @@
             buttonCancel = new Button();
             buttonApply = new Button();
             fontDialogSetting = new FontDialog();
+            label3 = new Label();
+            labelScore = new Label();
             tabControlMain.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -85,7 +87,7 @@
             tabControlMain.Location = new Point(168, 12);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(554, 274);
+            tabControlMain.Size = new Size(419, 274);
             tabControlMain.SizeMode = TabSizeMode.Fixed;
             tabControlMain.TabIndex = 7;
             // 
@@ -102,7 +104,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(546, 246);
+            tabPage1.Size = new Size(411, 246);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "显示格式";
             tabPage1.UseVisualStyleBackColor = true;
@@ -110,16 +112,17 @@
             // buttonFontSymbol
             // 
             buttonFontSymbol.Enabled = false;
-            buttonFontSymbol.Location = new Point(208, 185);
+            buttonFontSymbol.Location = new Point(208, 203);
             buttonFontSymbol.Name = "buttonFontSymbol";
             buttonFontSymbol.Size = new Size(193, 29);
             buttonFontSymbol.TabIndex = 16;
             buttonFontSymbol.Text = "符号字体...";
             buttonFontSymbol.UseVisualStyleBackColor = true;
+            buttonFontSymbol.Click += buttonFontSymbol_Click;
             // 
             // buttonFontNormal
             // 
-            buttonFontNormal.Location = new Point(9, 185);
+            buttonFontNormal.Location = new Point(9, 203);
             buttonFontNormal.Name = "buttonFontNormal";
             buttonFontNormal.Size = new Size(193, 29);
             buttonFontNormal.TabIndex = 15;
@@ -129,13 +132,15 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(labelScore);
+            groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(labelBomb);
             groupBox1.Controls.Add(labelLife);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label5);
             groupBox1.Location = new Point(9, 107);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(392, 72);
+            groupBox1.Size = new Size(392, 90);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "效果示例";
@@ -144,23 +149,25 @@
             // 
             labelBomb.AutoSize = true;
             labelBomb.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            labelBomb.Location = new Point(66, 43);
+            labelBomb.Location = new Point(84, 63);
             labelBomb.Name = "labelBomb";
-            labelBomb.Size = new Size(0, 20);
+            labelBomb.Size = new Size(17, 20);
             labelBomb.TabIndex = 15;
+            labelBomb.Text = "3";
             // 
             // labelLife
             // 
             labelLife.AutoSize = true;
-            labelLife.Location = new Point(66, 23);
+            labelLife.Location = new Point(84, 43);
             labelLife.Name = "labelLife";
-            labelLife.Size = new Size(0, 20);
+            labelLife.Size = new Size(18, 20);
             labelLife.TabIndex = 14;
+            labelLife.Text = "4";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(6, 23);
+            label4.Location = new Point(6, 43);
             label4.Name = "label4";
             label4.Size = new Size(54, 20);
             label4.TabIndex = 12;
@@ -169,7 +176,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(6, 43);
+            label5.Location = new Point(6, 63);
             label5.Name = "label5";
             label5.Size = new Size(54, 20);
             label5.TabIndex = 13;
@@ -223,6 +230,7 @@
             comboBoxScoreStyle.Name = "comboBoxScoreStyle";
             comboBoxScoreStyle.Size = new Size(209, 28);
             comboBoxScoreStyle.TabIndex = 6;
+            comboBoxScoreStyle.SelectedIndexChanged += comboBoxScoreStyle_SelectedIndexChanged;
             // 
             // tabPage2
             // 
@@ -234,7 +242,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(546, 246);
+            tabPage2.Size = new Size(411, 246);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "程序";
             tabPage2.UseVisualStyleBackColor = true;
@@ -296,7 +304,7 @@
             tabPage3.Controls.Add(radioButtonAllEncoding);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(546, 246);
+            tabPage3.Size = new Size(411, 246);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "编码切换";
             tabPage3.UseVisualStyleBackColor = true;
@@ -384,7 +392,7 @@
             comboBoxEncode5.FormattingEnabled = true;
             comboBoxEncode5.Location = new Point(202, 158);
             comboBoxEncode5.Name = "comboBoxEncode5";
-            comboBoxEncode5.Size = new Size(151, 28);
+            comboBoxEncode5.Size = new Size(200, 28);
             comboBoxEncode5.TabIndex = 4;
             comboBoxEncode5.ValueMember = "CodePage";
             // 
@@ -395,7 +403,7 @@
             comboBoxEncode4.FormattingEnabled = true;
             comboBoxEncode4.Location = new Point(202, 126);
             comboBoxEncode4.Name = "comboBoxEncode4";
-            comboBoxEncode4.Size = new Size(151, 28);
+            comboBoxEncode4.Size = new Size(200, 28);
             comboBoxEncode4.TabIndex = 3;
             comboBoxEncode4.ValueMember = "CodePage";
             // 
@@ -406,7 +414,7 @@
             comboBoxEncode3.FormattingEnabled = true;
             comboBoxEncode3.Location = new Point(202, 92);
             comboBoxEncode3.Name = "comboBoxEncode3";
-            comboBoxEncode3.Size = new Size(151, 28);
+            comboBoxEncode3.Size = new Size(200, 28);
             comboBoxEncode3.TabIndex = 2;
             comboBoxEncode3.ValueMember = "CodePage";
             // 
@@ -417,7 +425,7 @@
             comboBoxEncode2.FormattingEnabled = true;
             comboBoxEncode2.Location = new Point(202, 58);
             comboBoxEncode2.Name = "comboBoxEncode2";
-            comboBoxEncode2.Size = new Size(151, 28);
+            comboBoxEncode2.Size = new Size(200, 28);
             comboBoxEncode2.TabIndex = 1;
             comboBoxEncode2.ValueMember = "CodePage";
             // 
@@ -429,7 +437,7 @@
             comboBoxEncode1.Items.AddRange(new object[] { "自动选择" });
             comboBoxEncode1.Location = new Point(202, 24);
             comboBoxEncode1.Name = "comboBoxEncode1";
-            comboBoxEncode1.Size = new Size(151, 28);
+            comboBoxEncode1.Size = new Size(200, 28);
             comboBoxEncode1.TabIndex = 0;
             // 
             // radioButtonCommonEncoding
@@ -466,7 +474,7 @@
             // 
             // buttonOK
             // 
-            buttonOK.Location = new Point(424, 292);
+            buttonOK.Location = new Point(289, 288);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(94, 29);
             buttonOK.TabIndex = 9;
@@ -476,7 +484,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(524, 292);
+            buttonCancel.Location = new Point(389, 288);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(94, 29);
             buttonCancel.TabIndex = 10;
@@ -487,7 +495,7 @@
             // buttonApply
             // 
             buttonApply.Enabled = false;
-            buttonApply.Location = new Point(624, 292);
+            buttonApply.Location = new Point(489, 288);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(94, 29);
             buttonApply.TabIndex = 11;
@@ -495,11 +503,35 @@
             buttonApply.UseVisualStyleBackColor = true;
             buttonApply.Click += buttonApply_Click;
             // 
+            // fontDialogSetting
+            // 
+            fontDialogSetting.AllowVerticalFonts = false;
+            fontDialogSetting.FontMustExist = true;
+            fontDialogSetting.ShowEffects = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 23);
+            label3.Name = "label3";
+            label3.Size = new Size(54, 20);
+            label3.TabIndex = 16;
+            label3.Text = "得分：";
+            // 
+            // labelScore
+            // 
+            labelScore.AutoSize = true;
+            labelScore.Location = new Point(84, 23);
+            labelScore.Name = "labelScore";
+            labelScore.Size = new Size(99, 20);
+            labelScore.TabIndex = 17;
+            labelScore.Text = "1234567890";
+            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(731, 330);
+            ClientSize = new Size(595, 324);
             Controls.Add(buttonApply);
             Controls.Add(buttonCancel);
             Controls.Add(buttonOK);
@@ -568,5 +600,7 @@
         private FontDialog fontDialogSetting;
         private Button buttonFontSymbol;
         private Button buttonFontNormal;
+        private Label label3;
+        private Label labelScore;
     }
 }

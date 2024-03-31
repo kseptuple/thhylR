@@ -22,17 +22,27 @@ namespace thhylR
             ResourceLoader.SetText(this);
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             dataGridInfo.AutoGenerateColumns = false;
-            systemFont = dataGridInfo.DefaultCellStyle.Font;
-            symbolFont = new Font("Segoe UI Symbol", systemFont.Size);
+            dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;
+
+            normalFont = SettingProvider.Settings.NormalFont;
+            symbolFont = SettingProvider.Settings.SymbolFont;
+
             if (PrivilegeHelper.IsAdministrator())
             {
                 Text += $" {ResourceLoader.getTextResource("AdminHint")}";
             }
+
+            toolStripButtonOpen.ToolTipText = ResourceLoader.getTextResource("OpenTip");
+            toolStripButtonCut.ToolTipText = ResourceLoader.getTextResource("CutTip");
+            toolStripButtonCopy.ToolTipText = ResourceLoader.getTextResource("CopyTip");
+            toolStripButtonMoveTo.ToolTipText = ResourceLoader.getTextResource("MoveToTip");
+            toolStripButtonCopyTo.ToolTipText = ResourceLoader.getTextResource("CopyToTip");
+            toolStripButtonDelete.ToolTipText = ResourceLoader.getTextResource("DeleteTip");
         }
 
         private TouhouReplay currentReplay = null;
 
-        private Font systemFont;
+        private Font normalFont;
         private Font symbolFont;
 
         private void showOpenReplayDialog()
@@ -51,7 +61,7 @@ namespace thhylR
             var fileExt = Path.GetExtension(fileName);
             if (fileExt.ToLower() != ".rpy")
             {
-                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)), 
+                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -69,12 +79,10 @@ namespace thhylR
                     setFiles(replayPath, Path.GetFileName(fileName));
                     fileSystemWatcherFolder.Path = replayPath;
                 }
-
-                //dataGridInfo.Rows[0].Cells[0].Style.Font
             }
             else
             {
-                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)), 
+                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -93,7 +101,7 @@ namespace thhylR
                 }
                 else
                 {
-                    dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = systemFont;
+                    dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = normalFont;
                 }
             }
         }
@@ -232,12 +240,68 @@ namespace thhylR
         {
             FormSettings formSettings = new FormSettings();
             formSettings.ShowDialog(this);
+
+            normalFont = SettingProvider.Settings.NormalFont;
+            symbolFont = SettingProvider.Settings.SymbolFont;
+            dataGridInfo.DefaultCellStyle.Font = normalFont;
+
             if (currentReplay != null)
             {
                 ReplayAnalyzer.ReformatData(ref currentReplay);
                 displayData();
             }
-            
+
+        }
+
+        private void toolStripButtonOpen_Click(object sender, EventArgs e)
+        {
+            openReplayCommand();
+        }
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openReplayCommand();
+        }
+
+        private void openReplayCommand()
+        {
+            showOpenReplayDialog();
+        }
+
+        private void cutCommand()
+        {
+            if (currentReplay != null)
+            {
+                ClipboardHelper.FileToClipboard(new string[] { currentReplay.FilePath }, true);
+            }
+        }
+
+        private void copyCommand()
+        {
+            if (currentReplay != null)
+            {
+                ClipboardHelper.FileToClipboard(new string[] { currentReplay.FilePath }, false);
+            }
+        }
+
+        private void CutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cutCommand();
+        }
+
+        private void toolStripButtonCut_Click(object sender, EventArgs e)
+        {
+            cutCommand();
+        }
+
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copyCommand();
+        }
+
+        private void toolStripButtonCopy_Click(object sender, EventArgs e)
+        {
+            copyCommand();
         }
     }
 }

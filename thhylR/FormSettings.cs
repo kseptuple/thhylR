@@ -22,7 +22,7 @@ namespace thhylR
             listBoxTabs.DataSource = tabControlMain.TabPages;
             listBoxTabs.DisplayMember = "Text";
             comboBoxEncode1.SelectedIndex = 0;
-
+            tabControlMain.ItemSize = new Size(0, 1);
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType1"));
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType2"));
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType3"));
@@ -36,13 +36,39 @@ namespace thhylR
         private Font symbolFont;
         private Font systemFont;
 
+        private Font SystemFont
+        {
+            get
+            {
+                return systemFont;
+            }
+            set
+            {
+                systemFont = value;
+                systemFontDemo = new Font(value.FontFamily, 9, value.Style);
+            }
+        }
+
+        private Font SymbolFont
+        {
+            get
+            {
+                return symbolFont;
+            }
+            set
+            {
+                symbolFont = value;
+                symbolFontDemo = new Font(value.FontFamily, 9, value.Style);
+            }
+        }
+
+        private Font symbolFontDemo;
+        private Font systemFontDemo;
+
         private bool isAdmin;
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            systemFont = labelLife.Font;
-            symbolFont = new Font("Segoe UI Symbol", systemFont.Size);
-
             var nullItem = new { Name = ResourceLoader.getTextResource("EncodingNone"), CodePage = -1 };
             comboBoxEncode2.Items.Add(nullItem);
             comboBoxEncode3.Items.Add(nullItem);
@@ -65,6 +91,12 @@ namespace thhylR
                 comboBoxEncode5.Items.Add(encodingInfo);
             }
             ProgramSettings settings = SettingProvider.Settings;
+
+            SystemFont = settings.NormalFont;
+            SymbolFont = settings.SymbolFont;
+
+            labelScore.Font = systemFontDemo;
+
             comboBoxScoreStyle.SelectedIndex = (int)settings.ScoreType;
             comboBoxLifeStyle.SelectedIndex = (int)settings.LifeBombType;
             if (settings.LifeBombType != LifeBombFormat.Number)
@@ -154,14 +186,30 @@ namespace thhylR
             setLifeBombExample();
         }
 
+        private void comboBoxScoreStyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxScoreStyle.SelectedIndex == 0)
+            {
+                labelScore.Text = ResourceLoader.getTextResource("ScoreType1");
+            }
+            else if (comboBoxScoreStyle.SelectedIndex == 1)
+            {
+                labelScore.Text = ResourceLoader.getTextResource("ScoreType2");
+            }
+            else if (comboBoxScoreStyle.SelectedIndex == 2)
+            {
+                labelScore.Text = ResourceLoader.getTextResource("ScoreType3");
+            }
+        }
+
         private void setLifeBombExample()
         {
             if (comboBoxLifeStyle.SelectedIndex == 0)
             {
                 labelLife.Text = "3";
                 labelBomb.Text = "4";
-                labelLife.Font = systemFont;
-                labelBomb.Font = systemFont;
+                labelLife.Font = systemFontDemo;
+                labelBomb.Font = systemFontDemo;
             }
             else
             {
@@ -185,8 +233,8 @@ namespace thhylR
                     labelLife.Text = "\u2605\ufe0e\u2605\ufe0e\u2605\ufe0e";
                     labelBomb.Text = "\u2605\ufe0e\u2605\ufe0e\u2605\ufe0e\u2605\ufe0e";
                 }
-                labelLife.Font = symbolFont;
-                labelBomb.Font = symbolFont;
+                labelLife.Font = symbolFontDemo;
+                labelBomb.Font = symbolFontDemo;
             }
         }
 
@@ -260,6 +308,9 @@ namespace thhylR
             settings.Encodings[3].UseEncoding = checkBoxEncode5.Checked;
             settings.Encodings[3].EncodingId = (int)comboBoxEncode5.GetSelectedValue();
 
+            settings.NormalFont = SystemFont;
+            settings.SymbolFont = SymbolFont;
+
             SettingProvider.SaveSettings();
             try
             {
@@ -308,7 +359,19 @@ namespace thhylR
 
         private void buttonFontNormal_Click(object sender, EventArgs e)
         {
+            fontDialogSetting.Font = SystemFont;
             fontDialogSetting.ShowDialog(this);
+            SystemFont = fontDialogSetting.Font;
+            labelScore.Font = systemFontDemo;
+            setLifeBombExample();
+        }
+
+        private void buttonFontSymbol_Click(object sender, EventArgs e)
+        {
+            fontDialogSetting.Font = SymbolFont;
+            fontDialogSetting.ShowDialog(this);
+            SymbolFont = fontDialogSetting.Font;
+            setLifeBombExample();
         }
     }
 

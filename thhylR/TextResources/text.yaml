@@ -4,6 +4,12 @@ FormMain:
   - menuStripMain:
     - FileToolStripMenuItem: 
       - 文件(&F)
+      - OpenToolStripMenuItem: 打开(&O)...
+      - CutToolStripMenuItem: 剪切(&T)
+      - CopyToolStripMenuItem: 复制(&C)
+      - MoveToToolStripMenuItem: 移动到(&M)...
+      - CopyToToolStripMenuItem: 复制到(&P)...
+      - DeleteToolStripMenuItem: 删除(&D)
       - ExitToolStripMenuItem: 退出(&X)
     - EditToolStripMenuItem: 
       - 编辑(&E)
@@ -24,6 +30,7 @@ FormSettings:
       - checkBoxShowEmpty: 数量小于8时显示空心符号
       - groupBox1: 
         - 效果示例
+        - label3: 得分：
         - label4: 残机：
         - label5: 符卡：
       - buttonFontNormal: 字体...
@@ -68,4 +75,10 @@ text:
   - LifeBombType3: "\u2605\ufe0e"
   - ScoreChara: 万亿兆京垓
   - AdminHint: "[管理员]"
+  - OpenTip: 打开录像
+  - CopyTip: 复制录像到剪贴板
+  - CutTip: 剪切录像到剪贴板
+  - CopyToTip: 复制录像到指定文件夹
+  - MoveToTip: 移动录像到指定文件夹
+  - DeleteTip: 删除录像文件
 

@@ -66,6 +66,12 @@ namespace thhylR.Helper
         }
         public bool ShowAllEncodings { get; set; }
         public List<CommonEncoding> Encodings { get; set; }
+        [YamlIgnore]
+        public Font NormalFont { get; set; }
+        [YamlIgnore]
+        public Font SymbolFont { get; set; }
+        public FontInfo NormalFontInfo { get; set; }
+        public FontInfo SymbolFontInfo { get; set; }
 
         public class CommonEncoding
         {
@@ -111,6 +117,19 @@ namespace thhylR.Helper
                     new() { EncodingId = 0, UseEncoding = true },
                     new() { EncodingId = -1, UseEncoding = false }
                 };
+                Settings.NormalFontInfo = new FontInfo()
+                {
+                    Name = SystemFonts.DefaultFont.Name,
+                    Size = 12F,
+                    Style = FontStyle.Regular,
+                };
+                Settings.SymbolFontInfo = new FontInfo()
+                {
+                    Name = "Segoe UI Symbol",
+                    Size = 12F,
+                    Style = FontStyle.Regular,
+                };
+
                 SaveSettings();
             }
             else
@@ -121,12 +140,22 @@ namespace thhylR.Helper
                 }
             }
 
+            Settings.NormalFont = new Font(Settings.NormalFontInfo.Name, Settings.NormalFontInfo.Size, Settings.NormalFontInfo.Style);
+            Settings.SymbolFont = new Font(Settings.SymbolFontInfo.Name, Settings.SymbolFontInfo.Size, Settings.SymbolFontInfo.Style);
+
             //Settings.RegisterReplayUser = RegistryHelper.isCurrentUserAssociated();
             //Settings.RegisterReplaySystem = RegistryHelper.isAllUserAssociated();
         }
 
         public static void SaveSettings()
         {
+            Settings.NormalFontInfo.Name = Settings.NormalFont.Name;
+            Settings.NormalFontInfo.Size = Settings.NormalFont.Size;
+            Settings.NormalFontInfo.Style = Settings.NormalFont.Style;
+            Settings.SymbolFontInfo.Name = Settings.SymbolFont.Name;
+            Settings.SymbolFontInfo.Size = Settings.SymbolFont.Size;
+            Settings.SymbolFontInfo.Style = Settings.SymbolFont.Style;
+
             using var output = new StreamWriter("Settings.yaml", false, Encoding.UTF8);
             try
             {
@@ -152,5 +181,12 @@ namespace thhylR.Helper
         Plain = 0,
         Comma = 1,
         Character = 2
+    }
+
+    public class FontInfo
+    {
+        public string Name { get; set; }
+        public float Size { get; set; }
+        public FontStyle Style { get; set; }
     }
 }

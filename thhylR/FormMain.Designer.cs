@@ -30,13 +30,19 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             openReplayDialog = new OpenFileDialog();
-            buttonOpen = new Button();
             dataGridInfo = new DataGridView();
             dataGridColumnName = new DataGridViewTextBoxColumn();
             dataGridColumnValue = new DataGridViewTextBoxColumn();
             textBoxInfo = new TextBox();
             menuStripMain = new MenuStrip();
             FileToolStripMenuItem = new ToolStripMenuItem();
+            OpenToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripSeparator();
+            CutToolStripMenuItem = new ToolStripMenuItem();
+            CopyToolStripMenuItem = new ToolStripMenuItem();
+            MoveToToolStripMenuItem = new ToolStripMenuItem();
+            CopyToToolStripMenuItem = new ToolStripMenuItem();
+            DeleteToolStripMenuItem = new ToolStripMenuItem();
             SplitToolStripMenuItem = new ToolStripSeparator();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             EditToolStripMenuItem = new ToolStripMenuItem();
@@ -49,25 +55,24 @@
             textBoxPath = new TextBox();
             treeViewFiles = new TreeView();
             fileSystemWatcherFolder = new FileSystemWatcher();
-            button2 = new Button();
+            toolStripMain = new ToolStrip();
+            toolStripButtonOpen = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            toolStripButtonCut = new ToolStripButton();
+            toolStripButtonCopy = new ToolStripButton();
+            toolStripButtonMoveTo = new ToolStripButton();
+            toolStripButtonCopyTo = new ToolStripButton();
+            toolStripButtonRename = new ToolStripButton();
+            toolStripButtonDelete = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
+            toolStripMain.SuspendLayout();
             SuspendLayout();
             // 
             // openReplayDialog
             // 
             openReplayDialog.Filter = "录像文件|*.rpy";
-            // 
-            // buttonOpen
-            // 
-            buttonOpen.Location = new Point(1010, 59);
-            buttonOpen.Name = "buttonOpen";
-            buttonOpen.Size = new Size(94, 29);
-            buttonOpen.TabIndex = 2;
-            buttonOpen.Text = "buttonOpen";
-            buttonOpen.UseVisualStyleBackColor = true;
-            buttonOpen.Click += buttonOpen_Click;
             // 
             // dataGridInfo
             // 
@@ -143,21 +148,77 @@
             // 
             // FileToolStripMenuItem
             // 
-            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { SplitToolStripMenuItem, ExitToolStripMenuItem });
+            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, ExitToolStripMenuItem });
             FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             FileToolStripMenuItem.Size = new Size(71, 24);
             FileToolStripMenuItem.Text = "文件(&F)";
             // 
+            // OpenToolStripMenuItem
+            // 
+            OpenToolStripMenuItem.Image = Properties.Resources.OpenFile;
+            OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            OpenToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
+            OpenToolStripMenuItem.Size = new Size(274, 26);
+            OpenToolStripMenuItem.Text = "打开(&O)";
+            OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(271, 6);
+            // 
+            // CutToolStripMenuItem
+            // 
+            CutToolStripMenuItem.Image = Properties.Resources.Cut;
+            CutToolStripMenuItem.Name = "CutToolStripMenuItem";
+            CutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.X;
+            CutToolStripMenuItem.Size = new Size(274, 26);
+            CutToolStripMenuItem.Text = "剪切(&T)";
+            CutToolStripMenuItem.Click += CutToolStripMenuItem_Click;
+            // 
+            // CopyToolStripMenuItem
+            // 
+            CopyToolStripMenuItem.Image = Properties.Resources.Copy;
+            CopyToolStripMenuItem.Name = "CopyToolStripMenuItem";
+            CopyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
+            CopyToolStripMenuItem.Size = new Size(274, 26);
+            CopyToolStripMenuItem.Text = "复制(&C)";
+            CopyToolStripMenuItem.Click += CopyToolStripMenuItem_Click;
+            // 
+            // MoveToToolStripMenuItem
+            // 
+            MoveToToolStripMenuItem.Image = Properties.Resources.MoveTo;
+            MoveToToolStripMenuItem.Name = "MoveToToolStripMenuItem";
+            MoveToToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.X;
+            MoveToToolStripMenuItem.Size = new Size(274, 26);
+            MoveToToolStripMenuItem.Text = "移动到(&M)...";
+            // 
+            // CopyToToolStripMenuItem
+            // 
+            CopyToToolStripMenuItem.Image = Properties.Resources.CopyTo;
+            CopyToToolStripMenuItem.Name = "CopyToToolStripMenuItem";
+            CopyToToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
+            CopyToToolStripMenuItem.Size = new Size(274, 26);
+            CopyToToolStripMenuItem.Text = "复制到(&P)...";
+            // 
+            // DeleteToolStripMenuItem
+            // 
+            DeleteToolStripMenuItem.Image = Properties.Resources.Delete;
+            DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
+            DeleteToolStripMenuItem.ShortcutKeys = Keys.Delete;
+            DeleteToolStripMenuItem.Size = new Size(274, 26);
+            DeleteToolStripMenuItem.Text = "删除(&D)";
+            // 
             // SplitToolStripMenuItem
             // 
             SplitToolStripMenuItem.Name = "SplitToolStripMenuItem";
-            SplitToolStripMenuItem.Size = new Size(197, 6);
+            SplitToolStripMenuItem.Size = new Size(271, 6);
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             ExitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
-            ExitToolStripMenuItem.Size = new Size(200, 26);
+            ExitToolStripMenuItem.Size = new Size(274, 26);
             ExitToolStripMenuItem.Text = "退出(&X)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -197,6 +258,7 @@
             // 
             // OptionToolStripMenuItem
             // 
+            OptionToolStripMenuItem.Image = Properties.Resources.Settings;
             OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
             OptionToolStripMenuItem.Size = new Size(156, 26);
             OptionToolStripMenuItem.Text = "选项(&O)...";
@@ -230,14 +292,86 @@
             fileSystemWatcherFolder.Deleted += fileSystemWatcherFolder_Events;
             fileSystemWatcherFolder.Renamed += fileSystemWatcherFolder_Renamed;
             // 
-            // button2
+            // toolStripMain
             // 
-            button2.Location = new Point(19, 115);
-            button2.Name = "button2";
-            button2.Size = new Size(263, 22);
-            button2.TabIndex = 9;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
+            toolStripMain.ImageScalingSize = new Size(20, 20);
+            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete });
+            toolStripMain.Location = new Point(0, 28);
+            toolStripMain.Name = "toolStripMain";
+            toolStripMain.Size = new Size(1307, 27);
+            toolStripMain.TabIndex = 10;
+            toolStripMain.Text = "toolStrip1";
+            // 
+            // toolStripButtonOpen
+            // 
+            toolStripButtonOpen.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonOpen.Image = Properties.Resources.OpenFile;
+            toolStripButtonOpen.ImageTransparentColor = Color.Magenta;
+            toolStripButtonOpen.Name = "toolStripButtonOpen";
+            toolStripButtonOpen.Size = new Size(29, 24);
+            toolStripButtonOpen.Text = "toolStripButton1";
+            toolStripButtonOpen.Click += toolStripButtonOpen_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 27);
+            // 
+            // toolStripButtonCut
+            // 
+            toolStripButtonCut.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonCut.Image = Properties.Resources.Cut;
+            toolStripButtonCut.ImageTransparentColor = Color.Magenta;
+            toolStripButtonCut.Name = "toolStripButtonCut";
+            toolStripButtonCut.Size = new Size(29, 24);
+            toolStripButtonCut.Text = "toolStripButton1";
+            toolStripButtonCut.Click += toolStripButtonCut_Click;
+            // 
+            // toolStripButtonCopy
+            // 
+            toolStripButtonCopy.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonCopy.Image = Properties.Resources.Copy;
+            toolStripButtonCopy.ImageTransparentColor = Color.Magenta;
+            toolStripButtonCopy.Name = "toolStripButtonCopy";
+            toolStripButtonCopy.Size = new Size(29, 24);
+            toolStripButtonCopy.Text = "toolStripButton1";
+            toolStripButtonCopy.Click += toolStripButtonCopy_Click;
+            // 
+            // toolStripButtonMoveTo
+            // 
+            toolStripButtonMoveTo.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonMoveTo.Image = Properties.Resources.MoveTo;
+            toolStripButtonMoveTo.ImageTransparentColor = Color.Magenta;
+            toolStripButtonMoveTo.Name = "toolStripButtonMoveTo";
+            toolStripButtonMoveTo.Size = new Size(29, 24);
+            toolStripButtonMoveTo.Text = "toolStripButton1";
+            // 
+            // toolStripButtonCopyTo
+            // 
+            toolStripButtonCopyTo.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonCopyTo.Image = Properties.Resources.CopyTo;
+            toolStripButtonCopyTo.ImageTransparentColor = Color.Magenta;
+            toolStripButtonCopyTo.Name = "toolStripButtonCopyTo";
+            toolStripButtonCopyTo.Size = new Size(29, 24);
+            toolStripButtonCopyTo.Text = "toolStripButton1";
+            // 
+            // toolStripButtonRename
+            // 
+            toolStripButtonRename.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonRename.Image = Properties.Resources.Rename;
+            toolStripButtonRename.ImageTransparentColor = Color.Magenta;
+            toolStripButtonRename.Name = "toolStripButtonRename";
+            toolStripButtonRename.Size = new Size(29, 24);
+            toolStripButtonRename.Text = "toolStripButton1";
+            // 
+            // toolStripButtonDelete
+            // 
+            toolStripButtonDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonDelete.Image = Properties.Resources.Delete;
+            toolStripButtonDelete.ImageTransparentColor = Color.Magenta;
+            toolStripButtonDelete.Name = "toolStripButtonDelete";
+            toolStripButtonDelete.Size = new Size(29, 24);
+            toolStripButtonDelete.Text = "toolStripButton1";
             // 
             // FormMain
             // 
@@ -245,12 +379,11 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1307, 695);
-            Controls.Add(button2);
+            Controls.Add(toolStripMain);
             Controls.Add(treeViewFiles);
             Controls.Add(textBoxPath);
             Controls.Add(textBoxInfo);
             Controls.Add(dataGridInfo);
-            Controls.Add(buttonOpen);
             Controls.Add(menuStripMain);
             MainMenuStrip = menuStripMain;
             Name = "FormMain";
@@ -261,13 +394,14 @@
             menuStripMain.ResumeLayout(false);
             menuStripMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).EndInit();
+            toolStripMain.ResumeLayout(false);
+            toolStripMain.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
         private OpenFileDialog openReplayDialog;
-        private Button buttonOpen;
         private DataGridView dataGridInfo;
         private DataGridViewTextBoxColumn dataGridColumnName;
         private DataGridViewTextBoxColumn dataGridColumnValue;
@@ -284,8 +418,23 @@
         private TextBox textBoxPath;
         private TreeView treeViewFiles;
         private FileSystemWatcher fileSystemWatcherFolder;
-        private Button button2;
         private ToolStripMenuItem ToolToolStripMenuItem;
         private ToolStripMenuItem OptionToolStripMenuItem;
+        private ToolStrip toolStripMain;
+        private ToolStripButton toolStripButtonOpen;
+        private ToolStripMenuItem OpenToolStripMenuItem;
+        private ToolStripButton toolStripButtonCut;
+        private ToolStripButton toolStripButtonCopy;
+        private ToolStripButton toolStripButtonMoveTo;
+        private ToolStripButton toolStripButtonCopyTo;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripButton toolStripButtonRename;
+        private ToolStripButton toolStripButtonDelete;
+        private ToolStripMenuItem CutToolStripMenuItem;
+        private ToolStripMenuItem CopyToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem1;
+        private ToolStripMenuItem MoveToToolStripMenuItem;
+        private ToolStripMenuItem CopyToToolStripMenuItem;
+        private ToolStripMenuItem DeleteToolStripMenuItem;
     }
 }
