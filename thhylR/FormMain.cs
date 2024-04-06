@@ -1,6 +1,7 @@
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using thhylR.Common;
 using thhylR.Games;
@@ -12,6 +13,9 @@ namespace thhylR
     public partial class FormMain : Form
     {
         private bool isSelecting = false;
+
+        private int currentFilePos = -1;
+
         public FormMain()
         {
             InitializeComponent();
@@ -38,12 +42,26 @@ namespace thhylR
             toolStripButtonMoveTo.ToolTipText = ResourceLoader.getTextResource("MoveToTip");
             toolStripButtonCopyTo.ToolTipText = ResourceLoader.getTextResource("CopyToTip");
             toolStripButtonDelete.ToolTipText = ResourceLoader.getTextResource("DeleteTip");
+            toolStripButtonRename.ToolTipText = ResourceLoader.getTextResource("RenameTip");
+
+            setFileIsOpen(false);
+
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                string filename = args[1];
+                openReplay(filename);
+            }
         }
 
         private TouhouReplay currentReplay = null;
 
+        private string fileToOpen = null;
+
         private Font normalFont;
         private Font symbolFont;
+
+        private bool isFileOpen = false;
 
         private void showOpenReplayDialog()
         {
@@ -79,6 +97,7 @@ namespace thhylR
                     setFiles(replayPath, Path.GetFileName(fileName));
                     fileSystemWatcherFolder.Path = replayPath;
                 }
+                setFileIsOpen(true);
             }
             else
             {
@@ -106,10 +125,11 @@ namespace thhylR
             }
         }
 
-        private void setFiles(string path, string filename)
+        private bool setFiles(string path, string filename)
         {
             treeViewFiles.Nodes.Clear();
             treeViewFiles.Nodes.Add(path);
+            bool hasFile = false;
             var fileList = Directory.GetFiles(path, "*.rpy");
             for (int i = 0; i < fileList.Length; i++)
             {
@@ -120,10 +140,13 @@ namespace thhylR
                 {
                     isSelecting = true;
                     treeViewFiles.SelectedNode = treeViewFiles.Nodes[0].Nodes[i];
+                    currentFilePos = i;
                     isSelecting = false;
+                    hasFile = true;
                 }
             }
             treeViewFiles.Nodes[0].Expand();
+            return hasFile;
         }
 
         private void buttonOpen_Click(object sender, EventArgs e)
@@ -149,11 +172,20 @@ namespace thhylR
         {
             if (currentReplay != null)
             {
-                byte[] result = new byte[currentReplay.Header.Length + currentReplay.RawData.Length + currentReplay.InfoBlockRawData.Length];
+                int resultLength = currentReplay.Header.Length + currentReplay.RawData.Length;
+                if (currentReplay.InfoBlockRawData != null)
+                {
+                    resultLength += currentReplay.InfoBlockRawData.Length;
+                }
+                byte[] result = new byte[resultLength];
                 Array.Copy(currentReplay.Header, 0, result, 0, currentReplay.Header.Length);
                 Array.Copy(currentReplay.RawData, 0, result, currentReplay.Header.Length, currentReplay.RawData.Length);
-                Array.Copy(currentReplay.InfoBlockRawData, 0,
-                    result, currentReplay.Header.Length + currentReplay.RawData.Length, currentReplay.InfoBlockRawData.Length);
+                if (currentReplay.InfoBlockRawData != null)
+                {
+                    Array.Copy(currentReplay.InfoBlockRawData, 0,
+                        result, currentReplay.Header.Length + currentReplay.RawData.Length, currentReplay.InfoBlockRawData.Length);
+                }
+
                 saveFileDialog.Filter = ResourceLoader.getTextResource("RawDataFilter");
                 var dialogResult = saveFileDialog.ShowDialog(this);
                 if (dialogResult == DialogResult.OK)
@@ -214,9 +246,23 @@ namespace thhylR
 
         private void folderChanged()
         {
-            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path))
+            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path) && currentReplay != null)
             {
-                setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(currentReplay.FilePath));
+                if (fileToOpen != null)
+                {
+                    string newFile = fileToOpen;
+                    fileToOpen = null;
+                    openReplay(newFile);
+                }
+                else
+                {
+                    var hasFile = setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(currentReplay.FilePath));
+                    if (!hasFile)
+                    {
+                        setFileIsOpen(false);
+                        currentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
+                    }
+                }
             }
         }
 
@@ -302,6 +348,291 @@ namespace thhylR
         private void toolStripButtonCopy_Click(object sender, EventArgs e)
         {
             copyCommand();
+        }
+
+        private void setFileIsOpen(bool isExist)
+        {
+            isFileOpen = isExist;
+
+            CutToolStripMenuItem.Enabled = isExist;
+            CopyToolStripMenuItem.Enabled = isExist;
+            MoveToToolStripMenuItem.Enabled = isExist;
+            CopyToToolStripMenuItem.Enabled = isExist;
+            RenameToolStripMenuItem.Enabled = isExist;
+            DeleteToolStripMenuItem.Enabled = isExist;
+
+            toolStripButtonCut.Enabled = isExist;
+            toolStripButtonCopy.Enabled = isExist;
+            toolStripButtonMoveTo.Enabled = isExist;
+            toolStripButtonCopyTo.Enabled = isExist;
+            toolStripButtonRename.Enabled = isExist;
+            toolStripButtonDelete.Enabled = isExist;
+
+            if (currentReplay != null)
+            {
+                currentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
+            }
+        }
+
+        private void RenameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RenameCommand();
+        }
+
+        private void toolStripButtonRename_Click(object sender, EventArgs e)
+        {
+            RenameCommand();
+        }
+
+        private void RenameCommand()
+        {
+            if (currentReplay != null)
+            {
+                FormRename formRename = new FormRename(currentReplay.FilePath);
+                var result = formRename.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    string path = Path.GetDirectoryName(currentReplay.FilePath);
+                    string currentFileName = formRename.FileName + ".rpy";
+                    string fullName = Path.Combine(path, currentFileName);
+                    string targetFileName = null;
+                    if (fullName == currentReplay.FilePath) return;
+                    if (File.Exists(fullName))
+                    {
+                        FormFileExist formFileExist = new FormFileExist();
+                        var formFileExistResult = formFileExist.ShowDialog(this);
+                        if (formFileExistResult == DialogResult.OK)
+                        {
+                            if (formFileExist.Result == FileExistResult.Rename)
+                            {
+                                targetFileName = autoRename(path, currentFileName);
+                                if (targetFileName != null)
+                                {
+                                    fullName = Path.Combine(path, targetFileName);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameFail"), targetFileName),
+                                        Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    File.Move(currentReplay.FilePath, fullName, true);
+                    currentReplay.FilePath = fullName;
+                    if (targetFileName != null)
+                    {
+                        MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameComplete"), targetFileName),
+                            Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
+        private void toolStripButtonMoveTo_Click(object sender, EventArgs e)
+        {
+            MoveCopyToCommnad(true);
+        }
+
+
+        private void toolStripButtonCopyTo_Click(object sender, EventArgs e)
+        {
+            MoveCopyToCommnad(false);
+        }
+
+
+        private void MoveToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoveCopyToCommnad(true);
+        }
+
+        private void CopyToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoveCopyToCommnad(false);
+        }
+
+        private void MoveCopyToCommnad(bool isMove)
+        {
+            if (currentReplay == null) return;
+            var dialogResult = folderBrowserDialogMoveCopy.ShowDialog(this);
+            if (dialogResult == DialogResult.OK)
+            {
+                string currentFileName = Path.GetFileName(currentReplay.FilePath);
+                string path = Path.Combine(folderBrowserDialogMoveCopy.SelectedPath, currentFileName);
+                string targetFileName = null;
+                if (File.Exists(path))
+                {
+                    FormFileExist formFileExist = new FormFileExist();
+                    var result = formFileExist.ShowDialog(this);
+                    if (result == DialogResult.OK)
+                    {
+                        if (formFileExist.Result == FileExistResult.Rename)
+                        {
+                            targetFileName = autoRename(folderBrowserDialogMoveCopy.SelectedPath, currentFileName);
+                            if (targetFileName != null)
+                            {
+                                path = Path.Combine(folderBrowserDialogMoveCopy.SelectedPath, targetFileName);
+                            }
+                            else
+                            {
+                                MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameFail"), targetFileName),
+                                    Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                if (isMove)
+                {
+                    File.Move(currentReplay.FilePath, path, true);
+                    switch (SettingProvider.Settings.OperAfterMove)
+                    {
+                        case FileOperate.KeepOrClose:
+                            break;
+                        case FileOperate.Next:
+                            TreeNode rootNode = treeViewFiles.Nodes[0];
+                            if (rootNode.Nodes.Count == 0)
+                            {
+                                break;
+                            }
+                            else if (currentFilePos < rootNode.Nodes.Count - 1)
+                            {
+                                fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[currentFilePos + 1].Text);
+                            }
+                            else
+                            {
+                                fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[^1].Text);
+                            }
+                            break;
+                        case FileOperate.New:
+                            openReplay(path);
+                            break;
+                    }
+                }
+                else
+                {
+                    File.Copy(currentReplay.FilePath, path, true);
+                    switch (SettingProvider.Settings.OperAfterCopy)
+                    {
+                        case FileOperate.New:
+                            openReplay(path);
+                            break;
+                        case FileOperate.KeepOrClose:
+                        default:
+                            break;
+                    }
+                }
+                if (targetFileName != null)
+                {
+                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameComplete"), targetFileName),
+                        Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void toolStripButtonDelete_Click(object sender, EventArgs e)
+        {
+            DeleteCommand();
+        }
+
+        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteCommand();
+        }
+
+        private void DeleteCommand()
+        {
+            var result = MessageBox.Show(ResourceLoader.getTextResource("DeleteWarning"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                File.Delete(currentReplay.FilePath);
+                switch (SettingProvider.Settings.OperAfterDelete)
+                {
+                    case FileOperate.Next:
+                        TreeNode rootNode = treeViewFiles.Nodes[0];
+                        if (rootNode.Nodes.Count == 0)
+                        {
+                            break;
+                        }
+                        else if (currentFilePos < rootNode.Nodes.Count - 1)
+                        {
+                            fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[currentFilePos + 1].Text);
+                        }
+                        else
+                        {
+                            fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[^1].Text);
+                        }
+                        break;
+                    case FileOperate.KeepOrClose:
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private string autoRename(string path, string filename)
+        {
+            uint currentNum = 0;
+            uint originalNum = 0;
+            string[] fileParts = Path.GetFileNameWithoutExtension(filename).Split('_');
+            string result = null;
+            if (fileParts.Length < 2) return null;
+            string fileIdentifyPart = string.Join('_', fileParts[1..]).ToLower();
+            if (!fileIdentifyPart.StartsWith("ud"))
+            {
+                if (uint.TryParse(fileIdentifyPart, out currentNum))
+                {
+                    originalNum = currentNum;
+                    do
+                    {
+                        result = fileParts[0] + "_" + currentNum.ToString("00") + ".rpy";
+                        if (!File.Exists(Path.Join(path, result)))
+                        {
+                            return result;
+                        }
+                        currentNum++;
+                        if (currentNum > 25)
+                        {
+                            currentNum = 1;
+                        }
+                    } while (currentNum != originalNum);
+                }
+                fileIdentifyPart = "ud0000";
+            }
+            fileIdentifyPart = fileIdentifyPart[2..];
+            try
+            {
+                currentNum = Base36Converter.ToDecimal(fileIdentifyPart);
+            }
+            catch
+            {
+                currentNum = 0;
+            }
+
+            originalNum = currentNum;
+            do
+            {
+                result = fileParts[0] + "_ud" + Base36Converter.ToBase36(currentNum).PadLeft(4, '0') + ".rpy";
+                if (!File.Exists(Path.Join(path, result)))
+                {
+                    return result;
+                }
+                currentNum++;
+                if (currentNum >= 1679616)
+                {
+                    currentNum = 0;
+                }
+            } while (currentNum != originalNum);
+            return null;
         }
     }
 }

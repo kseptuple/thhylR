@@ -42,6 +42,7 @@
             CopyToolStripMenuItem = new ToolStripMenuItem();
             MoveToToolStripMenuItem = new ToolStripMenuItem();
             CopyToToolStripMenuItem = new ToolStripMenuItem();
+            RenameToolStripMenuItem = new ToolStripMenuItem();
             DeleteToolStripMenuItem = new ToolStripMenuItem();
             SplitToolStripMenuItem = new ToolStripSeparator();
             ExitToolStripMenuItem = new ToolStripMenuItem();
@@ -64,6 +65,7 @@
             toolStripButtonCopyTo = new ToolStripButton();
             toolStripButtonRename = new ToolStripButton();
             toolStripButtonDelete = new ToolStripButton();
+            folderBrowserDialogMoveCopy = new FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
@@ -148,7 +150,7 @@
             // 
             // FileToolStripMenuItem
             // 
-            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, ExitToolStripMenuItem });
+            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, RenameToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, ExitToolStripMenuItem });
             FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             FileToolStripMenuItem.Size = new Size(71, 24);
             FileToolStripMenuItem.Text = "文件(&F)";
@@ -192,6 +194,7 @@
             MoveToToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.X;
             MoveToToolStripMenuItem.Size = new Size(274, 26);
             MoveToToolStripMenuItem.Text = "移动到(&M)...";
+            MoveToToolStripMenuItem.Click += MoveToToolStripMenuItem_Click;
             // 
             // CopyToToolStripMenuItem
             // 
@@ -200,6 +203,15 @@
             CopyToToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
             CopyToToolStripMenuItem.Size = new Size(274, 26);
             CopyToToolStripMenuItem.Text = "复制到(&P)...";
+            CopyToToolStripMenuItem.Click += CopyToToolStripMenuItem_Click;
+            // 
+            // RenameToolStripMenuItem
+            // 
+            RenameToolStripMenuItem.Image = Properties.Resources.Rename;
+            RenameToolStripMenuItem.Name = "RenameToolStripMenuItem";
+            RenameToolStripMenuItem.Size = new Size(274, 26);
+            RenameToolStripMenuItem.Text = "重命名(&R)";
+            RenameToolStripMenuItem.Click += RenameToolStripMenuItem_Click;
             // 
             // DeleteToolStripMenuItem
             // 
@@ -208,6 +220,7 @@
             DeleteToolStripMenuItem.ShortcutKeys = Keys.Delete;
             DeleteToolStripMenuItem.Size = new Size(274, 26);
             DeleteToolStripMenuItem.Text = "删除(&D)";
+            DeleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             // 
             // SplitToolStripMenuItem
             // 
@@ -345,6 +358,7 @@
             toolStripButtonMoveTo.Name = "toolStripButtonMoveTo";
             toolStripButtonMoveTo.Size = new Size(29, 24);
             toolStripButtonMoveTo.Text = "toolStripButton1";
+            toolStripButtonMoveTo.Click += toolStripButtonMoveTo_Click;
             // 
             // toolStripButtonCopyTo
             // 
@@ -354,6 +368,7 @@
             toolStripButtonCopyTo.Name = "toolStripButtonCopyTo";
             toolStripButtonCopyTo.Size = new Size(29, 24);
             toolStripButtonCopyTo.Text = "toolStripButton1";
+            toolStripButtonCopyTo.Click += toolStripButtonCopyTo_Click;
             // 
             // toolStripButtonRename
             // 
@@ -363,6 +378,7 @@
             toolStripButtonRename.Name = "toolStripButtonRename";
             toolStripButtonRename.Size = new Size(29, 24);
             toolStripButtonRename.Text = "toolStripButton1";
+            toolStripButtonRename.Click += toolStripButtonRename_Click;
             // 
             // toolStripButtonDelete
             // 
@@ -372,6 +388,7 @@
             toolStripButtonDelete.Name = "toolStripButtonDelete";
             toolStripButtonDelete.Size = new Size(29, 24);
             toolStripButtonDelete.Text = "toolStripButton1";
+            toolStripButtonDelete.Click += toolStripButtonDelete_Click;
             // 
             // FormMain
             // 
@@ -436,5 +453,7 @@
         private ToolStripMenuItem MoveToToolStripMenuItem;
         private ToolStripMenuItem CopyToToolStripMenuItem;
         private ToolStripMenuItem DeleteToolStripMenuItem;
+        private ToolStripMenuItem RenameToolStripMenuItem;
+        private FolderBrowserDialog folderBrowserDialogMoveCopy;
     }
 }

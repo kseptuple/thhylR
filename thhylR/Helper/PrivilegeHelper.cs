@@ -16,7 +16,25 @@ namespace thhylR.Helper
             proc.UseShellExecute = true;
             proc.WorkingDirectory = Environment.CurrentDirectory;
             proc.FileName = Application.ExecutablePath;
-            proc.Arguments = string.Join(' ', Environment.GetCommandLineArgs());
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                var arguments = new string[args.Length - 1];
+                for (int i = 1; i < args.Length; i++)
+                {
+                    var arg = args[i];
+                    if (arg.Contains(" "))
+                    {
+                        arguments[i - 1] = "\"" + arg + "\"";
+                    }
+                    else
+                    {
+                        arguments[i - 1] = arg;
+                    }
+                }
+
+                proc.Arguments = string.Join(' ', arguments);
+            }
             proc.Verb = "runas";
 
             try

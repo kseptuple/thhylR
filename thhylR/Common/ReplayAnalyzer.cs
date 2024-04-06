@@ -846,12 +846,8 @@ namespace thhylR.Common
                             }
                             else
                             {
-                                StringBuilder result = new StringBuilder();
-                                for (int i = 1; i < formatItems.Length; i++)
-                                {
-                                    result.Append(formatItems[i]);
-                                }
-                                return callToString(itemToFormat, result.ToString(), out _isSymbol);
+                                string result = string.Join(':', formatItems[1..]);
+                                return callToString(itemToFormat, result, out _isSymbol);
                             }
 
                         };

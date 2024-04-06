@@ -105,10 +105,22 @@ namespace thhylR
             }
 
             checkBoxOnTop.Checked = settings.OnTop;
-            checkBoxConfirmDelete.Checked = settings.ConfirmOnDelete;
-            checkBoxAutoSwitch.Checked = settings.NextFileOnDelete;
             checkBoxRegisterCurrent.Checked = settings.RegisterReplayUser;
             checkBoxRegisterAll.Checked = settings.RegisterReplaySystem;
+
+            comboBoxOperAfterMove.Items.Add(ResourceLoader.getTextResource("KeepFile"));
+            comboBoxOperAfterMove.Items.Add(ResourceLoader.getTextResource("NextFile"));
+            comboBoxOperAfterMove.Items.Add(ResourceLoader.getTextResource("NewFile"));
+
+            comboBoxOperAfterCopy.Items.Add(ResourceLoader.getTextResource("KeepFile"));
+            comboBoxOperAfterCopy.Items.Add(ResourceLoader.getTextResource("NewFile"));
+
+            comboBoxOperAfterDelete.Items.Add(ResourceLoader.getTextResource("KeepFile"));
+            comboBoxOperAfterDelete.Items.Add(ResourceLoader.getTextResource("NextFile"));
+
+            comboBoxOperAfterMove.SelectedIndex = (int)settings.OperAfterMove;
+            comboBoxOperAfterCopy.SelectedIndex = settings.OperAfterCopy == FileOperate.KeepOrClose ? 0 : 1;
+            comboBoxOperAfterDelete.SelectedIndex = settings.OperAfterDelete == FileOperate.KeepOrClose ? 0 : 1;
 
             radioButtonAllEncoding.Checked = settings.ShowAllEncodings;
             radioButtonCommonEncoding.Checked = !settings.ShowAllEncodings;
@@ -292,14 +304,13 @@ namespace thhylR
             }
 
             settings.OnTop = checkBoxOnTop.Checked;
-            settings.ConfirmOnDelete = checkBoxConfirmDelete.Checked;
-            settings.NextFileOnDelete = checkBoxAutoSwitch.Checked;
-
-
             settings.ShowAllEncodings = radioButtonAllEncoding.Checked;
 
-            settings.Encodings[0].UseEncoding = checkBoxEncode2.Checked;
+            settings.OperAfterMove = (FileOperate)comboBoxOperAfterMove.SelectedIndex;
+            settings.OperAfterCopy = comboBoxOperAfterCopy.SelectedIndex == 0 ? FileOperate.KeepOrClose : FileOperate.New;
+            settings.OperAfterDelete = comboBoxOperAfterDelete.SelectedIndex == 0 ? FileOperate.KeepOrClose : FileOperate.Next;
 
+            settings.Encodings[0].UseEncoding = checkBoxEncode2.Checked;
             settings.Encodings[0].EncodingId = (int)comboBoxEncode2.GetSelectedValue();
             settings.Encodings[1].UseEncoding = checkBoxEncode3.Checked;
             settings.Encodings[1].EncodingId = (int)comboBoxEncode3.GetSelectedValue();
@@ -360,18 +371,27 @@ namespace thhylR
         private void buttonFontNormal_Click(object sender, EventArgs e)
         {
             fontDialogSetting.Font = SystemFont;
-            fontDialogSetting.ShowDialog(this);
-            SystemFont = fontDialogSetting.Font;
-            labelScore.Font = systemFontDemo;
-            setLifeBombExample();
+            var result = fontDialogSetting.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                buttonApply.Enabled = true;
+                SystemFont = fontDialogSetting.Font;
+                labelScore.Font = systemFontDemo;
+                setLifeBombExample();
+            }  
         }
 
         private void buttonFontSymbol_Click(object sender, EventArgs e)
         {
             fontDialogSetting.Font = SymbolFont;
-            fontDialogSetting.ShowDialog(this);
-            SymbolFont = fontDialogSetting.Font;
-            setLifeBombExample();
+            var result = fontDialogSetting.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                buttonApply.Enabled = true;
+                SymbolFont = fontDialogSetting.Font;
+                setLifeBombExample();
+            }
+            
         }
     }
 

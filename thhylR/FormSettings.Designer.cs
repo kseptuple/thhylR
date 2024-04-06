@@ -33,6 +33,8 @@
             buttonFontSymbol = new Button();
             buttonFontNormal = new Button();
             groupBox1 = new GroupBox();
+            labelScore = new Label();
+            label3 = new Label();
             labelBomb = new Label();
             labelLife = new Label();
             label4 = new Label();
@@ -43,11 +45,15 @@
             comboBoxLifeStyle = new ComboBox();
             comboBoxScoreStyle = new ComboBox();
             tabPage2 = new TabPage();
+            comboBoxOperAfterDelete = new ComboBox();
+            label8 = new Label();
+            comboBoxOperAfterCopy = new ComboBox();
+            label7 = new Label();
+            comboBoxOperAfterMove = new ComboBox();
+            label6 = new Label();
             checkBoxRegisterAll = new CheckBox();
             checkBoxRegisterCurrent = new CheckBox();
-            checkBoxAutoSwitch = new CheckBox();
             checkBoxOnTop = new CheckBox();
-            checkBoxConfirmDelete = new CheckBox();
             tabPage3 = new TabPage();
             groupBox2 = new GroupBox();
             checkBoxEncode5 = new CheckBox();
@@ -67,8 +73,6 @@
             buttonCancel = new Button();
             buttonApply = new Button();
             fontDialogSetting = new FontDialog();
-            label3 = new Label();
-            labelScore = new Label();
             tabControlMain.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -144,6 +148,24 @@
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "效果示例";
+            // 
+            // labelScore
+            // 
+            labelScore.AutoSize = true;
+            labelScore.Location = new Point(84, 23);
+            labelScore.Name = "labelScore";
+            labelScore.Size = new Size(99, 20);
+            labelScore.TabIndex = 17;
+            labelScore.Text = "1234567890";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 23);
+            label3.Name = "label3";
+            label3.Size = new Size(54, 20);
+            label3.TabIndex = 16;
+            label3.Text = "得分：";
             // 
             // labelBomb
             // 
@@ -234,11 +256,15 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(comboBoxOperAfterDelete);
+            tabPage2.Controls.Add(label8);
+            tabPage2.Controls.Add(comboBoxOperAfterCopy);
+            tabPage2.Controls.Add(label7);
+            tabPage2.Controls.Add(comboBoxOperAfterMove);
+            tabPage2.Controls.Add(label6);
             tabPage2.Controls.Add(checkBoxRegisterAll);
             tabPage2.Controls.Add(checkBoxRegisterCurrent);
-            tabPage2.Controls.Add(checkBoxAutoSwitch);
             tabPage2.Controls.Add(checkBoxOnTop);
-            tabPage2.Controls.Add(checkBoxConfirmDelete);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -247,10 +273,64 @@
             tabPage2.Text = "程序";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // comboBoxOperAfterDelete
+            // 
+            comboBoxOperAfterDelete.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOperAfterDelete.FormattingEnabled = true;
+            comboBoxOperAfterDelete.Location = new Point(170, 98);
+            comboBoxOperAfterDelete.Name = "comboBoxOperAfterDelete";
+            comboBoxOperAfterDelete.Size = new Size(151, 28);
+            comboBoxOperAfterDelete.TabIndex = 10;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(6, 101);
+            label8.Name = "label8";
+            label8.Size = new Size(99, 20);
+            label8.TabIndex = 9;
+            label8.Text = "删除文件后：";
+            // 
+            // comboBoxOperAfterCopy
+            // 
+            comboBoxOperAfterCopy.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOperAfterCopy.FormattingEnabled = true;
+            comboBoxOperAfterCopy.Location = new Point(170, 64);
+            comboBoxOperAfterCopy.Name = "comboBoxOperAfterCopy";
+            comboBoxOperAfterCopy.Size = new Size(151, 28);
+            comboBoxOperAfterCopy.TabIndex = 8;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(6, 67);
+            label7.Name = "label7";
+            label7.Size = new Size(99, 20);
+            label7.TabIndex = 7;
+            label7.Text = "复制文件后：";
+            // 
+            // comboBoxOperAfterMove
+            // 
+            comboBoxOperAfterMove.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxOperAfterMove.FormattingEnabled = true;
+            comboBoxOperAfterMove.Location = new Point(170, 30);
+            comboBoxOperAfterMove.Name = "comboBoxOperAfterMove";
+            comboBoxOperAfterMove.Size = new Size(151, 28);
+            comboBoxOperAfterMove.TabIndex = 6;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(6, 33);
+            label6.Name = "label6";
+            label6.Size = new Size(99, 20);
+            label6.TabIndex = 5;
+            label6.Text = "移动文件后：";
+            // 
             // checkBoxRegisterAll
             // 
             checkBoxRegisterAll.AutoSize = true;
-            checkBoxRegisterAll.Location = new Point(6, 126);
+            checkBoxRegisterAll.Location = new Point(6, 162);
             checkBoxRegisterAll.Name = "checkBoxRegisterAll";
             checkBoxRegisterAll.Size = new Size(344, 24);
             checkBoxRegisterAll.TabIndex = 4;
@@ -260,22 +340,12 @@
             // checkBoxRegisterCurrent
             // 
             checkBoxRegisterCurrent.AutoSize = true;
-            checkBoxRegisterCurrent.Location = new Point(6, 96);
+            checkBoxRegisterCurrent.Location = new Point(6, 132);
             checkBoxRegisterCurrent.Name = "checkBoxRegisterCurrent";
             checkBoxRegisterCurrent.Size = new Size(209, 24);
             checkBoxRegisterCurrent.TabIndex = 3;
             checkBoxRegisterCurrent.Text = "关联.rpy文件（当前用户）";
             checkBoxRegisterCurrent.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAutoSwitch
-            // 
-            checkBoxAutoSwitch.AutoSize = true;
-            checkBoxAutoSwitch.Location = new Point(6, 66);
-            checkBoxAutoSwitch.Name = "checkBoxAutoSwitch";
-            checkBoxAutoSwitch.Size = new Size(247, 24);
-            checkBoxAutoSwitch.TabIndex = 2;
-            checkBoxAutoSwitch.Text = "文件移动/删除后打开下一个文件";
-            checkBoxAutoSwitch.UseVisualStyleBackColor = true;
             // 
             // checkBoxOnTop
             // 
@@ -286,16 +356,6 @@
             checkBoxOnTop.TabIndex = 1;
             checkBoxOnTop.Text = "窗口置顶";
             checkBoxOnTop.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxConfirmDelete
-            // 
-            checkBoxConfirmDelete.AutoSize = true;
-            checkBoxConfirmDelete.Location = new Point(6, 36);
-            checkBoxConfirmDelete.Name = "checkBoxConfirmDelete";
-            checkBoxConfirmDelete.Size = new Size(136, 24);
-            checkBoxConfirmDelete.TabIndex = 0;
-            checkBoxConfirmDelete.Text = "删除文件时确认";
-            checkBoxConfirmDelete.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -509,24 +569,6 @@
             fontDialogSetting.FontMustExist = true;
             fontDialogSetting.ShowEffects = false;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(6, 23);
-            label3.Name = "label3";
-            label3.Size = new Size(54, 20);
-            label3.TabIndex = 16;
-            label3.Text = "得分：";
-            // 
-            // labelScore
-            // 
-            labelScore.AutoSize = true;
-            labelScore.Location = new Point(84, 23);
-            labelScore.Name = "labelScore";
-            labelScore.Size = new Size(99, 20);
-            labelScore.TabIndex = 17;
-            labelScore.Text = "1234567890";
-            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -543,6 +585,7 @@
             Name = "FormSettings";
             ShowIcon = false;
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "设置";
             Load += FormSettings_Load;
             tabControlMain.ResumeLayout(false);
@@ -576,9 +619,7 @@
         private TabPage tabPage2;
         private ListBox listBoxTabs;
         private TabPage tabPage3;
-        private CheckBox checkBoxAutoSwitch;
         private CheckBox checkBoxOnTop;
-        private CheckBox checkBoxConfirmDelete;
         private GroupBox groupBox2;
         private ComboBox comboBoxEncode4;
         private ComboBox comboBoxEncode3;
@@ -602,5 +643,11 @@
         private Button buttonFontNormal;
         private Label label3;
         private Label labelScore;
+        private ComboBox comboBoxOperAfterDelete;
+        private Label label8;
+        private ComboBox comboBoxOperAfterCopy;
+        private Label label7;
+        private ComboBox comboBoxOperAfterMove;
+        private Label label6;
     }
 }

@@ -10,6 +10,7 @@ FormMain:
       - MoveToToolStripMenuItem: 移动到(&M)...
       - CopyToToolStripMenuItem: 复制到(&P)...
       - DeleteToolStripMenuItem: 删除(&D)
+      - RenameToolStripMenuItem: 重命名(&R)...
       - ExitToolStripMenuItem: 退出(&X)
     - EditToolStripMenuItem: 
       - 编辑(&E)
@@ -39,7 +40,9 @@ FormSettings:
       - 程序
       - checkBoxOnTop: 窗口置顶
       - checkBoxConfirmDelete: 删除文件时确认
-      - checkBoxAutoSwitch: 文件移动/删除后打开下一个文件
+      - label6: 移动文件后：
+      - label7: 复制文件后：
+      - label8: 删除文件后：
       - checkBoxRegisterCurrent: 关联.rpy文件（当前用户）
       - checkBoxRegisterAll: 关联.rpy文件（所有用户）（需要管理员权限）
     - tabPage3:
@@ -56,9 +59,21 @@ FormSettings:
   - buttonOK: 确定
   - buttonCancel: 取消
   - buttonApply: 应用
+FormRename:
+  - 重命名
+  - label1: .rpy
+  - buttonOK: 确定
+  - buttonCancel: 取消
+FormFileExist:
+  - 文件已存在
+  - labelText: 目标文件已存在，请选择：
+  - buttonOverwrite: 覆盖
+  - buttonRename: 重命名
+  - buttonCancel: 取消
 text:
   - RawDataFilter: 原始数据|*.bin
   - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
+  - ProblemFileNotExits: 该文件已不存在，请重新打开
   - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错
   - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错
   - RegistryExtensionName: 东方Project录像文件
@@ -74,6 +89,9 @@ text:
   - LifeBombType2: "\u2665\ufe0e和\u2605\ufe0e"
   - LifeBombType3: "\u2605\ufe0e"
   - ScoreChara: 万亿兆京垓
+  - KeepFile: 不打开新文件
+  - NextFile: 打开下一个文件
+  - NewFile: 打开目标文件
   - AdminHint: "[管理员]"
   - OpenTip: 打开录像
   - CopyTip: 复制录像到剪贴板
@@ -81,4 +99,7 @@ text:
   - CopyToTip: 复制录像到指定文件夹
   - MoveToTip: 移动录像到指定文件夹
   - DeleteTip: 删除录像文件
-
+  - RenameTip: 重命名录像文件
+  - AutoRenameFail: 自动重命名失败，请手动修改文件名。
+  - AutoRenameComplete: "文件已自动重命名为{0}。"
+  - DeleteWarning: 确定要删除该文件吗？文件将不会移动到回收站，而是直接删除！

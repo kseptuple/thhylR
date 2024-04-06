@@ -59,8 +59,10 @@ namespace thhylR.Games
     [Flags]
     public enum ReplayProblemEnum
     {
-        ChnVerReplay = 0x1,
-        StageLengthError = 0x2,
+        None = 0,
+        FileNotExist = 0x1,
+        ChnVerReplay = 0x2,
+        StageLengthError = 0x4,
     }
 
     public class InfoBlock

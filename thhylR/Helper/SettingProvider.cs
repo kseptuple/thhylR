@@ -16,8 +16,11 @@ namespace thhylR.Helper
         public LifeBombFormat LifeBombType { get; set; }
         public bool ShowEmptyIcon { get; set; }
         public bool OnTop { get; set; }
-        public bool ConfirmOnDelete { get; set; }
-        public bool NextFileOnDelete { get; set; }
+
+        public FileOperate OperAfterMove { get; set; }
+        public FileOperate OperAfterCopy { get; set; }
+        public FileOperate OperAfterDelete { get; set; }
+
         [YamlIgnore]
         private bool registerReplayUser = RegistryHelper.isCurrentUserAssociated();
         [YamlIgnore]
@@ -107,8 +110,9 @@ namespace thhylR.Helper
                 Settings.LifeBombType = LifeBombFormat.Heart;
                 Settings.ShowEmptyIcon = false;
                 Settings.OnTop = false;
-                Settings.ConfirmOnDelete = true;
-                Settings.NextFileOnDelete = true;
+                Settings.OperAfterMove = FileOperate.Next;
+                Settings.OperAfterCopy = FileOperate.KeepOrClose;
+                Settings.OperAfterDelete = FileOperate.Next;
                 Settings.ShowAllEncodings = false;
                 Settings.Encodings = new List<ProgramSettings.CommonEncoding>
                 {
@@ -117,18 +121,9 @@ namespace thhylR.Helper
                     new() { EncodingId = 0, UseEncoding = true },
                     new() { EncodingId = -1, UseEncoding = false }
                 };
-                Settings.NormalFontInfo = new FontInfo()
-                {
-                    Name = SystemFonts.DefaultFont.Name,
-                    Size = 12F,
-                    Style = FontStyle.Regular,
-                };
-                Settings.SymbolFontInfo = new FontInfo()
-                {
-                    Name = "Segoe UI Symbol",
-                    Size = 12F,
-                    Style = FontStyle.Regular,
-                };
+
+                Settings.NormalFont = new Font(SystemFonts.DefaultFont.Name, 12F, FontStyle.Regular);
+                Settings.SymbolFont = new Font("Segoe UI Symbol", 12F, FontStyle.Regular);
 
                 SaveSettings();
             }
@@ -138,13 +133,10 @@ namespace thhylR.Helper
                 {
                     Settings.Encodings.Add(new() { EncodingId = -1, UseEncoding = false });
                 }
+
+                Settings.NormalFont = new Font(Settings.NormalFontInfo.Name, Settings.NormalFontInfo.Size, Settings.NormalFontInfo.Style);
+                Settings.SymbolFont = new Font(Settings.SymbolFontInfo.Name, Settings.SymbolFontInfo.Size, Settings.SymbolFontInfo.Style);
             }
-
-            Settings.NormalFont = new Font(Settings.NormalFontInfo.Name, Settings.NormalFontInfo.Size, Settings.NormalFontInfo.Style);
-            Settings.SymbolFont = new Font(Settings.SymbolFontInfo.Name, Settings.SymbolFontInfo.Size, Settings.SymbolFontInfo.Style);
-
-            //Settings.RegisterReplayUser = RegistryHelper.isCurrentUserAssociated();
-            //Settings.RegisterReplaySystem = RegistryHelper.isAllUserAssociated();
         }
 
         public static void SaveSettings()
@@ -181,6 +173,13 @@ namespace thhylR.Helper
         Plain = 0,
         Comma = 1,
         Character = 2
+    }
+
+    public enum FileOperate
+    {
+        KeepOrClose = 0,
+        Next = 1,
+        New = 2
     }
 
     public class FontInfo
