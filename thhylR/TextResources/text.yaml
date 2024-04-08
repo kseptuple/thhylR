@@ -1,6 +1,5 @@
 FormMain: 
   - 东方回映录 Remake
-  - buttonOpen: 打开
   - menuStripMain:
     - FileToolStripMenuItem: 
       - 文件(&F)
@@ -11,6 +10,10 @@ FormMain:
       - CopyToToolStripMenuItem: 复制到(&P)...
       - DeleteToolStripMenuItem: 删除(&D)
       - RenameToolStripMenuItem: 重命名(&R)...
+      - FirstReplayToolStripMenuItem: 第一个录像
+      - PreviousReplayToolStripMenuItem: 上一个录像
+      - NextReplayToolStripMenuItem: 下一个录像
+      - LastReplayToolStripMenuItem: 最后一个录像
       - ExitToolStripMenuItem: 退出(&X)
     - EditToolStripMenuItem: 
       - 编辑(&E)
@@ -73,6 +76,7 @@ FormFileExist:
 text:
   - RawDataFilter: 原始数据|*.bin
   - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
+  - NotExistedFile: "找不到文件：{0}"
   - ProblemFileNotExits: 该文件已不存在，请重新打开
   - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错
   - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错
@@ -100,6 +104,10 @@ text:
   - MoveToTip: 移动录像到指定文件夹
   - DeleteTip: 删除录像文件
   - RenameTip: 重命名录像文件
+  - FirstReplayTip: 打开第一个录像文件
+  - PreviousReplayTip: 打开上一个录像文件
+  - NextReplayTip: 打开下一个录像文件
+  - LastReplayTip: 打开最后一个录像文件
   - AutoRenameFail: 自动重命名失败，请手动修改文件名。
   - AutoRenameComplete: "文件已自动重命名为{0}。"
   - DeleteWarning: 确定要删除该文件吗？文件将不会移动到回收站，而是直接删除！

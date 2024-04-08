@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,6 +16,10 @@ namespace thhylR
         private bool isSelecting = false;
 
         private int currentFilePos = -1;
+
+        public BindingList<string> currentPathFiles = new BindingList<string>();
+
+        private bool isPathInputing = false;
 
         public FormMain()
         {
@@ -44,13 +49,25 @@ namespace thhylR
             toolStripButtonDelete.ToolTipText = ResourceLoader.getTextResource("DeleteTip");
             toolStripButtonRename.ToolTipText = ResourceLoader.getTextResource("RenameTip");
 
+            toolStripButtonFirst.ToolTipText = ResourceLoader.getTextResource("FirstReplayTip");
+            toolStripButtonPrevious.ToolTipText = ResourceLoader.getTextResource("PreviousReplayTip");
+            toolStripButtonNext.ToolTipText = ResourceLoader.getTextResource("NextReplayTip");
+            toolStripButtonLast.ToolTipText = ResourceLoader.getTextResource("LastReplayTip");
+
             setFileIsOpen(false);
 
             var args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
             {
                 string filename = args[1];
-                openReplay(filename);
+                if (File.Exists(filename))
+                {
+                    openReplay(filename);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -206,6 +223,7 @@ namespace thhylR
             {
                 string path = Path.Combine(treeViewFiles.Nodes[0].Text, treeViewFiles.SelectedNode.Text);
                 openReplay(path, false);
+                currentFilePos = treeViewFiles.SelectedNode.Index;
             }
             isSelecting = false;
         }
@@ -367,6 +385,16 @@ namespace thhylR
             toolStripButtonCopyTo.Enabled = isExist;
             toolStripButtonRename.Enabled = isExist;
             toolStripButtonDelete.Enabled = isExist;
+
+            FirstReplayToolStripMenuItem.Enabled = isExist;
+            PreviousReplayToolStripMenuItem.Enabled = isExist;
+            NextReplayToolStripMenuItem.Enabled = isExist;
+            LastReplayToolStripMenuItem.Enabled = isExist;
+
+            toolStripButtonFirst.Enabled = isExist;
+            toolStripButtonPrevious.Enabled = isExist;
+            toolStripButtonNext.Enabled = isExist;
+            toolStripButtonLast.Enabled = isExist;
 
             if (currentReplay != null)
             {
@@ -634,5 +662,113 @@ namespace thhylR
             } while (currentNum != originalNum);
             return null;
         }
+
+        private void textBoxPath_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
+        private void toolStripButtonFirst_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.First);
+        }
+
+        private void toolStripButtonPrevious_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.Previous);
+        }
+
+        private void toolStripButtonNext_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.Next);
+        }
+
+        private void toolStripButtonLast_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.Last);
+        }
+
+        private void changeReplay(ReplayChangeType changeType)
+        {
+            TreeNode rootNode = treeViewFiles.Nodes[0];
+            TreeNode targetNode = null;
+            if (rootNode.Nodes.Count == 0)
+            {
+                return;
+            }
+            switch (changeType)
+            {
+                case ReplayChangeType.First:
+                    if (currentFilePos == 0) return;
+                    targetNode = rootNode.Nodes[0];
+                    break;
+                case ReplayChangeType.Previous:
+                    if (currentFilePos == 0) return;
+                    targetNode = rootNode.Nodes[currentFilePos - 1];
+                    break;
+                case ReplayChangeType.Next:
+                    if (currentFilePos == rootNode.Nodes.Count - 1) return;
+                    targetNode = rootNode.Nodes[currentFilePos + 1];
+                    break;
+                case ReplayChangeType.Last:
+                    if (currentFilePos == rootNode.Nodes.Count - 1) return;
+                    targetNode = rootNode.Nodes[^1];
+                    break;
+            }
+            if (targetNode != null)
+            {
+                //string targetFile = Path.Combine(rootNode.Text, targetNode.Text);
+                treeViewFiles.SelectedNode = targetNode;
+            }
+        }
+
+        private void FirstReplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.First);
+        }
+
+        private void PreviousReplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.Previous);
+        }
+
+        private void NextReplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.Next);
+        }
+
+        private void LastReplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            changeReplay(ReplayChangeType.Last);
+        }
+
+        private void textBoxPath_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                string filename = textBoxPath.Text;
+                if (File.Exists(filename))
+                {
+                    openReplay(filename);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        public enum ReplayChangeType
+        {
+            First,
+            Previous,
+            Next,
+            Last
+        }
     }
+
+
 }
