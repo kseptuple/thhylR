@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             openReplayDialog = new OpenFileDialog();
             menuStripMain = new MenuStrip();
             FileToolStripMenuItem = new ToolStripMenuItem();
@@ -48,6 +48,12 @@
             toolStripMenuItem2 = new ToolStripSeparator();
             ExitToolStripMenuItem = new ToolStripMenuItem();
             EditToolStripMenuItem = new ToolStripMenuItem();
+            EncodingToolStripMenuItem = new ToolStripMenuItem();
+            Encoding1ToolStripMenuItem = new ToolStripMenuItem();
+            Encoding2ToolStripMenuItem = new ToolStripMenuItem();
+            Encoding3ToolStripMenuItem = new ToolStripMenuItem();
+            Encoding4ToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem3 = new ToolStripSeparator();
             ExportToolStripMenuItem = new ToolStripMenuItem();
             ExportAllToolStripMenuItem = new ToolStripMenuItem();
             ExportCustomToolStripMenuItem = new ToolStripMenuItem();
@@ -73,10 +79,13 @@
             splitContainerMain = new SplitContainer();
             treeViewFiles = new TreeView();
             splitContainerInfo = new SplitContainer();
+            label1 = new Label();
             textBoxPath = new TextBox();
             dataGridInfo = new DataGridView();
             dataGridColumnName = new DataGridViewTextBoxColumn();
             dataGridColumnValue = new DataGridViewTextBoxColumn();
+            label2 = new Label();
+            comboBoxEncoding = new ComboBox();
             textBoxInfo = new TextBox();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
@@ -238,16 +247,56 @@
             // 
             // EditToolStripMenuItem
             // 
-            EditToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportToolStripMenuItem });
+            EditToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { EncodingToolStripMenuItem, toolStripMenuItem3, ExportToolStripMenuItem });
             EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             EditToolStripMenuItem.Size = new Size(71, 24);
             EditToolStripMenuItem.Text = "编辑(&E)";
+            // 
+            // EncodingToolStripMenuItem
+            // 
+            EncodingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { Encoding1ToolStripMenuItem, Encoding2ToolStripMenuItem, Encoding3ToolStripMenuItem, Encoding4ToolStripMenuItem });
+            EncodingToolStripMenuItem.Name = "EncodingToolStripMenuItem";
+            EncodingToolStripMenuItem.Size = new Size(224, 26);
+            EncodingToolStripMenuItem.Text = "编码(&N)";
+            // 
+            // Encoding1ToolStripMenuItem
+            // 
+            Encoding1ToolStripMenuItem.Name = "Encoding1ToolStripMenuItem";
+            Encoding1ToolStripMenuItem.Size = new Size(224, 26);
+            Encoding1ToolStripMenuItem.Text = "1";
+            Encoding1ToolStripMenuItem.Click += Encoding1ToolStripMenuItem_Click;
+            // 
+            // Encoding2ToolStripMenuItem
+            // 
+            Encoding2ToolStripMenuItem.Name = "Encoding2ToolStripMenuItem";
+            Encoding2ToolStripMenuItem.Size = new Size(224, 26);
+            Encoding2ToolStripMenuItem.Text = "2";
+            Encoding2ToolStripMenuItem.Click += Encoding2ToolStripMenuItem_Click;
+            // 
+            // Encoding3ToolStripMenuItem
+            // 
+            Encoding3ToolStripMenuItem.Name = "Encoding3ToolStripMenuItem";
+            Encoding3ToolStripMenuItem.Size = new Size(224, 26);
+            Encoding3ToolStripMenuItem.Text = "3";
+            Encoding3ToolStripMenuItem.Click += Encoding3ToolStripMenuItem_Click;
+            // 
+            // Encoding4ToolStripMenuItem
+            // 
+            Encoding4ToolStripMenuItem.Name = "Encoding4ToolStripMenuItem";
+            Encoding4ToolStripMenuItem.Size = new Size(224, 26);
+            Encoding4ToolStripMenuItem.Text = "4";
+            Encoding4ToolStripMenuItem.Click += Encoding4ToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem3
+            // 
+            toolStripMenuItem3.Name = "toolStripMenuItem3";
+            toolStripMenuItem3.Size = new Size(221, 6);
             // 
             // ExportToolStripMenuItem
             // 
             ExportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportAllToolStripMenuItem, ExportCustomToolStripMenuItem });
             ExportToolStripMenuItem.Name = "ExportToolStripMenuItem";
-            ExportToolStripMenuItem.Size = new Size(201, 26);
+            ExportToolStripMenuItem.Size = new Size(224, 26);
             ExportToolStripMenuItem.Text = "导出原始数据(&P)";
             // 
             // ExportAllToolStripMenuItem
@@ -455,26 +504,38 @@
             // 
             // splitContainerInfo.Panel1
             // 
+            splitContainerInfo.Panel1.Controls.Add(label1);
             splitContainerInfo.Panel1.Controls.Add(textBoxPath);
             splitContainerInfo.Panel1.Controls.Add(dataGridInfo);
             // 
             // splitContainerInfo.Panel2
             // 
+            splitContainerInfo.Panel2.Controls.Add(label2);
+            splitContainerInfo.Panel2.Controls.Add(comboBoxEncoding);
             splitContainerInfo.Panel2.Controls.Add(textBoxInfo);
             splitContainerInfo.Size = new Size(1080, 553);
             splitContainerInfo.SplitterDistance = 769;
             splitContainerInfo.TabIndex = 0;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 3);
+            label1.Name = "label1";
+            label1.Size = new Size(53, 20);
+            label1.TabIndex = 15;
+            label1.Text = "label1";
+            // 
             // textBoxPath
             // 
             textBoxPath.AcceptsReturn = true;
             textBoxPath.AcceptsTab = true;
+            textBoxPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBoxPath.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             textBoxPath.AutoCompleteSource = AutoCompleteSource.FileSystem;
-            textBoxPath.Dock = DockStyle.Top;
-            textBoxPath.Location = new Point(0, 0);
+            textBoxPath.Location = new Point(62, 1);
             textBoxPath.Name = "textBoxPath";
-            textBoxPath.Size = new Size(769, 27);
+            textBoxPath.Size = new Size(707, 27);
             textBoxPath.TabIndex = 14;
             textBoxPath.KeyDown += textBoxPath_KeyDown;
             textBoxPath.PreviewKeyDown += textBoxPath_PreviewKeyDown;
@@ -490,14 +551,14 @@
             dataGridInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridInfo.ColumnHeadersVisible = false;
             dataGridInfo.Columns.AddRange(new DataGridViewColumn[] { dataGridColumnName, dataGridColumnValue });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle1;
             dataGridInfo.Location = new Point(0, 33);
             dataGridInfo.MultiSelect = false;
             dataGridInfo.Name = "dataGridInfo";
@@ -532,15 +593,37 @@
             dataGridColumnValue.Name = "dataGridColumnValue";
             dataGridColumnValue.ReadOnly = true;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 3);
+            label2.Name = "label2";
+            label2.Size = new Size(53, 20);
+            label2.TabIndex = 8;
+            label2.Text = "label2";
+            // 
+            // comboBoxEncoding
+            // 
+            comboBoxEncoding.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxEncoding.DisplayMember = "Name";
+            comboBoxEncoding.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxEncoding.FormattingEnabled = true;
+            comboBoxEncoding.Location = new Point(62, 0);
+            comboBoxEncoding.Name = "comboBoxEncoding";
+            comboBoxEncoding.Size = new Size(245, 28);
+            comboBoxEncoding.TabIndex = 7;
+            comboBoxEncoding.ValueMember = "CodePage";
+            comboBoxEncoding.SelectedIndexChanged += comboBoxEncoding_SelectedIndexChanged;
+            // 
             // textBoxInfo
             // 
-            textBoxInfo.Dock = DockStyle.Fill;
-            textBoxInfo.Location = new Point(0, 0);
+            textBoxInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            textBoxInfo.Location = new Point(0, 33);
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(307, 553);
+            textBoxInfo.Size = new Size(307, 520);
             textBoxInfo.TabIndex = 6;
             // 
             // FormMain
@@ -627,5 +710,14 @@
         private ToolStripMenuItem FirstReplayToolStripMenuItem;
         private ToolStripMenuItem NextReplayToolStripMenuItem;
         private ToolStripMenuItem LastReplayToolStripMenuItem;
+        private ToolStripMenuItem EncodingToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem3;
+        private ComboBox comboBoxEncoding;
+        private Label label1;
+        private Label label2;
+        private ToolStripMenuItem Encoding1ToolStripMenuItem;
+        private ToolStripMenuItem Encoding2ToolStripMenuItem;
+        private ToolStripMenuItem Encoding3ToolStripMenuItem;
+        private ToolStripMenuItem Encoding4ToolStripMenuItem;
     }
 }

@@ -18,10 +18,10 @@ namespace thhylR
         public FormSettings()
         {
             InitializeComponent();
-            ResourceLoader.SetText(this);
+            ResourceLoader.SetFormText(this);
+            TopMost = SettingProvider.Settings.OnTop;
             listBoxTabs.DataSource = tabControlMain.TabPages;
             listBoxTabs.DisplayMember = "Text";
-            comboBoxEncode1.SelectedIndex = 0;
             tabControlMain.ItemSize = new Size(0, 1);
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType1"));
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType2"));
@@ -70,25 +70,26 @@ namespace thhylR
         private void FormSettings_Load(object sender, EventArgs e)
         {
             var nullItem = new { Name = ResourceLoader.getTextResource("EncodingNone"), CodePage = -1 };
+            comboBoxEncode1.Items.Add(nullItem);
             comboBoxEncode2.Items.Add(nullItem);
             comboBoxEncode3.Items.Add(nullItem);
             comboBoxEncode4.Items.Add(nullItem);
-            comboBoxEncode5.Items.Add(nullItem);
+            
 
             var defaultItem = new { Name = ResourceLoader.getTextResource("EncodingDefault"), CodePage = 0 };
+            comboBoxEncode1.Items.Add(defaultItem);
             comboBoxEncode2.Items.Add(defaultItem);
             comboBoxEncode3.Items.Add(defaultItem);
             comboBoxEncode4.Items.Add(defaultItem);
-            comboBoxEncode5.Items.Add(defaultItem);
 
             var encodingInfoList = Encoding.GetEncodings().ToList();
             encodingInfoList = encodingInfoList.OrderBy(e => e.Name.ToLower()).ToList();
             foreach (var encodingInfo in encodingInfoList)
             {
+                comboBoxEncode1.Items.Add(encodingInfo);
                 comboBoxEncode2.Items.Add(encodingInfo);
                 comboBoxEncode3.Items.Add(encodingInfo);
                 comboBoxEncode4.Items.Add(encodingInfo);
-                comboBoxEncode5.Items.Add(encodingInfo);
             }
             ProgramSettings settings = SettingProvider.Settings;
 
@@ -125,19 +126,14 @@ namespace thhylR
             radioButtonAllEncoding.Checked = settings.ShowAllEncodings;
             radioButtonCommonEncoding.Checked = !settings.ShowAllEncodings;
 
-            checkBoxEncode2.Checked = settings.Encodings[0].UseEncoding;
-            comboBoxEncode2.SetSelectedValue(settings.Encodings[0].EncodingId);
-            checkBoxEncode3.Checked = settings.Encodings[1].UseEncoding;
-            comboBoxEncode3.SetSelectedValue(settings.Encodings[1].EncodingId);
-            checkBoxEncode4.Checked = settings.Encodings[2].UseEncoding;
-            comboBoxEncode4.SetSelectedValue(settings.Encodings[2].EncodingId);
-            checkBoxEncode5.Checked = settings.Encodings[3].UseEncoding;
-            comboBoxEncode5.SetSelectedValue(settings.Encodings[3].EncodingId);
-
-            setEncodingComboEnable(checkBoxEncode2, comboBoxEncode2);
-            setEncodingComboEnable(checkBoxEncode3, comboBoxEncode3);
-            setEncodingComboEnable(checkBoxEncode4, comboBoxEncode4);
-            setEncodingComboEnable(checkBoxEncode5, comboBoxEncode5);
+            checkBoxEncode1.Checked = settings.Encodings[0].UseEncoding;
+            comboBoxEncode1.SetSelectedValue(settings.Encodings[0].EncodingId);
+            checkBoxEncode2.Checked = settings.Encodings[1].UseEncoding;
+            comboBoxEncode2.SetSelectedValue(settings.Encodings[1].EncodingId);
+            checkBoxEncode3.Checked = settings.Encodings[2].UseEncoding;
+            comboBoxEncode3.SetSelectedValue(settings.Encodings[2].EncodingId);
+            checkBoxEncode4.Checked = settings.Encodings[3].UseEncoding;
+            comboBoxEncode4.SetSelectedValue(settings.Encodings[3].EncodingId);
 
             foreach (TabPage tabPage in tabControlMain.TabPages)
             {
@@ -256,31 +252,6 @@ namespace thhylR
             SaveSettings();
         }
 
-        private void checkBoxEncode2_CheckedChanged(object sender, EventArgs e)
-        {
-            setEncodingComboEnable(checkBoxEncode2, comboBoxEncode2);
-        }
-
-        private void checkBoxEncode3_CheckedChanged(object sender, EventArgs e)
-        {
-            setEncodingComboEnable(checkBoxEncode3, comboBoxEncode3);
-        }
-
-        private void checkBoxEncode4_CheckedChanged(object sender, EventArgs e)
-        {
-            setEncodingComboEnable(checkBoxEncode4, comboBoxEncode4);
-        }
-
-        private void checkBoxEncode5_CheckedChanged(object sender, EventArgs e)
-        {
-            setEncodingComboEnable(checkBoxEncode5, comboBoxEncode5);
-        }
-
-        private void setEncodingComboEnable(CheckBox checkBox, ComboBox comboBox)
-        {
-            comboBox.Enabled = checkBox.Checked;
-        }
-
         private void buttonOK_Click(object sender, EventArgs e)
         {
             SaveSettings();
@@ -310,14 +281,21 @@ namespace thhylR
             settings.OperAfterCopy = comboBoxOperAfterCopy.SelectedIndex == 0 ? FileOperate.KeepOrClose : FileOperate.New;
             settings.OperAfterDelete = comboBoxOperAfterDelete.SelectedIndex == 0 ? FileOperate.KeepOrClose : FileOperate.Next;
 
-            settings.Encodings[0].UseEncoding = checkBoxEncode2.Checked;
-            settings.Encodings[0].EncodingId = (int)comboBoxEncode2.GetSelectedValue();
-            settings.Encodings[1].UseEncoding = checkBoxEncode3.Checked;
-            settings.Encodings[1].EncodingId = (int)comboBoxEncode3.GetSelectedValue();
-            settings.Encodings[2].UseEncoding = checkBoxEncode4.Checked;
-            settings.Encodings[2].EncodingId = (int)comboBoxEncode4.GetSelectedValue();
-            settings.Encodings[3].UseEncoding = checkBoxEncode5.Checked;
-            settings.Encodings[3].EncodingId = (int)comboBoxEncode5.GetSelectedValue();
+            settings.Encodings[0].UseEncoding = checkBoxEncode1.Checked;
+            settings.Encodings[0].EncodingId = (int)comboBoxEncode1.GetSelectedValue();
+            settings.Encodings[1].UseEncoding = checkBoxEncode2.Checked;
+            settings.Encodings[1].EncodingId = (int)comboBoxEncode2.GetSelectedValue();
+            settings.Encodings[2].UseEncoding = checkBoxEncode3.Checked;
+            settings.Encodings[2].EncodingId = (int)comboBoxEncode3.GetSelectedValue();
+            settings.Encodings[3].UseEncoding = checkBoxEncode4.Checked;
+            settings.Encodings[3].EncodingId = (int)comboBoxEncode4.GetSelectedValue();
+
+            if (settings.Encodings[0].EncodingId == -1 && settings.Encodings[1].EncodingId == -1
+                && settings.Encodings[2].EncodingId == -1 && settings.Encodings[3].EncodingId == -1)
+            {
+                settings.ShowAllEncodings = true;
+                radioButtonAllEncoding.Checked = true;
+            }
 
             settings.NormalFont = SystemFont;
             settings.SymbolFont = SymbolFont;
@@ -392,40 +370,6 @@ namespace thhylR
                 setLifeBombExample();
             }
             
-        }
-    }
-
-    public static class ComboBoxHelper
-    {
-        public static void SetSelectedValue(this ComboBox comboBox, object value)
-        {
-            if (comboBox.Items.Count > 0)
-            {
-                for (int i = 0; i < comboBox.Items.Count; i++)
-                {
-                    object item = comboBox.Items[i];
-                    object thisValue = item.GetType().GetProperty(comboBox.ValueMember).GetValue(item);
-                    if (thisValue != null && thisValue.Equals(value))
-                    {
-                        comboBox.SelectedIndex = i;
-                        return;
-                    }
-                }
-                comboBox.SelectedIndex = 0;
-            }
-        }
-
-        public static object GetSelectedValue(this ComboBox comboBox)
-        {
-            if (comboBox.SelectedIndex != -1)
-            {
-                object item = comboBox.Items[comboBox.SelectedIndex];
-                return item.GetType().GetProperty(comboBox.ValueMember).GetValue(item);
-            }
-            else
-            {
-                return null;
-            }
         }
     }
 }

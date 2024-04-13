@@ -56,12 +56,10 @@
             checkBoxOnTop = new CheckBox();
             tabPage3 = new TabPage();
             groupBox2 = new GroupBox();
-            checkBoxEncode5 = new CheckBox();
             checkBoxEncode4 = new CheckBox();
             checkBoxEncode3 = new CheckBox();
             checkBoxEncode2 = new CheckBox();
             checkBoxEncode1 = new CheckBox();
-            comboBoxEncode5 = new ComboBox();
             comboBoxEncode4 = new ComboBox();
             comboBoxEncode3 = new ComboBox();
             comboBoxEncode2 = new ComboBox();
@@ -91,7 +89,7 @@
             tabControlMain.Location = new Point(168, 12);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(419, 274);
+            tabControlMain.Size = new Size(419, 253);
             tabControlMain.SizeMode = TabSizeMode.Fixed;
             tabControlMain.TabIndex = 7;
             // 
@@ -108,7 +106,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(411, 246);
+            tabPage1.Size = new Size(411, 225);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "显示格式";
             tabPage1.UseVisualStyleBackColor = true;
@@ -268,7 +266,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(411, 246);
+            tabPage2.Size = new Size(411, 225);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "程序";
             tabPage2.UseVisualStyleBackColor = true;
@@ -364,40 +362,27 @@
             tabPage3.Controls.Add(radioButtonAllEncoding);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(411, 246);
+            tabPage3.Size = new Size(411, 225);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "编码切换";
             tabPage3.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(checkBoxEncode5);
             groupBox2.Controls.Add(checkBoxEncode4);
             groupBox2.Controls.Add(checkBoxEncode3);
             groupBox2.Controls.Add(checkBoxEncode2);
             groupBox2.Controls.Add(checkBoxEncode1);
-            groupBox2.Controls.Add(comboBoxEncode5);
             groupBox2.Controls.Add(comboBoxEncode4);
             groupBox2.Controls.Add(comboBoxEncode3);
             groupBox2.Controls.Add(comboBoxEncode2);
             groupBox2.Controls.Add(comboBoxEncode1);
             groupBox2.Location = new Point(6, 66);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(534, 193);
+            groupBox2.Size = new Size(405, 173);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "常用编码";
-            // 
-            // checkBoxEncode5
-            // 
-            checkBoxEncode5.AutoSize = true;
-            checkBoxEncode5.Location = new Point(6, 160);
-            checkBoxEncode5.Name = "checkBoxEncode5";
-            checkBoxEncode5.Size = new Size(153, 24);
-            checkBoxEncode5.TabIndex = 9;
-            checkBoxEncode5.Text = "启用快捷键（F5）";
-            checkBoxEncode5.UseVisualStyleBackColor = true;
-            checkBoxEncode5.CheckedChanged += checkBoxEncode5_CheckedChanged;
             // 
             // checkBoxEncode4
             // 
@@ -408,7 +393,6 @@
             checkBoxEncode4.TabIndex = 8;
             checkBoxEncode4.Text = "启用快捷键（F4）";
             checkBoxEncode4.UseVisualStyleBackColor = true;
-            checkBoxEncode4.CheckedChanged += checkBoxEncode4_CheckedChanged;
             // 
             // checkBoxEncode3
             // 
@@ -419,7 +403,6 @@
             checkBoxEncode3.TabIndex = 7;
             checkBoxEncode3.Text = "启用快捷键（F3）";
             checkBoxEncode3.UseVisualStyleBackColor = true;
-            checkBoxEncode3.CheckedChanged += checkBoxEncode3_CheckedChanged;
             // 
             // checkBoxEncode2
             // 
@@ -430,31 +413,16 @@
             checkBoxEncode2.TabIndex = 6;
             checkBoxEncode2.Text = "启用快捷键（F2）";
             checkBoxEncode2.UseVisualStyleBackColor = true;
-            checkBoxEncode2.CheckedChanged += checkBoxEncode2_CheckedChanged;
             // 
             // checkBoxEncode1
             // 
             checkBoxEncode1.AutoSize = true;
-            checkBoxEncode1.Checked = true;
-            checkBoxEncode1.CheckState = CheckState.Checked;
-            checkBoxEncode1.Enabled = false;
             checkBoxEncode1.Location = new Point(6, 26);
             checkBoxEncode1.Name = "checkBoxEncode1";
             checkBoxEncode1.Size = new Size(153, 24);
             checkBoxEncode1.TabIndex = 5;
             checkBoxEncode1.Text = "启用快捷键（F1）";
             checkBoxEncode1.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxEncode5
-            // 
-            comboBoxEncode5.DisplayMember = "Name";
-            comboBoxEncode5.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxEncode5.FormattingEnabled = true;
-            comboBoxEncode5.Location = new Point(202, 158);
-            comboBoxEncode5.Name = "comboBoxEncode5";
-            comboBoxEncode5.Size = new Size(200, 28);
-            comboBoxEncode5.TabIndex = 4;
-            comboBoxEncode5.ValueMember = "CodePage";
             // 
             // comboBoxEncode4
             // 
@@ -491,14 +459,14 @@
             // 
             // comboBoxEncode1
             // 
+            comboBoxEncode1.DisplayMember = "Name";
             comboBoxEncode1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxEncode1.Enabled = false;
             comboBoxEncode1.FormattingEnabled = true;
-            comboBoxEncode1.Items.AddRange(new object[] { "自动选择" });
             comboBoxEncode1.Location = new Point(202, 24);
             comboBoxEncode1.Name = "comboBoxEncode1";
             comboBoxEncode1.Size = new Size(200, 28);
             comboBoxEncode1.TabIndex = 0;
+            comboBoxEncode1.ValueMember = "CodePage";
             // 
             // radioButtonCommonEncoding
             // 
@@ -528,13 +496,13 @@
             listBoxTabs.ItemHeight = 20;
             listBoxTabs.Location = new Point(12, 12);
             listBoxTabs.Name = "listBoxTabs";
-            listBoxTabs.Size = new Size(150, 264);
+            listBoxTabs.Size = new Size(150, 244);
             listBoxTabs.TabIndex = 8;
             listBoxTabs.SelectedIndexChanged += listBoxTabs_SelectedIndexChanged;
             // 
             // buttonOK
             // 
-            buttonOK.Location = new Point(289, 288);
+            buttonOK.Location = new Point(289, 267);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(94, 29);
             buttonOK.TabIndex = 9;
@@ -544,7 +512,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(389, 288);
+            buttonCancel.Location = new Point(389, 267);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(94, 29);
             buttonCancel.TabIndex = 10;
@@ -555,7 +523,7 @@
             // buttonApply
             // 
             buttonApply.Enabled = false;
-            buttonApply.Location = new Point(489, 288);
+            buttonApply.Location = new Point(489, 267);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(94, 29);
             buttonApply.TabIndex = 11;
@@ -573,7 +541,7 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(595, 324);
+            ClientSize = new Size(595, 302);
             Controls.Add(buttonApply);
             Controls.Add(buttonCancel);
             Controls.Add(buttonOK);
@@ -627,12 +595,10 @@
         private ComboBox comboBoxEncode1;
         private RadioButton radioButtonCommonEncoding;
         private RadioButton radioButtonAllEncoding;
-        private CheckBox checkBoxEncode5;
         private CheckBox checkBoxEncode4;
         private CheckBox checkBoxEncode3;
         private CheckBox checkBoxEncode2;
         private CheckBox checkBoxEncode1;
-        private ComboBox comboBoxEncode5;
         private CheckBox checkBoxRegisterAll;
         private CheckBox checkBoxRegisterCurrent;
         private Button buttonOK;

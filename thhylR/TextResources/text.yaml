@@ -1,5 +1,12 @@
 FormMain: 
   - 东方回映录 Remake
+  - splitContainerMain:
+    - MainPanel2:
+      - splitContainerInfo:
+        - InfoPanel1:
+          - label1: 文件名：
+        - InfoPanel2:
+          - label2: 编码：
   - menuStripMain:
     - FileToolStripMenuItem: 
       - 文件(&F)
@@ -17,9 +24,10 @@ FormMain:
       - ExitToolStripMenuItem: 退出(&X)
     - EditToolStripMenuItem: 
       - 编辑(&E)
+      - EncodingToolStripMenuItem: 编码(&N)
       - ExportToolStripMenuItem: 
         - 导出原始数据(&P)
-        - ExportAllToolStripMenuItem: 全部(&A)
+        - ExportAllToolStripMenuItem: 全部(&A)...
         - ExportCustomToolStripMenuItem: 自定义(&C)...
     - ToolToolStripMenuItem: 
       - 工具(&T)
@@ -37,8 +45,8 @@ FormSettings:
         - label3: 得分：
         - label4: 残机：
         - label5: 符卡：
-      - buttonFontNormal: 字体...
-      - buttonFontSymbol: 符号字体...
+      - buttonFontNormal: 字体
+      - buttonFontSymbol: 符号字体
     - tabPage2:
       - 程序
       - checkBoxOnTop: 窗口置顶
@@ -54,11 +62,11 @@ FormSettings:
       - radioButtonCommonEncoding: 主界面只显示常用编码
       - groupBox2:
         - 常用编码
-        - checkBoxEncode1: 启用快捷键（F1）
-        - checkBoxEncode2: 启用快捷键（F2）
-        - checkBoxEncode3: 启用快捷键（F3）
-        - checkBoxEncode4: 启用快捷键（F4）
-        - checkBoxEncode5: 启用快捷键（F5）
+        - checkBoxEncode1: 启用快捷键（F5）
+        - checkBoxEncode2: 启用快捷键（F6）
+        - checkBoxEncode3: 启用快捷键（F7）
+        - checkBoxEncode4: 启用快捷键（F8）
+        - checkBoxEncode5: 启用快捷键（F9）
   - buttonOK: 确定
   - buttonCancel: 取消
   - buttonApply: 应用

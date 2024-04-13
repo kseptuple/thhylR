@@ -45,34 +45,37 @@ namespace thhylR.Helper
             }
         }
 
-        public static void SetText(Form form)
+        public static void InitTextResource()
+        {
+            textResources.Clear();
+            if (resource.ContainsKey("text"))
+            {
+                dynamic textStrings = resource["text"];
+                textResources.Clear();
+                foreach (var textItem in textStrings)
+                {
+                    foreach (var textItemName in textItem.Keys)
+                    {
+                        if (!textResources.ContainsKey(textItemName))
+                        {
+                            textResources.Add(textItemName, textItem[textItemName]);
+                        }
+                        else
+                        {
+                            textResources[textItemName] = textItem[textItemName];
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void SetFormText(Form form)
         {
             if (resource.ContainsKey(form.Name))
             {
                 dynamic currentFormStrings = resource[form.Name];
                 form.Text = currentFormStrings[0];
                 setControlText(form.Controls, currentFormStrings);
-
-                textResources.Clear();
-                if (resource.ContainsKey("text"))
-                {
-                    dynamic textStrings = resource["text"];
-                    textResources.Clear();
-                    foreach (var textItem in textStrings)
-                    {
-                        foreach (var textItemName in textItem.Keys)
-                        {
-                            if (!textResources.ContainsKey(textItemName))
-                            {
-                                textResources.Add(textItemName, textItem[textItemName]);
-                            }
-                            else
-                            {
-                                textResources[textItemName] = textItem[textItemName];
-                            }
-                        }
-                    }
-                }
             }
 
             void setControlText(Control.ControlCollection controls, dynamic currentControlText)

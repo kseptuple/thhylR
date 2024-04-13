@@ -18,7 +18,8 @@ namespace thhylR
         public FormRename()
         {
             InitializeComponent();
-            ResourceLoader.SetText(this);
+            ResourceLoader.SetFormText(this);
+            TopMost = SettingProvider.Settings.OnTop;
         }
 
         public FormRename(string fileName) : this()

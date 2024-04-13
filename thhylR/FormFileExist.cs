@@ -16,7 +16,8 @@ namespace thhylR
         public FormFileExist()
         {
             InitializeComponent();
-            ResourceLoader.SetText(this);
+            ResourceLoader.SetFormText(this);
+            TopMost = SettingProvider.Settings.OnTop;
         }
 
         public FileExistResult Result = FileExistResult.Cancel;
