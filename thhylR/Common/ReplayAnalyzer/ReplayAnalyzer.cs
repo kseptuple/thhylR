@@ -22,49 +22,6 @@ namespace thhylR.Common
         public static int defaultCodePage = 932;
         public static int defaultCHNCodePage = 936;
 
-        public static List<InfoBlock> GetReplayInfoBlocks(byte[] replayData, int infoBlockStart)
-        {
-            var result = new List<InfoBlock>();
-            int offset = infoBlockStart;
-            while (offset <= replayData.Length - 12)
-            {
-                var blockLength = BitConverter.ToInt32(replayData, offset + 4);
-                if (blockLength == 0)
-                {
-                    break;
-                }
-                if (offset + blockLength > replayData.Length)
-                {
-                    break;
-                }
-                if (blockLength >= 12)
-                {
-                    var infoBlock = new InfoBlock();
-                    try
-                    {
-                        infoBlock.Marker = Encoding.ASCII.GetString(replayData[offset..(offset + 4)]);
-                    }
-                    catch
-                    {
-                        infoBlock.Marker = string.Empty;
-                    }
-                    infoBlock.Length = blockLength;
-                    infoBlock.Id = BitConverter.ToInt32(replayData, offset + 8);
-                    if (blockLength == 12)
-                    {
-                        infoBlock.Data = new byte[0];
-                    }
-                    else
-                    {
-                        infoBlock.Data = replayData[(offset + 12)..(offset + blockLength)];
-                    }
-                    result.Add(infoBlock);
-                }
-                offset += blockLength;
-            }
-            return result;
-        }
-
         public static bool IsSpecialCHNVersion(string gameId, byte[] afterDecompressData)
         {
             string version = null;
@@ -146,15 +103,16 @@ namespace thhylR.Common
             if (gameData == null) return null;
             TouhouReplay result = new TouhouReplay();
             result.GameData = gameData;
-            insertIntoDisplayTable("游戏名", gameData.GameDisplayName, gameData.GameDisplayName, "GameDisplayName", -1);
+            insertIntoDisplayTable(ResourceLoader.getTextResource("GameName"), gameData.GameDisplayName, gameData.GameDisplayName, "GameDisplayName", -1);
             var decodeSetting = gameData.DecodeSetting;
             List<InfoBlock> infoBlocks = null;
             byte[] infoBlockData = null;
             if (gameData.InfoBlock != -1)
             {
                 int infoBlockStartData = BitConverter.ToInt32(replayData, gameData.InfoBlock);
+                result.InfoBlockStart = infoBlockStartData;
                 infoBlockData = replayData[infoBlockStartData..];
-                infoBlocks = GetReplayInfoBlocks(replayData, infoBlockStartData);
+                infoBlocks = UserInfo.GetReplayInfoBlocks(replayData, infoBlockStartData);
             }
             result.InfoBlockRawData = infoBlockData;
             result.InfoBlocks = infoBlocks;
@@ -234,14 +192,14 @@ namespace thhylR.Common
                 var userBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.UserInfo);
                 if (userBlock != null)
                 {
-                    string replaySummary = GetStringFromByteArray(infoCodePage, userBlock.Data);
-                    insertIntoDisplayTable("录像摘要", replaySummary, replaySummary, "ReplaySummary", -1);
+                    string replaySummary = UserInfo.GetStringFromByteArray(infoCodePage, userBlock.Data);
+                    insertIntoDisplayTable(ResourceLoader.getTextResource("ReplaySummary"), replaySummary, replaySummary, "ReplaySummary", -1);
                 }
                 var commentBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.Comment);
                 if (commentBlock != null)
                 {
-                    string comment = GetStringFromByteArray(codePage, commentBlock.Data);
-                    insertIntoDisplayTable("注释", comment, comment, "Comment", -1);
+                    string comment = UserInfo.GetStringFromByteArray(codePage, commentBlock.Data);
+                    insertIntoDisplayTable(ResourceLoader.getTextResource("ReplayComment"), comment, comment, "Comment", -1);
                 }
             }
             insertEmptyLine();
@@ -334,7 +292,8 @@ namespace thhylR.Common
                     if (gameData.NeedStage)
                     {
                         insertEmptyLine();
-                        insertIntoDisplayTable("关卡", null, stageId, "Stage", stageId, string.Empty, string.Empty, "true", stageFormatter);
+                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId, 
+                            string.Empty, string.Empty, "true", stageFormatter);
                     }
                     else
                     {
@@ -352,7 +311,8 @@ namespace thhylR.Common
                     if (gameData.NeedStage)
                     {
                         insertEmptyLine();
-                        insertIntoDisplayTable("关卡", null, stageId, "Stage", stageId, string.Empty, string.Empty, "true", stageFormatter);
+                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId, 
+                            string.Empty, string.Empty, "true", stageFormatter);
                     }
                     else
                     {
@@ -534,7 +494,7 @@ namespace thhylR.Common
             var commentBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.Comment);
             if (commentBlock != null)
             {
-                string comment = GetStringFromByteArray(codePage, commentBlock.Data);
+                string comment = UserInfo.GetStringFromByteArray(codePage, commentBlock.Data);
                 DataRow dr = data.Select("Id = 'Comment'").FirstOrDefault();
                 if (dr != null)
                 {
@@ -676,20 +636,6 @@ namespace thhylR.Common
             }
 
             return result;
-        }
-
-        public static string GetStringFromByteArray(int codePage, byte[] bytes)
-        {
-            Encoding encoding = null;
-            if (codePage == 0)
-            {
-                encoding = Encoding.Default;
-            }
-            else
-            {
-                encoding = Encoding.GetEncoding(codePage);
-            }
-            return encoding.GetString(bytes);
         }
     }
 }

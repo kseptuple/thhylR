@@ -43,7 +43,13 @@ namespace thhylR
             toolStripButtonNext.Enabled = isExist;
             toolStripButtonLast.Enabled = isExist;
 
-            if (currentReplay != null)
+            if (!isExist)
+            {
+                toolStripButtonEditComment.Enabled = false;
+                EditCommentToolStripMenuItem.Enabled = false;
+            }
+
+            if (currentReplay != null && !isExist)
             {
                 currentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
             }
@@ -70,7 +76,7 @@ namespace thhylR
                 return;
             }
             byte[] fileData = File.ReadAllBytes(fileName);
-            currentReplay = ReplayAnalyzer.Analyze(fileData, currentCodePage);
+            currentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
             if (currentReplay != null)
             {
                 textBoxPath.Text = fileName;
@@ -84,6 +90,9 @@ namespace thhylR
                     fileSystemWatcherFolder.Path = replayPath;
                 }
                 setFileIsOpen(true);
+
+                EditCommentToolStripMenuItem.Enabled = currentReplay.InfoBlocks != null;
+                toolStripButtonEditComment.Enabled = currentReplay.InfoBlocks != null;
             }
             else
             {
@@ -465,6 +474,20 @@ namespace thhylR
             }
         }
 
+        private void EditCommentCommand()
+        {
+            if (currentReplay != null && currentReplay.InfoBlocks != null)
+            {
+                FormCommentEditor editor = new FormCommentEditor(currentReplay.FilePath, currentReplay.InfoBlocks, 
+                    SettingProvider.Settings.CurrentCodePage, currentReplay.InfoBlockStart);
+                var result = editor.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    openReplay(editor.FileName);
+                }
+            }
+        }
+
         private void loadEncodingList()
         {
             var encodings = SettingProvider.Settings.Encodings;
@@ -486,7 +509,7 @@ namespace thhylR
                 showAllEncodingsOld = showAllEncodings;
             }
 
-            if (showAllEncodings)
+            if (showAllEncodings && comboBoxRequireInit)
             {
                 comboBoxEncoding.Items.Add(defaultItem);
 
@@ -549,11 +572,11 @@ namespace thhylR
             if (comboBoxEncoding.Items.Count == 0)
             {
                 comboBoxEncoding.Items.Add(Encoding.GetEncoding(932));
-                currentCodePage = 932;
+                SettingProvider.Settings.CurrentCodePage = 932;
             }
             else
             {
-                currentCodePage = codePage;
+                SettingProvider.Settings.CurrentCodePage = codePage;
             }
             comboBoxEncoding.SelectedIndex = 0;
         }

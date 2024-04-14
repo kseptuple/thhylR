@@ -12,6 +12,7 @@ namespace thhylR.Helper
 {
     public class ProgramSettings
     {
+        public int Version { get; set; }
         public ScoreFormat ScoreType { get; set; }
         public LifeBombFormat LifeBombType { get; set; }
         public bool ShowEmptyIcon { get; set; }
@@ -76,6 +77,19 @@ namespace thhylR.Helper
         public FontInfo NormalFontInfo { get; set; }
         public FontInfo SymbolFontInfo { get; set; }
 
+        public int CurrentCodePage { get; set; }
+
+        public int MainFormTop { get; set; }
+        public int MainFormLeft { get; set; }
+        public int MainFormWidth { get; set; }
+        public int MainFormHeight { get; set; }
+        public int MainFormSplitter1Pos { get; set; }
+        public int MainFormSplitter2Pos { get; set; }
+
+        public int CommentFormWidth { get; set; }
+        public int CommnetFormHeight { get; set; }
+
+
         public class CommonEncoding
         {
             public int EncodingId { get; set; }
@@ -85,6 +99,7 @@ namespace thhylR.Helper
 
     public static class SettingProvider
     {
+        public const int currentVersion = 1;
         public static ProgramSettings Settings { get; set; }
 
         public static void Init()
@@ -106,6 +121,7 @@ namespace thhylR.Helper
             if (Settings == null)
             {
                 Settings = new ProgramSettings();
+                Settings.Version = currentVersion;
                 Settings.ScoreType = ScoreFormat.Comma;
                 Settings.LifeBombType = LifeBombFormat.Heart;
                 Settings.ShowEmptyIcon = false;
@@ -117,13 +133,24 @@ namespace thhylR.Helper
                 Settings.Encodings = new List<ProgramSettings.CommonEncoding>
                 {
                     new() { EncodingId = 932, UseEncoding = true },
-                    new() { EncodingId = 936, UseEncoding = true },
+                    new() { EncodingId = 65001, UseEncoding = true },
                     new() { EncodingId = 0, UseEncoding = true },
                     new() { EncodingId = -1, UseEncoding = false }
                 };
 
                 Settings.NormalFont = new Font(SystemFonts.DefaultFont.Name, 12F, FontStyle.Regular);
                 Settings.SymbolFont = new Font("Segoe UI Symbol", 12F, FontStyle.Regular);
+                Settings.CurrentCodePage = 932;
+
+                Settings.MainFormLeft = -1;
+                Settings.MainFormTop = -1;
+                Settings.MainFormWidth = 1200;
+                Settings.MainFormHeight = 700;
+                Settings.MainFormSplitter1Pos = 250;
+                Settings.MainFormSplitter2Pos = 600;
+
+                Settings.CommentFormWidth = 600;
+                Settings.CommnetFormHeight = 450;
 
                 SaveSettings();
             }
@@ -141,9 +168,12 @@ namespace thhylR.Helper
 
         public static void SaveSettings()
         {
+            if (Settings.NormalFontInfo == null) Settings.NormalFontInfo = new FontInfo();
             Settings.NormalFontInfo.Name = Settings.NormalFont.Name;
             Settings.NormalFontInfo.Size = Settings.NormalFont.Size;
             Settings.NormalFontInfo.Style = Settings.NormalFont.Style;
+
+            if (Settings.SymbolFontInfo == null) Settings.SymbolFontInfo = new FontInfo();
             Settings.SymbolFontInfo.Name = Settings.SymbolFont.Name;
             Settings.SymbolFontInfo.Size = Settings.SymbolFont.Size;
             Settings.SymbolFontInfo.Style = Settings.SymbolFont.Style;

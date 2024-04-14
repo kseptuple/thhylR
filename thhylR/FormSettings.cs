@@ -82,8 +82,7 @@ namespace thhylR
             comboBoxEncode3.Items.Add(defaultItem);
             comboBoxEncode4.Items.Add(defaultItem);
 
-            var encodingInfoList = Encoding.GetEncodings().ToList();
-            encodingInfoList = encodingInfoList.OrderBy(e => e.Name.ToLower()).ToList();
+            var encodingInfoList = EncodingHelper.EncodingList;
             foreach (var encodingInfo in encodingInfoList)
             {
                 comboBoxEncode1.Items.Add(encodingInfo);

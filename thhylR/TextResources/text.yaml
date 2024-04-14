@@ -25,6 +25,7 @@ FormMain:
     - EditToolStripMenuItem: 
       - 编辑(&E)
       - EncodingToolStripMenuItem: 编码(&N)
+      - EditCommentToolStripMenuItem: 编辑注释(&M)...
       - ExportToolStripMenuItem: 
         - 导出原始数据(&P)
         - ExportAllToolStripMenuItem: 全部(&A)...
@@ -58,15 +59,14 @@ FormSettings:
       - checkBoxRegisterAll: 关联.rpy文件（所有用户）（需要管理员权限）
     - tabPage3:
       - 编码切换
-      - radioButtonAllEncoding: 主界面显示全部编码
-      - radioButtonCommonEncoding: 主界面只显示常用编码
+      - radioButtonAllEncoding: 显示全部编码
+      - radioButtonCommonEncoding: 只显示常用编码
       - groupBox2:
         - 常用编码
         - checkBoxEncode1: 启用快捷键（F5）
         - checkBoxEncode2: 启用快捷键（F6）
         - checkBoxEncode3: 启用快捷键（F7）
         - checkBoxEncode4: 启用快捷键（F8）
-        - checkBoxEncode5: 启用快捷键（F9）
   - buttonOK: 确定
   - buttonCancel: 取消
   - buttonApply: 应用
@@ -81,7 +81,21 @@ FormFileExist:
   - buttonOverwrite: 覆盖
   - buttonRename: 重命名
   - buttonCancel: 取消
+FormCommentEditor:
+  - 编辑录像注释
+  - label1: 编码：
+  - buttonSave: 保存
+  - buttonSaveAs: 另存为...
+  - buttonClose: 关闭
+  - splitContainerMain:
+    - CommentPanel2:
+      - label2: 预览：
 text:
+  - GameName: 游戏名
+  - ReplaySummary: 录像摘要
+  - ReplayComment: 注释
+  - GameStage: 关卡
+  - ReplayFileFilter: 录像文件|*.rpy
   - RawDataFilter: 原始数据|*.bin
   - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
   - NotExistedFile: "找不到文件：{0}"
@@ -116,6 +130,10 @@ text:
   - PreviousReplayTip: 打开上一个录像文件
   - NextReplayTip: 打开下一个录像文件
   - LastReplayTip: 打开最后一个录像文件
+  - EditCommentTip: 编辑录像注释
+  - OptionTip: 程序选项
   - AutoRenameFail: 自动重命名失败，请手动修改文件名。
   - AutoRenameComplete: "文件已自动重命名为{0}。"
   - DeleteWarning: 确定要删除该文件吗？文件将不会移动到回收站，而是直接删除！
+  - NonShiftJISWarning: 使用shift-jis以外的编码可能导致其他程序无法读取注释，是否继续保存？
+  - CommentCloseWarning: 有未保存的修改，是否保存？

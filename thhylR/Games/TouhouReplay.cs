@@ -28,6 +28,8 @@ namespace thhylR.Games
 
         public List<InfoBlock> InfoBlocks { get; set; }
 
+        public int InfoBlockStart { get; set; } = -1;
+
         public double CalculatedTotalSlowRate { get; set; }
 
         public List<GameCustomInfoItem> GameRelatedData { get; set; }
@@ -63,36 +65,6 @@ namespace thhylR.Games
         FileNotExist = 0x1,
         ChnVerReplay = 0x2,
         StageLengthError = 0x4,
-    }
-
-    public class InfoBlock
-    {
-        public string Marker { get; set; }
-        public int Length { get; set; }
-        public int Id { get; set; }
-        public byte[] Data { get; set; }
-
-        public enum UserBlockType
-        {
-            UserInfo = 0,
-            Comment = 1
-        }
-
-        public UserBlockType BlockType
-        {
-            get
-            {
-                return (UserBlockType)(Id & 0xFF);
-            }
-        }
-
-        public bool IsUserBlock
-        {
-            get
-            {
-                return Marker == "USER";
-            }
-        }
     }
 
     public class DataOffsetAndLength

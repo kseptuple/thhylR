@@ -34,25 +34,28 @@ namespace thhylR
         private List<ToolStripMenuItem> encodingMenuItem = new List<ToolStripMenuItem>();
         private readonly List<Keys> encodingMenuHotkeys = new List<Keys>() { Keys.F5, Keys.F6, Keys.F7, Keys.F8 };
 
-        private int currentCodePage = 0;
-
-        List<EncodingInfo> encodingList = new List<EncodingInfo>();
+        private List<EncodingInfo> encodingList = new List<EncodingInfo>();
+        private bool isEncodingChanging = false;
 
         public FormMain()
         {
             InitializeComponent();
-            splitContainerMain.Panel1.Name = "MainPanel1";
-            splitContainerMain.Panel2.Name = "MainPanel2";
-            splitContainerInfo.Panel1.Name = "InfoPanel1";
-            splitContainerInfo.Panel2.Name = "InfoPanel2";
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             GameData.Init();
             EnumData.Init();
             SettingProvider.Init();
             ResourceLoader.Init();
+            EncodingHelper.Init();
 
             ResourceLoader.SetFormText(this);
             ResourceLoader.InitTextResource();
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            splitContainerMain.Panel1.Name = "MainPanel1";
+            splitContainerMain.Panel2.Name = "MainPanel2";
+            splitContainerInfo.Panel1.Name = "InfoPanel1";
+            splitContainerInfo.Panel2.Name = "InfoPanel2";
+
             dataGridInfo.AutoGenerateColumns = false;
             dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;
 
@@ -79,18 +82,43 @@ namespace thhylR
             toolStripButtonNext.ToolTipText = ResourceLoader.getTextResource("NextReplayTip");
             toolStripButtonLast.ToolTipText = ResourceLoader.getTextResource("LastReplayTip");
 
+            toolStripButtonEditComment.ToolTipText = ResourceLoader.getTextResource("EditCommentTip");
+            toolStripButtonOption.ToolTipText = ResourceLoader.getTextResource("OptionTip");
+
             encodingMenuItem.Add(Encoding1ToolStripMenuItem);
             encodingMenuItem.Add(Encoding2ToolStripMenuItem);
             encodingMenuItem.Add(Encoding3ToolStripMenuItem);
             encodingMenuItem.Add(Encoding4ToolStripMenuItem);
+
+            openReplayDialog.Filter = ResourceLoader.getTextResource("ReplayFileFilter");
 
             textBoxPath.Left = label1.Left + label1.Width + textBoxPath.Margin.Left;
             comboBoxEncoding.Left = label2.Left + label2.Width + comboBoxEncoding.Margin.Left;
             textBoxPath.Width = splitContainerInfo.Panel1.Width - textBoxPath.Left;
             comboBoxEncoding.Width = splitContainerInfo.Panel2.Width - comboBoxEncoding.Left;
 
-            encodingList = Encoding.GetEncodings().ToList();
+            if (SettingProvider.Settings.MainFormLeft < 0 || SettingProvider.Settings.MainFormTop < 0)
+            {
+                StartPosition = FormStartPosition.CenterScreen;
+            }
+            else
+            {
+                StartPosition = FormStartPosition.Manual;
+                Left = SettingProvider.Settings.MainFormLeft;
+                Top = SettingProvider.Settings.MainFormTop;
+            }
+
+            Width = SettingProvider.Settings.MainFormWidth;
+            Height = SettingProvider.Settings.MainFormHeight;
+            splitContainerMain.SplitterDistance = SettingProvider.Settings.MainFormSplitter1Pos;
+            splitContainerInfo.SplitterDistance = SettingProvider.Settings.MainFormSplitter2Pos;
+
+            encodingList = EncodingHelper.EncodingList;
             loadEncodingList();
+
+            isEncodingChanging = true;
+            comboBoxEncoding.SetSelectedValue(SettingProvider.Settings.CurrentCodePage);
+            isEncodingChanging = false;
 
             setFileIsOpen(false);
 
@@ -222,6 +250,11 @@ namespace thhylR
         }
 
         private void OptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OptionCommand();
+        }
+
+        private void toolStripButtonOption_Click(object sender, EventArgs e)
         {
             OptionCommand();
         }
@@ -389,12 +422,37 @@ namespace thhylR
 
         private void comboBoxEncoding_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentCodePage = (int)comboBoxEncoding.GetSelectedValue();
+            if (isEncodingChanging) return;
+            isEncodingChanging = true;
+            SettingProvider.Settings.CurrentCodePage = (int)comboBoxEncoding.GetSelectedValue();
             if (currentReplay != null)
             {
-                ReplayAnalyzer.changeEncoding(currentReplay, currentCodePage);
+                ReplayAnalyzer.changeEncoding(currentReplay, SettingProvider.Settings.CurrentCodePage);
                 displayData(false);
             }
+            isEncodingChanging = false;
+        }
+
+        private void EditCommentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditCommentCommand();
+        }
+
+        private void toolStripButtonEditComment_Click(object sender, EventArgs e)
+        {
+            EditCommentCommand();
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SettingProvider.Settings.MainFormLeft = Left;
+            SettingProvider.Settings.MainFormTop = Top;
+            SettingProvider.Settings.MainFormHeight = Height;
+            SettingProvider.Settings.MainFormWidth = Width;
+            SettingProvider.Settings.MainFormSplitter1Pos = splitContainerMain.SplitterDistance;
+            SettingProvider.Settings.MainFormSplitter2Pos = splitContainerInfo.SplitterDistance;
+
+            SettingProvider.SaveSettings();
         }
 
         public enum ReplayChangeType
