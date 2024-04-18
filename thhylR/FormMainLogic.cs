@@ -43,15 +43,22 @@ namespace thhylR
             toolStripButtonNext.Enabled = isExist;
             toolStripButtonLast.Enabled = isExist;
 
+            ExportToolStripMenuItem.Enabled = isExist;
+            ExportAllToolStripMenuItem.Enabled = isExist;
+            ExportCustomToolStripMenuItem.Enabled = isExist;
+
+            toolStripButtonExportAll.Enabled = isExist;
+            toolStripButtonExportCustom.Enabled = isExist;
+
             if (!isExist)
             {
                 toolStripButtonEditComment.Enabled = false;
                 EditCommentToolStripMenuItem.Enabled = false;
             }
 
-            if (currentReplay != null && !isExist)
+            if (CurrentReplay != null && !isExist)
             {
-                currentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
+                CurrentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
             }
         }
 
@@ -76,11 +83,11 @@ namespace thhylR
                 return;
             }
             byte[] fileData = File.ReadAllBytes(fileName);
-            currentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
-            if (currentReplay != null)
+            CurrentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
+            if (CurrentReplay != null)
             {
                 textBoxPath.Text = fileName;
-                currentReplay.FilePath = fileName;
+                CurrentReplay.FilePath = fileName;
                 displayData();
 
                 if (refreshFileList)
@@ -91,8 +98,8 @@ namespace thhylR
                 }
                 setFileIsOpen(true);
 
-                EditCommentToolStripMenuItem.Enabled = currentReplay.InfoBlocks != null;
-                toolStripButtonEditComment.Enabled = currentReplay.InfoBlocks != null;
+                EditCommentToolStripMenuItem.Enabled = CurrentReplay.InfoBlocks != null;
+                toolStripButtonEditComment.Enabled = CurrentReplay.InfoBlocks != null;
             }
             else
             {
@@ -103,7 +110,7 @@ namespace thhylR
 
         private void displayData(bool resetSelectedRows = true)
         {
-            if (currentReplay == null) return;
+            if (CurrentReplay == null) return;
             int selectedRow = -1;
             int scrollRowIndex = -1;
             if (!resetSelectedRows)
@@ -111,11 +118,11 @@ namespace thhylR
                 if (dataGridInfo.SelectedRows.Count > 0)
                 {
                     selectedRow = dataGridInfo.SelectedRows[0].Index;
-                    
+
                 }
                 scrollRowIndex = dataGridInfo.FirstDisplayedScrollingRowIndex;
             }
-            DataTable allData = currentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
+            DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
             dataGridInfo.DataSource = allData;
 
             for (int i = 0; i < allData.Rows.Count; i++)
@@ -166,7 +173,7 @@ namespace thhylR
 
         private void folderChanged()
         {
-            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path) && currentReplay != null)
+            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path) && CurrentReplay != null)
             {
                 if (fileToOpen != null)
                 {
@@ -176,11 +183,11 @@ namespace thhylR
                 }
                 else
                 {
-                    var hasFile = setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(currentReplay.FilePath));
+                    var hasFile = setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
                     if (!hasFile)
                     {
                         setFileIsOpen(false);
-                        currentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
+                        CurrentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
                     }
                 }
             }
@@ -221,33 +228,33 @@ namespace thhylR
 
         private void cutCommand()
         {
-            if (currentReplay != null)
+            if (CurrentReplay != null)
             {
-                ClipboardHelper.FileToClipboard(new string[] { currentReplay.FilePath }, true);
+                ClipboardHelper.FileToClipboard(new string[] { CurrentReplay.FilePath }, true);
             }
         }
 
         private void copyCommand()
         {
-            if (currentReplay != null)
+            if (CurrentReplay != null)
             {
-                ClipboardHelper.FileToClipboard(new string[] { currentReplay.FilePath }, false);
+                ClipboardHelper.FileToClipboard(new string[] { CurrentReplay.FilePath }, false);
             }
         }
 
         private void RenameCommand()
         {
-            if (currentReplay != null)
+            if (CurrentReplay != null)
             {
-                FormRename formRename = new FormRename(currentReplay.FilePath);
+                FormRename formRename = new FormRename(CurrentReplay.FilePath);
                 var result = formRename.ShowDialog(this);
                 if (result == DialogResult.OK)
                 {
-                    string path = Path.GetDirectoryName(currentReplay.FilePath);
+                    string path = Path.GetDirectoryName(CurrentReplay.FilePath);
                     string currentFileName = formRename.FileName + ".rpy";
                     string fullName = Path.Combine(path, currentFileName);
                     string targetFileName = null;
-                    if (fullName == currentReplay.FilePath) return;
+                    if (fullName == CurrentReplay.FilePath) return;
                     if (File.Exists(fullName))
                     {
                         FormFileExist formFileExist = new FormFileExist();
@@ -274,8 +281,8 @@ namespace thhylR
                             return;
                         }
                     }
-                    File.Move(currentReplay.FilePath, fullName, true);
-                    currentReplay.FilePath = fullName;
+                    File.Move(CurrentReplay.FilePath, fullName, true);
+                    CurrentReplay.FilePath = fullName;
                     if (targetFileName != null)
                     {
                         MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameComplete"), targetFileName),
@@ -287,11 +294,11 @@ namespace thhylR
 
         private void MoveCopyToCommnad(bool isMove)
         {
-            if (currentReplay == null) return;
+            if (CurrentReplay == null) return;
             var dialogResult = folderBrowserDialogMoveCopy.ShowDialog(this);
             if (dialogResult == DialogResult.OK)
             {
-                string currentFileName = Path.GetFileName(currentReplay.FilePath);
+                string currentFileName = Path.GetFileName(CurrentReplay.FilePath);
                 string path = Path.Combine(folderBrowserDialogMoveCopy.SelectedPath, currentFileName);
                 string targetFileName = null;
                 if (File.Exists(path))
@@ -322,7 +329,7 @@ namespace thhylR
                 }
                 if (isMove)
                 {
-                    File.Move(currentReplay.FilePath, path, true);
+                    File.Move(CurrentReplay.FilePath, path, true);
                     switch (SettingProvider.Settings.OperAfterMove)
                     {
                         case FileOperate.KeepOrClose:
@@ -349,7 +356,7 @@ namespace thhylR
                 }
                 else
                 {
-                    File.Copy(currentReplay.FilePath, path, true);
+                    File.Copy(CurrentReplay.FilePath, path, true);
                     switch (SettingProvider.Settings.OperAfterCopy)
                     {
                         case FileOperate.New:
@@ -373,7 +380,7 @@ namespace thhylR
             var result = MessageBox.Show(ResourceLoader.getTextResource("DeleteWarning"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                File.Delete(currentReplay.FilePath);
+                File.Delete(CurrentReplay.FilePath);
                 switch (SettingProvider.Settings.OperAfterDelete)
                 {
                     case FileOperate.Next:
@@ -457,29 +464,34 @@ namespace thhylR
         private void OptionCommand()
         {
             FormSettings formSettings = new FormSettings();
-            formSettings.ShowDialog(this);
+            var result = formSettings.ShowDialog(this);
 
-            normalFont = SettingProvider.Settings.NormalFont;
-            symbolFont = SettingProvider.Settings.SymbolFont;
-            dataGridInfo.DefaultCellStyle.Font = normalFont;
-
-            TopMost = SettingProvider.Settings.OnTop;
-
-            loadEncodingList();
-
-            if (currentReplay != null)
+            if (result == DialogResult.OK)
             {
-                ReplayAnalyzer.ReformatData(ref currentReplay);
-                displayData(false);
+                normalFont = SettingProvider.Settings.NormalFont;
+                symbolFont = SettingProvider.Settings.SymbolFont;
+                dataGridInfo.DefaultCellStyle.Font = normalFont;
+
+                TopMost = SettingProvider.Settings.OnTop;
+
+                loadEncodingList();
+
+                if (CurrentReplay != null)
+                {
+                    var currentReplay = CurrentReplay;
+                    ReplayAnalyzer.ReformatData(ref currentReplay);
+                    CurrentReplay = currentReplay;
+                    displayData(false);
+                }
             }
         }
 
         private void EditCommentCommand()
         {
-            if (currentReplay != null && currentReplay.InfoBlocks != null)
+            if (CurrentReplay != null && CurrentReplay.InfoBlocks != null)
             {
-                FormCommentEditor editor = new FormCommentEditor(currentReplay.FilePath, currentReplay.InfoBlocks, 
-                    SettingProvider.Settings.CurrentCodePage, currentReplay.InfoBlockStart);
+                FormCommentEditor editor = new FormCommentEditor(CurrentReplay.FilePath, CurrentReplay.InfoBlocks,
+                    SettingProvider.Settings.CurrentCodePage, CurrentReplay.InfoBlockStart);
                 var result = editor.ShowDialog(this);
                 if (result == DialogResult.OK)
                 {
@@ -587,6 +599,37 @@ namespace thhylR
             if (encodingItem.EncodingId != -1)
             {
                 comboBoxEncoding.SetSelectedValue(encodingItem.EncodingId);
+            }
+        }
+
+        private void ExportAllCommand()
+        {
+            if (CurrentReplay != null)
+            {
+                saveFileDialog.Filter = ResourceLoader.getTextResource("RawDataFilter");
+                var dialogResult = saveFileDialog.ShowDialog(this);
+                if (dialogResult == DialogResult.OK)
+                {
+                    var result = ReplayExporter.GetAllData(CurrentReplay);
+                    try
+                    {
+                        File.WriteAllBytes(saveFileDialog.FileName, result);
+                        MessageBox.Show(ResourceLoader.getTextResource("ExportAllSuccess"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(ResourceLoader.getTextResource("ExportAllFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void CustomExportCommand()
+        {
+            if (CurrentReplay != null)
+            {
+                FormExport formExport = new FormExport(CurrentReplay);
+                formExport.ShowDialog(this);
             }
         }
 

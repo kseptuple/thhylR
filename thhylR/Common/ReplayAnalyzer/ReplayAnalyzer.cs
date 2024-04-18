@@ -22,6 +22,8 @@ namespace thhylR.Common
         public static int defaultCodePage = 932;
         public static int defaultCHNCodePage = 936;
 
+        private static EnumItemList stageEnumDataList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == "StageEnum");
+
         public static bool IsSpecialCHNVersion(string gameId, byte[] afterDecompressData)
         {
             string version = null;
@@ -271,7 +273,6 @@ namespace thhylR.Common
                 }
             }
 
-            var stageEnumDataList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == "StageEnum");
             string stageFormatter = "Stage";
             if (stageEnumDataList != null)
             {

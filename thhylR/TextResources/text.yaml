@@ -90,6 +90,10 @@ FormCommentEditor:
   - splitContainerMain:
     - CommentPanel2:
       - label2: 预览：
+FormExport:
+  - 自定义导出数据
+  - buttonSelectFolder: 保存到文件夹...
+  - buttonClose: 关闭
 text:
   - GameName: 游戏名
   - ReplaySummary: 录像摘要
@@ -131,9 +135,30 @@ text:
   - NextReplayTip: 打开下一个录像文件
   - LastReplayTip: 打开最后一个录像文件
   - EditCommentTip: 编辑录像注释
+  - ExportAllTip: 导出全部信息
+  - ExportCustomTip: 导出自定义信息
   - OptionTip: 程序选项
+  - ExportAllSuccess: 导出信息成功！
+  - ExportAllFail: 导出信息失败！
   - AutoRenameFail: 自动重命名失败，请手动修改文件名。
   - AutoRenameComplete: "文件已自动重命名为{0}。"
   - DeleteWarning: 确定要删除该文件吗？文件将不会移动到回收站，而是直接删除！
   - NonShiftJISWarning: 使用shift-jis以外的编码可能导致其他程序无法读取注释，是否继续保存？
   - CommentCloseWarning: 有未保存的修改，是否保存？
+  - ExportId: 序号
+  - ExportFileName: 文件名
+  - ExportBlockType: 类型
+  - ExportStage: 关卡
+  - ExportOffset: 起始地址
+  - ExportLength: 长度
+  - ExportResult: 导出结果
+  - BlockTypeHeader: 录像信息
+  - BlockTypeStageHeader: 关卡信息
+  - BlockTypeKeyData: 按键数据
+  - BlockTypeFPSData: 帧率数据
+  - BlockTypeUserInfo: 附加信息
+  - ExportSuccess: 成功
+  - ExportNotStart: 未开始
+  - ExportFail: 失败
+  - ExportRename: 已重命名
+

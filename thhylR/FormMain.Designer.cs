@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             openReplayDialog = new OpenFileDialog();
             menuStripMain = new MenuStrip();
             FileToolStripMenuItem = new ToolStripMenuItem();
@@ -78,6 +78,9 @@
             toolStripButtonLast = new ToolStripButton();
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripButtonEditComment = new ToolStripButton();
+            toolStripSeparator5 = new ToolStripSeparator();
+            toolStripButtonExportAll = new ToolStripButton();
+            toolStripButtonExportCustom = new ToolStripButton();
             toolStripSeparator4 = new ToolStripSeparator();
             toolStripButtonOption = new ToolStripButton();
             folderBrowserDialogMoveCopy = new FolderBrowserDialog();
@@ -262,7 +265,7 @@
             // 
             EncodingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { Encoding1ToolStripMenuItem, Encoding2ToolStripMenuItem, Encoding3ToolStripMenuItem, Encoding4ToolStripMenuItem });
             EncodingToolStripMenuItem.Name = "EncodingToolStripMenuItem";
-            EncodingToolStripMenuItem.Size = new Size(201, 26);
+            EncodingToolStripMenuItem.Size = new Size(224, 26);
             EncodingToolStripMenuItem.Text = "编码(&N)";
             // 
             // Encoding1ToolStripMenuItem
@@ -297,34 +300,38 @@
             // 
             EditCommentToolStripMenuItem.Image = Properties.Resources.EditComment;
             EditCommentToolStripMenuItem.Name = "EditCommentToolStripMenuItem";
-            EditCommentToolStripMenuItem.Size = new Size(201, 26);
+            EditCommentToolStripMenuItem.Size = new Size(224, 26);
             EditCommentToolStripMenuItem.Text = "编辑注释(&M)...";
             EditCommentToolStripMenuItem.Click += EditCommentToolStripMenuItem_Click;
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(198, 6);
+            toolStripMenuItem3.Size = new Size(221, 6);
             // 
             // ExportToolStripMenuItem
             // 
             ExportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportAllToolStripMenuItem, ExportCustomToolStripMenuItem });
+            ExportToolStripMenuItem.Image = Properties.Resources.Export;
             ExportToolStripMenuItem.Name = "ExportToolStripMenuItem";
-            ExportToolStripMenuItem.Size = new Size(201, 26);
+            ExportToolStripMenuItem.Size = new Size(224, 26);
             ExportToolStripMenuItem.Text = "导出原始数据(&P)";
             // 
             // ExportAllToolStripMenuItem
             // 
+            ExportAllToolStripMenuItem.Image = Properties.Resources.ExportFile;
             ExportAllToolStripMenuItem.Name = "ExportAllToolStripMenuItem";
-            ExportAllToolStripMenuItem.Size = new Size(169, 26);
+            ExportAllToolStripMenuItem.Size = new Size(224, 26);
             ExportAllToolStripMenuItem.Text = "全部(&A)";
             ExportAllToolStripMenuItem.Click += ExportAllToolStripMenuItem_Click;
             // 
             // ExportCustomToolStripMenuItem
             // 
+            ExportCustomToolStripMenuItem.Image = Properties.Resources.ExportFilter;
             ExportCustomToolStripMenuItem.Name = "ExportCustomToolStripMenuItem";
-            ExportCustomToolStripMenuItem.Size = new Size(169, 26);
+            ExportCustomToolStripMenuItem.Size = new Size(224, 26);
             ExportCustomToolStripMenuItem.Text = "自定义(&C)...";
+            ExportCustomToolStripMenuItem.Click += ExportCustomToolStripMenuItem_Click;
             // 
             // ToolToolStripMenuItem
             // 
@@ -354,7 +361,7 @@
             // toolStripMain
             // 
             toolStripMain.ImageScalingSize = new Size(20, 20);
-            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete, toolStripSeparator2, toolStripButtonFirst, toolStripButtonPrevious, toolStripButtonNext, toolStripButtonLast, toolStripSeparator3, toolStripButtonEditComment, toolStripSeparator4, toolStripButtonOption });
+            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete, toolStripSeparator2, toolStripButtonFirst, toolStripButtonPrevious, toolStripButtonNext, toolStripButtonLast, toolStripSeparator3, toolStripButtonEditComment, toolStripSeparator5, toolStripButtonExportAll, toolStripButtonExportCustom, toolStripSeparator4, toolStripButtonOption });
             toolStripMain.Location = new Point(0, 28);
             toolStripMain.Name = "toolStripMain";
             toolStripMain.Size = new Size(1330, 27);
@@ -496,6 +503,31 @@
             toolStripButtonEditComment.Text = "toolStripButton1";
             toolStripButtonEditComment.Click += toolStripButtonEditComment_Click;
             // 
+            // toolStripSeparator5
+            // 
+            toolStripSeparator5.Name = "toolStripSeparator5";
+            toolStripSeparator5.Size = new Size(6, 27);
+            // 
+            // toolStripButtonExportAll
+            // 
+            toolStripButtonExportAll.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonExportAll.Image = Properties.Resources.ExportFile;
+            toolStripButtonExportAll.ImageTransparentColor = Color.Magenta;
+            toolStripButtonExportAll.Name = "toolStripButtonExportAll";
+            toolStripButtonExportAll.Size = new Size(29, 24);
+            toolStripButtonExportAll.Text = "toolStripButton2";
+            toolStripButtonExportAll.Click += toolStripButtonExportAll_Click;
+            // 
+            // toolStripButtonExportCustom
+            // 
+            toolStripButtonExportCustom.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonExportCustom.Image = Properties.Resources.ExportFilter;
+            toolStripButtonExportCustom.ImageTransparentColor = Color.Magenta;
+            toolStripButtonExportCustom.Name = "toolStripButtonExportCustom";
+            toolStripButtonExportCustom.Size = new Size(29, 24);
+            toolStripButtonExportCustom.Text = "toolStripButton1";
+            toolStripButtonExportCustom.Click += toolStripButtonExportCustom_Click;
+            // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
@@ -599,14 +631,14 @@
             dataGridInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridInfo.ColumnHeadersVisible = false;
             dataGridInfo.Columns.AddRange(new DataGridViewColumn[] { dataGridColumnName, dataGridColumnValue });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridInfo.Location = new Point(0, 33);
             dataGridInfo.MultiSelect = false;
             dataGridInfo.Name = "dataGridInfo";
@@ -689,6 +721,7 @@
             StartPosition = FormStartPosition.Manual;
             Text = "Form1";
             FormClosing += FormMain_FormClosing;
+            Shown += FormMain_Shown;
             DragDrop += FormMain_DragDrop;
             DragEnter += FormMain_DragEnter;
             menuStripMain.ResumeLayout(false);
@@ -775,5 +808,8 @@
         private ToolStripButton toolStripButtonEditComment;
         private ToolStripButton toolStripButtonOption;
         private ToolStripSeparator toolStripSeparator4;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripButton toolStripButtonExportAll;
+        private ToolStripButton toolStripButtonExportCustom;
     }
 }

@@ -20,7 +20,7 @@ namespace thhylR
 
         public BindingList<string> currentPathFiles = new BindingList<string>();
 
-        private TouhouReplay currentReplay = null;
+        public TouhouReplay CurrentReplay { get; set; }
 
         private string fileToOpen = null;
 
@@ -83,6 +83,10 @@ namespace thhylR
             toolStripButtonLast.ToolTipText = ResourceLoader.getTextResource("LastReplayTip");
 
             toolStripButtonEditComment.ToolTipText = ResourceLoader.getTextResource("EditCommentTip");
+
+            toolStripButtonExportAll.ToolTipText = ResourceLoader.getTextResource("ExportAllTip");
+            toolStripButtonExportCustom.ToolTipText = ResourceLoader.getTextResource("ExportCustomTip");
+
             toolStripButtonOption.ToolTipText = ResourceLoader.getTextResource("OptionTip");
 
             encodingMenuItem.Add(Encoding1ToolStripMenuItem);
@@ -158,29 +162,22 @@ namespace thhylR
 
         private void ExportAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentReplay != null)
-            {
-                int resultLength = currentReplay.Header.Length + currentReplay.RawData.Length;
-                if (currentReplay.InfoBlockRawData != null)
-                {
-                    resultLength += currentReplay.InfoBlockRawData.Length;
-                }
-                byte[] result = new byte[resultLength];
-                Array.Copy(currentReplay.Header, 0, result, 0, currentReplay.Header.Length);
-                Array.Copy(currentReplay.RawData, 0, result, currentReplay.Header.Length, currentReplay.RawData.Length);
-                if (currentReplay.InfoBlockRawData != null)
-                {
-                    Array.Copy(currentReplay.InfoBlockRawData, 0,
-                        result, currentReplay.Header.Length + currentReplay.RawData.Length, currentReplay.InfoBlockRawData.Length);
-                }
+            ExportAllCommand();
+        }
 
-                saveFileDialog.Filter = ResourceLoader.getTextResource("RawDataFilter");
-                var dialogResult = saveFileDialog.ShowDialog(this);
-                if (dialogResult == DialogResult.OK)
-                {
-                    File.WriteAllBytes(saveFileDialog.FileName, result);
-                }
-            }
+        private void ExportCustomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CustomExportCommand();
+        }
+
+        private void toolStripButtonExportAll_Click(object sender, EventArgs e)
+        {
+            ExportAllCommand();
+        }
+
+        private void toolStripButtonExportCustom_Click(object sender, EventArgs e)
+        {
+            CustomExportCommand();
         }
 
         private void treeViewFiles_AfterSelect(object sender, TreeViewEventArgs e)
@@ -425,9 +422,9 @@ namespace thhylR
             if (isEncodingChanging) return;
             isEncodingChanging = true;
             SettingProvider.Settings.CurrentCodePage = (int)comboBoxEncoding.GetSelectedValue();
-            if (currentReplay != null)
+            if (CurrentReplay != null)
             {
-                ReplayAnalyzer.changeEncoding(currentReplay, SettingProvider.Settings.CurrentCodePage);
+                ReplayAnalyzer.changeEncoding(CurrentReplay, SettingProvider.Settings.CurrentCodePage);
                 displayData(false);
             }
             isEncodingChanging = false;
@@ -453,6 +450,26 @@ namespace thhylR
             SettingProvider.Settings.MainFormSplitter2Pos = splitContainerInfo.SplitterDistance;
 
             SettingProvider.SaveSettings();
+        }
+
+        private void FormMain_Shown(object sender, EventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
+
+                for (int i = 0; i < allData.Rows.Count; i++)
+                {
+                    if ((bool)allData.Rows[i]["IsSymbol"])
+                    {
+                        dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = symbolFont;
+                    }
+                    else
+                    {
+                        dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = normalFont;
+                    }
+                }
+            }
         }
 
         public enum ReplayChangeType

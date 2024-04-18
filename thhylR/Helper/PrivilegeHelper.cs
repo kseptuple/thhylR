@@ -12,10 +12,6 @@ namespace thhylR.Helper
     {
         public static bool Promote()
         {
-            var proc = new ProcessStartInfo();
-            proc.UseShellExecute = true;
-            proc.WorkingDirectory = Environment.CurrentDirectory;
-            proc.FileName = Application.ExecutablePath;
             var args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
             {
@@ -33,8 +29,25 @@ namespace thhylR.Helper
                     }
                 }
 
+                return Promote(arguments);
+            }
+            else
+            {
+                return Promote(null);
+            }
+        }
+
+        public static bool Promote(string[] arguments)
+        {
+            var proc = new ProcessStartInfo();
+            proc.UseShellExecute = true;
+            proc.WorkingDirectory = Environment.CurrentDirectory;
+            proc.FileName = Application.ExecutablePath;
+            if (arguments != null)
+            {
                 proc.Arguments = string.Join(' ', arguments);
             }
+            
             proc.Verb = "runas";
 
             try
@@ -45,7 +58,8 @@ namespace thhylR.Helper
             {
                 return false;
             }
-            Application.Exit();
+            //Application.Exit();
+            Environment.Exit(0);
             return true;
         }
 

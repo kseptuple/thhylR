@@ -31,6 +31,7 @@ namespace thhylR
             comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType3"));
 
             isAdmin = PrivilegeHelper.IsAdministrator();
+            DialogResult = DialogResult.Cancel;
         }
 
         private Font symbolFont;
@@ -254,11 +255,13 @@ namespace thhylR
         private void buttonOK_Click(object sender, EventArgs e)
         {
             SaveSettings();
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -330,7 +333,13 @@ namespace thhylR
                     MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                     if (result == DialogResult.Yes)
                     {
-                        if (!PrivilegeHelper.Promote())
+                        var owner = (FormMain)Owner;
+                        string[] arguments = null;
+                        if (owner.CurrentReplay != null)
+                        {
+                            arguments = new string[] { owner.CurrentReplay.FilePath };
+                        }
+                        if (!PrivilegeHelper.Promote(arguments))
                         {
                             MessageBox.Show(ResourceLoader.getTextResource("RestartFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
