@@ -133,6 +133,19 @@ namespace thhylR
             return true;
         }
 
+        private bool isNoLineChecked()
+        {
+            if (dataGridViewExport.Rows.Count == 0) return true;
+            foreach (DataGridViewRow row in dataGridViewExport.Rows)
+            {
+                if ((bool)row.Cells["IsChecked"].Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
@@ -140,6 +153,12 @@ namespace thhylR
 
         private void buttonSelectFolder_Click(object sender, EventArgs e)
         {
+            if (isNoLineChecked())
+            {
+                MessageBox.Show(ResourceLoader.getTextResource("ExportNotSelected"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             folderBrowserDialogSaveTo.InitialDirectory = Path.GetDirectoryName(CurrentReplay.FilePath);
             var result = folderBrowserDialogSaveTo.ShowDialog(this);
             if (result == DialogResult.OK)

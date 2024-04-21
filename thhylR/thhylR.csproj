@@ -34,6 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="EnumData\th18Spell.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="EnumData\th18Card.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="EnumData\th143Spell.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

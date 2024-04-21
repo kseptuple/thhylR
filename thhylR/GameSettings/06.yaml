@@ -145,7 +145,7 @@
     DisplayName: 录像日期
     Offset: 0x10
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     Offset: 0x88
     Type: int
@@ -241,6 +241,197 @@
     StageNumOfStage: 0x0
     KeyCountOfStage: 0x04
     TotalSizeOrFpsSizeOfStage: 0x08
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x88
+      Type: uint
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0xd4
+      Type: int
+      Formatter: life
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0xd8
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0xe4
+      Type: int
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0xe8
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0xc4
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 资金力
+      Offset: 0xc0
+      Type: int
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x98
+      Type: int
+    - Name: CardEndMark
+      Type: int
+      Offset: 0x0
+      Modifier: "{.}==(-1)"
+      Ignore: true
+      IsVisible: false
+    - Name: CardCapAt
+      Type: short
+      Offset: 0x0
+      Modifier: "{.}==6?0:256"
+      Ignore: true
+      IsVisible: false
+    - Name: Cards
+      DisplayName: 卡牌
+      Offset: 0x164
+      Type: object[]
+      Size: 4
+      Count: 256
+      EndMark: CardEndMark
+      SubItems: 
+      - Name: CardName
+        DisplayName: 卡牌名称
+        Offset: 0x0
+        Type: int
+        EnumList: Th18Cards
+      - Name: CardCoolDown
+        DisplayName: 冷却时间
+        Offset: 0x400
+        Type: int
+        Modifier: "{.}/60"
+        Formatter: "{.:0.00}秒（{CardCoolDownFrame}帧）"
+      - Name: CardCoolDownFrame
+        Offset: 0x400
+        Type: int
+        IsVisible: false
+    - Name: CardsAfterShop
+      DisplayName: 商店过后卡牌
+      Offset: 0x0a64
+      Type: object[]
+      Size: 4
+      Count: 256
+      CapAt: CardCapAt
+      EndMark: CardEndMark
+      IsVisible: "{Stage}==6"
+      SubItems: 
+      - Name: CardName
+        DisplayName: 卡牌名称
+        Offset: 0x0
+        Type: int
+        EnumList: Th18Cards
+        IsVisible: "{Stage}==6"
+      - Name: CardCoolDown
+        DisplayName: 冷却时间
+        Offset: 0x400
+        Type: int
+        Modifier: "{.}/60"
+        IsVisible: "{Stage}==6"
+        Formatter: "{.:0.00}秒（{CardCoolDownFrame}帧）"
+      - Name: CardCoolDownFrame
+        Offset: 0x400
+        Type: int
+        IsVisible: false
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0xdc
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0xac
+    Type: int
+    EnumList: Th18Chara
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0xb4
+    Type: int
+    EnumList: Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0xb8
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+    IsVisible: "{SpellNo}==(-1)"
+  - Name: SpellNoPlusOne
+    Offset: 0xc0
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0xc0
+    Type: int
+    EnumList: Th18SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x18
+    Type: uint
+    Modifier: "{.}*10"
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0xa4
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x6c
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x6c
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo
 - GameName: Th18Trial
   Identifier: t18t
   Alias: Th18
@@ -250,4 +441,100 @@
   StageSetting:
     OverrideFields:
     - StageHeaderSizeData
+    - CustomStageInfo
     StageHeaderSizeData: 0x96c
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x34
+      Type: uint
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x80
+      Type: int
+      Formatter: life
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x84
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x90
+      Type: int
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x94
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x70
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 资金力
+      Offset: 0x6c
+      Type: int
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x44
+      Type: int
+    - Name: CardEndMark
+      Type: int
+      Offset: 0x0
+      Modifier: "{.}==0"
+      Ignore: true
+      IsVisible: false
+    - Name: Cards
+      DisplayName: 卡牌
+      Offset: 0x164
+      Type: object[]
+      Size: 4
+      Count: 256
+      EndMark: CardEndMark
+      SubItems: 
+      - Name: CardName
+        DisplayName: 卡牌名称
+        Offset: 0x0
+        Type: int
+        EnumList: Th18TrialCards
+      - Name: CardCoolDown
+        DisplayName: 冷却时间
+        Offset: 0x400
+        Type: int
+        Modifier: "{.}/60"
+        Formatter: "{.:0.00}秒（{CardCoolDownFrame}帧）"
+      - Name: CardCoolDownFrame
+        Offset: 0x400
+        Type: int
+        IsVisible: false
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0x88
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"

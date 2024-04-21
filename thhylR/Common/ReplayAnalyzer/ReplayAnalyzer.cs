@@ -102,6 +102,7 @@ namespace thhylR.Common
 
         private static TouhouReplay AnalyzeWithOffsets(byte[] replayData, GameOffsets gameData, int codePage)
         {
+            int extraDataId = 0;
             if (gameData == null) return null;
             TouhouReplay result = new TouhouReplay();
             result.GameData = gameData;
@@ -293,7 +294,7 @@ namespace thhylR.Common
                     if (gameData.NeedStage)
                     {
                         insertEmptyLine();
-                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId, 
+                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId,
                             string.Empty, string.Empty, "true", stageFormatter);
                     }
                     else
@@ -312,7 +313,7 @@ namespace thhylR.Common
                     if (gameData.NeedStage)
                     {
                         insertEmptyLine();
-                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId, 
+                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId,
                             string.Empty, string.Empty, "true", stageFormatter);
                     }
                     else
@@ -323,13 +324,14 @@ namespace thhylR.Common
                 }
             }
 
-            ProcessDisplayData(result.DisplayData);
+            ProcessDisplayData(result.DisplayDataList);
 
-            result.DisplayData.AcceptChanges();
+            //result.DisplayData.AcceptChanges();
 
             return result;
 
-            void addDisplayData(List<GameCustomInfoItem> customInfoItem, GameDataSource defaultData, GameDataSource alternativeData, int stage, int padBefore = 0)
+            void addDisplayData(List<GameCustomInfoItem> customInfoItem, GameDataSource defaultData, GameDataSource alternativeData, int stage, 
+                int padBefore = 0, string extraData = "")
             {
                 string pad = new string(' ', padBefore);
                 if (customInfoItem == null) return;
@@ -338,53 +340,71 @@ namespace thhylR.Common
                 foreach (var gameCustomInfo in customInfoItem)
                 {
                     if (gameCustomInfo.Ignore) continue;
+
+                    if (!string.IsNullOrEmpty(gameCustomInfo.FixedValue))
+                    {
+                        insertIntoDisplayTable(pad + gameCustomInfo.DisplayName, null, gameCustomInfo.FixedValue, gameCustomInfo.Name, stage,
+                            string.Empty, string.Empty, gameCustomInfo.IsVisible, extraData: extraData);
+                        continue;
+                    }
+
                     object rawValue = null;
                     string displayName = null;
                     List<GameCustomInfoItem> subCustomInfoItem = null;
                     if (!gameCustomInfo.UseAlternativeSource)
                     {
                         if (defaultData == null) continue;
-                        rawValue = defaultData.GetItem(gameCustomInfo.Name, customInfoItem, out displayName, out subCustomInfoItem);
+                        rawValue = defaultData.GetItem(gameCustomInfo, customInfoItem, out displayName, out subCustomInfoItem);
                     }
                     else
                     {
                         if (alternativeData == null) continue;
-                        rawValue = alternativeData.GetItem(gameCustomInfo.Name, customInfoItem, out displayName, out subCustomInfoItem);
+                        rawValue = alternativeData.GetItem(gameCustomInfo, customInfoItem, out displayName, out subCustomInfoItem);
                     }
                     displayName = displayName ?? string.Empty;
                     string name = pad + displayName;
 
-                    if (rawValue is GameDataSource || rawValue is List<GameDataSource>)
+                    if (rawValue is GameDataSource)
                     {
-                        if (rawValue is GameDataSource)
+                        insertIntoDisplayTable(name, string.Empty, string.Empty, gameCustomInfo.Name, stage, extraData: extraData,
+                            isVisible: gameCustomInfo.IsVisible);
+                        var newData = rawValue as GameDataSource;
+                        addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore);
+                    }
+                    else if (rawValue is List<object>)
+                    {
+                        var newDataList = rawValue as List<object>;
+                        if (newDataList.Count > 0)
                         {
-                            insertIntoDisplayTable(name, string.Empty, string.Empty, gameCustomInfo.Name, stage);
-                            var newData = rawValue as GameDataSource;
-                            addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore);
-                        }
-                        else if (rawValue is List<GameDataSource>)
-                        {
-                            var newDataList = rawValue as List<GameDataSource>;
-                            for (int i = 0; i < newDataList.Count; i++)
+                            var item = newDataList[0];
+                            if (item is not GameDataSource)
                             {
-                                insertIntoDisplayTable(name + " " + i, string.Empty, string.Empty, gameCustomInfo.Name, stage);
-                                var newData = newDataList[i];
-                                addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore + 2);
+                                insertIntoDisplayTable(name, null, rawValue, gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                                    gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList, extraData);
                             }
+                            else
+                            {
+                                for (int i = 0; i < newDataList.Count; i++)
+                                {
+                                    string _extraData = extraDataId.ToString() + "_" + i.ToString();
+                                    insertIntoDisplayTable(name + " " + (i + 1), string.Empty, string.Empty, gameCustomInfo.Name, stage, 
+                                        extraData: extraData, isVisible: gameCustomInfo.IsVisible);
+                                    var newData = (GameDataSource)newDataList[i];
+                                    addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore + 2, _extraData);
+                                    extraDataId++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            insertIntoDisplayTable(name, null, ResourceLoader.getTextResource("EmptyList"), gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                                gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList, extraData);
                         }
                     }
                     else
                     {
-                        if (string.IsNullOrEmpty(gameCustomInfo.FixedValue))
-                        {
-                            insertIntoDisplayTable(name, null, rawValue, gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
-                                gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList);
-                        }
-                        else
-                        {
-                            insertIntoDisplayTable(name, null, gameCustomInfo.FixedValue, gameCustomInfo.Name, stage,
-                                string.Empty, string.Empty, gameCustomInfo.IsVisible);
-                        }
+                        insertIntoDisplayTable(name, null, rawValue, gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                            gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList, extraData);
                     }
                 }
             }
@@ -397,8 +417,17 @@ namespace thhylR.Common
 
                 foreach (var gameCustomInfo in customInfoItem)
                 {
+                    if (gameCustomInfo.Ignore) continue;
+
                     for (int j = 0; j < 2; j++)
                     {
+                        if (!string.IsNullOrEmpty(gameCustomInfo.FixedValue))
+                        {
+                            insertIntoDisplayTable(pad + gameCustomInfo.DisplayName, null, gameCustomInfo.FixedValue, gameCustomInfo.Name, stage,
+                                string.Empty, string.Empty, gameCustomInfo.IsVisible);
+                            continue;
+                        }
+
                         string displayName = null;
                         string id = null;
                         string displayNamePrefix = string.Empty;
@@ -422,49 +451,58 @@ namespace thhylR.Common
                         }
 
                         if (currentData == null) continue;
-                        object rawValue = currentData.GetItem(gameCustomInfo.Name, customInfoItem, out displayName, out subCustomInfoItem);
+                        object rawValue = currentData.GetItem(gameCustomInfo, customInfoItem, out displayName, out subCustomInfoItem);
 
                         displayName = displayNamePrefix + (displayName ?? string.Empty);
                         string name = pad + displayName;
 
-                        if (rawValue is GameDataSource || rawValue is List<GameDataSource>)
+                        if (rawValue is GameDataSource)
                         {
-                            if (rawValue is GameDataSource)
+                            insertIntoDisplayTable(name, string.Empty, string.Empty, gameCustomInfo.Name, stage, isVisible: gameCustomInfo.IsVisible);
+                            var newData = rawValue as GameDataSource;
+                            addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore);
+                        }
+                        else if (rawValue is List<object>)
+                        {
+                            var newDataList = rawValue as List<object>;
+                            if (newDataList.Count > 0)
                             {
-                                insertIntoDisplayTable(name, string.Empty, string.Empty, id, stage);
-                                var newData = rawValue as GameDataSource;
-                                addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore);
-                            }
-                            else if (rawValue is List<GameDataSource>)
-                            {
-                                var newDataList = rawValue as List<GameDataSource>;
-                                for (int i = 0; i < newDataList.Count; i++)
+                                var item = newDataList[0];
+                                if (item is not GameDataSource)
                                 {
-                                    insertIntoDisplayTable(name + " " + i, string.Empty, string.Empty, id, stage);
-                                    var newData = newDataList[i];
-                                    addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore + 2);
+                                    insertIntoDisplayTable(name, null, rawValue, gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                                        gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList);
                                 }
+                                else
+                                {
+                                    for (int i = 0; i < newDataList.Count; i++)
+                                    {
+                                        string extraData = extraDataId.ToString() + "_" + i.ToString();
+                                        insertIntoDisplayTable(name + " " + (i + 1), string.Empty, string.Empty, gameCustomInfo.Name, stage, 
+                                            isVisible: gameCustomInfo.IsVisible);
+                                        var newData = (GameDataSource)newDataList[i];
+                                        addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore + 2, extraData);
+                                        extraDataId++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                insertIntoDisplayTable(name, null, rawValue, gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                                    gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList);
                             }
                         }
                         else
                         {
-                            if (string.IsNullOrEmpty(gameCustomInfo.FixedValue))
-                            {
-                                insertIntoDisplayTable(name, null, rawValue, id, stage, gameCustomInfo.Modifier,
-                                    gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList);
-                            }
-                            else
-                            {
-                                insertIntoDisplayTable(name, null, gameCustomInfo.FixedValue, id, stage,
-                                    string.Empty, string.Empty, gameCustomInfo.IsVisible);
-                            }
+                            insertIntoDisplayTable(name, null, ResourceLoader.getTextResource("EmptyList"), gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                                gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList);
                         }
                     }
                 }
             }
 
             void insertIntoDisplayTable(string name, object value, object rawValue, string id, int stage,
-                string modifier = "", string formatter = "", string isVisible = "", string enumList = "")
+                string modifier = "", string formatter = "", string isVisible = "", string enumList = "", string extraData = "")
             {
                 DataRow dr = result.DisplayData.NewRow();
                 dr["Name"] = name;
@@ -476,8 +514,10 @@ namespace thhylR.Common
                 dr["Visible"] = isVisible;
                 dr["EnumList"] = enumList;
                 dr["Stage"] = stage;
+                dr["ExtraData"] = extraData;
                 //dr["IsSymbol"] = false;
-                result.DisplayData.Rows.Add(dr);
+                result.DisplayDataList.Add(dr);
+                //result.DisplayData.Rows.Add(dr);
             }
 
             void insertEmptyLine()
@@ -489,14 +529,14 @@ namespace thhylR.Common
         public static void changeEncoding(TouhouReplay replay, int codePage)
         {
             if (replay.InfoBlocks == null) return;
-            DataTable data = replay.DisplayData;
+            var data = replay.DisplayDataList;
             var infoBlocks = replay.InfoBlocks;
 
             var commentBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.Comment);
             if (commentBlock != null)
             {
                 string comment = UserInfo.GetStringFromByteArray(codePage, commentBlock.Data);
-                DataRow dr = data.Select("Id = 'Comment'").FirstOrDefault();
+                DataRow dr = data.FirstOrDefault(d => d["Id"].ToString() == "Comment");
                 if (dr != null)
                 {
                     dr["DisplayValue"] = comment;
@@ -504,8 +544,6 @@ namespace thhylR.Common
                     dr["RawValue"] = comment;
                 }
             }
-
-            data.AcceptChanges();
         }
 
         public static List<DataOffsetAndLength> GetStagePointersV1(byte[] header, int firstOffset, int stageCount, int totalSize)

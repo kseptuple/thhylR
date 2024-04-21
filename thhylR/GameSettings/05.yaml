@@ -7,6 +7,9 @@
   MatchingGameVersion:
   - 0x100
   - 0
+  ReplayVersion: 0x04
+  MatchingReplayVersion:
+  - 3
   DecodeSetting:
     DecodeVersion: 2
     DecompressVersion: 1
@@ -114,7 +117,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     DisplayName: 角色
     Offset: 0x8c
@@ -154,6 +157,176 @@
     Type: int
     Modifier: "({.}&512)!=0?1:0"
     EnumList: YesNo
+- GameName: Th15Trial
+  Identifier: t15r
+  Alias: Th15
+  OverrideFields:
+  - GameName
+  - MatchingGameVersion
+  MatchingGameVersion:
+  - 0x1
+  StageSetting:
+    OverrideFields:
+    - StageHeaderSizeData
+    - CustomStageInfo
+    StageHeaderSizeData: 0x228
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x30
+      Type: uint
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x74
+      Type: int
+      Formatter: life
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x78
+      Type: int
+      Formatter: "{.}/5"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x80
+      Type: int
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x84
+      Type: int
+      Formatter: "{.}/5"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x64
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x58
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x58
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x40
+      Type: int
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0x7c
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+- GameName: Th15Trial001a
+  Identifier: t15r
+  Alias: Th15
+  OverrideFields:
+  - GameName
+  - MatchingGameVersion
+  - MatchingReplayVersion
+  MatchingGameVersion:
+  - 0x1
+  MatchingReplayVersion:
+  - 2
+  StageSetting:
+    OverrideFields:
+    - StageHeaderSizeData
+    - CustomStageInfo
+    StageHeaderSizeData: 0x224
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x30
+      Type: uint
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x70
+      Type: int
+      Formatter: life
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x7c
+      Type: int
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x80
+      Type: int
+      Formatter: "{.}/5"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x60
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x54
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x54
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x40
+      Type: int
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0x78
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x0c
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
 - GameName: Th16
   Identifier: t16r
   GameDisplayName: 东方天空璋　～ Hidden Star in Four Seasons.
@@ -295,7 +468,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     Offset: 0x84
     Type: int
@@ -409,7 +582,7 @@
     DisplayName: 录像日期
     Offset: 0x14
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: DayNo
     Offset: 0x8c
     Type: int

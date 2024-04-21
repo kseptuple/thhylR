@@ -128,7 +128,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     DisplayName: 角色
     Offset: 0x5c
@@ -294,7 +294,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     DisplayName: 角色
     Offset: 0x5c
@@ -450,7 +450,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     Offset: 0x7c
     Type: int
@@ -549,7 +549,7 @@
     DisplayName: 录像日期
     Offset: 0x14
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: DayNo
     Offset: 0x88
     Type: int

@@ -27,7 +27,7 @@ namespace thhylR.Common
             get
             {
                 if (EnumValues == null || EnumValues.Count == 0) return false;
-                return !string.IsNullOrEmpty(EnumValues[0].Name);
+                return EnumValues[0] != null && !string.IsNullOrEmpty(EnumValues[0].Name);
             }
         }
     }

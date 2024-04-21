@@ -456,7 +456,8 @@ namespace thhylR
         {
             if (CurrentReplay != null)
             {
-                DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
+                DataTable allData = CurrentReplay.DisplayDataList.Where(d => d["Visible"].ToString() != "0").CopyToDataTable();
+                //DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
 
                 for (int i = 0; i < allData.Rows.Count; i++)
                 {

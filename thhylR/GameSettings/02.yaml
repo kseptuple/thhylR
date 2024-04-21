@@ -38,7 +38,7 @@
     DisplayName: 录像日期
     Offset: 0x10
     Type: UTCDateInt
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: StageNo
     DisplayName: 关卡
     Offset: 0x0
@@ -154,7 +154,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateInt
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     Offset: 0x50
     Type: int
@@ -256,7 +256,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateInt
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: LastStage
     DisplayName: 最终关卡
     Offset: 0x5c
@@ -371,7 +371,7 @@
     DisplayName: 录像日期
     Offset: 0x0c
     Type: UTCDateLong
-    Formatter: yyyy/MM/dd hh:mm:ss
+    Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
     Offset: 0x5c
     Type: int

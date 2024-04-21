@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using thhylR.Common;
@@ -37,6 +38,7 @@ namespace thhylR.Games
         public GameDataSource GameCustomDataBody { get; set; }
 
         public DataTable DisplayData { get; set; }
+        public List<DataRow> DisplayDataList { get; set; } = new List<DataRow>();
 
         public ReplayProblemEnum ReplayProblem { get; set; }
 
@@ -54,6 +56,7 @@ namespace thhylR.Games
             DisplayData.Columns.Add("EnumList");
             DisplayData.Columns.Add(new DataColumn("Stage", typeof(int)));
             DisplayData.Columns.Add(new DataColumn("IsSymbol", typeof(bool)));
+            DisplayData.Columns.Add("ExtraData");
             DisplayData.AcceptChanges();
         }
     }
@@ -80,6 +83,7 @@ namespace thhylR.Games
         public int BeginOffset { get; set; }
 
         private static readonly DateTime win32FileTimeEpoch = new DateTime(1601, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly Regex modifierReplacer = new Regex(@"\{[^\{\}]*?\}", RegexOptions.Compiled);
 
         public GameDataSource(byte[] data)
         {
@@ -93,13 +97,21 @@ namespace thhylR.Games
             BeginOffset = beginOffset;
         }
 
-        public object GetItem(string name, List<GameCustomInfoItem> dataInfoList, out string displayName, out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
+        public object GetItem(string name, List<GameCustomInfoItem> dataInfoList, out string displayName,
+            out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
         {
             displayName = null;
             subDataInfoList = null;
             var customInfoItem = dataInfoList.FirstOrDefault(i => i.Name == name);
             if (customInfoItem == null) return null;
+            return GetItem(customInfoItem, dataInfoList, out displayName, out subDataInfoList, isGetMark, extraOffset);
+        }
+
+        public object GetItem(GameCustomInfoItem customInfoItem, List<GameCustomInfoItem> dataInfoList, out string displayName,
+            out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
+        {
             displayName = customInfoItem.DisplayName;
+            subDataInfoList = null;
             object result = null;
             int offset = BeginOffset + extraOffset + customInfoItem.Offset;
             if (customInfoItem.Type == null) return null;
@@ -204,9 +216,6 @@ namespace thhylR.Games
                         itemGetter = o => new GameDataSource(Data, o);
                     }
                     break;
-                //case "display":
-                //    itemGetter = o => null;
-                //    break;
                 default:
                     break;
             }
@@ -234,7 +243,14 @@ namespace thhylR.Games
                         var capAt = GetItem(customInfoItem.CapAt, dataInfoList, out _, out _, true);
                         if (capAt != null && (capAt is int || capAt is decimal))
                         {
-                            cap = (int)capAt;
+                            if (capAt is int _i)
+                            {
+                                cap = _i;
+                            }
+                            else if (capAt is decimal _d)
+                            {
+                                cap = decimal.ToInt32(_d);
+                            }
                             if (customInfoItem.AfterCapValue != null)
                             {
                                 continueAfterCap = true;
@@ -262,7 +278,7 @@ namespace thhylR.Games
                         int currentOffset = offset + i * size;
                         if (hasEndMark)
                         {
-                            var isEndObj = GetItem(customInfoItem.EndMark, dataInfoList, out _, out _, true, currentOffset);
+                            var isEndObj = GetItem(customInfoItem.EndMark, dataInfoList, out _, out _, true, currentOffset - BeginOffset);
                             if (isEndObj != null && isEndObj is decimal)
                             {
                                 bool isEnd = (decimal)isEndObj != 0M;
@@ -271,7 +287,7 @@ namespace thhylR.Games
                         }
                         if (hasSkipMark)
                         {
-                            var isSkipObj = GetItem(customInfoItem.SkipMark, dataInfoList, out _, out _, true, currentOffset);
+                            var isSkipObj = GetItem(customInfoItem.SkipMark, dataInfoList, out _, out _, true, currentOffset - BeginOffset);
                             if (isSkipObj != null && isSkipObj is decimal)
                             {
                                 bool isSkip = (decimal)isSkipObj != 0M;

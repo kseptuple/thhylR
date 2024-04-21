@@ -122,7 +122,8 @@ namespace thhylR
                 }
                 scrollRowIndex = dataGridInfo.FirstDisplayedScrollingRowIndex;
             }
-            DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
+            DataTable allData = CurrentReplay.DisplayDataList.Where(d => d["Visible"].ToString() != "0").CopyToDataTable();
+            //DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
             dataGridInfo.DataSource = allData;
 
             for (int i = 0; i < allData.Rows.Count; i++)

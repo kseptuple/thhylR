@@ -16,12 +16,12 @@ namespace thhylR.Common
         private static readonly Regex modifierReplacer = new Regex(@"\{[^\{\}]*?\}", RegexOptions.Compiled);
         private static readonly Regex formatterReplacer = new Regex(@"(\{[^\{\}]*?\})|(\{[^\{\}:]*?:[^\{\}:]*?\})", RegexOptions.Compiled);
 
-        private static void ProcessDisplayData(DataTable data, bool onlyFormat = false)
+        private static void ProcessDisplayData(List<DataRow> data, bool onlyFormat = false)
         {
             if (!onlyFormat)
             {
                 //Modifier
-                foreach (DataRow dr in data.Rows)
+                foreach (DataRow dr in data)
                 {
                     var currentValue = dr["RawValue"];
                     if (dr["Modifier"] == null || dr["Modifier"].ToString() == string.Empty)
@@ -39,17 +39,17 @@ namespace thhylR.Common
                         for (int i = 0; i < currentValueList.Count; i++)
                         {
                             var item = currentValueList[i];
-                            resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"]));
+                            resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"], dr["ExtraData"].ToString()));
                         }
                         dr["Value"] = resultList;
                     }
                     else
                     {
-                        dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"]);
+                        dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"], dr["ExtraData"].ToString());
                     }
                 }
 
-                object calculateItem(object item, int index, string modifier, int stage)
+                object calculateItem(object item, int index, string modifier, int stage, string extraData)
                 {
                     MatchEvaluator modifierEvaluator = m =>
                     {
@@ -61,14 +61,19 @@ namespace thhylR.Common
                         }
                         else
                         {
-                            var dataRows = data.Select($"Id='{value}' and (Stage={stage} or Stage=-1)");
-                            if (dataRows == null || dataRows.Length == 0)
+                            var predicate = (DataRow d) =>
+                                d["Id"].ToString() == value 
+                                && ((int)d["Stage"] == stage || (int)d["Stage"] == -1)
+                                && (d["ExtraData"].ToString() == extraData || d["ExtraData"].ToString() == string.Empty);
+
+                            var dataRow = data.FirstOrDefault(predicate);
+                            if (dataRow == null)
                             {
                                 return "(" + value + ")";
                             }
                             else
                             {
-                                itemToCalc = dataRows[0]["RawValue"] ?? string.Empty;
+                                itemToCalc = dataRow["RawValue"] ?? string.Empty;
                                 object actualItemToCalc = null;
                                 if (itemToCalc is IList)
                                 {
@@ -102,7 +107,7 @@ namespace thhylR.Common
                 }
 
                 //Visible
-                foreach (DataRow dr in data.Rows)
+                foreach (DataRow dr in data)
                 {
                     MatchEvaluator visibleEvaluator = m =>
                     {
@@ -113,10 +118,15 @@ namespace thhylR.Common
                         }
                         else
                         {
-                            var dataRows = data.Select($"Id='{value}' and (Stage={dr["Stage"]} or Stage=-1)");
-                            if (dataRows != null && dataRows.Length > 0)
+                            var predicate = (DataRow d) =>
+                                d["Id"].ToString() == value
+                                && ((int)d["Stage"] == (int)dr["Stage"] || (int)d["Stage"] == -1)
+                                && (d["ExtraData"].ToString() == dr["ExtraData"].ToString() || d["ExtraData"].ToString() == string.Empty);
+
+                            var dataRow = data.FirstOrDefault(predicate);
+                            if (dataRow != null)
                             {
-                                return "(" + dataRows[0]["Value"].ToString() + ")";
+                                return "(" + dataRow["Value"].ToString() + ")";
                             }
                             else
                             {
@@ -159,7 +169,7 @@ namespace thhylR.Common
                 }
 
                 //Enum
-                foreach (DataRow dr in data.Rows)
+                foreach (DataRow dr in data)
                 {
                     dr["RawValue"] = dr["Value"];
                     var currentValue = dr["RawValue"];
@@ -226,7 +236,7 @@ namespace thhylR.Common
             //Formatter
             var argumentTypes = new Type[] { typeof(string) };
 
-            foreach (DataRow dr in data.Rows)
+            foreach (DataRow dr in data)
             {
                 bool isSymbol = false;
                 bool _tmpIsSymbol = false;
@@ -244,7 +254,7 @@ namespace thhylR.Common
                     for (int i = 0; i < currentValueList.Count; i++)
                     {
                         var item = currentValueList[i];
-                        resultBuilder.Append(formatItem(item, i, formatter, (int)dr["Stage"], out _tmpIsSymbol));
+                        resultBuilder.Append(formatItem(item, i, formatter, (int)dr["Stage"], dr["ExtraData"].ToString(), out _tmpIsSymbol));
                         if (_tmpIsSymbol && !isSymbol)
                         {
                             isSymbol = true;
@@ -258,7 +268,7 @@ namespace thhylR.Common
                 }
                 else
                 {
-                    dr["Value"] = formatItem(currentValue, 0, formatter, (int)dr["Stage"], out isSymbol);
+                    dr["Value"] = formatItem(currentValue, 0, formatter, (int)dr["Stage"], dr["ExtraData"].ToString(), out isSymbol);
                 }
 
                 dr["DisplayValue"] = dr["Value"].ToString().Replace('\t', ' ').Replace("\r\n", " ");
@@ -272,7 +282,7 @@ namespace thhylR.Common
                 }
             }
 
-            string formatItem(object item, int index, string formatter, int stage, out bool isSymbol)
+            string formatItem(object item, int index, string formatter, int stage, string extraData, out bool isSymbol)
             {
                 isSymbol = false;
                 if (!string.IsNullOrEmpty(formatter))
@@ -292,14 +302,19 @@ namespace thhylR.Common
                             }
                             else
                             {
-                                var dataRows = data.Select($"Id='{formatItems[0]}' and (Stage={stage} or Stage=-1)");
-                                if (dataRows == null || dataRows.Length == 0)
+                                var predicate = (DataRow d) =>
+                                    d["Id"].ToString() == formatItems[0]
+                                    && ((int)d["Stage"] == stage || (int)d["Stage"] == -1)
+                                    && (d["ExtraData"].ToString() == extraData || d["ExtraData"].ToString() == string.Empty);
+
+                                var dataRow = data.FirstOrDefault(predicate);
+                                if (dataRow == null)
                                 {
                                     return formatItems[0];
                                 }
                                 else
                                 {
-                                    itemToFormat = dataRows[0]["RawValue"] ?? string.Empty;
+                                    itemToFormat = dataRow["RawValue"] ?? string.Empty;
                                     object actualItemToFormat = null;
                                     if (itemToFormat is IList)
                                     {
@@ -448,6 +463,10 @@ namespace thhylR.Common
                         {
                             stringBuilder.Append(symbol);
                         }
+                        if (decItem == 0 && !SettingProvider.Settings.ShowEmptyIcon)
+                        {
+                            stringBuilder.Append('-');
+                        }
                         if (SettingProvider.Settings.ShowEmptyIcon && decItem < 8)
                         {
                             if (decItem < 8)
@@ -485,8 +504,8 @@ namespace thhylR.Common
 
         public static void ReformatData(ref TouhouReplay replay)
         {
-            ProcessDisplayData(replay.DisplayData, true);
-            replay.DisplayData.AcceptChanges();
+            ProcessDisplayData(replay.DisplayDataList, true);
+            //replay.DisplayData.AcceptChanges();
         }
     }
 }

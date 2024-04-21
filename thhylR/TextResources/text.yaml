@@ -99,6 +99,7 @@ text:
   - ReplaySummary: 录像摘要
   - ReplayComment: 注释
   - GameStage: 关卡
+  - EmptyList: 无
   - ReplayFileFilter: 录像文件|*.rpy
   - RawDataFilter: 原始数据|*.bin
   - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
@@ -161,4 +162,5 @@ text:
   - ExportNotStart: 未开始
   - ExportFail: 失败
   - ExportRename: 已重命名
+  - ExportNotSelected: 请先选择至少一项再导出！
 
