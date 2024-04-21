@@ -90,11 +90,13 @@
             label1 = new Label();
             textBoxPath = new TextBox();
             dataGridInfo = new DataGridView();
+            dataGridColumnName = new DataGridViewTextBoxColumn();
+            dataGridColumnValue = new DataGridViewTextBoxColumn();
             label2 = new Label();
             comboBoxEncoding = new ComboBox();
             textBoxInfo = new TextBox();
-            dataGridColumnName = new DataGridViewTextBoxColumn();
-            dataGridColumnValue = new DataGridViewTextBoxColumn();
+            statusStripMain = new StatusStrip();
+            toolStripStatusLabelInfo = new ToolStripStatusLabel();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
             toolStripMain.SuspendLayout();
@@ -107,6 +109,7 @@
             splitContainerInfo.Panel2.SuspendLayout();
             splitContainerInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
+            statusStripMain.SuspendLayout();
             SuspendLayout();
             // 
             // openReplayDialog
@@ -558,7 +561,7 @@
             // 
             splitContainerMain.Panel2.Controls.Add(splitContainerInfo);
             splitContainerMain.Panel2MinSize = 650;
-            splitContainerMain.Size = new Size(1330, 553);
+            splitContainerMain.Size = new Size(1330, 527);
             splitContainerMain.SplitterDistance = 246;
             splitContainerMain.TabIndex = 12;
             // 
@@ -569,7 +572,7 @@
             treeViewFiles.HideSelection = false;
             treeViewFiles.Location = new Point(0, 0);
             treeViewFiles.Name = "treeViewFiles";
-            treeViewFiles.Size = new Size(246, 553);
+            treeViewFiles.Size = new Size(246, 527);
             treeViewFiles.TabIndex = 9;
             treeViewFiles.DrawNode += treeViewFiles_DrawNode;
             treeViewFiles.AfterSelect += treeViewFiles_AfterSelect;
@@ -593,7 +596,7 @@
             splitContainerInfo.Panel2.Controls.Add(comboBoxEncoding);
             splitContainerInfo.Panel2.Controls.Add(textBoxInfo);
             splitContainerInfo.Panel2MinSize = 250;
-            splitContainerInfo.Size = new Size(1080, 553);
+            splitContainerInfo.Size = new Size(1080, 527);
             splitContainerInfo.SplitterDistance = 769;
             splitContainerInfo.TabIndex = 0;
             // 
@@ -649,9 +652,29 @@
             dataGridInfo.RowTemplate.Height = 29;
             dataGridInfo.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridInfo.ShowCellToolTips = false;
-            dataGridInfo.Size = new Size(769, 520);
+            dataGridInfo.Size = new Size(769, 494);
             dataGridInfo.TabIndex = 13;
             dataGridInfo.SelectionChanged += dataGridInfo_SelectionChanged;
+            // 
+            // dataGridColumnName
+            // 
+            dataGridColumnName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridColumnName.DataPropertyName = "Name";
+            dataGridColumnName.FillWeight = 30F;
+            dataGridColumnName.HeaderText = "Name";
+            dataGridColumnName.MinimumWidth = 6;
+            dataGridColumnName.Name = "dataGridColumnName";
+            dataGridColumnName.ReadOnly = true;
+            // 
+            // dataGridColumnValue
+            // 
+            dataGridColumnValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridColumnValue.DataPropertyName = "DisplayValue";
+            dataGridColumnValue.FillWeight = 70F;
+            dataGridColumnValue.HeaderText = "DisplayValue";
+            dataGridColumnValue.MinimumWidth = 6;
+            dataGridColumnValue.Name = "dataGridColumnValue";
+            dataGridColumnValue.ReadOnly = true;
             // 
             // label2
             // 
@@ -683,28 +706,27 @@
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(307, 520);
+            textBoxInfo.Size = new Size(307, 494);
             textBoxInfo.TabIndex = 6;
             // 
-            // dataGridColumnName
+            // statusStripMain
             // 
-            dataGridColumnName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridColumnName.DataPropertyName = "Name";
-            dataGridColumnName.FillWeight = 30F;
-            dataGridColumnName.HeaderText = "Name";
-            dataGridColumnName.MinimumWidth = 6;
-            dataGridColumnName.Name = "dataGridColumnName";
-            dataGridColumnName.ReadOnly = true;
+            statusStripMain.ImageScalingSize = new Size(20, 20);
+            statusStripMain.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelInfo });
+            statusStripMain.Location = new Point(0, 582);
+            statusStripMain.Name = "statusStripMain";
+            statusStripMain.Size = new Size(1330, 26);
+            statusStripMain.TabIndex = 13;
+            statusStripMain.Text = "statusStrip1";
             // 
-            // dataGridColumnValue
+            // toolStripStatusLabelInfo
             // 
-            dataGridColumnValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridColumnValue.DataPropertyName = "DisplayValue";
-            dataGridColumnValue.FillWeight = 70F;
-            dataGridColumnValue.HeaderText = "DisplayValue";
-            dataGridColumnValue.MinimumWidth = 6;
-            dataGridColumnValue.Name = "dataGridColumnValue";
-            dataGridColumnValue.ReadOnly = true;
+            toolStripStatusLabelInfo.Image = Properties.Resources.StatusWarning;
+            toolStripStatusLabelInfo.IsLink = true;
+            toolStripStatusLabelInfo.Name = "toolStripStatusLabelInfo";
+            toolStripStatusLabelInfo.Size = new Size(187, 20);
+            toolStripStatusLabelInfo.Text = "toolStripStatusLabel1";
+            toolStripStatusLabelInfo.Click += toolStripStatusLabelInfo_Click;
             // 
             // FormMain
             // 
@@ -713,6 +735,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1330, 608);
             Controls.Add(splitContainerMain);
+            Controls.Add(statusStripMain);
             Controls.Add(toolStripMain);
             Controls.Add(menuStripMain);
             MainMenuStrip = menuStripMain;
@@ -740,6 +763,8 @@
             ((System.ComponentModel.ISupportInitialize)splitContainerInfo).EndInit();
             splitContainerInfo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).EndInit();
+            statusStripMain.ResumeLayout(false);
+            statusStripMain.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -811,5 +836,7 @@
         private ToolStripButton toolStripButtonExportCustom;
         private DataGridViewTextBoxColumn dataGridColumnName;
         private DataGridViewTextBoxColumn dataGridColumnValue;
+        private StatusStrip statusStripMain;
+        private ToolStripStatusLabel toolStripStatusLabelInfo;
     }
 }

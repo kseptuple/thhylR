@@ -71,6 +71,8 @@
             buttonCancel = new Button();
             buttonApply = new Button();
             fontDialogSetting = new FontDialog();
+            label9 = new Label();
+            comboBoxScoreType = new ComboBox();
             tabControlMain.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -89,12 +91,14 @@
             tabControlMain.Location = new Point(168, 12);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(419, 253);
+            tabControlMain.Size = new Size(419, 284);
             tabControlMain.SizeMode = TabSizeMode.Fixed;
             tabControlMain.TabIndex = 7;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(comboBoxScoreType);
+            tabPage1.Controls.Add(label9);
             tabPage1.Controls.Add(buttonFontSymbol);
             tabPage1.Controls.Add(buttonFontNormal);
             tabPage1.Controls.Add(groupBox1);
@@ -106,7 +110,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(411, 225);
+            tabPage1.Size = new Size(411, 256);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "显示格式";
             tabPage1.UseVisualStyleBackColor = true;
@@ -114,7 +118,7 @@
             // buttonFontSymbol
             // 
             buttonFontSymbol.Enabled = false;
-            buttonFontSymbol.Location = new Point(208, 203);
+            buttonFontSymbol.Location = new Point(205, 234);
             buttonFontSymbol.Name = "buttonFontSymbol";
             buttonFontSymbol.Size = new Size(193, 29);
             buttonFontSymbol.TabIndex = 16;
@@ -124,7 +128,7 @@
             // 
             // buttonFontNormal
             // 
-            buttonFontNormal.Location = new Point(9, 203);
+            buttonFontNormal.Location = new Point(6, 234);
             buttonFontNormal.Name = "buttonFontNormal";
             buttonFontNormal.Size = new Size(193, 29);
             buttonFontNormal.TabIndex = 15;
@@ -140,7 +144,7 @@
             groupBox1.Controls.Add(labelLife);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(label5);
-            groupBox1.Location = new Point(9, 107);
+            groupBox1.Location = new Point(6, 138);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(392, 90);
             groupBox1.TabIndex = 14;
@@ -205,7 +209,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(9, 46);
+            label2.Location = new Point(6, 77);
             label2.Name = "label2";
             label2.Size = new Size(114, 20);
             label2.TabIndex = 10;
@@ -214,7 +218,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(9, 12);
+            label1.Location = new Point(6, 43);
             label1.Name = "label1";
             label1.Size = new Size(84, 20);
             label1.TabIndex = 9;
@@ -224,7 +228,7 @@
             // 
             checkBoxShowEmpty.AutoSize = true;
             checkBoxShowEmpty.Enabled = false;
-            checkBoxShowEmpty.Location = new Point(12, 77);
+            checkBoxShowEmpty.Location = new Point(9, 108);
             checkBoxShowEmpty.Name = "checkBoxShowEmpty";
             checkBoxShowEmpty.Size = new Size(205, 24);
             checkBoxShowEmpty.TabIndex = 8;
@@ -236,7 +240,7 @@
             // 
             comboBoxLifeStyle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxLifeStyle.FormattingEnabled = true;
-            comboBoxLifeStyle.Location = new Point(192, 43);
+            comboBoxLifeStyle.Location = new Point(189, 74);
             comboBoxLifeStyle.Name = "comboBoxLifeStyle";
             comboBoxLifeStyle.Size = new Size(209, 28);
             comboBoxLifeStyle.TabIndex = 7;
@@ -246,7 +250,7 @@
             // 
             comboBoxScoreStyle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxScoreStyle.FormattingEnabled = true;
-            comboBoxScoreStyle.Location = new Point(192, 9);
+            comboBoxScoreStyle.Location = new Point(189, 40);
             comboBoxScoreStyle.Name = "comboBoxScoreStyle";
             comboBoxScoreStyle.Size = new Size(209, 28);
             comboBoxScoreStyle.TabIndex = 6;
@@ -496,13 +500,13 @@
             listBoxTabs.ItemHeight = 20;
             listBoxTabs.Location = new Point(12, 12);
             listBoxTabs.Name = "listBoxTabs";
-            listBoxTabs.Size = new Size(150, 244);
+            listBoxTabs.Size = new Size(150, 284);
             listBoxTabs.TabIndex = 8;
             listBoxTabs.SelectedIndexChanged += listBoxTabs_SelectedIndexChanged;
             // 
             // buttonOK
             // 
-            buttonOK.Location = new Point(289, 267);
+            buttonOK.Location = new Point(289, 302);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(94, 29);
             buttonOK.TabIndex = 9;
@@ -512,7 +516,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(389, 267);
+            buttonCancel.Location = new Point(389, 302);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(94, 29);
             buttonCancel.TabIndex = 10;
@@ -523,7 +527,7 @@
             // buttonApply
             // 
             buttonApply.Enabled = false;
-            buttonApply.Location = new Point(489, 267);
+            buttonApply.Location = new Point(489, 302);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(94, 29);
             buttonApply.TabIndex = 11;
@@ -537,11 +541,29 @@
             fontDialogSetting.FontMustExist = true;
             fontDialogSetting.ShowEffects = false;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(6, 9);
+            label9.Name = "label9";
+            label9.Size = new Size(114, 20);
+            label9.TabIndex = 17;
+            label9.Text = "关卡得分显示：";
+            // 
+            // comboBoxScoreType
+            // 
+            comboBoxScoreType.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxScoreType.FormattingEnabled = true;
+            comboBoxScoreType.Location = new Point(189, 6);
+            comboBoxScoreType.Name = "comboBoxScoreType";
+            comboBoxScoreType.Size = new Size(209, 28);
+            comboBoxScoreType.TabIndex = 18;
+            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(595, 302);
+            ClientSize = new Size(595, 342);
             Controls.Add(buttonApply);
             Controls.Add(buttonCancel);
             Controls.Add(buttonOK);
@@ -615,5 +637,7 @@
         private Label label7;
         private ComboBox comboBoxOperAfterMove;
         private Label label6;
+        private ComboBox comboBoxScoreType;
+        private Label label9;
     }
 }

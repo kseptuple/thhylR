@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
+using thhylR.Properties;
 using YamlDotNet.Serialization.TypeInspectors;
 
 namespace thhylR
@@ -100,6 +101,17 @@ namespace thhylR
 
                 EditCommentToolStripMenuItem.Enabled = CurrentReplay.InfoBlocks != null;
                 toolStripButtonEditComment.Enabled = CurrentReplay.InfoBlocks != null;
+
+                if (CurrentReplay.ReplayProblem == ReplayProblemEnum.None)
+                {
+                    toolStripStatusLabelInfo.Image = Resources.StatusOK;
+                    toolStripStatusLabelInfo.Text = ResourceLoader.getTextResource("ReplayOK");
+                }
+                else
+                {
+                    toolStripStatusLabelInfo.Image = Resources.StatusWarning;
+                    toolStripStatusLabelInfo.Text = ResourceLoader.getTextResource("ReplayWarning");
+                }
             }
             else
             {
@@ -479,9 +491,8 @@ namespace thhylR
 
                 if (CurrentReplay != null)
                 {
-                    var currentReplay = CurrentReplay;
-                    ReplayAnalyzer.ReformatData(ref currentReplay);
-                    CurrentReplay = currentReplay;
+                    ReplayAnalyzer.FormatData(CurrentReplay.DisplayDataList);
+                    ReplayAnalyzer.ShiftScore(CurrentReplay);
                     displayData(false);
                 }
             }

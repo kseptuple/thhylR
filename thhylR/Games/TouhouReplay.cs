@@ -14,10 +14,7 @@ namespace thhylR.Games
 {
     public class TouhouReplay
     {
-        //public bool IsTrial { get; set; }
         public GameOffsets GameData { get; set; }
-        public short ReplayVersion { get; set; }
-        //public int GameVersion { get; set; }
 
         public string FilePath { get; set; }
 

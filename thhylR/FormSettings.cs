@@ -23,6 +23,9 @@ namespace thhylR
             listBoxTabs.DataSource = tabControlMain.TabPages;
             listBoxTabs.DisplayMember = "Text";
             tabControlMain.ItemSize = new Size(0, 1);
+            comboBoxScoreType.Items.Add(ResourceLoader.getTextResource("ScoreShown1"));
+            comboBoxScoreType.Items.Add(ResourceLoader.getTextResource("ScoreShown2"));
+            comboBoxScoreType.Items.Add(ResourceLoader.getTextResource("ScoreShown3"));
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType1"));
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType2"));
             comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType3"));
@@ -98,6 +101,7 @@ namespace thhylR
 
             labelScore.Font = systemFontDemo;
 
+            comboBoxScoreType.SelectedIndex = (int)settings.ShownScore;
             comboBoxScoreStyle.SelectedIndex = (int)settings.ScoreType;
             comboBoxLifeStyle.SelectedIndex = (int)settings.LifeBombType;
             if (settings.LifeBombType != LifeBombFormat.Number)
@@ -268,6 +272,7 @@ namespace thhylR
         private void SaveSettings()
         {
             ProgramSettings settings = SettingProvider.Settings;
+            settings.ShownScore = (ShownScoreType)comboBoxScoreType.SelectedIndex;
             settings.ScoreType = (ScoreFormat)comboBoxScoreStyle.SelectedIndex;
             settings.LifeBombType = (LifeBombFormat)comboBoxLifeStyle.SelectedIndex;
 

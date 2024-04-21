@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,223 +17,222 @@ namespace thhylR.Common
         private static readonly Regex modifierReplacer = new Regex(@"\{[^\{\}]*?\}", RegexOptions.Compiled);
         private static readonly Regex formatterReplacer = new Regex(@"(\{[^\{\}]*?\})|(\{[^\{\}:]*?:[^\{\}:]*?\})", RegexOptions.Compiled);
 
-        private static void ProcessDisplayData(List<DataRow> data, bool onlyFormat = false)
+        private static void ProcessDisplayData(List<DataRow> data)
         {
-            if (!onlyFormat)
+            //Modifier
+            foreach (DataRow dr in data)
             {
-                //Modifier
-                foreach (DataRow dr in data)
+                var currentValue = dr["RawValue"];
+                if (dr["Modifier"] == null || dr["Modifier"].ToString() == string.Empty)
                 {
-                    var currentValue = dr["RawValue"];
-                    if (dr["Modifier"] == null || dr["Modifier"].ToString() == string.Empty)
+                    dr["Value"] = dr["RawValue"];
+                    continue;
+                }
+
+                string modifier = dr["Modifier"].ToString();
+
+                if (currentValue != null && currentValue is IList)
+                {
+                    List<object> resultList = new List<object>();
+                    var currentValueList = (IList)currentValue;
+                    for (int i = 0; i < currentValueList.Count; i++)
                     {
-                        dr["Value"] = dr["RawValue"];
-                        continue;
+                        var item = currentValueList[i];
+                        resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"], dr["ExtraData"].ToString()));
                     }
+                    dr["Value"] = resultList;
+                }
+                else
+                {
+                    dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"], dr["ExtraData"].ToString());
+                }
+            }
 
-                    string modifier = dr["Modifier"].ToString();
-
-                    if (currentValue != null && currentValue is IList)
+            object calculateItem(object item, int index, string modifier, int stage, string extraData)
+            {
+                MatchEvaluator modifierEvaluator = m =>
+                {
+                    object itemToCalc = null;
+                    var value = m.Value[1..^1];
+                    if (value == ".")
                     {
-                        List<object> resultList = new List<object>();
-                        var currentValueList = (IList)currentValue;
-                        for (int i = 0; i < currentValueList.Count; i++)
-                        {
-                            var item = currentValueList[i];
-                            resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"], dr["ExtraData"].ToString()));
-                        }
-                        dr["Value"] = resultList;
+                        return "(" + item.ToString() + ")";
                     }
                     else
                     {
-                        dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"], dr["ExtraData"].ToString());
-                    }
-                }
+                        var predicate = (DataRow d) =>
+                            d["Id"].ToString() == value
+                            && ((int)d["Stage"] == stage || (int)d["Stage"] == -1)
+                            && (d["ExtraData"].ToString() == extraData || d["ExtraData"].ToString() == string.Empty);
 
-                object calculateItem(object item, int index, string modifier, int stage, string extraData)
-                {
-                    MatchEvaluator modifierEvaluator = m =>
-                    {
-                        object itemToCalc = null;
-                        var value = m.Value[1..^1];
-                        if (value == ".")
+                        var dataRow = data.FirstOrDefault(predicate);
+                        if (dataRow == null)
                         {
-                            return "(" + item.ToString() + ")";
+                            return "(" + value + ")";
                         }
                         else
                         {
-                            var predicate = (DataRow d) =>
-                                d["Id"].ToString() == value 
-                                && ((int)d["Stage"] == stage || (int)d["Stage"] == -1)
-                                && (d["ExtraData"].ToString() == extraData || d["ExtraData"].ToString() == string.Empty);
-
-                            var dataRow = data.FirstOrDefault(predicate);
-                            if (dataRow == null)
+                            itemToCalc = dataRow["RawValue"] ?? string.Empty;
+                            object actualItemToCalc = null;
+                            if (itemToCalc is IList)
                             {
-                                return "(" + value + ")";
-                            }
-                            else
-                            {
-                                itemToCalc = dataRow["RawValue"] ?? string.Empty;
-                                object actualItemToCalc = null;
-                                if (itemToCalc is IList)
+                                var itemToCalcList = (IList)itemToCalc;
+                                if (itemToCalcList.Count <= index)
                                 {
-                                    var itemToCalcList = (IList)itemToCalc;
-                                    if (itemToCalcList.Count <= index)
-                                    {
-                                        actualItemToCalc = string.Empty;
-                                    }
-                                    else
-                                    {
-                                        actualItemToCalc = itemToCalcList[index];
-                                    }
-                                    itemToCalc = actualItemToCalc;
+                                    actualItemToCalc = string.Empty;
                                 }
-                                return "(" + itemToCalc.ToString() + ")";
+                                else
+                                {
+                                    actualItemToCalc = itemToCalcList[index];
+                                }
+                                itemToCalc = actualItemToCalc;
                             }
+                            return "(" + itemToCalc.ToString() + ")";
                         }
-                    };
-
-                    modifier = modifier.Replace("{{", "\uFDD0");
-                    modifier = modifierReplacer.Replace(modifier, modifierEvaluator);
-                    modifier = modifier.Replace("\uFDD0", "{");
-                    try
-                    {
-                        return ExpressionAnalyzer.getValue(modifier);
                     }
-                    catch
-                    {
-                        return "ERROR";
-                    }
-                }
+                };
 
-                //Visible
-                foreach (DataRow dr in data)
+                modifier = modifier.Replace("{{", "\uFDD0");
+                modifier = modifierReplacer.Replace(modifier, modifierEvaluator);
+                modifier = modifier.Replace("\uFDD0", "{");
+                try
                 {
-                    MatchEvaluator visibleEvaluator = m =>
-                    {
-                        var value = m.Value[1..^1];
-                        if (value == ".")
-                        {
-                            return "(" + dr["Value"].ToString() + ")";
-                        }
-                        else
-                        {
-                            var predicate = (DataRow d) =>
-                                d["Id"].ToString() == value
-                                && ((int)d["Stage"] == (int)dr["Stage"] || (int)d["Stage"] == -1)
-                                && (d["ExtraData"].ToString() == dr["ExtraData"].ToString() || d["ExtraData"].ToString() == string.Empty);
+                    return ExpressionAnalyzer.getValue(modifier);
+                }
+                catch
+                {
+                    return "ERROR";
+                }
+            }
 
-                            var dataRow = data.FirstOrDefault(predicate);
-                            if (dataRow != null)
-                            {
-                                return "(" + dataRow["Value"].ToString() + ")";
-                            }
-                            else
-                            {
-                                return "(" + value + ")";
-                            }
-                        }
-                    };
-
-                    if (dr["Visible"] != null && dr["Visible"].ToString() != string.Empty)
+            //Visible
+            foreach (DataRow dr in data)
+            {
+                MatchEvaluator visibleEvaluator = m =>
+                {
+                    var value = m.Value[1..^1];
+                    if (value == ".")
                     {
-                        string visible = dr["Visible"].ToString();
-                        if (visible == "true")
-                        {
-                            dr["Visible"] = "1";
-                        }
-                        else if (visible == "false")
-                        {
-                            dr["Visible"] = "0";
-                        }
-                        else
-                        {
-                            visible = visible.Replace("{{", "\uFDD0");
-                            visible = modifierReplacer.Replace(visible, visibleEvaluator);
-                            visible = visible.Replace("\uFDD0", "{");
-                            try
-                            {
-                                var value = ExpressionAnalyzer.getValue(visible);
-                                dr["Visible"] = value;
-                            }
-                            catch
-                            {
-                                dr["Visible"] = "1";
-                            }
-                        }
+                        return "(" + dr["Value"].ToString() + ")";
                     }
                     else
+                    {
+                        var predicate = (DataRow d) =>
+                            d["Id"].ToString() == value
+                            && ((int)d["Stage"] == (int)dr["Stage"] || (int)d["Stage"] == -1)
+                            && (d["ExtraData"].ToString() == dr["ExtraData"].ToString() || d["ExtraData"].ToString() == string.Empty);
+
+                        var dataRow = data.FirstOrDefault(predicate);
+                        if (dataRow != null)
+                        {
+                            return "(" + dataRow["Value"].ToString() + ")";
+                        }
+                        else
+                        {
+                            return "(" + value + ")";
+                        }
+                    }
+                };
+
+                if (dr["Visible"] != null && dr["Visible"].ToString() != string.Empty)
+                {
+                    string visible = dr["Visible"].ToString();
+                    if (visible == "true")
                     {
                         dr["Visible"] = "1";
                     }
-                }
-
-                //Enum
-                foreach (DataRow dr in data)
-                {
-                    dr["RawValue"] = dr["Value"];
-                    var currentValue = dr["RawValue"];
-                    if (dr["EnumList"] == null || dr["EnumList"].ToString() == string.Empty)
+                    else if (visible == "false")
                     {
-                        continue;
-                    }
-
-                    string enumName = dr["EnumList"].ToString();
-
-                    if (currentValue != null && currentValue is IList)
-                    {
-                        List<string> resultList = new List<string>();
-                        var currentValueList = (IList)currentValue;
-                        for (int i = 0; i < currentValueList.Count; i++)
-                        {
-                            var item = currentValueList[i];
-                            resultList.Add(getEnumValue(item.ToString(), enumName));
-                        }
-                        dr["RawValue"] = resultList;
+                        dr["Visible"] = "0";
                     }
                     else
                     {
-                        dr["RawValue"] = getEnumValue(currentValue.ToString(), enumName);
+                        visible = visible.Replace("{{", "\uFDD0");
+                        visible = modifierReplacer.Replace(visible, visibleEvaluator);
+                        visible = visible.Replace("\uFDD0", "{");
+                        try
+                        {
+                            var value = ExpressionAnalyzer.getValue(visible);
+                            dr["Visible"] = value;
+                        }
+                        catch
+                        {
+                            dr["Visible"] = "1";
+                        }
                     }
                 }
-
-                string getEnumValue(string item, string enumName)
+                else
                 {
-                    if (string.IsNullOrEmpty(item)) return string.Empty;
+                    dr["Visible"] = "1";
+                }
+            }
 
-                    EnumItemList enumItemList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == enumName);
-                    if (enumItemList != null)
+            //Enum
+            foreach (DataRow dr in data)
+            {
+                dr["RawValue"] = dr["Value"];
+                var currentValue = dr["RawValue"];
+                if (dr["EnumList"] == null || dr["EnumList"].ToString() == string.Empty)
+                {
+                    continue;
+                }
+
+                string enumName = dr["EnumList"].ToString();
+
+                if (currentValue != null && currentValue is IList)
+                {
+                    List<string> resultList = new List<string>();
+                    var currentValueList = (IList)currentValue;
+                    for (int i = 0; i < currentValueList.Count; i++)
                     {
-                        if (enumItemList.UseEnumName)
+                        var item = currentValueList[i];
+                        resultList.Add(getEnumValue(item.ToString(), enumName));
+                    }
+                    dr["RawValue"] = resultList;
+                }
+                else
+                {
+                    dr["RawValue"] = getEnumValue(currentValue.ToString(), enumName);
+                }
+            }
+
+            string getEnumValue(string item, string enumName)
+            {
+                if (string.IsNullOrEmpty(item)) return string.Empty;
+
+                EnumItemList enumItemList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == enumName);
+                if (enumItemList != null)
+                {
+                    if (enumItemList.UseEnumName)
+                    {
+                        EnumItem enumResult = enumItemList.EnumValues.FirstOrDefault(e => e.Name == item);
+                        if (enumResult != null)
                         {
-                            EnumItem enumResult = enumItemList.EnumValues.FirstOrDefault(e => e.Name == item);
-                            if (enumResult != null)
-                            {
-                                return enumResult.Value;
-                            }
-                            else
-                            {
-                                return item;
-                            }
+                            return enumResult.Value;
                         }
                         else
                         {
-                            if (int.TryParse(item, out int enumIndex) && enumIndex >= 0 && enumIndex < enumItemList.EnumValues.Count)
-                            {
-                                return enumItemList.EnumValues[enumIndex].Value;
-                            }
-                            else
-                            {
-                                return item;
-                            }
+                            return item;
                         }
                     }
-                    return item;
+                    else
+                    {
+                        if (int.TryParse(item, out int enumIndex) && enumIndex >= 0 && enumIndex < enumItemList.EnumValues.Count)
+                        {
+                            return enumItemList.EnumValues[enumIndex].Value;
+                        }
+                        else
+                        {
+                            return item;
+                        }
+                    }
                 }
-
+                return item;
             }
+        }
 
+        public static void FormatData(List<DataRow> data)
+        {
             //Formatter
             var argumentTypes = new Type[] { typeof(string) };
 
@@ -502,10 +502,79 @@ namespace thhylR.Common
             }
         }
 
-        public static void ReformatData(ref TouhouReplay replay)
+        public static void ShiftScore(TouhouReplay replay)
         {
-            ProcessDisplayData(replay.DisplayDataList, true);
-            //replay.DisplayData.AcceptChanges();
+            var scoreType = SettingProvider.Settings.ShownScore;
+
+            if (scoreType != ShownScoreType.Default)
+            {
+                List<DataRow> dataList = replay.DisplayDataList;
+                List<string> suffix = new List<string>();
+                if (replay.GameData.StageSetting.IsVSGame)
+                {
+                    suffix.Add("P1");
+                    suffix.Add("P2");
+                }
+                else
+                {
+                    suffix.Add("");
+                }
+
+                if (scoreType == ShownScoreType.StageEnd && !replay.GameData.IsStageEndScore)
+                {
+                    foreach (var suffixItem in suffix)
+                    {
+                        DataRow totalScoreRow = dataList.FirstOrDefault(d => d["Id"].ToString() == "Score" + suffixItem);
+                        if (totalScoreRow != null)
+                        {
+                            var allStageScore = dataList.Where(d => d["Id"].ToString() == "StageScore" + suffixItem).ToList();
+                            //allStageScore.Sort((d1, d2) => (int)d1["Stage"] - (int)d2["Stage"]);
+                            for (int i = 0; i < allStageScore.Count; i++)
+                            {
+                                DataRow dr = allStageScore[i];
+                                if (i != allStageScore.Count - 1)
+                                {
+                                    copyFrom(ref dr, allStageScore[i + 1]);
+                                }
+                                else
+                                {
+                                    copyFrom(ref dr, totalScoreRow);
+                                }
+                                allStageScore[i] = dr;
+                            }
+                        }
+                    }
+                }
+                else if (scoreType == ShownScoreType.StageStart && replay.GameData.IsStageEndScore)
+                {
+                    foreach (var suffixItem in suffix)
+                    {
+                        var allStageScore = dataList.Where(d => d["Id"].ToString() == "StageScore" + suffixItem).ToList();
+                        //allStageScore.Sort((d1, d2) => (int)d1["Stage"] - (int)d2["Stage"]);
+                        for (int i = allStageScore.Count - 1; i >= 0; i--)
+                        {
+                            DataRow dr = allStageScore[i];
+                            if (i != 0)
+                            {
+                                copyFrom(ref dr, allStageScore[i - 1]);
+                            }
+                            else
+                            {
+                                dr["DisplayValue"] = 0;
+                                dr["Value"] = 0;
+                            }
+                            allStageScore[i] = dr;
+                        }
+                    }
+                }
+            }
+
+            void copyFrom(ref DataRow source, DataRow dest)
+            {
+                source["DisplayValue"] = dest["DisplayValue"];
+                source["Value"] = dest["Value"];
+            }
         }
     }
 }
+

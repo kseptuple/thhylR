@@ -89,6 +89,8 @@ namespace thhylR
 
             toolStripButtonOption.ToolTipText = ResourceLoader.getTextResource("OptionTip");
 
+            toolStripStatusLabelInfo.Text = ResourceLoader.getTextResource("ProblemNotOpen");
+
             encodingMenuItem.Add(Encoding1ToolStripMenuItem);
             encodingMenuItem.Add(Encoding2ToolStripMenuItem);
             encodingMenuItem.Add(Encoding3ToolStripMenuItem);
@@ -471,6 +473,20 @@ namespace thhylR
                     }
                 }
             }
+        }
+
+        private void toolStripStatusLabelInfo_Click(object sender, EventArgs e)
+        {
+            FormReplayProblem formReplayProblem = null;
+            if (CurrentReplay == null)
+            {
+                formReplayProblem = new FormReplayProblem();
+            }
+            else
+            {
+                formReplayProblem = new FormReplayProblem(CurrentReplay.ReplayProblem);
+            }
+            formReplayProblem.ShowDialog(this);
         }
 
         public enum ReplayChangeType

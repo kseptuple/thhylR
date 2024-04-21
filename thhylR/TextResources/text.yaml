@@ -38,8 +38,9 @@ FormSettings:
   - tabControlMain: 
     - tabPage1: 
       - 显示格式
-      - label1: 得分显示：
-      - label2: 残机符卡显示：
+      - label9: 关卡得分显示：
+      - label1: 得分格式：
+      - label2: 残机符卡格式：
       - checkBoxShowEmpty: 数量小于8时显示空心符号
       - groupBox1: 
         - 效果示例
@@ -94,6 +95,8 @@ FormExport:
   - 自定义导出数据
   - buttonSelectFolder: 保存到文件夹...
   - buttonClose: 关闭
+FormReplayProblem: 
+  - 录像异常信息
 text:
   - GameName: 游戏名
   - ReplaySummary: 录像摘要
@@ -104,9 +107,14 @@ text:
   - RawDataFilter: 原始数据|*.bin
   - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
   - NotExistedFile: "找不到文件：{0}"
-  - ProblemFileNotExits: 该文件已不存在，请重新打开
-  - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错
-  - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错
+  - ProblemFileNotExits: 该文件已不存在，请重新打开。
+  - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错。
+  - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错。
+  - ProblemNotOpen: 未打开文件
+  - ReplayOK: 录像文件正常
+  - ReplayWarning: 录像文件异常
+  - ProblemNotOpenDisplay: 未打开文件。
+  - ReplayOKDisplay: 录像文件正常。
   - RegistryExtensionName: 东方Project录像文件
   - RegistrySetFailAdmin: 需要管理员权限才能设置，是否以管理员身份重新启动？
   - RegistrySetFail: 设置文件关联失败！
@@ -119,6 +127,9 @@ text:
   - LifeBombType1: 数值
   - LifeBombType2: "\u2665\ufe0e和\u2605\ufe0e"
   - LifeBombType3: "\u2605\ufe0e"
+  - ScoreShown1: 默认
+  - ScoreShown2: 关卡结束得分
+  - ScoreShown3: 关卡开始得分
   - ScoreChara: 万亿兆京垓
   - KeepFile: 不打开新文件
   - NextFile: 打开下一个文件

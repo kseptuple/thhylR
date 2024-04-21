@@ -2,6 +2,7 @@
   Identifier: T6RP
   GameDisplayName: 东方红魔乡　～ the Embodiment of Scarlet Devil.
   ReplayStructVersion: 1
+  IsStageEndScore: true
   DecodeSetting:
     DecodeVersion: 1
     DecompressVersion: 0
@@ -83,6 +84,7 @@
   Identifier: T7RP
   GameDisplayName: 东方妖妖梦　～ Perfect Cherry Blossom.
   ReplayStructVersion: 1
+  IsStageEndScore: true
   DecodeSetting:
     DecodeVersion: 1
     DecompressVersion: 1
@@ -200,6 +202,7 @@
   GameDisplayName: 东方永夜抄　～ Imperishable Night.
   InfoBlock: 0x0c
   ReplayStructVersion: 1
+  IsStageEndScore: true
   DecodeSetting:
     DecodeVersion: 1
     DecompressVersion: 1

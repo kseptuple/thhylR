@@ -57,6 +57,7 @@ namespace thhylR.Common
         public int InfoBlock { get; set; } = -1;
         public int GameVersion { get; set; } = -1;
         public int ReplayVersion { get; set; } = -1;
+        public bool IsStageEndScore { get; set; } = false;
 
         public List<short> MatchingGameVersion { get; set; }
         public List<short> MatchingReplayVersion { get; set; }

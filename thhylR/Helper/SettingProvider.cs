@@ -76,6 +76,7 @@ namespace thhylR.Helper
         public Font SymbolFont { get; set; }
         public FontInfo NormalFontInfo { get; set; }
         public FontInfo SymbolFontInfo { get; set; }
+        public ShownScoreType ShownScore { get; set; }
 
         public int CurrentCodePage { get; set; }
 
@@ -140,6 +141,8 @@ namespace thhylR.Helper
 
                 Settings.NormalFont = new Font(SystemFonts.DefaultFont.Name, 12F, FontStyle.Regular);
                 Settings.SymbolFont = new Font("Segoe UI Symbol", 12F, FontStyle.Regular);
+                Settings.ShownScore = ShownScoreType.StageEnd;
+
                 Settings.CurrentCodePage = 932;
 
                 Settings.MainFormLeft = -1;
@@ -217,5 +220,12 @@ namespace thhylR.Helper
         public string Name { get; set; }
         public float Size { get; set; }
         public FontStyle Style { get; set; }
+    }
+
+    public enum ShownScoreType
+    {
+        Default = 0,
+        StageEnd = 1,
+        StageStart = 2
     }
 }

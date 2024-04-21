@@ -69,7 +69,7 @@
             // buttonSave
             // 
             buttonSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonSave.Location = new Point(254, 348);
+            buttonSave.Location = new Point(254, 355);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(94, 29);
             buttonSave.TabIndex = 3;
@@ -80,7 +80,7 @@
             // buttonSaveAs
             // 
             buttonSaveAs.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonSaveAs.Location = new Point(354, 348);
+            buttonSaveAs.Location = new Point(354, 355);
             buttonSaveAs.Name = "buttonSaveAs";
             buttonSaveAs.Size = new Size(94, 29);
             buttonSaveAs.TabIndex = 4;
@@ -91,7 +91,7 @@
             // buttonClose
             // 
             buttonClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonClose.Location = new Point(454, 348);
+            buttonClose.Location = new Point(454, 355);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(94, 29);
             buttonClose.TabIndex = 5;
@@ -114,7 +114,7 @@
             // 
             splitContainerMain.Panel2.Controls.Add(label2);
             splitContainerMain.Panel2.Controls.Add(textBoxPreview);
-            splitContainerMain.Size = new Size(536, 296);
+            splitContainerMain.Size = new Size(536, 303);
             splitContainerMain.SplitterDistance = 266;
             splitContainerMain.TabIndex = 6;
             // 
@@ -127,7 +127,7 @@
             textBoxComment.Multiline = true;
             textBoxComment.Name = "textBoxComment";
             textBoxComment.ScrollBars = ScrollBars.Vertical;
-            textBoxComment.Size = new Size(264, 270);
+            textBoxComment.Size = new Size(264, 277);
             textBoxComment.TabIndex = 1;
             textBoxComment.TextChanged += textBoxComment_TextChanged;
             // 
@@ -150,7 +150,7 @@
             textBoxPreview.Name = "textBoxPreview";
             textBoxPreview.ReadOnly = true;
             textBoxPreview.ScrollBars = ScrollBars.Vertical;
-            textBoxPreview.Size = new Size(260, 270);
+            textBoxPreview.Size = new Size(260, 277);
             textBoxPreview.TabIndex = 2;
             // 
             // FormCommentEditor
