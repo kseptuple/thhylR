@@ -2,7 +2,6 @@
   Identifier: T6RP
   GameDisplayName: 东方红魔乡　～ the Embodiment of Scarlet Devil.
   ReplayStructVersion: 1
-  IsStageEndScore: true
   DecodeSetting:
     DecodeVersion: 1
     DecompressVersion: 0
@@ -14,7 +13,14 @@
     FirstStage: 0x34
     TotalStageCountData: 7
     StageHeaderSizeData: 0x10
-    FirstFrameIsNullFrame: true
+    KeySizeData: 8
+    IsStageEndScore: true
+    KeyData:
+    - KeyDataVersion: 1
+    - FirstFrameIsNullFrame: true
+    - HasTerminateMark: false
+    - KeySize: 2
+    - KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -84,7 +90,6 @@
   Identifier: T7RP
   GameDisplayName: 东方妖妖梦　～ Perfect Cherry Blossom.
   ReplayStructVersion: 1
-  IsStageEndScore: true
   DecodeSetting:
     DecodeVersion: 1
     DecompressVersion: 1
@@ -99,7 +104,15 @@
     FPSStartData: 7
     TotalStageCountData: 14
     StageHeaderSizeData: 0x2C
+    KeySizeData: 4
     FirstFrameIsNullFrame: true
+    IsStageEndScore: true
+    KeyData:
+    - KeyDataVersion: 2
+    - FirstFrameIsNullFrame: true
+    - HasTerminateMark: false
+    - KeySize: 2
+    - KeyNames: ["A", "B", "Fc", "Esc", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -202,7 +215,6 @@
   GameDisplayName: 东方永夜抄　～ Imperishable Night.
   InfoBlock: 0x0c
   ReplayStructVersion: 1
-  IsStageEndScore: true
   DecodeSetting:
     DecodeVersion: 1
     DecompressVersion: 1
@@ -217,7 +229,15 @@
     FPSStartData: 9
     TotalStageCountData: 18
     StageHeaderSizeData: 0x24
+    KeySizeData: 2
     FirstFrameIsNullFrame: true
+    IsStageEndScore: true
+    KeyData:
+    - KeyDataVersion: 2
+    - FirstFrameIsNullFrame: true
+    - HasTerminateMark: false
+    - KeySize: 2
+    - KeyNames: ["A", "B", "Fc", "Esc", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -346,7 +366,13 @@
     FPSStartData: 30
     TotalStageCountData: 40
     StageHeaderSizeData: 0x20
+    KeySizeData: 2
     IsVSGame: true
+    KeyData:
+    - KeyDataVersion: 2
+    - HasTerminateMark: false
+    - KeySize: 2
+    - KeyNames: ["A", "B", "Fc", "Esc", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分

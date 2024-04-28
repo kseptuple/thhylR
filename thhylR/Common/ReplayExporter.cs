@@ -108,8 +108,8 @@ namespace thhylR.Common
                         Name = $"{stageName}_fpsdata",
                         Stage = stageName,
                         StageId = stageId,
-                        Length = stage.FPSData.Data.Length,
-                        Offset = stage.FPSData.Data.Offset + headerLength,
+                        Length = stage.FPSData.Length,
+                        Offset = stage.FPSData.Offset + headerLength,
                         Type = ReplayBlockType.FPSData
                     });
                 }
@@ -197,7 +197,7 @@ namespace thhylR.Common
                             }
                             else
                             {
-                                dataOffsetAndLength = stageData.FPSData.Data;
+                                dataOffsetAndLength = stageData.FPSData;
                             }
                             return replay.RawData[dataOffsetAndLength.Offset..(dataOffsetAndLength.Offset + dataOffsetAndLength.Length)];
                         }

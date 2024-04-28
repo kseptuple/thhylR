@@ -57,7 +57,6 @@ namespace thhylR.Common
         public int InfoBlock { get; set; } = -1;
         public int GameVersion { get; set; } = -1;
         public int ReplayVersion { get; set; } = -1;
-        public bool IsStageEndScore { get; set; } = false;
 
         public List<short> MatchingGameVersion { get; set; }
         public List<short> MatchingReplayVersion { get; set; }
@@ -108,7 +107,7 @@ namespace thhylR.Common
         public int TotalStageCountData { get; set; }
         public int TotalStageCount { get; set; } = -1;
         public int StageHeaderSizeData { get; set; }
-        public bool FirstFrameIsNullFrame { get; set; } = false;
+        public bool IsStageEndScore { get; set; } = false;
         public int KeySizeData { get; set; }
         public int StageNumOfStage { get; set; }
         public int KeyCountOfStage { get; set; }
@@ -117,6 +116,16 @@ namespace thhylR.Common
         public bool UseKeyDataSize { get; set; } = false;
         public bool IsVSGame { get; set; } = false;
         public List<GameCustomInfoItem> CustomStageInfo { get; set; }
+        public KeyDataSetting KeyData { get; set; }
+    }
+
+    public class KeyDataSetting : GameDataCloneableClass
+    {
+        public bool FirstFrameIsNullFrame { get; set; } = false;
+        public bool HasTerminateMark { get; set; } = true;
+        public List<string> KeyNames { get; set; }
+        public int KeySize { get; set; }
+        public int KeyDataVersion { get; set; }
     }
 
     public class GameCustomInfoItem
@@ -139,7 +148,7 @@ namespace thhylR.Common
         public bool Ignore { get; set; } = false;
         public string FixedValue { get; set; }
         public string CapAt { get; set; }
-        public object AfterCapValue {  get; set; }
+        public object AfterCapValue { get; set; }
     }
 
     public abstract class GameDataCloneableClass

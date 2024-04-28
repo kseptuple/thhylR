@@ -72,6 +72,7 @@ namespace thhylR
             {
                 row.Cells["IsChecked"].Value = checkBoxSelectAll.Checked;
             }
+            dataGridViewExport.CommitEdit(DataGridViewDataErrorContexts.Commit);
             dataGridViewExport.RefreshEdit();
             isSelectAll = false;
         }

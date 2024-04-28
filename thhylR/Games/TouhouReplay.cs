@@ -28,6 +28,7 @@ namespace thhylR.Games
 
         public int InfoBlockStart { get; set; } = -1;
 
+        public int TotalFrameCount { get; set; }
         public double CalculatedTotalSlowRate { get; set; }
 
         public List<GameCustomInfoItem> GameRelatedData { get; set; }
@@ -80,7 +81,7 @@ namespace thhylR.Games
         public int BeginOffset { get; set; }
 
         private static readonly DateTime win32FileTimeEpoch = new DateTime(1601, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        private static readonly Regex modifierReplacer = new Regex(@"\{[^\{\}]*?\}", RegexOptions.Compiled);
+        //private static readonly Regex modifierReplacer = new Regex(@"\{[^\{\}]*?\}", RegexOptions.Compiled);
 
         public GameDataSource(byte[] data)
         {
@@ -316,17 +317,15 @@ namespace thhylR.Games
         public int StageId { get; set; }
         public DataOffsetAndLength HeaderData { get; set; }
         public DataOffsetAndLength KeyData { get; set; }
-        public FPSData FPSData { get; set; }
+        public DataOffsetAndLength FPSData { get; set; }
 
         public List<GameCustomInfoItem> GameRelatedData { get; set; }
 
         public GameDataSource GameCustomData { get; set; }
-    }
 
-    public class FPSData
-    {
-        public DataOffsetAndLength Data { get; set; }
+        public int FrameCount { get; set; }
         public double CalculatedSlowRate { get; set; }
-    }
 
+        public List<DataRow> KeyList { get; set; }
+    }
 }

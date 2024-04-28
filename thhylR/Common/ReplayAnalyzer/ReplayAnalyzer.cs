@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using thhylR.Games;
 using thhylR.Helper;
+using YamlDotNet.Core.Tokens;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace thhylR.Common
 {
@@ -213,6 +215,18 @@ namespace thhylR.Common
             addDisplayData(gameData.CustomReplayInfo, defaultData, alternativeData, -1);
 
             var stageSetting = gameData.StageSetting;
+            bool hasFPSData = true;
+            if (stageSetting.FPSStartData == -1 && gameData.ReplayStructVersion == 1)
+            {
+                hasFPSData = false;
+            }
+
+            insertIntoDisplayTable(ResourceLoader.getTextResource("GameLength"), string.Empty, string.Empty, "GameLength", -1);
+            if (hasFPSData)
+            {
+                insertIntoDisplayTable(ResourceLoader.getTextResource("ApSlowRate"), string.Empty, string.Empty, "ApSlowRate", -1);
+            }
+
             List<DataOffsetAndLength> stages = null;
             if (gameData.ReplayStructVersion == 1)
             {
@@ -231,11 +245,7 @@ namespace thhylR.Common
             {
                 return null;
             }
-            bool hasFPSData = true;
-            if (stageSetting.FPSStartData == -1 && gameData.ReplayStructVersion == 1)
-            {
-                hasFPSData = false;
-            }
+
             int stageCount = hasFPSData ? stages.Count / 2 : stages.Count;
             result.Stages = new List<StageData>();
             int FPSPosStart = stageSetting.FPSStartData == -1 ? stageCount : stageSetting.FPSStartData;
@@ -253,8 +263,7 @@ namespace thhylR.Common
                     stageData.KeyData.Length = stages[i].Length - stageSetting.StageHeaderSizeData;
                     if (hasFPSData)
                     {
-                        stageData.FPSData = new FPSData();
-                        stageData.FPSData.Data = stages[currentFPSPos];
+                        stageData.FPSData = stages[currentFPSPos];
                     }
 
                     stageData.StageId = i;
@@ -302,6 +311,8 @@ namespace thhylR.Common
                         stageId = -1;
                     }
                     addVSGameStageDisplayData(stageSetting.CustomStageInfo, p1Data.GameCustomData, p2Data.GameCustomData, stageId);
+                    insertIntoDisplayTable(ResourceLoader.getTextResource("GameLength"), string.Empty, string.Empty, "StageLength", stageId);
+                    insertIntoDisplayTable(ResourceLoader.getTextResource("ApSlowRate"), string.Empty, string.Empty, "ApSlowRateStage", stageId);
                 }
             }
             else
@@ -321,18 +332,68 @@ namespace thhylR.Common
                         stageId = -1;
                     }
                     addDisplayData(stageData.GameRelatedData, stageData.GameCustomData, stageData.GameCustomData, stageId);
+                    insertIntoDisplayTable(ResourceLoader.getTextResource("GameLength"), string.Empty, string.Empty, "StageLength", stageId);
+                    if (hasFPSData)
+                    {
+                        insertIntoDisplayTable(ResourceLoader.getTextResource("ApSlowRate"), string.Empty, string.Empty, "ApSlowRateStage", stageId);
+                    }
+                }
+            }
+
+            KeyAndFrameData.InitFrameCountAndFPS(result);
+            var gameLengthRow = result.DisplayDataList.FirstOrDefault(r => r["Id"].ToString() == "GameLength");
+            if (gameLengthRow != null)
+            {
+                var frameCountStr = formatFrameCount(result.TotalFrameCount);
+                gameLengthRow["RawValue"] = frameCountStr;
+                gameLengthRow["Value"] = frameCountStr;
+                gameLengthRow["DisplayValue"] = frameCountStr;
+            }
+
+            if (hasFPSData) 
+            {
+                var gameSlowRateRow = result.DisplayDataList.FirstOrDefault(r => r["Id"].ToString() == "ApSlowRate");
+                if (gameSlowRateRow != null)
+                {
+                    var slowRateStr = formatSlowRate(result.CalculatedTotalSlowRate);
+                    gameSlowRateRow["RawValue"] = slowRateStr;
+                    gameSlowRateRow["Value"] = slowRateStr;
+                    gameSlowRateRow["DisplayValue"] = slowRateStr;
+                }
+            }
+
+            foreach (var stageData in result.Stages)
+            {
+                var stageLengthRow = result.DisplayDataList.FirstOrDefault(r => r["Id"].ToString() == "StageLength" && (int)r["Stage"] == stageData.StageId);
+                if (stageLengthRow != null)
+                {
+                    var frameCountStr = formatFrameCount(stageData.FrameCount);
+                    stageLengthRow["RawValue"] = frameCountStr;
+                    stageLengthRow["Value"] = frameCountStr;
+                    stageLengthRow["DisplayValue"] = frameCountStr;
+                }
+
+                if (hasFPSData)
+                {
+                    var stageSlowRateRow = result.DisplayDataList.FirstOrDefault(r => r["Id"].ToString() == "ApSlowRateStage" && (int)r["Stage"] == stageData.StageId);
+                    if (stageSlowRateRow != null)
+                    {
+                        var slowRateStr = formatSlowRate(stageData.CalculatedSlowRate);
+                        stageSlowRateRow["RawValue"] = slowRateStr;
+                        stageSlowRateRow["Value"] = slowRateStr;
+                        stageSlowRateRow["DisplayValue"] = slowRateStr;
+                    }
                 }
             }
 
             ProcessDisplayData(result.DisplayDataList);
-            FormatData(result.DisplayDataList);
             ShiftScore(result);
 
             //result.DisplayData.AcceptChanges();
 
             return result;
 
-            void addDisplayData(List<GameCustomInfoItem> customInfoItem, GameDataSource defaultData, GameDataSource alternativeData, int stage, 
+            void addDisplayData(List<GameCustomInfoItem> customInfoItem, GameDataSource defaultData, GameDataSource alternativeData, int stage,
                 int padBefore = 0, string extraData = "")
             {
                 string pad = new string(' ', padBefore);
@@ -389,7 +450,7 @@ namespace thhylR.Common
                                 for (int i = 0; i < newDataList.Count; i++)
                                 {
                                     string _extraData = extraDataId.ToString() + "_" + i.ToString();
-                                    insertIntoDisplayTable(name + " " + (i + 1), string.Empty, string.Empty, gameCustomInfo.Name, stage, 
+                                    insertIntoDisplayTable(name + " " + (i + 1), string.Empty, string.Empty, gameCustomInfo.Name, stage,
                                         extraData: extraData, isVisible: gameCustomInfo.IsVisible);
                                     var newData = (GameDataSource)newDataList[i];
                                     addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore + 2, _extraData);
@@ -480,7 +541,7 @@ namespace thhylR.Common
                                     for (int i = 0; i < newDataList.Count; i++)
                                     {
                                         string extraData = extraDataId.ToString() + "_" + i.ToString();
-                                        insertIntoDisplayTable(name + " " + (i + 1), string.Empty, string.Empty, id, stage, 
+                                        insertIntoDisplayTable(name + " " + (i + 1), string.Empty, string.Empty, id, stage,
                                             isVisible: gameCustomInfo.IsVisible);
                                         var newData = (GameDataSource)newDataList[i];
                                         addDisplayData(subCustomInfoItem, newData, newData, stage, padBefore + 2, extraData);
@@ -525,6 +586,18 @@ namespace thhylR.Common
             void insertEmptyLine()
             {
                 insertIntoDisplayTable(string.Empty, null, null, string.Empty, -1);
+            }
+
+            string formatFrameCount(int frames)
+            {
+                TimeSpan ts = TimeSpan.FromSeconds(frames / 60d);
+                string time = ts.ToString("m\\:ss\\.fff");
+                return string.Format(ResourceLoader.getTextResource("GameLengthFormat"), frames, time);
+            }
+
+            string formatSlowRate(double slowRate)
+            {
+                return string.Format(ResourceLoader.getTextResource("ApSlowRateFormat"), (slowRate * 100).ToString("0.00"));
             }
         }
 

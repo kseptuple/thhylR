@@ -19,6 +19,14 @@ namespace thhylR.Common
 
         private static void ProcessDisplayData(List<DataRow> data)
         {
+            ModifyData(data);
+            SetVisible(data);
+            SetEnumData(data);
+            FormatData(data);
+        }
+
+        public static void ModifyData(List<DataRow> data)
+        {
             //Modifier
             foreach (DataRow dr in data)
             {
@@ -104,7 +112,10 @@ namespace thhylR.Common
                     return "ERROR";
                 }
             }
+        }
 
+        public static void SetVisible(List<DataRow> data)
+        {
             //Visible
             foreach (DataRow dr in data)
             {
@@ -166,7 +177,10 @@ namespace thhylR.Common
                     dr["Visible"] = "1";
                 }
             }
+        }
 
+        public static void SetEnumData(List<DataRow> data)
+        {
             //Enum
             foreach (DataRow dr in data)
             {
@@ -520,7 +534,7 @@ namespace thhylR.Common
                     suffix.Add("");
                 }
 
-                if (scoreType == ShownScoreType.StageEnd && !replay.GameData.IsStageEndScore)
+                if (scoreType == ShownScoreType.StageEnd && !replay.GameData.StageSetting.IsStageEndScore)
                 {
                     foreach (var suffixItem in suffix)
                     {
@@ -545,7 +559,7 @@ namespace thhylR.Common
                         }
                     }
                 }
-                else if (scoreType == ShownScoreType.StageStart && replay.GameData.IsStageEndScore)
+                else if (scoreType == ShownScoreType.StageStart && replay.GameData.StageSetting.IsStageEndScore)
                 {
                     foreach (var suffixItem in suffix)
                     {
