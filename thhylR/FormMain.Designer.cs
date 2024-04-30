@@ -55,6 +55,7 @@
             Encoding4ToolStripMenuItem = new ToolStripMenuItem();
             EditCommentToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem3 = new ToolStripSeparator();
+            ViewKeysToolStripMenuItem = new ToolStripMenuItem();
             ExportToolStripMenuItem = new ToolStripMenuItem();
             ExportAllToolStripMenuItem = new ToolStripMenuItem();
             ExportCustomToolStripMenuItem = new ToolStripMenuItem();
@@ -79,6 +80,7 @@
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripButtonEditComment = new ToolStripButton();
             toolStripSeparator5 = new ToolStripSeparator();
+            toolStripButtonViewKeys = new ToolStripButton();
             toolStripButtonExportAll = new ToolStripButton();
             toolStripButtonExportCustom = new ToolStripButton();
             toolStripSeparator4 = new ToolStripSeparator();
@@ -259,7 +261,7 @@
             // 
             // EditToolStripMenuItem
             // 
-            EditToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { EncodingToolStripMenuItem, EditCommentToolStripMenuItem, toolStripMenuItem3, ExportToolStripMenuItem });
+            EditToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { EncodingToolStripMenuItem, EditCommentToolStripMenuItem, toolStripMenuItem3, ViewKeysToolStripMenuItem, ExportToolStripMenuItem });
             EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             EditToolStripMenuItem.Size = new Size(71, 24);
             EditToolStripMenuItem.Text = "编辑(&E)";
@@ -311,6 +313,14 @@
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
             toolStripMenuItem3.Size = new Size(198, 6);
+            // 
+            // ViewKeysToolStripMenuItem
+            // 
+            ViewKeysToolStripMenuItem.Image = Properties.Resources.Keyboard;
+            ViewKeysToolStripMenuItem.Name = "ViewKeysToolStripMenuItem";
+            ViewKeysToolStripMenuItem.Size = new Size(201, 26);
+            ViewKeysToolStripMenuItem.Text = "查看按键(&K)...";
+            ViewKeysToolStripMenuItem.Click += ViewKeysToolStripMenuItem_Click;
             // 
             // ExportToolStripMenuItem
             // 
@@ -364,7 +374,7 @@
             // toolStripMain
             // 
             toolStripMain.ImageScalingSize = new Size(20, 20);
-            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete, toolStripSeparator2, toolStripButtonFirst, toolStripButtonPrevious, toolStripButtonNext, toolStripButtonLast, toolStripSeparator3, toolStripButtonEditComment, toolStripSeparator5, toolStripButtonExportAll, toolStripButtonExportCustom, toolStripSeparator4, toolStripButtonOption });
+            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete, toolStripSeparator2, toolStripButtonFirst, toolStripButtonPrevious, toolStripButtonNext, toolStripButtonLast, toolStripSeparator3, toolStripButtonEditComment, toolStripSeparator5, toolStripButtonViewKeys, toolStripButtonExportAll, toolStripButtonExportCustom, toolStripSeparator4, toolStripButtonOption });
             toolStripMain.Location = new Point(0, 28);
             toolStripMain.Name = "toolStripMain";
             toolStripMain.Size = new Size(1330, 27);
@@ -510,6 +520,16 @@
             // 
             toolStripSeparator5.Name = "toolStripSeparator5";
             toolStripSeparator5.Size = new Size(6, 27);
+            // 
+            // toolStripButtonViewKeys
+            // 
+            toolStripButtonViewKeys.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonViewKeys.Image = Properties.Resources.Keyboard;
+            toolStripButtonViewKeys.ImageTransparentColor = Color.Magenta;
+            toolStripButtonViewKeys.Name = "toolStripButtonViewKeys";
+            toolStripButtonViewKeys.Size = new Size(29, 24);
+            toolStripButtonViewKeys.Text = "toolStripButton1";
+            toolStripButtonViewKeys.Click += toolStripButtonViewKeys_Click;
             // 
             // toolStripButtonExportAll
             // 
@@ -838,5 +858,7 @@
         private DataGridViewTextBoxColumn dataGridColumnValue;
         private StatusStrip statusStripMain;
         private ToolStripStatusLabel toolStripStatusLabelInfo;
+        private ToolStripMenuItem ViewKeysToolStripMenuItem;
+        private ToolStripButton toolStripButtonViewKeys;
     }
 }

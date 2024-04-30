@@ -28,9 +28,9 @@
     KeyCountOfStage: 0x04
     TotalSizeOrFpsSizeOfStage: 0x08
     KeyData:
-    - KeyDataVersion: 3
-    - KeySize: 2
-    - KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "Esc", "Sk"]
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -246,9 +246,9 @@
     KeyCountOfStage: 0x04
     TotalSizeOrFpsSizeOfStage: 0x08
     KeyData:
-    - KeyDataVersion: 3
-    - KeySize: 2
-    - KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "Esc", "Sk", "C", "D"]
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "", "C", "D"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分

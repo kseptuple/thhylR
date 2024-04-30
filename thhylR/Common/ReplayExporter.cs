@@ -58,7 +58,7 @@ namespace thhylR.Common
                 {
                     vsGameSuffix = "_1p";
                 }
-                string stageName = getStageName(gameOffset.GameName, stageId);
+                string stageName = stage.StageName;
                 result.Add(new ReplayBlock()
                 {
                     Name = $"{stageName}{vsGameSuffix}_header",
@@ -134,34 +134,6 @@ namespace thhylR.Common
                 });
             }
             return result;
-        }
-
-        private static string getStageName(string gameName, int stageId)
-        {
-            string stageFormatter = "Stage";
-            if (stageEnumDataList != null)
-            {
-                var stageEnumData = stageEnumDataList.EnumValues.FirstOrDefault(e => e.Name == gameName);
-                if (stageEnumData != null)
-                {
-                    stageFormatter = stageEnumData.Value;
-                }
-            }
-
-            EnumItemList enumItemList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == stageFormatter);
-            if (enumItemList != null)
-            {
-                if (stageId >= 0 && stageId < enumItemList.EnumValues.Count)
-                {
-                    return enumItemList.EnumValues[stageId].Value;
-                }
-                else
-                {
-                    return stageId.ToString();
-                }
-            }
-            return stageId.ToString();
-
         }
 
         public static byte[] GetBlockData(ReplayBlock replayBlock, TouhouReplay replay)

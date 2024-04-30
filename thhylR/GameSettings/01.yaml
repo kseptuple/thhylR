@@ -16,11 +16,11 @@
     KeySizeData: 8
     IsStageEndScore: true
     KeyData:
-    - KeyDataVersion: 1
-    - FirstFrameIsNullFrame: true
-    - HasTerminateMark: false
-    - KeySize: 2
-    - KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+      KeyDataVersion: 1
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -108,11 +108,11 @@
     FirstFrameIsNullFrame: true
     IsStageEndScore: true
     KeyData:
-    - KeyDataVersion: 2
-    - FirstFrameIsNullFrame: true
-    - HasTerminateMark: false
-    - KeySize: 2
-    - KeyNames: ["A", "B", "Fc", "Esc", "↑", "↓", "←", "→", "Sk"]
+      KeyDataVersion: 2
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -233,11 +233,11 @@
     FirstFrameIsNullFrame: true
     IsStageEndScore: true
     KeyData:
-    - KeyDataVersion: 2
-    - FirstFrameIsNullFrame: true
-    - HasTerminateMark: false
-    - KeySize: 2
-    - KeyNames: ["A", "B", "Fc", "Esc", "↑", "↓", "←", "→", "Sk"]
+      KeyDataVersion: 2
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -369,10 +369,10 @@
     KeySizeData: 2
     IsVSGame: true
     KeyData:
-    - KeyDataVersion: 2
-    - HasTerminateMark: false
-    - KeySize: 2
-    - KeyNames: ["A", "B", "Fc", "Esc", "↑", "↓", "←", "→", "Sk"]
+      KeyDataVersion: 2
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分

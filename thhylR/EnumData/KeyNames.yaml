@@ -1,0 +1,12 @@
+- Name: KeyEnum
+  EnumValues:
+  - ↑
+  - ↓
+  - ←
+  - →
+  - Fc
+  - A
+  - B
+  - C
+  - D
+  - Sk

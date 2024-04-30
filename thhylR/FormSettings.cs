@@ -40,6 +40,8 @@ namespace thhylR
         private Font symbolFont;
         private Font systemFont;
 
+        public bool IsExit { get; private set; } = false;
+
         private Font SystemFont
         {
             get
@@ -344,7 +346,8 @@ namespace thhylR
                         {
                             arguments = new string[] { owner.CurrentReplay.FilePath };
                         }
-                        if (!PrivilegeHelper.Promote(arguments))
+                        IsExit = PrivilegeHelper.Promote(arguments);
+                        if (!IsExit)
                         {
                             MessageBox.Show(ResourceLoader.getTextResource("RestartFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }

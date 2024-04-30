@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
@@ -18,7 +19,10 @@ namespace thhylR
     {
         private void setFileIsOpen(bool isExist)
         {
-            isFileOpen = isExist;
+            if (isExist)
+            {
+                isFileOpen = true;
+            }
 
             CutToolStripMenuItem.Enabled = isExist;
             CopyToolStripMenuItem.Enabled = isExist;
@@ -50,6 +54,9 @@ namespace thhylR
 
             toolStripButtonExportAll.Enabled = isExist;
             toolStripButtonExportCustom.Enabled = isExist;
+
+            ViewKeysToolStripMenuItem.Enabled = isExist;
+            toolStripButtonViewKeys.Enabled = isExist;
 
             if (!isExist)
             {
@@ -487,6 +494,11 @@ namespace thhylR
 
                 TopMost = SettingProvider.Settings.OnTop;
 
+                if (formSettings.IsExit)
+                {
+                    return;
+                }
+
                 loadEncodingList();
 
                 if (CurrentReplay != null)
@@ -619,6 +631,7 @@ namespace thhylR
             if (CurrentReplay != null)
             {
                 saveFileDialog.Filter = ResourceLoader.getTextResource("RawDataFilter");
+                saveFileDialog.InitialDirectory = Path.GetDirectoryName(CurrentReplay.FilePath);
                 var dialogResult = saveFileDialog.ShowDialog(this);
                 if (dialogResult == DialogResult.OK)
                 {
@@ -643,6 +656,16 @@ namespace thhylR
                 FormExport formExport = new FormExport(CurrentReplay);
                 formExport.ShowDialog(this);
             }
+        }
+
+        private void ViewKeysCommand()
+        {
+            if (CurrentReplay != null)
+            {
+                FormKeyViewer formKeyViewer = new FormKeyViewer(CurrentReplay);
+                formKeyViewer.ShowDialog(this);
+            }
+            
         }
 
     }

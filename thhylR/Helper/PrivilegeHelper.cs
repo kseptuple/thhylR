@@ -58,8 +58,8 @@ namespace thhylR.Helper
             {
                 return false;
             }
-            //Application.Exit();
-            Environment.Exit(0);
+            Application.Exit();
+            //Environment.Exit(0);
             return true;
         }
 

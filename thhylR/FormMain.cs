@@ -84,6 +84,7 @@ namespace thhylR
 
             toolStripButtonEditComment.ToolTipText = ResourceLoader.getTextResource("EditCommentTip");
 
+            toolStripButtonViewKeys.ToolTipText = ResourceLoader.getTextResource("ViewKeysTip");
             toolStripButtonExportAll.ToolTipText = ResourceLoader.getTextResource("ExportAllTip");
             toolStripButtonExportCustom.ToolTipText = ResourceLoader.getTextResource("ExportCustomTip");
 
@@ -487,6 +488,16 @@ namespace thhylR
                 formReplayProblem = new FormReplayProblem(CurrentReplay.ReplayProblem);
             }
             formReplayProblem.ShowDialog(this);
+        }
+
+        private void ViewKeysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewKeysCommand();
+        }
+
+        private void toolStripButtonViewKeys_Click(object sender, EventArgs e)
+        {
+            ViewKeysCommand();
         }
 
         public enum ReplayChangeType

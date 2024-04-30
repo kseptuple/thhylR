@@ -326,6 +326,9 @@ namespace thhylR.Games
         public int FrameCount { get; set; }
         public double CalculatedSlowRate { get; set; }
 
-        public List<DataRow> KeyList { get; set; }
+        public List<string[]> KeyList { get; set; }
+        public List<int> FPSList { get; set; }
+        public List<int> QuickPressCount { get; set; }
+        public double AverageKeyLength { get; set; }
     }
 }

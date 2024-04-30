@@ -35,9 +35,9 @@
     KeyCountOfStage: 0x04
     TotalSizeOrFpsSizeOfStage: 0x08
     KeyData:
-    - KeyDataVersion: 3
-    - KeySize: 2
-    - KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "Esc", "Sk", "", "C"]
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk", "", "C"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -368,9 +368,9 @@
     KeyCountOfStage: 0x04
     TotalSizeOrFpsSizeOfStage: 0x08
     KeyData:
-    - KeyDataVersion: 3
-    - KeySize: 2
-    - KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "Esc", "Sk", "", "C"]
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk", "", "C"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
@@ -548,9 +548,9 @@
     KeyCountOfStage: 0x04
     TotalSizeOrFpsSizeOfStage: 0x08
     KeyData:
-    - KeyDataVersion: 3
-    - KeySize: 2
-    - KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "Esc", "Sk", "", "C"]
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk", "", "C"]
   CustomReplayInfo:
   - Name: Player
     DisplayName: 玩家

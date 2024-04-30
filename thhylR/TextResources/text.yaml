@@ -26,6 +26,7 @@ FormMain:
       - 编辑(&E)
       - EncodingToolStripMenuItem: 编码(&N)
       - EditCommentToolStripMenuItem: 编辑注释(&M)...
+      - ViewKeysToolStripMenuItem: 查看按键(&K)...
       - ExportToolStripMenuItem: 
         - 导出原始数据(&P)
         - ExportAllToolStripMenuItem: 全部(&A)...
@@ -97,6 +98,27 @@ FormExport:
   - buttonClose: 关闭
 FormReplayProblem: 
   - 录像异常信息
+FormKeyViewer:
+  - 按键查看
+  - label1: 关卡
+  - labelKeyDescription: |-
+      按键说明：
+      A = 射击
+      B = 符卡/灵击
+      C = 特殊
+      Fc = 低速
+      Sk = 跳过对话
+  - groupBoxStat:
+    - 按键统计（方向键）
+    - label2: 总帧数：
+    - label3: 1帧输入：
+    - label4: 2帧输入：
+    - label5: 3帧输入：
+    - label6: 平均键长
+    - labelExplain: 使用键盘时短时间的方向输入通常较少，使用摇杆或手柄时较多。
+  - buttonExport: 导出...
+  - buttonClose: 关闭
+
 text:
   - GameName: 游戏名
   - ReplaySummary: 录像摘要
@@ -151,6 +173,7 @@ text:
   - NextReplayTip: 打开下一个录像文件
   - LastReplayTip: 打开最后一个录像文件
   - EditCommentTip: 编辑录像注释
+  - ViewKeysTip: 查看按键记录
   - ExportAllTip: 导出全部信息
   - ExportCustomTip: 导出自定义信息
   - OptionTip: 程序选项
@@ -178,4 +201,6 @@ text:
   - ExportFail: 失败
   - ExportRename: 已重命名
   - ExportNotSelected: 请先选择至少一项再导出！
+  - FrameNumber: 帧
+  - FPS: 帧率
 

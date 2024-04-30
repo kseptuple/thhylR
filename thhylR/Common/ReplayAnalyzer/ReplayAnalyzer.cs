@@ -267,6 +267,7 @@ namespace thhylR.Common
                     }
 
                     stageData.StageId = i;
+                    stageData.StageName = getStageName(i);
                     stageData.GameRelatedData = stageSetting.CustomStageInfo;
 
                     stageData.GameCustomData = new GameDataSource(result.RawData, stageData.HeaderData.Offset);
@@ -392,6 +393,34 @@ namespace thhylR.Common
             //result.DisplayData.AcceptChanges();
 
             return result;
+
+            string getStageName(int stageId)
+            {
+                string stageFormatter = "Stage";
+                if (stageEnumDataList != null)
+                {
+                    var stageEnumData = stageEnumDataList.EnumValues.FirstOrDefault(e => e.Name == gameData.GameName);
+                    if (stageEnumData != null)
+                    {
+                        stageFormatter = stageEnumData.Value;
+                    }
+                }
+
+                EnumItemList enumItemList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == stageFormatter);
+                if (enumItemList != null)
+                {
+                    if (stageId >= 0 && stageId < enumItemList.EnumValues.Count)
+                    {
+                        return enumItemList.EnumValues[stageId].Value;
+                    }
+                    else
+                    {
+                        return stageId.ToString();
+                    }
+                }
+                return stageId.ToString();
+            }
+
 
             void addDisplayData(List<GameCustomInfoItem> customInfoItem, GameDataSource defaultData, GameDataSource alternativeData, int stage,
                 int padBefore = 0, string extraData = "")

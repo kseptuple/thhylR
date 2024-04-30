@@ -5,7 +5,6 @@ using System.Text;
 using YamlDotNet.Serialization;
 using System.Threading.Tasks;
 using thhylR.Games;
-using static System.Net.Mime.MediaTypeNames;
 using thhylR.Helper;
 
 namespace thhylR.Common
