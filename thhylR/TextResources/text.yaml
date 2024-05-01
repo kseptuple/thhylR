@@ -100,22 +100,19 @@ FormReplayProblem:
   - 录像异常信息
 FormKeyViewer:
   - 按键查看
-  - label1: 关卡
-  - labelKeyDescription: |-
-      按键说明：
-      A = 射击
-      B = 符卡/灵击
-      C = 特殊
-      Fc = 低速
-      Sk = 跳过对话
-  - groupBoxStat:
-    - 按键统计（方向键）
-    - label2: 总帧数：
-    - label3: 1帧输入：
-    - label4: 2帧输入：
-    - label5: 3帧输入：
-    - label6: 平均键长
-    - labelExplain: 使用键盘时短时间的方向输入通常较少，使用摇杆或手柄时较多。
+  - tabControlKeys: 
+    - tabPage1: 
+      - 按键记录
+      - label1: 关卡
+      - labelKeyDescription: |-
+          按键说明：
+          A = 射击
+          B = 符卡/灵击
+          C = 特殊
+          Fc = 低速
+          Sk = 跳过对话
+    - tabPage2:
+      - 方向键统计
   - buttonExport: 导出...
   - buttonClose: 关闭
 

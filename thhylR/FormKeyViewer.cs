@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -37,7 +38,7 @@ namespace thhylR
             frameColumn.Resizable = DataGridViewTriState.False;
             frameColumn.ReadOnly = true;
             frameColumn.DataPropertyName = "Frame";
-            frameColumn.HeaderText = "F";
+            frameColumn.HeaderText = ResourceLoader.getTextResource("FrameNumber");
             frameColumn.Frozen = true;
 
             dataGridViewKeys.Columns.Add(frameColumn);
@@ -57,8 +58,6 @@ namespace thhylR
                     col.ReadOnly = true;
                     col.DataPropertyName = keyBitIndex.ToString();
                     col.HeaderText = item.Value;
-                    //DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle();
-                    //dataGridViewCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     dataGridViewKeys.Columns.Add(col);
@@ -74,7 +73,7 @@ namespace thhylR
                 col.Resizable = DataGridViewTriState.False;
                 col.ReadOnly = true;
                 col.DataPropertyName = "FPS";
-                col.HeaderText = "FPS";
+                col.HeaderText = ResourceLoader.getTextResource("FPS");
 
                 dataGridViewKeys.Columns.Add(col);
             }
@@ -96,13 +95,7 @@ namespace thhylR
             dataGridViewKeys.Rows.Clear();
             keyList = CurrentReplay.Stages[listBoxStages.SelectedIndex].KeyList;
             fpsList = CurrentReplay.Stages[listBoxStages.SelectedIndex].FPSList;
-            var stageData = CurrentReplay.Stages[listBoxStages.SelectedIndex];
-            dataGridViewKeys.RowCount = stageData.FrameCount;
-            textBoxFrame.Text = stageData.FrameCount.ToString();
-            textBox1Frame.Text = stageData.QuickPressCount[0].ToString();
-            textBox2Frame.Text = stageData.QuickPressCount[1].ToString();
-            textBox3Frame.Text = stageData.QuickPressCount[2].ToString();
-            textBoxAverage.Text = stageData.AverageKeyLength.ToString("0.000");
+            dataGridViewKeys.RowCount = CurrentReplay.Stages[listBoxStages.SelectedIndex].FrameCount;
         }
 
         private void dataGridViewKeys_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -87,9 +88,11 @@ namespace thhylR.Common
             List<int> keyIndices = new List<int>();
             List<int> keyFlags = new List<int>();
             replay.Stages[stageIndex].KeyList = new List<string[]>();
+            replay.Stages[stageIndex].ArrowKeyList = new List<byte>();
             Func<byte[], int, int> getKeyData = null;
             var keyDataSettings = replay.GameData.StageSetting.KeyData;
             int[] arrowBits = new int[4];
+            byte[] arrowBitNum = new byte[4];
             for (int i = 0; i < keyDataSettings.KeyNames.Count; i++)
             {
                 if (!string.IsNullOrEmpty(keyDataSettings.KeyNames[i]))
@@ -100,15 +103,19 @@ namespace thhylR.Common
                     {
                         case "↑":
                             arrowBits[0] = i;
+                            arrowBitNum[0] = 1;
                             break;
                         case "↓":
                             arrowBits[1] = i;
+                            arrowBitNum[1] = 2;
                             break;
                         case "←":
                             arrowBits[2] = i;
+                            arrowBitNum[2] = 4;
                             break;
                         case "→":
                             arrowBits[3] = i;
+                            arrowBitNum[3] = 8;
                             break;
                     }
                 }
@@ -132,15 +139,13 @@ namespace thhylR.Common
 
             int globalOffset = keyDataOffsets.Offset;
 
-            replay.Stages[stageIndex].QuickPressCount = new List<int> { 0, 0, 0 };
-            int[] arrowCount = new int[4] { 0, 0, 0, 0 };
             int[] lastArrowCount = new int[4] { int.MaxValue, int.MaxValue, int.MaxValue, int.MaxValue };
-            int totalKeyLength = 0;
-            int arrowKeyCount = 0;
+
             if (keyDataSettings.KeyDataVersion == 1)
             {
                 int currentFrame = 1;
                 string[] currentFrameKeyNames = null;
+                byte currentArrowKey = 0;
                 int i = globalOffset;
                 int targetFrame = 0;
                 int secondFrame = BitConverter.ToInt32(replay.RawData, globalOffset + replay.GameData.StageSetting.KeySizeData);
@@ -149,7 +154,7 @@ namespace thhylR.Common
                     targetFrame = 1;
                     i += replay.GameData.StageSetting.KeySizeData;
                 }
-                
+
                 int totalFrames = replay.Stages[stageIndex].FrameCount;
                 do
                 {
@@ -160,7 +165,6 @@ namespace thhylR.Common
                         currentFrameKeyNames = new string[totalKeys];
                         i += replay.GameData.StageSetting.KeySizeData;
                         targetFrame = BitConverter.ToInt32(replay.RawData, i);
-                        int continuousFrame = targetFrame - currentFrame;
                         for (int j = 0; j < keyIndices.Count; j++)
                         {
                             if ((keyDataInt & keyFlags[j]) != 0)
@@ -170,43 +174,15 @@ namespace thhylR.Common
                                 {
                                     if (keyIndices[j] == arrowBits[k])
                                     {
-                                        arrowCount[k]+= continuousFrame;
+                                        currentArrowKey |= arrowBitNum[k];
                                     }
                                 }
                             }
-                            else
-                            {
-                                for (int k = 0; k < 4; k++)
-                                {
-                                    if (keyIndices[j] == arrowBits[k] && arrowCount[k] != 0)
-                                    {
-
-                                        lastArrowCount[k] = arrowCount[k];
-                                        totalKeyLength += arrowCount[k];
-                                        arrowKeyCount++;
-                                        if (arrowCount[k] <= 3)
-                                        {
-                                            replay.Stages[stageIndex].QuickPressCount[arrowCount[k] - 1]++;
-                                        }
-                                        arrowCount[k] = 0;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (lastArrowCount[0] == lastArrowCount[2] || lastArrowCount[0] == lastArrowCount[3])
-                        {
-                            if (lastArrowCount[0] <= 3)
-                                replay.Stages[stageIndex].QuickPressCount[lastArrowCount[0] - 1]--;
-                        }
-                        else if (lastArrowCount[1] == lastArrowCount[2] || lastArrowCount[1] == lastArrowCount[3])
-                        {
-                            if (lastArrowCount[1] <= 3)
-                                replay.Stages[stageIndex].QuickPressCount[lastArrowCount[1] - 1]--;
                         }
                     }
                     currentFrame++;
                     replay.Stages[stageIndex].KeyList.Add(currentFrameKeyNames);
+                    replay.Stages[stageIndex].ArrowKeyList.Add(currentArrowKey);
 
                 } while (currentFrame <= totalFrames);
             }
@@ -222,6 +198,7 @@ namespace thhylR.Common
                     lastArrowCount[0] = lastArrowCount[1] = lastArrowCount[2] = lastArrowCount[3] = int.MaxValue;
                     int keyDataInt = getKeyData(replay.RawData, i);
                     string[] currentFrameKeyNames = new string[totalKeys];
+                    byte currentArrowKey = 0;
                     for (int j = 0; j < keyIndices.Count; j++)
                     {
                         if ((keyDataInt & keyFlags[j]) != 0)
@@ -231,51 +208,15 @@ namespace thhylR.Common
                             {
                                 if (keyIndices[j] == arrowBits[k])
                                 {
-                                    arrowCount[k]++;
+                                    currentArrowKey |= arrowBitNum[k];
                                 }
                             }
                         }
-                        else
-                        {
-                            for (int k = 0; k < 4; k++)
-                            {
-                                if (keyIndices[j] == arrowBits[k] && arrowCount[k] != 0)
-                                {
-                                    lastArrowCount[k] = arrowCount[k];
-                                    totalKeyLength += arrowCount[k];
-                                    arrowKeyCount++;
-                                    if (arrowCount[k] <= 3)
-                                    {
-                                        replay.Stages[stageIndex].QuickPressCount[arrowCount[k] - 1]++;
-                                    }
-                                    arrowCount[k] = 0;
-                                }
-                            }
-                        }
-                    }
-
-                    if (lastArrowCount[0] == lastArrowCount[2] || lastArrowCount[0] == lastArrowCount[3])
-                    {
-                        if (lastArrowCount[0] <= 3)
-                            replay.Stages[stageIndex].QuickPressCount[lastArrowCount[0] - 1]--;
-                    }
-                    else if (lastArrowCount[1] == lastArrowCount[2] || lastArrowCount[1] == lastArrowCount[3])
-                    {
-                        if (lastArrowCount[1] <= 3)
-                            replay.Stages[stageIndex].QuickPressCount[lastArrowCount[1] - 1]--;
                     }
 
                     replay.Stages[stageIndex].KeyList.Add(currentFrameKeyNames);
+                    replay.Stages[stageIndex].ArrowKeyList.Add(currentArrowKey);
                 }
-            }
-
-            if (arrowKeyCount > 0)
-            {
-                replay.Stages[stageIndex].AverageKeyLength = ((double)totalKeyLength) / arrowKeyCount;
-            }
-            else
-            {
-                replay.Stages[stageIndex].AverageKeyLength = 0d;
             }
 
             if (replay.GameData.StageSetting.FPSStartData != -1 || replay.GameData.ReplayStructVersion != 1)
@@ -296,6 +237,180 @@ namespace thhylR.Common
                     }
                 }
             }
+        }
+
+        private static List<ExtractedKey> extractedKeys = new List<ExtractedKey>();
+
+        static KeyAndFrameData()
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                ExtractedKey extractedKey = new ExtractedKey();
+                extractedKey.SingleKeyCounts = new bool[4];
+                int n = i;
+                for (int j = 0; j < 4; j++)
+                {
+                    if ((n & 1) != 0)
+                    {
+                        extractedKey.KeyCount++;
+                        extractedKey.SingleKeyCounts[j] = true;
+                    }
+                    else
+                    {
+                        extractedKey.SingleKeyCounts[j] = false;
+                    }
+                    n >>= 1;
+                }
+                extractedKeys.Add(extractedKey);
+            }
+        }
+
+        public static FullKeyStats GetKeyStats(List<byte> ArrowKeyList)
+        {
+            KeyStats keyboard = new KeyStats();
+            KeyStats controller = new KeyStats();
+            FullKeyStats result = new FullKeyStats();
+            result.TotalFrames = ArrowKeyList.Count;
+            result.KeyboardKey = keyboard;
+            result.ControllerKey = controller;
+
+            //unused(17 bits) | controller key length(2 bits) | keyboard 3F key count(3bits) | 2F (3bits) | 1F (3bits) | key pressed(4bits)
+            //进队列加数，出队列减数
+            Queue<int> keyQueue = new Queue<int>();
+            keyQueue.EnsureCapacity(61);
+            for (int i = 0; i < 60; i++)
+            {
+                keyQueue.Enqueue(0);
+            }
+            int[] keyboardArrowLengthCounter = new int[4] { 0, 0, 0, 0 };
+            int controllerArrowLengthCounter = 0;
+
+            int[] keyboardArrow3LevelsCurrentSum = new int[3] { 0, 0, 0 };
+            int[] controllerArrow3LevelsCurrentSum = new int[3] { 0, 0, 0 };
+            int keyboardArrowCurrentSum = 0;
+            int controllerArrowCurrentSum = 0;
+
+            byte lastKey = 0;
+
+            for (int i = 0; i < ArrowKeyList.Count; i++)
+            {
+                byte currentKey = ArrowKeyList[i];
+                if ((currentKey | 3) != 0 || (currentKey | 12) != 0) result.HasConflictKeys = true;
+                int currentData = currentKey;
+                var tmpKey = extractedKeys[currentKey];
+
+                for (int j = 0; j < tmpKey.SingleKeyCounts.Length; j++)
+                {
+                    if (tmpKey.SingleKeyCounts[j])
+                    {
+                        keyboardArrowLengthCounter[j]++;
+                    }
+                    else
+                    {
+                        int keyCount = keyboardArrowLengthCounter[j];
+                        keyboard.TotalKeyLength += keyCount;
+                        keyboard.TotalKeys++;
+                        if (keyCount > 0 && keyCount <= 3)
+                        {
+                            int index = keyCount - 1;
+                            currentData += 1 << (index * 3 + 4);
+                            for (int k = keyCount; k >= 0; k--)
+                            {
+                                keyboard.KeyCounts[index][i - keyCount]++;
+                            }
+                            keyboardArrowLengthCounter[j] = 0;
+                        }
+                    }
+                }
+
+                if (!result.HasConflictKeys)
+                {
+                    if (lastKey == currentKey && currentKey != 0)
+                    {
+                        controllerArrowLengthCounter++;
+                    }
+                    else
+                    {
+                        int keyCount = controllerArrowLengthCounter;
+                        controller.TotalKeyLength += keyCount;
+                        controller.TotalKeys++;
+                        if (keyCount > 0 && keyCount <= 3)
+                        {
+                            currentData |= keyCount << 13;
+                            int index = keyCount - 1;
+                            controllerArrow3LevelsCurrentSum[index]++;
+                            for (int k = keyCount; k >= 0; k--)
+                            {
+                                controller.KeyCounts[index][i - keyCount]++;
+                            }
+                            controllerArrowLengthCounter = 0;
+                        }
+                        if (currentKey != 0)
+                        {
+                            controllerArrowCurrentSum++;
+                        }
+                    }
+                }
+
+                keyQueue.Enqueue(currentData);
+                byte changedKey = (byte)(currentKey & (currentKey ^ lastKey));
+                int tmpData = currentData >> 4;
+                keyboardArrowCurrentSum += extractedKeys[changedKey].KeyCount;
+
+                for (int j = 0; j < 3; j++)
+                {
+                    keyboardArrow3LevelsCurrentSum[j] += tmpData & 7;
+                    tmpData >>= 3;
+                }
+
+                lastKey = currentKey;
+
+                int outData = keyQueue.Dequeue();
+                int firstData = keyQueue.Peek();
+                byte outKey = (byte)(outData & 15);
+                byte firstKey = (byte)(firstData & 15);
+                if (!result.HasConflictKeys)
+                {
+                    int tmpControllerKeyCountLevel = (outData >> 13) & 3;
+                    if (tmpControllerKeyCountLevel != 0)
+                    {
+                        controllerArrow3LevelsCurrentSum[tmpControllerKeyCountLevel - 1]--;
+                    }
+                    if (outKey != firstKey && outKey != 0)
+                    {
+                        controllerArrowCurrentSum--;
+                    }
+                }
+                changedKey = (byte)(outKey & (outKey ^ firstKey));
+                tmpData = outData >> 4;
+
+                keyboardArrowCurrentSum -= extractedKeys[changedKey].KeyCount;
+
+                for (int j = 0; j < 3; j++)
+                {
+                    keyboardArrow3LevelsCurrentSum[j] -= tmpData & 7;
+                    tmpData >>= 3;
+                }
+
+                keyboard.KeyPressCount[i] = keyboardArrowCurrentSum;
+                controller.KeyPressCount[i] = controllerArrowCurrentSum;
+                for (int j = 0; j < 3; j++)
+                {
+                    keyboard.KeyCounts[j][i] = keyboardArrow3LevelsCurrentSum[j];
+                    controller.KeyCounts[j][i] = controllerArrow3LevelsCurrentSum[j];
+                }
+            }
+
+            keyboard.AverageKeyLength = ((double)keyboard.TotalKeyLength) / keyboard.TotalKeys;
+            controller.AverageKeyLength = ((double)controller.TotalKeyLength) / controller.TotalKeys;
+
+            return result;
+        }
+
+        private class ExtractedKey
+        {
+            public int KeyCount { get; set; }
+            public bool[] SingleKeyCounts { get; set; }
         }
     }
 }

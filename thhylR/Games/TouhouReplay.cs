@@ -328,7 +328,6 @@ namespace thhylR.Games
 
         public List<string[]> KeyList { get; set; }
         public List<int> FPSList { get; set; }
-        public List<int> QuickPressCount { get; set; }
-        public double AverageKeyLength { get; set; }
+        public List<byte> ArrowKeyList { get; set; }
     }
 }

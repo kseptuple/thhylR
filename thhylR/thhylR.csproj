@@ -15,7 +15,8 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
-    <PackageReference Include="YamlDotNet" Version="13.7.1" />
+    <PackageReference Include="WinForms.DataVisualization" Version="1.9.2" />
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
   </ItemGroup>
 
   <ItemGroup>
