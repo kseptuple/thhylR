@@ -44,7 +44,7 @@ namespace thhylR
 
             encodingList = EncodingHelper.EncodingList;
             loadEncodingList();
-            saveFileDialogComment.Filter = ResourceLoader.getTextResource("ReplayFileFilter");
+            saveFileDialogComment.Filter = ResourceLoader.GetText("ReplayFileFilter");
         }
 
         public FormCommentEditor(string fileName, List<InfoBlock> infoBlocks, int codePage, int userBlockAddress) : this()
@@ -70,8 +70,8 @@ namespace thhylR
         private void loadEncodingList()
         {
             var encodings = SettingProvider.Settings.Encodings;
-            var nullItem = new { Name = ResourceLoader.getTextResource("EncodingNone"), CodePage = -1 };
-            var defaultItem = new { Name = ResourceLoader.getTextResource("EncodingDefault"), CodePage = 0 };
+            var nullItem = new { Name = ResourceLoader.GetText("EncodingNone"), CodePage = -1 };
+            var defaultItem = new { Name = ResourceLoader.GetText("EncodingDefault"), CodePage = 0 };
             var codePage = -1;
 
             List<int> tmpEncodings = new List<int>();
@@ -150,7 +150,7 @@ namespace thhylR
             }
             else if (isModified)
             {
-                var msgBoxResult = MessageBox.Show(ResourceLoader.getTextResource("CommentCloseWarning"), formText, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var msgBoxResult = MessageBox.Show(ResourceLoader.GetText("CommentCloseWarning"), formText, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (msgBoxResult == DialogResult.Yes)
                 {
                     if (!saveComment())
@@ -198,7 +198,7 @@ namespace thhylR
         {
             if (currentCodePage != 932)
             {
-                var msgBoxResult = MessageBox.Show(ResourceLoader.getTextResource("NonShiftJISWarning"), formText, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var msgBoxResult = MessageBox.Show(ResourceLoader.GetText("NonShiftJISWarning"), formText, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (msgBoxResult == DialogResult.No)
                 {
                     return false;

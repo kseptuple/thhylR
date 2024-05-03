@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             openReplayDialog = new OpenFileDialog();
             menuStripMain = new MenuStrip();
             FileToolStripMenuItem = new ToolStripMenuItem();
@@ -99,6 +99,8 @@
             textBoxInfo = new TextBox();
             statusStripMain = new StatusStrip();
             toolStripStatusLabelInfo = new ToolStripStatusLabel();
+            OpenShanghaiAliceToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem4 = new ToolStripSeparator();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
             toolStripMain.SuspendLayout();
@@ -130,7 +132,7 @@
             // 
             // FileToolStripMenuItem
             // 
-            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, RenameToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, FirstReplayToolStripMenuItem, PreviousReplayToolStripMenuItem, NextReplayToolStripMenuItem, LastReplayToolStripMenuItem, toolStripMenuItem2, ExitToolStripMenuItem });
+            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, RenameToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, FirstReplayToolStripMenuItem, PreviousReplayToolStripMenuItem, NextReplayToolStripMenuItem, LastReplayToolStripMenuItem, toolStripMenuItem2, OpenShanghaiAliceToolStripMenuItem, toolStripMenuItem4, ExitToolStripMenuItem });
             FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             FileToolStripMenuItem.Size = new Size(71, 24);
             FileToolStripMenuItem.Text = "文件(&F)";
@@ -270,7 +272,7 @@
             // 
             EncodingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { Encoding1ToolStripMenuItem, Encoding2ToolStripMenuItem, Encoding3ToolStripMenuItem, Encoding4ToolStripMenuItem });
             EncodingToolStripMenuItem.Name = "EncodingToolStripMenuItem";
-            EncodingToolStripMenuItem.Size = new Size(201, 26);
+            EncodingToolStripMenuItem.Size = new Size(224, 26);
             EncodingToolStripMenuItem.Text = "编码(&N)";
             // 
             // Encoding1ToolStripMenuItem
@@ -305,20 +307,20 @@
             // 
             EditCommentToolStripMenuItem.Image = Properties.Resources.EditComment;
             EditCommentToolStripMenuItem.Name = "EditCommentToolStripMenuItem";
-            EditCommentToolStripMenuItem.Size = new Size(201, 26);
+            EditCommentToolStripMenuItem.Size = new Size(224, 26);
             EditCommentToolStripMenuItem.Text = "编辑注释(&M)...";
             EditCommentToolStripMenuItem.Click += EditCommentToolStripMenuItem_Click;
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(198, 6);
+            toolStripMenuItem3.Size = new Size(221, 6);
             // 
             // ViewKeysToolStripMenuItem
             // 
             ViewKeysToolStripMenuItem.Image = Properties.Resources.Keyboard;
             ViewKeysToolStripMenuItem.Name = "ViewKeysToolStripMenuItem";
-            ViewKeysToolStripMenuItem.Size = new Size(201, 26);
+            ViewKeysToolStripMenuItem.Size = new Size(224, 26);
             ViewKeysToolStripMenuItem.Text = "查看按键(&K)...";
             ViewKeysToolStripMenuItem.Click += ViewKeysToolStripMenuItem_Click;
             // 
@@ -327,7 +329,7 @@
             ExportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportAllToolStripMenuItem, ExportCustomToolStripMenuItem });
             ExportToolStripMenuItem.Image = Properties.Resources.Export;
             ExportToolStripMenuItem.Name = "ExportToolStripMenuItem";
-            ExportToolStripMenuItem.Size = new Size(201, 26);
+            ExportToolStripMenuItem.Size = new Size(224, 26);
             ExportToolStripMenuItem.Text = "导出原始数据(&P)";
             // 
             // ExportAllToolStripMenuItem
@@ -654,14 +656,14 @@
             dataGridInfo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridInfo.ColumnHeadersVisible = false;
             dataGridInfo.Columns.AddRange(new DataGridViewColumn[] { dataGridColumnName, dataGridColumnValue });
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridInfo.Location = new Point(0, 33);
             dataGridInfo.MultiSelect = false;
             dataGridInfo.Name = "dataGridInfo";
@@ -747,6 +749,18 @@
             toolStripStatusLabelInfo.Size = new Size(187, 20);
             toolStripStatusLabelInfo.Text = "toolStripStatusLabel1";
             toolStripStatusLabelInfo.Click += toolStripStatusLabelInfo_Click;
+            // 
+            // OpenShanghaiAliceToolStripMenuItem
+            // 
+            OpenShanghaiAliceToolStripMenuItem.Name = "OpenShanghaiAliceToolStripMenuItem";
+            OpenShanghaiAliceToolStripMenuItem.Size = new Size(295, 26);
+            OpenShanghaiAliceToolStripMenuItem.Text = "打开ShanghaiAlice文件夹";
+            OpenShanghaiAliceToolStripMenuItem.Click += OpenShanghaiAliceToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem4
+            // 
+            toolStripMenuItem4.Name = "toolStripMenuItem4";
+            toolStripMenuItem4.Size = new Size(292, 6);
             // 
             // FormMain
             // 
@@ -860,5 +874,7 @@
         private ToolStripStatusLabel toolStripStatusLabelInfo;
         private ToolStripMenuItem ViewKeysToolStripMenuItem;
         private ToolStripButton toolStripButtonViewKeys;
+        private ToolStripMenuItem OpenShanghaiAliceToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem4;
     }
 }

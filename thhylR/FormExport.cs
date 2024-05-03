@@ -30,19 +30,19 @@ namespace thhylR
             ResourceLoader.SetFormText(this);
             TopMost = SettingProvider.Settings.OnTop;
 
-            dataGridViewExport.Columns["Id"].HeaderText = ResourceLoader.getTextResource("ExportId");
-            dataGridViewExport.Columns["FileName"].HeaderText = ResourceLoader.getTextResource("ExportFileName");
-            dataGridViewExport.Columns["BlockType"].HeaderText = ResourceLoader.getTextResource("ExportBlockType");
-            dataGridViewExport.Columns["Stage"].HeaderText = ResourceLoader.getTextResource("ExportStage");
-            dataGridViewExport.Columns["Offset"].HeaderText = ResourceLoader.getTextResource("ExportOffset");
-            dataGridViewExport.Columns["Length"].HeaderText = ResourceLoader.getTextResource("ExportLength");
-            dataGridViewExport.Columns["ExportResult"].HeaderText = ResourceLoader.getTextResource("ExportResult");
+            dataGridViewExport.Columns["Id"].HeaderText = ResourceLoader.GetText("ExportId");
+            dataGridViewExport.Columns["FileName"].HeaderText = ResourceLoader.GetText("ExportFileName");
+            dataGridViewExport.Columns["BlockType"].HeaderText = ResourceLoader.GetText("ExportBlockType");
+            dataGridViewExport.Columns["Stage"].HeaderText = ResourceLoader.GetText("ExportStage");
+            dataGridViewExport.Columns["Offset"].HeaderText = ResourceLoader.GetText("ExportOffset");
+            dataGridViewExport.Columns["Length"].HeaderText = ResourceLoader.GetText("ExportLength");
+            dataGridViewExport.Columns["ExportResult"].HeaderText = ResourceLoader.GetText("ExportResult");
 
-            replayBlockName.Add(ReplayBlockType.Header, ResourceLoader.getTextResource("BlockTypeHeader"));
-            replayBlockName.Add(ReplayBlockType.StageHeader, ResourceLoader.getTextResource("BlockTypeStageHeader"));
-            replayBlockName.Add(ReplayBlockType.KeyData, ResourceLoader.getTextResource("BlockTypeKeyData"));
-            replayBlockName.Add(ReplayBlockType.FPSData, ResourceLoader.getTextResource("BlockTypeFPSData"));
-            replayBlockName.Add(ReplayBlockType.InfoBlock, ResourceLoader.getTextResource("BlockTypeUserInfo"));
+            replayBlockName.Add(ReplayBlockType.Header, ResourceLoader.GetText("BlockTypeHeader"));
+            replayBlockName.Add(ReplayBlockType.StageHeader, ResourceLoader.GetText("BlockTypeStageHeader"));
+            replayBlockName.Add(ReplayBlockType.KeyData, ResourceLoader.GetText("BlockTypeKeyData"));
+            replayBlockName.Add(ReplayBlockType.FPSData, ResourceLoader.GetText("BlockTypeFPSData"));
+            replayBlockName.Add(ReplayBlockType.InfoBlock, ResourceLoader.GetText("BlockTypeUserInfo"));
         }
 
         public FormExport(TouhouReplay replay) : this()
@@ -95,7 +95,7 @@ namespace thhylR
                     }
 
                     dataGridViewExport.Rows.Add(false, i + 1, filename, replayBlockName[replayBlock.Type], stage,
-                        replayBlock.Offset, replayBlock.Length, ResourceLoader.getTextResource("ExportNotStart"));
+                        replayBlock.Offset, replayBlock.Length, ResourceLoader.GetText("ExportNotStart"));
                 }
             }
         }
@@ -156,7 +156,7 @@ namespace thhylR
         {
             if (isNoLineChecked())
             {
-                MessageBox.Show(ResourceLoader.getTextResource("ExportNotSelected"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ResourceLoader.GetText("ExportNotSelected"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -192,21 +192,21 @@ namespace thhylR
                                 File.WriteAllBytes(currentPath, data);
                                 if (needRename)
                                 {
-                                    row.Cells["ExportResult"].Value = ResourceLoader.getTextResource("ExportRename");
+                                    row.Cells["ExportResult"].Value = ResourceLoader.GetText("ExportRename");
                                 }
                                 else
                                 {
-                                    row.Cells["ExportResult"].Value = ResourceLoader.getTextResource("ExportSuccess");
+                                    row.Cells["ExportResult"].Value = ResourceLoader.GetText("ExportSuccess");
                                 }
                             }
                             catch
                             {
-                                row.Cells["ExportResult"].Value = ResourceLoader.getTextResource("ExportFail");
+                                row.Cells["ExportResult"].Value = ResourceLoader.GetText("ExportFail");
                             }
                         }
                         else
                         {
-                            row.Cells["ExportResult"].Value = ResourceLoader.getTextResource("ExportFail");
+                            row.Cells["ExportResult"].Value = ResourceLoader.GetText("ExportFail");
                         }
                     }
                 }

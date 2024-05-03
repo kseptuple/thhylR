@@ -10,7 +10,7 @@ namespace thhylR.Common
     public class KeyStats
     {
         public List<int> KeyPressCount { get; set; }
-        public List<List<int>> KeyCounts { get; set; }
+        public List<int> QuickKeyPressCount { get; set; }
         public int TotalKeys { get; set; }
         public int TotalKeyLength { get; set; }
         public double AverageKeyLength { get; set; }
@@ -26,34 +26,10 @@ namespace thhylR.Common
             }
         }
 
-        public List<int> KeyPress1FCount
-        {
-            get
-            {
-                return KeyCounts[0];
-            }
-        }
-
-        public List<int> KeyPress2FCount
-        {
-            get
-            {
-                return KeyCounts[1];
-            }
-        }
-
-        public List<int> KeyPress3FCount
-        {
-            get
-            {
-                return KeyCounts[2];
-            }
-        }
-
         public KeyStats()
         {
             KeyPressCount = new List<int>();
-            KeyCounts = new List<List<int>>() { new(), new(), new() };
+            QuickKeyPressCount = new List<int> { 0, 0, 0 };
             AverageKeyLength = 0d;
         }
     }
@@ -63,6 +39,5 @@ namespace thhylR.Common
         public KeyStats KeyboardKey { get; set; }
         public KeyStats ControllerKey { get; set; }
         public int TotalFrames { get; set; }
-        public bool HasConflictKeys { get; set; }
     }
 }

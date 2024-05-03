@@ -24,12 +24,18 @@ namespace thhylR
             TopMost = SettingProvider.Settings.OnTop;
         }
 
+        private List<FullKeyStats> fullKeyStats = new List<FullKeyStats>();
+
+        private FullKeyStats currentKeyStats = null;
+        private bool isRadioButtonClicking = false;
+
         public FormKeyViewer(TouhouReplay replay) : this()
         {
             CurrentReplay = replay;
             foreach (var item in CurrentReplay.Stages)
             {
                 listBoxStages.Items.Add(item.StageName);
+                fullKeyStats.Add(null);
             }
             DataGridViewColumn frameColumn = new DataGridViewTextBoxColumn();
             frameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
@@ -38,7 +44,7 @@ namespace thhylR
             frameColumn.Resizable = DataGridViewTriState.False;
             frameColumn.ReadOnly = true;
             frameColumn.DataPropertyName = "Frame";
-            frameColumn.HeaderText = ResourceLoader.getTextResource("FrameNumber");
+            frameColumn.HeaderText = ResourceLoader.GetText("FrameNumber");
             frameColumn.Frozen = true;
 
             dataGridViewKeys.Columns.Add(frameColumn);
@@ -73,10 +79,21 @@ namespace thhylR
                 col.Resizable = DataGridViewTriState.False;
                 col.ReadOnly = true;
                 col.DataPropertyName = "FPS";
-                col.HeaderText = ResourceLoader.getTextResource("FPS");
+                col.HeaderText = ResourceLoader.GetText("FPS");
 
                 dataGridViewKeys.Columns.Add(col);
             }
+
+            dataGridViewStats.Rows.Add(ResourceLoader.GetText("StatFramCount"), null, ResourceLoader.GetText("StatConfilctKey"), null);
+            dataGridViewStats.Rows.Add(ResourceLoader.GetText("StatKeyPressCount"), null, ResourceLoader.GetText("Stat1FPress"), null);
+            dataGridViewStats.Rows.Add(ResourceLoader.GetText("StatAverageKeyLength"), null, ResourceLoader.GetText("Stat2FPress"), null);
+            dataGridViewStats.Rows.Add(ResourceLoader.GetText("StatPeekKeyPress"), null, ResourceLoader.GetText("Stat3FPress"), null);
+
+            chartKeys.Titles[0].Text = ResourceLoader.GetText("KeyPressChartTitle");
+
+            saveFileDialogExport.Filter = ResourceLoader.GetText("ExportFileFilter");
+            saveFileDialogExport.InitialDirectory = Path.GetDirectoryName(replay.FilePath);
+
         }
 
         public TouhouReplay CurrentReplay { get; set; }
@@ -96,6 +113,10 @@ namespace thhylR
             keyList = CurrentReplay.Stages[listBoxStages.SelectedIndex].KeyList;
             fpsList = CurrentReplay.Stages[listBoxStages.SelectedIndex].FPSList;
             dataGridViewKeys.RowCount = CurrentReplay.Stages[listBoxStages.SelectedIndex].FrameCount;
+            if (tabControlKeys.SelectedIndex == 1)
+            {
+                showCharts();
+            }
         }
 
         private void dataGridViewKeys_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -115,6 +136,121 @@ namespace thhylR
                     e.Value = fpsList[e.RowIndex];
                 }
             }
+        }
+
+        private void showCharts()
+        {
+            int stageId = listBoxStages.SelectedIndex;
+            if (stageId == -1) return;
+            bool hasConflictKey = CurrentReplay.Stages[stageId].HasConflictKeys;
+
+            if (fullKeyStats[stageId] == null)
+            {
+                fullKeyStats[stageId] = KeyAndFrameData.GetKeyStats(CurrentReplay.Stages[stageId].ArrowKeyList, hasConflictKey);
+            }
+            currentKeyStats = fullKeyStats[stageId];
+
+            isRadioButtonClicking = true;
+            if (hasConflictKey)
+            {
+                if (!radioButtonKey.Checked)
+                {
+                    radioButtonKey.Checked = true;
+                    switchType(currentKeyStats.KeyboardKey);
+                }
+                radioButtonController.Enabled = false;
+                dataGridViewStats.Rows[0].Cells[3].Value = ResourceLoader.GetText("StatConflictYes");
+            }
+            else
+            {
+                radioButtonController.Enabled = true;
+                if (!radioButtonKey.Checked && !radioButtonController.Checked)
+                {
+                    radioButtonController.Checked = true;
+                    switchType(currentKeyStats.ControllerKey);
+                }
+                dataGridViewStats.Rows[0].Cells[3].Value = ResourceLoader.GetText("StatConflictNo");
+            }
+            dataGridViewStats.Rows[0].Cells[1].Value = currentKeyStats.TotalFrames;
+            isRadioButtonClicking = false;
+        }
+
+        private void radioButtonController_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isRadioButtonClicking) return;
+            isRadioButtonClicking = true;
+            switchType(currentKeyStats.ControllerKey);
+            isRadioButtonClicking = false;
+        }
+
+        private void radioButtonKey_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isRadioButtonClicking) return;
+            isRadioButtonClicking = true;
+            switchType(currentKeyStats.KeyboardKey);
+            isRadioButtonClicking = false;
+        }
+
+        private void tabControlKeys_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControlKeys.SelectedIndex == 1)
+            {
+                showCharts();
+            }
+        }
+
+        private void switchType(KeyStats keyStats)
+        {
+            chartKeys.Series[0].Points.DataBindY(keyStats.KeyPressCount, string.Empty);
+            dataGridViewStats.Rows[1].Cells[1].Value = keyStats.TotalKeys;
+            dataGridViewStats.Rows[2].Cells[1].Value = keyStats.AverageKeyLength.ToString("0.000");
+            dataGridViewStats.Rows[3].Cells[1].Value = keyStats.MaxKeyPressCount;
+            dataGridViewStats.Rows[1].Cells[3].Value = keyStats.QuickKeyPressCount[0];
+            dataGridViewStats.Rows[2].Cells[3].Value = keyStats.QuickKeyPressCount[1];
+            dataGridViewStats.Rows[3].Cells[3].Value = keyStats.QuickKeyPressCount[2];
+        }
+
+        private void buttonExport_Click(object sender, EventArgs e)
+        {
+            int stageId = listBoxStages.SelectedIndex;
+            if (stageId == -1) return;
+            var dialogResult = saveFileDialogExport.ShowDialog(this);
+            if (dialogResult == DialogResult.OK)
+            {
+                try
+                {
+                    File.WriteAllText(saveFileDialogExport.FileName, getExportFileLines(), Encoding.GetEncoding(0));
+                    MessageBox.Show(ResourceLoader.GetText("ExportKeySuccess"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch
+                {
+                    MessageBox.Show(ResourceLoader.GetText("ExportKeyFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private string getExportFileLines()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (DataGridViewColumn item in dataGridViewKeys.Columns)
+            {
+                sb.Append('"').Append(item.HeaderText).Append("\",");
+            }
+            sb.AppendLine();
+            for (int i = 0; i < keyList.Count; i++)
+            {
+                sb.Append('"').Append(i + 1).Append("\",");
+                for (int j = 0; j < keyBits.Count; j++)
+                {
+                    sb.Append('"').Append(keyList[i][keyBits[j]]).Append("\",");
+                }
+                if (fpsList != null)
+                {
+                    sb.Append('"').Append(fpsList[i]).Append("\",");
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

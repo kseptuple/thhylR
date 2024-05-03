@@ -47,7 +47,7 @@ namespace thhylR.Helper
         {
             var exeCommand = $"{appPath} \"%1\"";
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\.rpy", "", "TouhouReplay");
-            Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay", "", ResourceLoader.getTextResource("RegistryExtensionName"));
+            Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay", "", ResourceLoader.GetText("RegistryExtensionName"));
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay\\Shell\\Open\\Command", "", exeCommand);
             //Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\touhou_rpy\\DefaultIcon", "", "");
         }
@@ -56,7 +56,7 @@ namespace thhylR.Helper
         {
             var exeCommand = $"{appPath} \"%1\"";
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\.rpy", "", "TouhouReplay");
-            Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay", "", ResourceLoader.getTextResource("RegistryExtensionName"));
+            Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay", "", ResourceLoader.GetText("RegistryExtensionName"));
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay\\Shell\\Open\\Command", "", exeCommand);
             //Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\touhou_rpy\\DefaultIcon", "", "");
         }

@@ -108,7 +108,7 @@ namespace thhylR.Common
             if (gameData == null) return null;
             TouhouReplay result = new TouhouReplay();
             result.GameData = gameData;
-            insertIntoDisplayTable(ResourceLoader.getTextResource("GameName"), gameData.GameDisplayName, gameData.GameDisplayName, "GameDisplayName", -1);
+            insertIntoDisplayTable(ResourceLoader.GetText("GameName"), gameData.GameDisplayName, gameData.GameDisplayName, "GameDisplayName", -1);
             var decodeSetting = gameData.DecodeSetting;
             List<InfoBlock> infoBlocks = null;
             byte[] infoBlockData = null;
@@ -198,13 +198,13 @@ namespace thhylR.Common
                 if (userBlock != null)
                 {
                     string replaySummary = UserInfo.GetStringFromByteArray(infoCodePage, userBlock.Data);
-                    insertIntoDisplayTable(ResourceLoader.getTextResource("ReplaySummary"), replaySummary, replaySummary, "ReplaySummary", -1);
+                    insertIntoDisplayTable(ResourceLoader.GetText("ReplaySummary"), replaySummary, replaySummary, "ReplaySummary", -1);
                 }
                 var commentBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.Comment);
                 if (commentBlock != null)
                 {
                     string comment = UserInfo.GetStringFromByteArray(codePage, commentBlock.Data);
-                    insertIntoDisplayTable(ResourceLoader.getTextResource("ReplayComment"), comment, comment, "Comment", -1);
+                    insertIntoDisplayTable(ResourceLoader.GetText("ReplayComment"), comment, comment, "Comment", -1);
                 }
             }
             insertEmptyLine();
@@ -221,10 +221,10 @@ namespace thhylR.Common
                 hasFPSData = false;
             }
 
-            insertIntoDisplayTable(ResourceLoader.getTextResource("GameLength"), string.Empty, string.Empty, "GameLength", -1);
+            insertIntoDisplayTable(ResourceLoader.GetText("GameLength"), string.Empty, string.Empty, "GameLength", -1);
             if (hasFPSData)
             {
-                insertIntoDisplayTable(ResourceLoader.getTextResource("ApSlowRate"), string.Empty, string.Empty, "ApSlowRate", -1);
+                insertIntoDisplayTable(ResourceLoader.GetText("ApSlowRate"), string.Empty, string.Empty, "ApSlowRate", -1);
             }
 
             List<DataOffsetAndLength> stages = null;
@@ -267,7 +267,19 @@ namespace thhylR.Common
                     }
 
                     stageData.StageId = i;
-                    stageData.StageName = getStageName(i);
+                    int actualStageId = i;
+                    string suffix = string.Empty;
+                    if (stageSetting.IsVSGame)
+                    {
+                        suffix = " 1P";
+                        int totalStages = stageCount / 2;
+                        if (actualStageId >= totalStages)
+                        {
+                            actualStageId -= totalStages;
+                            suffix = " 2P";
+                        }
+                    }
+                    stageData.StageName = getStageName(actualStageId) + suffix;
                     stageData.GameRelatedData = stageSetting.CustomStageInfo;
 
                     stageData.GameCustomData = new GameDataSource(result.RawData, stageData.HeaderData.Offset);
@@ -304,7 +316,7 @@ namespace thhylR.Common
                     if (gameData.NeedStage)
                     {
                         insertEmptyLine();
-                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId,
+                        insertIntoDisplayTable(ResourceLoader.GetText("GameStage"), null, stageId, "Stage", stageId,
                             string.Empty, string.Empty, "true", stageFormatter);
                     }
                     else
@@ -312,8 +324,8 @@ namespace thhylR.Common
                         stageId = -1;
                     }
                     addVSGameStageDisplayData(stageSetting.CustomStageInfo, p1Data.GameCustomData, p2Data.GameCustomData, stageId);
-                    insertIntoDisplayTable(ResourceLoader.getTextResource("GameLength"), string.Empty, string.Empty, "StageLength", stageId);
-                    insertIntoDisplayTable(ResourceLoader.getTextResource("ApSlowRate"), string.Empty, string.Empty, "ApSlowRateStage", stageId);
+                    insertIntoDisplayTable(ResourceLoader.GetText("GameLength"), string.Empty, string.Empty, "StageLength", stageId);
+                    insertIntoDisplayTable(ResourceLoader.GetText("ApSlowRate"), string.Empty, string.Empty, "ApSlowRateStage", stageId);
                 }
             }
             else
@@ -325,7 +337,7 @@ namespace thhylR.Common
                     if (gameData.NeedStage)
                     {
                         insertEmptyLine();
-                        insertIntoDisplayTable(ResourceLoader.getTextResource("GameStage"), null, stageId, "Stage", stageId,
+                        insertIntoDisplayTable(ResourceLoader.GetText("GameStage"), null, stageId, "Stage", stageId,
                             string.Empty, string.Empty, "true", stageFormatter);
                     }
                     else
@@ -333,10 +345,10 @@ namespace thhylR.Common
                         stageId = -1;
                     }
                     addDisplayData(stageData.GameRelatedData, stageData.GameCustomData, stageData.GameCustomData, stageId);
-                    insertIntoDisplayTable(ResourceLoader.getTextResource("GameLength"), string.Empty, string.Empty, "StageLength", stageId);
+                    insertIntoDisplayTable(ResourceLoader.GetText("GameLength"), string.Empty, string.Empty, "StageLength", stageId);
                     if (hasFPSData)
                     {
-                        insertIntoDisplayTable(ResourceLoader.getTextResource("ApSlowRate"), string.Empty, string.Empty, "ApSlowRateStage", stageId);
+                        insertIntoDisplayTable(ResourceLoader.GetText("ApSlowRate"), string.Empty, string.Empty, "ApSlowRateStage", stageId);
                     }
                 }
             }
@@ -489,7 +501,7 @@ namespace thhylR.Common
                         }
                         else
                         {
-                            insertIntoDisplayTable(name, null, ResourceLoader.getTextResource("EmptyList"), gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
+                            insertIntoDisplayTable(name, null, ResourceLoader.GetText("EmptyList"), gameCustomInfo.Name, stage, gameCustomInfo.Modifier,
                                 gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList, extraData);
                         }
                     }
@@ -580,7 +592,7 @@ namespace thhylR.Common
                             }
                             else
                             {
-                                insertIntoDisplayTable(name, null, ResourceLoader.getTextResource("EmptyList"), id, stage, gameCustomInfo.Modifier,
+                                insertIntoDisplayTable(name, null, ResourceLoader.GetText("EmptyList"), id, stage, gameCustomInfo.Modifier,
                                     gameCustomInfo.Formatter, gameCustomInfo.IsVisible, gameCustomInfo.EnumList);
                             }
                         }
@@ -621,12 +633,12 @@ namespace thhylR.Common
             {
                 TimeSpan ts = TimeSpan.FromSeconds(frames / 60d);
                 string time = ts.ToString("m\\:ss\\.fff");
-                return string.Format(ResourceLoader.getTextResource("GameLengthFormat"), frames, time);
+                return string.Format(ResourceLoader.GetText("GameLengthFormat"), frames, time);
             }
 
             string formatSlowRate(double slowRate)
             {
-                return string.Format(ResourceLoader.getTextResource("ApSlowRateFormat"), (slowRate * 100).ToString("0.00"));
+                return string.Format(ResourceLoader.GetText("ApSlowRateFormat"), (slowRate * 100).ToString("0.00"));
             }
         }
 

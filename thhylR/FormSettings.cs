@@ -23,15 +23,15 @@ namespace thhylR
             listBoxTabs.DataSource = tabControlMain.TabPages;
             listBoxTabs.DisplayMember = "Text";
             tabControlMain.ItemSize = new Size(0, 1);
-            comboBoxScoreType.Items.Add(ResourceLoader.getTextResource("ScoreShown1"));
-            comboBoxScoreType.Items.Add(ResourceLoader.getTextResource("ScoreShown2"));
-            comboBoxScoreType.Items.Add(ResourceLoader.getTextResource("ScoreShown3"));
-            comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType1"));
-            comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType2"));
-            comboBoxScoreStyle.Items.Add(ResourceLoader.getTextResource("ScoreType3"));
-            comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType1"));
-            comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType2"));
-            comboBoxLifeStyle.Items.Add(ResourceLoader.getTextResource("LifeBombType3"));
+            comboBoxScoreType.Items.Add(ResourceLoader.GetText("ScoreShown1"));
+            comboBoxScoreType.Items.Add(ResourceLoader.GetText("ScoreShown2"));
+            comboBoxScoreType.Items.Add(ResourceLoader.GetText("ScoreShown3"));
+            comboBoxScoreStyle.Items.Add(ResourceLoader.GetText("ScoreType1"));
+            comboBoxScoreStyle.Items.Add(ResourceLoader.GetText("ScoreType2"));
+            comboBoxScoreStyle.Items.Add(ResourceLoader.GetText("ScoreType3"));
+            comboBoxLifeStyle.Items.Add(ResourceLoader.GetText("LifeBombType1"));
+            comboBoxLifeStyle.Items.Add(ResourceLoader.GetText("LifeBombType2"));
+            comboBoxLifeStyle.Items.Add(ResourceLoader.GetText("LifeBombType3"));
 
             isAdmin = PrivilegeHelper.IsAdministrator();
             DialogResult = DialogResult.Cancel;
@@ -75,14 +75,14 @@ namespace thhylR
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
-            var nullItem = new { Name = ResourceLoader.getTextResource("EncodingNone"), CodePage = -1 };
+            var nullItem = new { Name = ResourceLoader.GetText("EncodingNone"), CodePage = -1 };
             comboBoxEncode1.Items.Add(nullItem);
             comboBoxEncode2.Items.Add(nullItem);
             comboBoxEncode3.Items.Add(nullItem);
             comboBoxEncode4.Items.Add(nullItem);
             
 
-            var defaultItem = new { Name = ResourceLoader.getTextResource("EncodingDefault"), CodePage = 0 };
+            var defaultItem = new { Name = ResourceLoader.GetText("EncodingDefault"), CodePage = 0 };
             comboBoxEncode1.Items.Add(defaultItem);
             comboBoxEncode2.Items.Add(defaultItem);
             comboBoxEncode3.Items.Add(defaultItem);
@@ -115,15 +115,15 @@ namespace thhylR
             checkBoxRegisterCurrent.Checked = settings.RegisterReplayUser;
             checkBoxRegisterAll.Checked = settings.RegisterReplaySystem;
 
-            comboBoxOperAfterMove.Items.Add(ResourceLoader.getTextResource("KeepFile"));
-            comboBoxOperAfterMove.Items.Add(ResourceLoader.getTextResource("NextFile"));
-            comboBoxOperAfterMove.Items.Add(ResourceLoader.getTextResource("NewFile"));
+            comboBoxOperAfterMove.Items.Add(ResourceLoader.GetText("KeepFile"));
+            comboBoxOperAfterMove.Items.Add(ResourceLoader.GetText("NextFile"));
+            comboBoxOperAfterMove.Items.Add(ResourceLoader.GetText("NewFile"));
 
-            comboBoxOperAfterCopy.Items.Add(ResourceLoader.getTextResource("KeepFile"));
-            comboBoxOperAfterCopy.Items.Add(ResourceLoader.getTextResource("NewFile"));
+            comboBoxOperAfterCopy.Items.Add(ResourceLoader.GetText("KeepFile"));
+            comboBoxOperAfterCopy.Items.Add(ResourceLoader.GetText("NewFile"));
 
-            comboBoxOperAfterDelete.Items.Add(ResourceLoader.getTextResource("KeepFile"));
-            comboBoxOperAfterDelete.Items.Add(ResourceLoader.getTextResource("NextFile"));
+            comboBoxOperAfterDelete.Items.Add(ResourceLoader.GetText("KeepFile"));
+            comboBoxOperAfterDelete.Items.Add(ResourceLoader.GetText("NextFile"));
 
             comboBoxOperAfterMove.SelectedIndex = (int)settings.OperAfterMove;
             comboBoxOperAfterCopy.SelectedIndex = settings.OperAfterCopy == FileOperate.KeepOrClose ? 0 : 1;
@@ -204,15 +204,15 @@ namespace thhylR
         {
             if (comboBoxScoreStyle.SelectedIndex == 0)
             {
-                labelScore.Text = ResourceLoader.getTextResource("ScoreType1");
+                labelScore.Text = ResourceLoader.GetText("ScoreType1");
             }
             else if (comboBoxScoreStyle.SelectedIndex == 1)
             {
-                labelScore.Text = ResourceLoader.getTextResource("ScoreType2");
+                labelScore.Text = ResourceLoader.GetText("ScoreType2");
             }
             else if (comboBoxScoreStyle.SelectedIndex == 2)
             {
-                labelScore.Text = ResourceLoader.getTextResource("ScoreType3");
+                labelScore.Text = ResourceLoader.GetText("ScoreType3");
             }
         }
 
@@ -316,7 +316,7 @@ namespace thhylR
             }
             catch
             {
-                MessageBox.Show(ResourceLoader.getTextResource("RegistrySetFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ResourceLoader.GetText("RegistrySetFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 checkBoxRegisterCurrent.Checked = settings.RegisterReplayUser;
                 buttonApply.Enabled = false;
                 return;
@@ -330,13 +330,13 @@ namespace thhylR
             {
                 if (isAdmin)
                 {
-                    MessageBox.Show(ResourceLoader.getTextResource("RegistrySetFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ResourceLoader.GetText("RegistrySetFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     checkBoxRegisterAll.Checked = settings.RegisterReplaySystem;
                     buttonApply.Enabled = false;
                 }
                 else
                 {
-                    var result = MessageBox.Show(ResourceLoader.getTextResource("RegistrySetFailAdmin"), Text,
+                    var result = MessageBox.Show(ResourceLoader.GetText("RegistrySetFailAdmin"), Text,
                     MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                     if (result == DialogResult.Yes)
                     {
@@ -349,7 +349,7 @@ namespace thhylR
                         IsExit = PrivilegeHelper.Promote(arguments);
                         if (!IsExit)
                         {
-                            MessageBox.Show(ResourceLoader.getTextResource("RestartFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(ResourceLoader.GetText("RestartFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     else

@@ -434,7 +434,7 @@ namespace thhylR.Common
                             }
                             return itemBuilder.ToString();
                         case ScoreFormat.Character:
-                            string chara = ResourceLoader.getTextResource("ScoreChara");
+                            string chara = ResourceLoader.GetText("ScoreChara");
                             StringBuilder itemBuilderChara = new StringBuilder();
                             int currentChara = 0;
                             for (int i = itemStr.Length; i >= 0; i -= 4)

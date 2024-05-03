@@ -86,7 +86,7 @@ namespace thhylR
             var fileExt = Path.GetExtension(fileName);
             if (fileExt.ToLower() != ".rpy")
             {
-                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)),
+                MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFileName(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -112,17 +112,17 @@ namespace thhylR
                 if (CurrentReplay.ReplayProblem == ReplayProblemEnum.None)
                 {
                     toolStripStatusLabelInfo.Image = Resources.StatusOK;
-                    toolStripStatusLabelInfo.Text = ResourceLoader.getTextResource("ReplayOK");
+                    toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayOK");
                 }
                 else
                 {
                     toolStripStatusLabelInfo.Image = Resources.StatusWarning;
-                    toolStripStatusLabelInfo.Text = ResourceLoader.getTextResource("ReplayWarning");
+                    toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
                 }
             }
             else
             {
-                MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotSupportedFile"), Path.GetFileName(fileName)),
+                MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFileName(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -290,7 +290,7 @@ namespace thhylR
                                 }
                                 else
                                 {
-                                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameFail"), targetFileName),
+                                    MessageBox.Show(string.Format(ResourceLoader.GetText("AutoRenameFail"), targetFileName),
                                         Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     return;
                                 }
@@ -305,7 +305,7 @@ namespace thhylR
                     CurrentReplay.FilePath = fullName;
                     if (targetFileName != null)
                     {
-                        MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameComplete"), targetFileName),
+                        MessageBox.Show(string.Format(ResourceLoader.GetText("AutoRenameComplete"), targetFileName),
                             Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -336,7 +336,7 @@ namespace thhylR
                             }
                             else
                             {
-                                MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameFail"), targetFileName),
+                                MessageBox.Show(string.Format(ResourceLoader.GetText("AutoRenameFail"), targetFileName),
                                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
@@ -389,7 +389,7 @@ namespace thhylR
                 }
                 if (targetFileName != null)
                 {
-                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("AutoRenameComplete"), targetFileName),
+                    MessageBox.Show(string.Format(ResourceLoader.GetText("AutoRenameComplete"), targetFileName),
                         Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -397,7 +397,7 @@ namespace thhylR
 
         private void DeleteCommand()
         {
-            var result = MessageBox.Show(ResourceLoader.getTextResource("DeleteWarning"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            var result = MessageBox.Show(ResourceLoader.GetText("DeleteWarning"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
                 File.Delete(CurrentReplay.FilePath);
@@ -527,8 +527,8 @@ namespace thhylR
         private void loadEncodingList()
         {
             var encodings = SettingProvider.Settings.Encodings;
-            var nullItem = new { Name = ResourceLoader.getTextResource("EncodingNone"), CodePage = -1 };
-            var defaultItem = new { Name = ResourceLoader.getTextResource("EncodingDefault"), CodePage = 0 };
+            var nullItem = new { Name = ResourceLoader.GetText("EncodingNone"), CodePage = -1 };
+            var defaultItem = new { Name = ResourceLoader.GetText("EncodingDefault"), CodePage = 0 };
             var codePage = -1;
 
             List<int> tmpEncodings = new List<int>();
@@ -560,7 +560,7 @@ namespace thhylR
                 var encodingItem = encodings[i];
                 if (encodingItem.EncodingId == -1)
                 {
-                    encodingMenuItem[i].Text = ResourceLoader.getTextResource("EncodingNone");
+                    encodingMenuItem[i].Text = ResourceLoader.GetText("EncodingNone");
                     encodingMenuItem[i].Enabled = false;
                 }
                 else if (encodingItem.EncodingId == 0)
@@ -569,7 +569,7 @@ namespace thhylR
                     {
                         comboBoxEncoding.Items.Add(defaultItem);
                     }
-                    encodingMenuItem[i].Text = ResourceLoader.getTextResource("EncodingDefault");
+                    encodingMenuItem[i].Text = ResourceLoader.GetText("EncodingDefault");
                     encodingMenuItem[i].Enabled = true;
                     if (codePage == -1)
                     {
@@ -630,7 +630,7 @@ namespace thhylR
         {
             if (CurrentReplay != null)
             {
-                saveFileDialog.Filter = ResourceLoader.getTextResource("RawDataFilter");
+                saveFileDialog.Filter = ResourceLoader.GetText("RawDataFilter");
                 saveFileDialog.InitialDirectory = Path.GetDirectoryName(CurrentReplay.FilePath);
                 var dialogResult = saveFileDialog.ShowDialog(this);
                 if (dialogResult == DialogResult.OK)
@@ -639,11 +639,11 @@ namespace thhylR
                     try
                     {
                         File.WriteAllBytes(saveFileDialog.FileName, result);
-                        MessageBox.Show(ResourceLoader.getTextResource("ExportAllSuccess"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(ResourceLoader.GetText("ExportAllSuccess"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch
                     {
-                        MessageBox.Show(ResourceLoader.getTextResource("ExportAllFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ResourceLoader.GetText("ExportAllFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

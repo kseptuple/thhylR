@@ -19,14 +19,14 @@ namespace thhylR
             InitializeComponent();
             ResourceLoader.SetFormText(this);
             TopMost = SettingProvider.Settings.OnTop;
-            textBoxReplayProblem.Text = "* " + ResourceLoader.getTextResource("ProblemNotOpenDisplay");
+            textBoxReplayProblem.Text = "* " + ResourceLoader.GetText("ProblemNotOpenDisplay");
         }
 
         public FormReplayProblem(ReplayProblemEnum replayProblem) : this()
         {
             if (replayProblem == ReplayProblemEnum.None)
             {
-                textBoxReplayProblem.Text = "* " + ResourceLoader.getTextResource("ReplayOKDisplay");
+                textBoxReplayProblem.Text = "* " + ResourceLoader.GetText("ReplayOKDisplay");
                 return;
             }
             else
@@ -35,17 +35,17 @@ namespace thhylR
                 if (replayProblem.HasFlag(ReplayProblemEnum.FileNotExist))
                 {
                     sb.Append("* ");
-                    sb.AppendLine(ResourceLoader.getTextResource("ProblemFileNotExits"));
+                    sb.AppendLine(ResourceLoader.GetText("ProblemFileNotExits"));
                 }
                 if (replayProblem.HasFlag(ReplayProblemEnum.ChnVerReplay))
                 {
                     sb.Append("* ");
-                    sb.AppendLine(ResourceLoader.getTextResource("ProblemCHSVersion"));
+                    sb.AppendLine(ResourceLoader.GetText("ProblemCHSVersion"));
                 }
                 if (replayProblem.HasFlag(ReplayProblemEnum.StageLengthError))
                 {
                     sb.Append("* ");
-                    sb.AppendLine(ResourceLoader.getTextResource("ProblemLengthError"));
+                    sb.AppendLine(ResourceLoader.GetText("ProblemLengthError"));
                 }
                 textBoxReplayProblem.Text = sb.ToString();
             }

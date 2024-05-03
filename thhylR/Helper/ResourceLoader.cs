@@ -33,7 +33,7 @@ namespace thhylR.Helper
             };
         }
 
-        public static string getTextResource(string resourceName)
+        public static string GetText(string resourceName)
         {
             if (textResources.ContainsKey(resourceName))
             {

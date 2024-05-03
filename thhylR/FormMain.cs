@@ -66,38 +66,38 @@ namespace thhylR
 
             if (PrivilegeHelper.IsAdministrator())
             {
-                Text += $" {ResourceLoader.getTextResource("AdminHint")}";
+                Text += $" {ResourceLoader.GetText("AdminHint")}";
             }
 
-            toolStripButtonOpen.ToolTipText = ResourceLoader.getTextResource("OpenTip");
-            toolStripButtonCut.ToolTipText = ResourceLoader.getTextResource("CutTip");
-            toolStripButtonCopy.ToolTipText = ResourceLoader.getTextResource("CopyTip");
-            toolStripButtonMoveTo.ToolTipText = ResourceLoader.getTextResource("MoveToTip");
-            toolStripButtonCopyTo.ToolTipText = ResourceLoader.getTextResource("CopyToTip");
-            toolStripButtonDelete.ToolTipText = ResourceLoader.getTextResource("DeleteTip");
-            toolStripButtonRename.ToolTipText = ResourceLoader.getTextResource("RenameTip");
+            toolStripButtonOpen.ToolTipText = ResourceLoader.GetText("OpenTip");
+            toolStripButtonCut.ToolTipText = ResourceLoader.GetText("CutTip");
+            toolStripButtonCopy.ToolTipText = ResourceLoader.GetText("CopyTip");
+            toolStripButtonMoveTo.ToolTipText = ResourceLoader.GetText("MoveToTip");
+            toolStripButtonCopyTo.ToolTipText = ResourceLoader.GetText("CopyToTip");
+            toolStripButtonDelete.ToolTipText = ResourceLoader.GetText("DeleteTip");
+            toolStripButtonRename.ToolTipText = ResourceLoader.GetText("RenameTip");
 
-            toolStripButtonFirst.ToolTipText = ResourceLoader.getTextResource("FirstReplayTip");
-            toolStripButtonPrevious.ToolTipText = ResourceLoader.getTextResource("PreviousReplayTip");
-            toolStripButtonNext.ToolTipText = ResourceLoader.getTextResource("NextReplayTip");
-            toolStripButtonLast.ToolTipText = ResourceLoader.getTextResource("LastReplayTip");
+            toolStripButtonFirst.ToolTipText = ResourceLoader.GetText("FirstReplayTip");
+            toolStripButtonPrevious.ToolTipText = ResourceLoader.GetText("PreviousReplayTip");
+            toolStripButtonNext.ToolTipText = ResourceLoader.GetText("NextReplayTip");
+            toolStripButtonLast.ToolTipText = ResourceLoader.GetText("LastReplayTip");
 
-            toolStripButtonEditComment.ToolTipText = ResourceLoader.getTextResource("EditCommentTip");
+            toolStripButtonEditComment.ToolTipText = ResourceLoader.GetText("EditCommentTip");
 
-            toolStripButtonViewKeys.ToolTipText = ResourceLoader.getTextResource("ViewKeysTip");
-            toolStripButtonExportAll.ToolTipText = ResourceLoader.getTextResource("ExportAllTip");
-            toolStripButtonExportCustom.ToolTipText = ResourceLoader.getTextResource("ExportCustomTip");
+            toolStripButtonViewKeys.ToolTipText = ResourceLoader.GetText("ViewKeysTip");
+            toolStripButtonExportAll.ToolTipText = ResourceLoader.GetText("ExportAllTip");
+            toolStripButtonExportCustom.ToolTipText = ResourceLoader.GetText("ExportCustomTip");
 
-            toolStripButtonOption.ToolTipText = ResourceLoader.getTextResource("OptionTip");
+            toolStripButtonOption.ToolTipText = ResourceLoader.GetText("OptionTip");
 
-            toolStripStatusLabelInfo.Text = ResourceLoader.getTextResource("ProblemNotOpen");
+            toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ProblemNotOpen");
 
             encodingMenuItem.Add(Encoding1ToolStripMenuItem);
             encodingMenuItem.Add(Encoding2ToolStripMenuItem);
             encodingMenuItem.Add(Encoding3ToolStripMenuItem);
             encodingMenuItem.Add(Encoding4ToolStripMenuItem);
 
-            openReplayDialog.Filter = ResourceLoader.getTextResource("ReplayFileFilter");
+            openReplayDialog.Filter = ResourceLoader.GetText("ReplayFileFilter");
 
             textBoxPath.Left = label1.Left + label1.Width + textBoxPath.Margin.Left;
             comboBoxEncoding.Left = label2.Left + label2.Width + comboBoxEncoding.Margin.Left;
@@ -139,7 +139,7 @@ namespace thhylR
                 }
                 else
                 {
-                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -395,7 +395,7 @@ namespace thhylR
                 }
                 else
                 {
-                    MessageBox.Show(string.Format(ResourceLoader.getTextResource("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -498,6 +498,20 @@ namespace thhylR
         private void toolStripButtonViewKeys_Click(object sender, EventArgs e)
         {
             ViewKeysCommand();
+        }
+
+        private void OpenShanghaiAliceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var shanghaiAlicePath = Path.Combine(appData, "ShanghaiAlice");
+            if (!Directory.Exists(shanghaiAlicePath))
+            {
+                MessageBox.Show(ResourceLoader.GetText("ShanghaiAliceNotExists"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                Process.Start("explorer.exe", shanghaiAlicePath);
+            }
         }
 
         public enum ReplayChangeType

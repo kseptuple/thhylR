@@ -21,6 +21,7 @@ FormMain:
       - PreviousReplayToolStripMenuItem: 上一个录像
       - NextReplayToolStripMenuItem: 下一个录像
       - LastReplayToolStripMenuItem: 最后一个录像
+      - OpenShanghaiAliceToolStripMenuItem: 打开ShanghaiAlice文件夹
       - ExitToolStripMenuItem: 退出(&X)
     - EditToolStripMenuItem: 
       - 编辑(&E)
@@ -100,10 +101,10 @@ FormReplayProblem:
   - 录像异常信息
 FormKeyViewer:
   - 按键查看
+  - label1: 关卡
   - tabControlKeys: 
     - tabPage1: 
       - 按键记录
-      - label1: 关卡
       - labelKeyDescription: |-
           按键说明：
           A = 射击
@@ -111,9 +112,14 @@ FormKeyViewer:
           C = 特殊
           Fc = 低速
           Sk = 跳过对话
+      - buttonExport: 导出...
     - tabPage2:
       - 方向键统计
-  - buttonExport: 导出...
+      - radioButtonController: 摇杆模式
+      - radioButtonKey: 键盘模式
+      - labelDetail: |-
+          在键盘模式下，同时按下多个方向键会算作多次按键；在摇杆模式下，方向变化一次算作一次按键。
+          以下各项仅统计方向键。存在同时按上+下/左+右时，不能切换到摇杆模式。
   - buttonClose: 关闭
 
 text:
@@ -179,6 +185,7 @@ text:
   - AutoRenameFail: 自动重命名失败，请手动修改文件名。
   - AutoRenameComplete: "文件已自动重命名为{0}。"
   - DeleteWarning: 确定要删除该文件吗？文件将不会移动到回收站，而是直接删除！
+  - ShanghaiAliceNotExists: 找不到ShanghaiAlice文件夹！
   - NonShiftJISWarning: 使用shift-jis以外的编码可能导致其他程序无法读取注释，是否继续保存？
   - CommentCloseWarning: 有未保存的修改，是否保存？
   - ExportId: 序号
@@ -200,4 +207,17 @@ text:
   - ExportNotSelected: 请先选择至少一项再导出！
   - FrameNumber: 帧
   - FPS: 帧率
-
+  - KeyPressChartTitle: 每秒按键次数
+  - StatConfilctKey: 同时按上+下/左+右
+  - Stat1FPress: 1帧按键次数
+  - Stat2FPress: 2帧按键次数
+  - Stat3FPress: 3帧按键次数
+  - StatFramCount: 帧数
+  - StatKeyPressCount: 总按键次数
+  - StatAverageKeyLength: 平均按键时长
+  - StatPeekKeyPress: 峰值每秒按键次数
+  - StatConflictYes: 有
+  - StatConflictNo: 无
+  - ExportFileFilter: csv文件|*.csv
+  - ExportKeySuccess: 导出按键记录成功！
+  - ExportKeyFail: 导出按键记录失败！
