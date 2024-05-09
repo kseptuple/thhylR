@@ -36,9 +36,10 @@
             // 
             // textBoxFileName
             // 
-            textBoxFileName.Location = new Point(12, 12);
+            textBoxFileName.Location = new Point(9, 10);
+            textBoxFileName.Margin = new Padding(2, 3, 2, 3);
             textBoxFileName.Name = "textBoxFileName";
-            textBoxFileName.Size = new Size(245, 27);
+            textBoxFileName.Size = new Size(191, 23);
             textBoxFileName.TabIndex = 0;
             textBoxFileName.TextChanged += textBoxFileName_TextChanged;
             textBoxFileName.KeyDown += textBoxFileName_KeyDown;
@@ -46,17 +47,19 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(263, 15);
+            label1.Location = new Point(205, 13);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(37, 20);
+            label1.Size = new Size(30, 17);
             label1.TabIndex = 1;
             label1.Text = ".rpy";
             // 
             // buttonOK
             // 
-            buttonOK.Location = new Point(101, 45);
+            buttonOK.Location = new Point(79, 38);
+            buttonOK.Margin = new Padding(2, 3, 2, 3);
             buttonOK.Name = "buttonOK";
-            buttonOK.Size = new Size(94, 29);
+            buttonOK.Size = new Size(73, 25);
             buttonOK.TabIndex = 2;
             buttonOK.Text = "button1";
             buttonOK.UseVisualStyleBackColor = true;
@@ -64,9 +67,10 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(201, 45);
+            buttonCancel.Location = new Point(156, 38);
+            buttonCancel.Margin = new Padding(2, 3, 2, 3);
             buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new Size(94, 29);
+            buttonCancel.Size = new Size(73, 25);
             buttonCancel.TabIndex = 3;
             buttonCancel.Text = "button2";
             buttonCancel.UseVisualStyleBackColor = true;
@@ -75,15 +79,16 @@
             // FormRename
             // 
             AcceptButton = buttonOK;
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new Size(307, 83);
+            ClientSize = new Size(239, 71);
             Controls.Add(buttonCancel);
             Controls.Add(buttonOK);
             Controls.Add(label1);
             Controls.Add(textBoxFileName);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(2, 3, 2, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormRename";

@@ -88,8 +88,10 @@ namespace thhylR.Helper
         public int MainFormSplitter2Pos { get; set; }
 
         public int CommentFormWidth { get; set; }
-        public int CommnetFormHeight { get; set; }
+        public int CommentFormHeight { get; set; }
 
+        public int KeyViewerFormWidth { get; set; }
+        public int KeyViewerFormHeight { get; set; }
 
         public class CommonEncoding
         {
@@ -152,8 +154,11 @@ namespace thhylR.Helper
                 Settings.MainFormSplitter1Pos = 250;
                 Settings.MainFormSplitter2Pos = 600;
 
-                Settings.CommentFormWidth = 600;
-                Settings.CommnetFormHeight = 450;
+                Settings.CommentFormWidth = 750;
+                Settings.CommentFormHeight = 500;
+
+                Settings.KeyViewerFormWidth = 1100;
+                Settings.KeyViewerFormHeight = 650;
 
                 SaveSettings();
             }

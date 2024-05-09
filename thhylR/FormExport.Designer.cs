@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridViewExport = new DataGridView();
             IsChecked = new DataGridViewCheckBoxColumn();
             Id = new DataGridViewTextBoxColumn();
@@ -50,18 +50,19 @@
             dataGridViewExport.AllowUserToDeleteRows = false;
             dataGridViewExport.AllowUserToResizeRows = false;
             dataGridViewExport.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Control;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridViewExport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Control;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridViewExport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridViewExport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewExport.Columns.AddRange(new DataGridViewColumn[] { IsChecked, Id, FileName, BlockType, Stage, Offset, Length, ExportResult });
             dataGridViewExport.EditMode = DataGridViewEditMode.EditOnEnter;
-            dataGridViewExport.Location = new Point(12, 12);
+            dataGridViewExport.Location = new Point(9, 10);
+            dataGridViewExport.Margin = new Padding(2, 3, 2, 3);
             dataGridViewExport.MultiSelect = false;
             dataGridViewExport.Name = "dataGridViewExport";
             dataGridViewExport.RowHeadersVisible = false;
@@ -70,7 +71,7 @@
             dataGridViewExport.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewExport.ShowCellToolTips = false;
             dataGridViewExport.ShowEditingIcon = false;
-            dataGridViewExport.Size = new Size(880, 419);
+            dataGridViewExport.Size = new Size(683, 355);
             dataGridViewExport.TabIndex = 0;
             dataGridViewExport.CurrentCellDirtyStateChanged += dataGridViewExport_CurrentCellDirtyStateChanged;
             // 
@@ -91,7 +92,7 @@
             Id.MinimumWidth = 6;
             Id.Name = "Id";
             Id.ReadOnly = true;
-            Id.Width = 68;
+            Id.Width = 57;
             // 
             // FileName
             // 
@@ -99,7 +100,7 @@
             FileName.HeaderText = "文件名";
             FileName.MinimumWidth = 6;
             FileName.Name = "FileName";
-            FileName.Width = 83;
+            FileName.Width = 69;
             // 
             // BlockType
             // 
@@ -108,7 +109,7 @@
             BlockType.MinimumWidth = 6;
             BlockType.Name = "BlockType";
             BlockType.ReadOnly = true;
-            BlockType.Width = 68;
+            BlockType.Width = 57;
             // 
             // Stage
             // 
@@ -117,7 +118,7 @@
             Stage.MinimumWidth = 6;
             Stage.Name = "Stage";
             Stage.ReadOnly = true;
-            Stage.Width = 68;
+            Stage.Width = 57;
             // 
             // Offset
             // 
@@ -126,7 +127,7 @@
             Offset.MinimumWidth = 6;
             Offset.Name = "Offset";
             Offset.ReadOnly = true;
-            Offset.Width = 98;
+            Offset.Width = 81;
             // 
             // Length
             // 
@@ -135,7 +136,7 @@
             Length.MinimumWidth = 6;
             Length.Name = "Length";
             Length.ReadOnly = true;
-            Length.Width = 68;
+            Length.Width = 57;
             // 
             // ExportResult
             // 
@@ -144,13 +145,14 @@
             ExportResult.MinimumWidth = 6;
             ExportResult.Name = "ExportResult";
             ExportResult.ReadOnly = true;
-            ExportResult.Width = 103;
+            ExportResult.Width = 84;
             // 
             // buttonSelectFolder
             // 
-            buttonSelectFolder.Location = new Point(621, 437);
+            buttonSelectFolder.Location = new Point(484, 371);
+            buttonSelectFolder.Margin = new Padding(2, 3, 2, 3);
             buttonSelectFolder.Name = "buttonSelectFolder";
-            buttonSelectFolder.Size = new Size(171, 29);
+            buttonSelectFolder.Size = new Size(133, 25);
             buttonSelectFolder.TabIndex = 1;
             buttonSelectFolder.Text = "保存到文件夹...";
             buttonSelectFolder.UseVisualStyleBackColor = true;
@@ -158,9 +160,10 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(798, 437);
+            buttonClose.Location = new Point(621, 371);
+            buttonClose.Margin = new Padding(2, 3, 2, 3);
             buttonClose.Name = "buttonClose";
-            buttonClose.Size = new Size(94, 29);
+            buttonClose.Size = new Size(73, 25);
             buttonClose.TabIndex = 2;
             buttonClose.Text = "关闭";
             buttonClose.UseVisualStyleBackColor = true;
@@ -168,13 +171,14 @@
             // 
             // FormExport
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(904, 478);
+            ClientSize = new Size(703, 406);
             Controls.Add(buttonClose);
             Controls.Add(buttonSelectFolder);
             Controls.Add(dataGridViewExport);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(2, 3, 2, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormExport";

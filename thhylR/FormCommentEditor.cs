@@ -27,7 +27,8 @@ namespace thhylR
         private string formText = string.Empty;
         private bool isModified = false;
 
-        private bool neverModified = true;
+        private bool neverSaved = true;
+        private double dpiScale = 0d;
 
         public FormCommentEditor()
         {
@@ -35,12 +36,24 @@ namespace thhylR
             splitContainerMain.Panel1.Name = "CommentPanel1";
             splitContainerMain.Panel2.Name = "CommentPanel2";
             ResourceLoader.SetFormText(this);
+            dpiScale = DeviceDpi / 96.0;
             TopMost = SettingProvider.Settings.OnTop;
 
             formText = Text;
 
-            Width = SettingProvider.Settings.CommentFormWidth;
-            Height = SettingProvider.Settings.CommnetFormHeight;
+            Width = (int)(SettingProvider.Settings.CommentFormWidth * dpiScale);
+            Height = (int)(SettingProvider.Settings.CommentFormHeight * dpiScale);
+
+            textBoxComment.Anchor = AnchorStyles.None;
+            textBoxPreview.Anchor = AnchorStyles.None;
+
+            textBoxComment.Width = splitContainerMain.Panel1.Width;
+            textBoxComment.Height = splitContainerMain.Panel1.Height - textBoxComment.Top;
+            textBoxPreview.Width = splitContainerMain.Panel2.Width;
+            textBoxPreview.Height = splitContainerMain.Panel2.Height - textBoxPreview.Top;
+
+            textBoxComment.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+            textBoxPreview.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
 
             encodingList = EncodingHelper.EncodingList;
             loadEncodingList();
@@ -143,10 +156,11 @@ namespace thhylR
 
         private void FormCommentEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!isModified && neverModified)
+            DialogResult = DialogResult.OK;
+
+            if (!isModified && neverSaved)
             {
                 DialogResult = DialogResult.Cancel;
-                return;
             }
             else if (isModified)
             {
@@ -155,23 +169,22 @@ namespace thhylR
                 {
                     if (!saveComment())
                     {
+                        DialogResult = DialogResult.None;
                         e.Cancel = true;
+                        return;
                     }
                 }
                 else
                 {
-                    if (neverModified)
+                    if (neverSaved)
                     {
                         DialogResult = DialogResult.Cancel;
-                        return;
                     }
                 }
             }
 
-            SettingProvider.Settings.CommentFormWidth = Width;
-            SettingProvider.Settings.CommnetFormHeight = Height;
-
-            DialogResult = DialogResult.OK;
+            SettingProvider.Settings.CommentFormWidth = (int)(Width / dpiScale);
+            SettingProvider.Settings.CommentFormHeight = (int)(Height / dpiScale);
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -244,7 +257,7 @@ namespace thhylR
 
             Text = formText;
             isModified = false;
-            neverModified = false;
+            neverSaved = false;
             return true;
         }
 
@@ -272,6 +285,12 @@ namespace thhylR
                 }
                 saveComment();
             }
+        }
+
+        private void FormCommentEditor_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            dpiScale = DeviceDpi / 96.0;
+            MinimumSize = new Size((int)(450 * dpiScale), (int)(370 * dpiScale));
         }
     }
 }

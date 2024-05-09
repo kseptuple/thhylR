@@ -35,20 +35,22 @@
             // 
             textBoxReplayProblem.Dock = DockStyle.Fill;
             textBoxReplayProblem.Location = new Point(0, 0);
+            textBoxReplayProblem.Margin = new Padding(2, 3, 2, 3);
             textBoxReplayProblem.Multiline = true;
             textBoxReplayProblem.Name = "textBoxReplayProblem";
             textBoxReplayProblem.ReadOnly = true;
             textBoxReplayProblem.ScrollBars = ScrollBars.Vertical;
-            textBoxReplayProblem.Size = new Size(631, 391);
+            textBoxReplayProblem.Size = new Size(491, 332);
             textBoxReplayProblem.TabIndex = 0;
             // 
             // FormReplayProblem
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(631, 391);
+            ClientSize = new Size(491, 332);
             Controls.Add(textBoxReplayProblem);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(2, 3, 2, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormReplayProblem";

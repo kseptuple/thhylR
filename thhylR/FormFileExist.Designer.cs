@@ -38,9 +38,10 @@
             // 
             // buttonOverwrite
             // 
-            buttonOverwrite.Location = new Point(128, 93);
+            buttonOverwrite.Location = new Point(100, 79);
+            buttonOverwrite.Margin = new Padding(2, 3, 2, 3);
             buttonOverwrite.Name = "buttonOverwrite";
-            buttonOverwrite.Size = new Size(94, 29);
+            buttonOverwrite.Size = new Size(73, 25);
             buttonOverwrite.TabIndex = 1;
             buttonOverwrite.Text = "button1";
             buttonOverwrite.UseVisualStyleBackColor = true;
@@ -48,9 +49,10 @@
             // 
             // buttonRename
             // 
-            buttonRename.Location = new Point(228, 93);
+            buttonRename.Location = new Point(177, 79);
+            buttonRename.Margin = new Padding(2, 3, 2, 3);
             buttonRename.Name = "buttonRename";
-            buttonRename.Size = new Size(94, 29);
+            buttonRename.Size = new Size(73, 25);
             buttonRename.TabIndex = 2;
             buttonRename.Text = "button2";
             buttonRename.UseVisualStyleBackColor = true;
@@ -58,9 +60,10 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(328, 93);
+            buttonCancel.Location = new Point(255, 79);
+            buttonCancel.Margin = new Padding(2, 3, 2, 3);
             buttonCancel.Name = "buttonCancel";
-            buttonCancel.Size = new Size(94, 29);
+            buttonCancel.Size = new Size(73, 25);
             buttonCancel.TabIndex = 3;
             buttonCancel.Text = "button3";
             buttonCancel.UseVisualStyleBackColor = true;
@@ -69,9 +72,10 @@
             // pictureBoxIcon
             // 
             pictureBoxIcon.BackColor = Color.Transparent;
-            pictureBoxIcon.Location = new Point(24, 24);
+            pictureBoxIcon.Location = new Point(19, 20);
+            pictureBoxIcon.Margin = new Padding(2, 3, 2, 3);
             pictureBoxIcon.Name = "pictureBoxIcon";
-            pictureBoxIcon.Size = new Size(40, 40);
+            pictureBoxIcon.Size = new Size(31, 34);
             pictureBoxIcon.TabIndex = 4;
             pictureBoxIcon.TabStop = false;
             pictureBoxIcon.Paint += pictureBoxIcon_Paint;
@@ -79,25 +83,27 @@
             // labelText
             // 
             labelText.AutoSize = true;
-            labelText.Location = new Point(88, 34);
+            labelText.Location = new Point(68, 29);
+            labelText.Margin = new Padding(2, 0, 2, 0);
             labelText.Name = "labelText";
-            labelText.Size = new Size(189, 20);
+            labelText.Size = new Size(152, 17);
             labelText.TabIndex = 5;
             labelText.Text = "目标文件已存在，是否要：";
             labelText.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FormFileExist
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = buttonCancel;
-            ClientSize = new Size(434, 134);
+            ClientSize = new Size(338, 114);
             Controls.Add(labelText);
             Controls.Add(pictureBoxIcon);
             Controls.Add(buttonCancel);
             Controls.Add(buttonRename);
             Controls.Add(buttonOverwrite);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(2, 3, 2, 3);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormFileExist";

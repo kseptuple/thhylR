@@ -668,5 +668,20 @@ namespace thhylR
             
         }
 
+        private void DpiChange()
+        {
+            dpiScale = DeviceDpi / 96.0;
+            MinimumSize = new Size((int)(885 * dpiScale), (int)(550 * dpiScale));
+            SetDpiAtStart();
+        }
+
+        private void SetDpiAtStart()
+        {
+            splitContainerMain.Panel1MinSize = (int)(200 * dpiScale);
+            splitContainerMain.Panel2MinSize = (int)(660 * dpiScale);
+            splitContainerInfo.Panel1MinSize = (int)(400 * dpiScale);
+            splitContainerInfo.Panel2MinSize = (int)(250 * dpiScale);
+        }
+
     }
 }

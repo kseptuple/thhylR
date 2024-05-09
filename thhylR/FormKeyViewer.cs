@@ -21,13 +21,18 @@ namespace thhylR
         {
             InitializeComponent();
             ResourceLoader.SetFormText(this);
+            dpiScale = DeviceDpi / 96.0;
             TopMost = SettingProvider.Settings.OnTop;
+
+            Width = (int)(SettingProvider.Settings.KeyViewerFormWidth * dpiScale);
+            Height = (int)(SettingProvider.Settings.KeyViewerFormHeight * dpiScale);
         }
 
         private List<FullKeyStats> fullKeyStats = new List<FullKeyStats>();
 
         private FullKeyStats currentKeyStats = null;
         private bool isRadioButtonClicking = false;
+        private double dpiScale = 0d;
 
         public FormKeyViewer(TouhouReplay replay) : this()
         {
@@ -210,6 +215,7 @@ namespace thhylR
             dataGridViewStats.Rows[3].Cells[3].Value = keyStats.QuickKeyPressCount[2];
         }
 
+        private readonly byte[] utf8BOM = new byte[3] { 0xEF, 0xBB, 0xBF };
         private void buttonExport_Click(object sender, EventArgs e)
         {
             int stageId = listBoxStages.SelectedIndex;
@@ -219,7 +225,11 @@ namespace thhylR
             {
                 try
                 {
-                    File.WriteAllText(saveFileDialogExport.FileName, getExportFileLines(), Encoding.GetEncoding(0));
+                    FileStream fs = File.OpenWrite(saveFileDialogExport.FileName);
+                    fs.Write(utf8BOM);
+                    fs.Write(Encoding.UTF8.GetBytes(getExportFileLines()));
+                    fs.Flush();
+                    fs.Close();
                     MessageBox.Show(ResourceLoader.GetText("ExportKeySuccess"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch
@@ -251,6 +261,18 @@ namespace thhylR
                 sb.AppendLine();
             }
             return sb.ToString();
+        }
+
+        private void FormKeyViewer_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            dpiScale = DeviceDpi / 96.0;
+            MinimumSize = new Size((int)(940 * dpiScale), (int)(520 * dpiScale));
+        }
+
+        private void FormKeyViewer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SettingProvider.Settings.KeyViewerFormWidth = (int)(Width / dpiScale);
+            SettingProvider.Settings.KeyViewerFormHeight = (int)(Height / dpiScale);
         }
     }
 }

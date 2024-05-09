@@ -36,25 +36,27 @@ namespace thhylR
 
         private List<EncodingInfo> encodingList = new List<EncodingInfo>();
         private bool isEncodingChanging = false;
+        private double dpiScale = 0d;
 
         public FormMain()
         {
             InitializeComponent();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            dpiScale = DeviceDpi / 96.0;
 
             GameData.Init();
             EnumData.Init();
             SettingProvider.Init();
             ResourceLoader.Init();
             EncodingHelper.Init();
-
-            ResourceLoader.SetFormText(this);
             ResourceLoader.InitTextResource();
 
             splitContainerMain.Panel1.Name = "MainPanel1";
             splitContainerMain.Panel2.Name = "MainPanel2";
             splitContainerInfo.Panel1.Name = "InfoPanel1";
             splitContainerInfo.Panel2.Name = "InfoPanel2";
+
+            ResourceLoader.SetFormText(this);
 
             dataGridInfo.AutoGenerateColumns = false;
             dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;
@@ -99,10 +101,27 @@ namespace thhylR
 
             openReplayDialog.Filter = ResourceLoader.GetText("ReplayFileFilter");
 
+            textBoxPath.Anchor = AnchorStyles.None;
+            comboBoxEncoding.Anchor = AnchorStyles.None;
+            dataGridInfo.Anchor = AnchorStyles.None;
+            textBoxInfo.Anchor = AnchorStyles.None;
+
             textBoxPath.Left = label1.Left + label1.Width + textBoxPath.Margin.Left;
             comboBoxEncoding.Left = label2.Left + label2.Width + comboBoxEncoding.Margin.Left;
             textBoxPath.Width = splitContainerInfo.Panel1.Width - textBoxPath.Left;
             comboBoxEncoding.Width = splitContainerInfo.Panel2.Width - comboBoxEncoding.Left;
+
+            dataGridInfo.Width = splitContainerInfo.Panel1.Width;
+            dataGridInfo.Height = splitContainerInfo.Panel1.Height - dataGridInfo.Top;
+            textBoxInfo.Width = splitContainerInfo.Panel2.Width;
+            textBoxInfo.Height = splitContainerInfo.Panel2.Height - textBoxInfo.Top;
+
+            textBoxPath.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            comboBoxEncoding.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+            dataGridInfo.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+            textBoxInfo.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
+
+            SetDpiAtStart();
 
             if (SettingProvider.Settings.MainFormLeft < 0 || SettingProvider.Settings.MainFormTop < 0)
             {
@@ -115,10 +134,10 @@ namespace thhylR
                 Top = SettingProvider.Settings.MainFormTop;
             }
 
-            Width = SettingProvider.Settings.MainFormWidth;
-            Height = SettingProvider.Settings.MainFormHeight;
-            splitContainerMain.SplitterDistance = SettingProvider.Settings.MainFormSplitter1Pos;
-            splitContainerInfo.SplitterDistance = SettingProvider.Settings.MainFormSplitter2Pos;
+            Width = (int)(SettingProvider.Settings.MainFormWidth * dpiScale);
+            Height = (int)(SettingProvider.Settings.MainFormHeight * dpiScale);
+            splitContainerMain.SplitterDistance = (int)(SettingProvider.Settings.MainFormSplitter1Pos * dpiScale);
+            splitContainerInfo.SplitterDistance = (int)(SettingProvider.Settings.MainFormSplitter2Pos * dpiScale);
 
             encodingList = EncodingHelper.EncodingList;
             loadEncodingList();
@@ -142,6 +161,9 @@ namespace thhylR
                     MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            //MessageBox.Show(splitContainerInfo.Height.ToString());
+            //MessageBox.Show(dataGridInfo.Height.ToString());
         }
 
         private void buttonOpen_Click(object sender, EventArgs e)
@@ -447,10 +469,10 @@ namespace thhylR
         {
             SettingProvider.Settings.MainFormLeft = Left;
             SettingProvider.Settings.MainFormTop = Top;
-            SettingProvider.Settings.MainFormHeight = Height;
-            SettingProvider.Settings.MainFormWidth = Width;
-            SettingProvider.Settings.MainFormSplitter1Pos = splitContainerMain.SplitterDistance;
-            SettingProvider.Settings.MainFormSplitter2Pos = splitContainerInfo.SplitterDistance;
+            SettingProvider.Settings.MainFormHeight = (int)(Height / dpiScale);
+            SettingProvider.Settings.MainFormWidth = (int)(Width / dpiScale);
+            SettingProvider.Settings.MainFormSplitter1Pos = (int)(splitContainerMain.SplitterDistance / dpiScale);
+            SettingProvider.Settings.MainFormSplitter2Pos = (int)(splitContainerInfo.SplitterDistance / dpiScale);
 
             SettingProvider.SaveSettings();
         }
@@ -512,6 +534,11 @@ namespace thhylR
             {
                 Process.Start("explorer.exe", shanghaiAlicePath);
             }
+        }
+
+        private void FormMain_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            DpiChange();
         }
 
         public enum ReplayChangeType
