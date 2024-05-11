@@ -161,19 +161,24 @@ namespace thhylR
                 if (!radioButtonKey.Checked)
                 {
                     radioButtonKey.Checked = true;
-                    switchType(currentKeyStats.KeyboardKey);
                 }
+                setChartContent(currentKeyStats.KeyboardKey);
                 radioButtonController.Enabled = false;
                 dataGridViewStats.Rows[0].Cells[3].Value = ResourceLoader.GetText("StatConflictYes");
             }
             else
             {
                 radioButtonController.Enabled = true;
-                if (!radioButtonKey.Checked && !radioButtonController.Checked)
+                if (radioButtonKey.Checked)
+                {
+                    setChartContent(currentKeyStats.KeyboardKey);
+                }
+                else
                 {
                     radioButtonController.Checked = true;
-                    switchType(currentKeyStats.ControllerKey);
+                    setChartContent(currentKeyStats.ControllerKey);
                 }
+
                 dataGridViewStats.Rows[0].Cells[3].Value = ResourceLoader.GetText("StatConflictNo");
             }
             dataGridViewStats.Rows[0].Cells[1].Value = currentKeyStats.TotalFrames;
@@ -184,7 +189,7 @@ namespace thhylR
         {
             if (isRadioButtonClicking) return;
             isRadioButtonClicking = true;
-            switchType(currentKeyStats.ControllerKey);
+            setChartContent(currentKeyStats.ControllerKey);
             isRadioButtonClicking = false;
         }
 
@@ -192,7 +197,7 @@ namespace thhylR
         {
             if (isRadioButtonClicking) return;
             isRadioButtonClicking = true;
-            switchType(currentKeyStats.KeyboardKey);
+            setChartContent(currentKeyStats.KeyboardKey);
             isRadioButtonClicking = false;
         }
 
@@ -204,7 +209,7 @@ namespace thhylR
             }
         }
 
-        private void switchType(KeyStats keyStats)
+        private void setChartContent(KeyStats keyStats)
         {
             chartKeys.Series[0].Points.DataBindY(keyStats.KeyPressCount, string.Empty);
             dataGridViewStats.Rows[1].Cells[1].Value = keyStats.TotalKeys;

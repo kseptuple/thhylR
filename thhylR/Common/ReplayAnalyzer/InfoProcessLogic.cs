@@ -411,6 +411,12 @@ namespace thhylR.Common
                 else if (formatter == "score")
                 {
                     string itemStr = item.ToString();
+                    bool isMinus = itemStr.StartsWith('-');
+                    string result = null;
+                    if (isMinus)
+                    {
+                        itemStr = itemStr.Substring(1);
+                    }
                     switch (SettingProvider.Settings.ScoreType)
                     {
                         case ScoreFormat.Plain:
@@ -432,7 +438,8 @@ namespace thhylR.Common
                                     itemBuilder.Insert(0, itemStr[0..i]);
                                 }
                             }
-                            return itemBuilder.ToString();
+                            result = itemBuilder.ToString();
+                            break;
                         case ScoreFormat.Character:
                             string chara = ResourceLoader.GetText("ScoreChara");
                             StringBuilder itemBuilderChara = new StringBuilder();
@@ -454,8 +461,14 @@ namespace thhylR.Common
                                 }
                                 currentChara++;
                             }
-                            return itemBuilderChara.ToString();
+                            result = itemBuilderChara.ToString();
+                            break;
                     }
+                    if (isMinus)
+                    {
+                        result = "-" + result;
+                    }
+                    return result;
                 }
                 var toStringMethod = item.GetType().GetMethod("ToString", argumentTypes);
                 if (toStringMethod == null)

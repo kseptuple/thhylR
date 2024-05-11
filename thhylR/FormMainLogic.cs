@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,15 +49,18 @@ namespace thhylR
             toolStripButtonNext.Enabled = isExist;
             toolStripButtonLast.Enabled = isExist;
 
-            ExportToolStripMenuItem.Enabled = isExist;
-            ExportAllToolStripMenuItem.Enabled = isExist;
-            ExportCustomToolStripMenuItem.Enabled = isExist;
+            ExportToolStripMenuItem.Enabled = isFileOpen;
+            ExportAllToolStripMenuItem.Enabled = isFileOpen;
+            ExportCustomToolStripMenuItem.Enabled = isFileOpen;
 
-            toolStripButtonExportAll.Enabled = isExist;
-            toolStripButtonExportCustom.Enabled = isExist;
+            toolStripButtonExportAll.Enabled = isFileOpen;
+            toolStripButtonExportCustom.Enabled = isFileOpen;
 
-            ViewKeysToolStripMenuItem.Enabled = isExist;
-            toolStripButtonViewKeys.Enabled = isExist;
+            ViewKeysToolStripMenuItem.Enabled = isFileOpen;
+            toolStripButtonViewKeys.Enabled = isFileOpen;
+
+            SaveReplayInfoToolStripMenuItem.Enabled = isFileOpen;
+            CopyInfoToolStripMenuItem.Enabled = isFileOpen;
 
             if (!isExist)
             {
@@ -665,7 +669,32 @@ namespace thhylR
                 FormKeyViewer formKeyViewer = new FormKeyViewer(CurrentReplay);
                 formKeyViewer.ShowDialog(this);
             }
-            
+        }
+
+        private readonly string exportInfoColon = null;
+        
+        private string InfoToString()
+        {
+            if (CurrentReplay == null) return null;
+            StringBuilder sb = new StringBuilder();
+            foreach (var dataRow in CurrentReplay.DisplayDataList)
+            {
+                if (dataRow["Visible"].ToString() == "0") continue;
+                string name = dataRow["Name"].ToString();
+                if (!string.IsNullOrEmpty(name))
+                {
+                    sb.Append(name).Append(exportInfoColon);
+                    string id = dataRow["Id"].ToString();
+                    if (id == "ReplaySummary" ||  id == "Comment")
+                    {
+                        sb.AppendLine();
+                    }
+                    string value = dataRow["Value"].ToString().TrimEnd();
+                    sb.Append(value);
+                }
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
 
         private void DpiChange()

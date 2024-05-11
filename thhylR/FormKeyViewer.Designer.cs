@@ -38,6 +38,8 @@
             labelKeyDescription = new Label();
             dataGridViewKeys = new DataGridView();
             tabPage2 = new TabPage();
+            panelChart = new Panel();
+            chartKeys = new System.Windows.Forms.DataVisualization.Charting.Chart();
             labelDetail = new Label();
             dataGridViewStats = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
@@ -46,7 +48,6 @@
             Column4 = new DataGridViewTextBoxColumn();
             radioButtonKey = new RadioButton();
             radioButtonController = new RadioButton();
-            chartKeys = new System.Windows.Forms.DataVisualization.Charting.Chart();
             listBoxStages = new ListBox();
             label1 = new Label();
             saveFileDialogExport = new SaveFileDialog();
@@ -54,8 +55,9 @@
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewKeys).BeginInit();
             tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewStats).BeginInit();
+            panelChart.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chartKeys).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStats).BeginInit();
             SuspendLayout();
             // 
             // buttonClose
@@ -146,11 +148,11 @@
             // tabPage2
             // 
             tabPage2.BackColor = SystemColors.Control;
+            tabPage2.Controls.Add(panelChart);
             tabPage2.Controls.Add(labelDetail);
             tabPage2.Controls.Add(dataGridViewStats);
             tabPage2.Controls.Add(radioButtonKey);
             tabPage2.Controls.Add(radioButtonController);
-            tabPage2.Controls.Add(chartKeys);
             tabPage2.Location = new Point(4, 26);
             tabPage2.Margin = new Padding(2, 3, 2, 3);
             tabPage2.Name = "tabPage2";
@@ -158,6 +160,51 @@
             tabPage2.Size = new Size(781, 437);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
+            // 
+            // panelChart
+            // 
+            panelChart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelChart.BorderStyle = BorderStyle.Fixed3D;
+            panelChart.Controls.Add(chartKeys);
+            panelChart.Location = new Point(5, 71);
+            panelChart.Name = "panelChart";
+            panelChart.Size = new Size(771, 255);
+            panelChart.TabIndex = 5;
+            // 
+            // chartKeys
+            // 
+            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MajorGrid.LineColor = Color.FromArgb(224, 224, 224);
+            chartArea1.AxisY.MajorTickMark.Enabled = false;
+            chartArea1.AxisY2.MajorGrid.Enabled = false;
+            chartArea1.Name = "ChartArea1";
+            chartArea1.Position.Auto = false;
+            chartArea1.Position.Height = 90F;
+            chartArea1.Position.Width = 98F;
+            chartArea1.Position.Y = 1F;
+            chartKeys.ChartAreas.Add(chartArea1);
+            chartKeys.Dock = DockStyle.Fill;
+            chartKeys.Location = new Point(0, 0);
+            chartKeys.Margin = new Padding(2, 3, 2, 3);
+            chartKeys.Name = "chartKeys";
+            chartKeys.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            chartKeys.PaletteCustomColors = new Color[]
+    {
+    Color.Red
+    };
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.IsXValueIndexed = true;
+            series1.Name = "Series1";
+            series1.YValuesPerPoint = 6;
+            chartKeys.Series.Add(series1);
+            chartKeys.Size = new Size(767, 251);
+            chartKeys.TabIndex = 0;
+            chartKeys.Text = "chart1";
+            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title1.Name = "Title1";
+            chartKeys.Titles.Add(title1);
             // 
             // labelDetail
             // 
@@ -186,6 +233,7 @@
             dataGridViewStats.RowHeadersVisible = false;
             dataGridViewStats.RowHeadersWidth = 51;
             dataGridViewStats.RowTemplate.Height = 29;
+            dataGridViewStats.ShowCellToolTips = false;
             dataGridViewStats.Size = new Size(771, 101);
             dataGridViewStats.TabIndex = 3;
             // 
@@ -229,7 +277,6 @@
             radioButtonKey.Name = "radioButtonKey";
             radioButtonKey.Size = new Size(102, 21);
             radioButtonKey.TabIndex = 2;
-            radioButtonKey.TabStop = true;
             radioButtonKey.Text = "radioButton2";
             radioButtonKey.UseVisualStyleBackColor = true;
             radioButtonKey.CheckedChanged += radioButtonKey_CheckedChanged;
@@ -237,6 +284,7 @@
             // radioButtonController
             // 
             radioButtonController.AutoSize = true;
+            radioButtonController.Checked = true;
             radioButtonController.Location = new Point(5, 5);
             radioButtonController.Margin = new Padding(2, 3, 2, 3);
             radioButtonController.Name = "radioButtonController";
@@ -246,41 +294,6 @@
             radioButtonController.Text = "radioButton1";
             radioButtonController.UseVisualStyleBackColor = true;
             radioButtonController.CheckedChanged += radioButtonController_CheckedChanged;
-            // 
-            // chartKeys
-            // 
-            chartKeys.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisY.MajorGrid.LineColor = Color.FromArgb(224, 224, 224);
-            chartArea1.AxisY.MajorTickMark.Enabled = false;
-            chartArea1.AxisY2.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 90F;
-            chartArea1.Position.Width = 98F;
-            chartArea1.Position.Y = 1F;
-            chartKeys.ChartAreas.Add(chartArea1);
-            chartKeys.Location = new Point(5, 71);
-            chartKeys.Margin = new Padding(2, 3, 2, 3);
-            chartKeys.Name = "chartKeys";
-            chartKeys.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            chartKeys.PaletteCustomColors = new Color[]
-    {
-    Color.Red
-    };
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series1.IsXValueIndexed = true;
-            series1.Name = "Series1";
-            series1.YValuesPerPoint = 6;
-            chartKeys.Series.Add(series1);
-            chartKeys.Size = new Size(771, 257);
-            chartKeys.TabIndex = 0;
-            chartKeys.Text = "chart1";
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.Name = "Title1";
-            chartKeys.Titles.Add(title1);
             // 
             // listBoxStages
             // 
@@ -330,8 +343,9 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewKeys).EndInit();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewStats).EndInit();
+            panelChart.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)chartKeys).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStats).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -356,5 +370,6 @@
         private Label labelDetail;
         private SaveFileDialog saveFileDialogExport;
         private Button buttonExport;
+        private Panel panelChart;
     }
 }

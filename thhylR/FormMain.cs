@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Windows.Forms;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
@@ -100,6 +101,8 @@ namespace thhylR
             encodingMenuItem.Add(Encoding4ToolStripMenuItem);
 
             openReplayDialog.Filter = ResourceLoader.GetText("ReplayFileFilter");
+
+            exportInfoColon = ResourceLoader.GetText("ExportInfoColon");
 
             textBoxPath.Anchor = AnchorStyles.None;
             comboBoxEncoding.Anchor = AnchorStyles.None;
@@ -540,6 +543,46 @@ namespace thhylR
         {
             DpiChange();
         }
+
+        private void CopyInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                ClipboardHelper.TextToClipboard(InfoToString());
+            }
+        }
+
+        private readonly byte[] utf8BOM = new byte[3] { 0xEF, 0xBB, 0xBF };
+        private void SaveReplayInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                saveFileDialog.Filter = ResourceLoader.GetText("ExportInfoFilter");
+                saveFileDialog.InitialDirectory = Path.GetDirectoryName(CurrentReplay.FilePath);
+                var dialogResult = saveFileDialog.ShowDialog(this);
+                if (dialogResult == DialogResult.OK)
+                {
+                    var result = InfoToString();
+                    try
+                    {
+                        FileStream fs = File.OpenWrite(saveFileDialog.FileName);
+                        fs.Write(utf8BOM);
+                        fs.Write(Encoding.UTF8.GetBytes(result));
+                        fs.Flush();
+                        fs.Close();
+                        MessageBox.Show(ResourceLoader.GetText("ExportInfoSuccess"), Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(ResourceLoader.GetText("ExportInfoFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+
+        }
+
+       
+
 
         public enum ReplayChangeType
         {
