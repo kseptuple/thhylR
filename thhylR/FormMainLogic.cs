@@ -1,18 +1,9 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Net.Http.Headers;
+﻿using System.Data;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
 using thhylR.Properties;
-using YamlDotNet.Serialization.TypeInspectors;
 
 namespace thhylR
 {
@@ -672,7 +663,7 @@ namespace thhylR
         }
 
         private readonly string exportInfoColon = null;
-        
+
         private string InfoToString()
         {
             if (CurrentReplay == null) return null;
@@ -685,7 +676,7 @@ namespace thhylR
                 {
                     sb.Append(name).Append(exportInfoColon);
                     string id = dataRow["Id"].ToString();
-                    if (id == "ReplaySummary" ||  id == "Comment")
+                    if (id == "ReplaySummary" || id == "Comment")
                     {
                         sb.AppendLine();
                     }

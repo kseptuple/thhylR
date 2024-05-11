@@ -1,12 +1,5 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 using thhylR.Common;
 using thhylR.Helper;
 

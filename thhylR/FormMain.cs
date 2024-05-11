@@ -1,15 +1,10 @@
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Windows.Forms;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
-using thhylR.Properties;
 
 namespace thhylR
 {
@@ -581,7 +576,7 @@ namespace thhylR
 
         }
 
-       
+
 
 
         public enum ReplayChangeType

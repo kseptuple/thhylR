@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using thhylR.Games;
+﻿using System.Text;
 
 namespace thhylR.Common
 {
@@ -95,7 +90,7 @@ namespace thhylR.Common
 
         public InfoBlock()
         {
-            
+
         }
 
         public InfoBlock(UserBlockType userBlockType, byte[] data)

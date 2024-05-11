@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using thhylR.Helper;
-using thhylR.Properties;
+﻿using thhylR.Helper;
 
 namespace thhylR
 {
@@ -80,7 +69,7 @@ namespace thhylR
             comboBoxEncode2.Items.Add(nullItem);
             comboBoxEncode3.Items.Add(nullItem);
             comboBoxEncode4.Items.Add(nullItem);
-            
+
 
             var defaultItem = new { Name = ResourceLoader.GetText("EncodingDefault"), CodePage = 0 };
             comboBoxEncode1.Items.Add(defaultItem);
@@ -372,7 +361,7 @@ namespace thhylR
                 SystemFont = fontDialogSetting.Font;
                 labelScore.Font = systemFontDemo;
                 setLifeBombExample();
-            }  
+            }
         }
 
         private void buttonFontSymbol_Click(object sender, EventArgs e)
@@ -385,7 +374,7 @@ namespace thhylR
                 SymbolFont = fontDialogSetting.Font;
                 setLifeBombExample();
             }
-            
+
         }
     }
 }

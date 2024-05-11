@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics;
-using System.Drawing.Printing;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Cryptography.Xml;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using thhylR.Games;
 using thhylR.Helper;
-using YamlDotNet.Core.Tokens;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace thhylR.Common
 {
@@ -363,7 +350,7 @@ namespace thhylR.Common
                 gameLengthRow["DisplayValue"] = frameCountStr;
             }
 
-            if (hasFPSData) 
+            if (hasFPSData)
             {
                 var gameSlowRateRow = result.DisplayDataList.FirstOrDefault(r => r["Id"].ToString() == "ApSlowRate");
                 if (gameSlowRateRow != null)
