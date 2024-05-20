@@ -65,6 +65,14 @@ namespace thhylR
             }
         }
 
+        //private void closeReplay()
+        //{
+        //    CurrentReplay = null;
+        //    toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ProblemNotOpen");
+        //    isFileOpen = false;
+        //    setFileIsOpen(false);
+        //}
+
         private void showOpenReplayDialog()
         {
             var dialogResult = openReplayDialog.ShowDialog(this);
@@ -85,7 +93,17 @@ namespace thhylR
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            byte[] fileData = File.ReadAllBytes(fileName);
+            byte[] fileData = null;
+            try
+            {
+                fileData = File.ReadAllBytes(fileName);
+            }
+            catch
+            {
+                MessageBox.Show(ResourceLoader.GetText("ReplayOpenFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
             CurrentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
             if (CurrentReplay != null)
             {
@@ -296,7 +314,16 @@ namespace thhylR
                             return;
                         }
                     }
-                    File.Move(CurrentReplay.FilePath, fullName, true);
+                    try
+                    {
+                        File.Move(CurrentReplay.FilePath, fullName, true);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(ResourceLoader.GetText("RenameFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    
                     CurrentReplay.FilePath = fullName;
                     if (targetFileName != null)
                     {
@@ -344,7 +371,16 @@ namespace thhylR
                 }
                 if (isMove)
                 {
-                    File.Move(CurrentReplay.FilePath, path, true);
+                    try
+                    {
+                        File.Move(CurrentReplay.FilePath, path, true);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(ResourceLoader.GetText("MoveFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    
                     switch (SettingProvider.Settings.OperAfterMove)
                     {
                         case FileOperate.KeepOrClose:
@@ -353,6 +389,7 @@ namespace thhylR
                             TreeNode rootNode = treeViewFiles.Nodes[0];
                             if (rootNode.Nodes.Count == 0)
                             {
+                                MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 break;
                             }
                             else if (currentFilePos < rootNode.Nodes.Count - 1)
@@ -371,7 +408,16 @@ namespace thhylR
                 }
                 else
                 {
-                    File.Copy(CurrentReplay.FilePath, path, true);
+                    try
+                    {
+                        File.Copy(CurrentReplay.FilePath, path, true);
+                    }
+                    catch
+                    {
+                        MessageBox.Show(ResourceLoader.GetText("CopyFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    
                     switch (SettingProvider.Settings.OperAfterCopy)
                     {
                         case FileOperate.New:
@@ -395,13 +441,23 @@ namespace thhylR
             var result = MessageBox.Show(ResourceLoader.GetText("DeleteWarning"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                File.Delete(CurrentReplay.FilePath);
+                try
+                {
+                    File.Delete(CurrentReplay.FilePath);
+                }
+                catch
+                {
+                    MessageBox.Show(ResourceLoader.GetText("DeleteFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
                 switch (SettingProvider.Settings.OperAfterDelete)
                 {
                     case FileOperate.Next:
                         TreeNode rootNode = treeViewFiles.Nodes[0];
                         if (rootNode.Nodes.Count == 0)
                         {
+                            MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             break;
                         }
                         else if (currentFilePos < rootNode.Nodes.Count - 1)
@@ -702,6 +758,5 @@ namespace thhylR
             splitContainerInfo.Panel1MinSize = (int)(400 * dpiScale);
             splitContainerInfo.Panel2MinSize = (int)(250 * dpiScale);
         }
-
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             openReplayDialog = new OpenFileDialog();
             menuStripMain = new MenuStrip();
             FileToolStripMenuItem = new ToolStripMenuItem();
@@ -66,6 +67,8 @@
             ExportCustomToolStripMenuItem = new ToolStripMenuItem();
             ToolToolStripMenuItem = new ToolStripMenuItem();
             OptionToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem6 = new ToolStripSeparator();
+            AboutToolStripMenuItem = new ToolStripMenuItem();
             saveFileDialog = new SaveFileDialog();
             fileSystemWatcherFolder = new FileSystemWatcher();
             toolStripMain = new ToolStrip();
@@ -287,27 +290,27 @@
             // SaveReplayInfoToolStripMenuItem
             // 
             SaveReplayInfoToolStripMenuItem.Name = "SaveReplayInfoToolStripMenuItem";
-            SaveReplayInfoToolStripMenuItem.Size = new Size(184, 26);
+            SaveReplayInfoToolStripMenuItem.Size = new Size(172, 22);
             SaveReplayInfoToolStripMenuItem.Text = "保存录像信息";
             SaveReplayInfoToolStripMenuItem.Click += SaveReplayInfoToolStripMenuItem_Click;
             // 
             // CopyInfoToolStripMenuItem
             // 
             CopyInfoToolStripMenuItem.Name = "CopyInfoToolStripMenuItem";
-            CopyInfoToolStripMenuItem.Size = new Size(184, 26);
+            CopyInfoToolStripMenuItem.Size = new Size(172, 22);
             CopyInfoToolStripMenuItem.Text = "复制信息到剪贴板";
             CopyInfoToolStripMenuItem.Click += CopyInfoToolStripMenuItem_Click;
             // 
             // toolStripMenuItem5
             // 
             toolStripMenuItem5.Name = "toolStripMenuItem5";
-            toolStripMenuItem5.Size = new Size(181, 6);
+            toolStripMenuItem5.Size = new Size(169, 6);
             // 
             // EncodingToolStripMenuItem
             // 
             EncodingToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { Encoding1ToolStripMenuItem, Encoding2ToolStripMenuItem, Encoding3ToolStripMenuItem, Encoding4ToolStripMenuItem });
             EncodingToolStripMenuItem.Name = "EncodingToolStripMenuItem";
-            EncodingToolStripMenuItem.Size = new Size(184, 26);
+            EncodingToolStripMenuItem.Size = new Size(172, 22);
             EncodingToolStripMenuItem.Text = "编码(&N)";
             // 
             // Encoding1ToolStripMenuItem
@@ -342,20 +345,20 @@
             // 
             EditCommentToolStripMenuItem.Image = Properties.Resources.EditComment;
             EditCommentToolStripMenuItem.Name = "EditCommentToolStripMenuItem";
-            EditCommentToolStripMenuItem.Size = new Size(184, 26);
+            EditCommentToolStripMenuItem.Size = new Size(172, 22);
             EditCommentToolStripMenuItem.Text = "编辑注释(&M)...";
             EditCommentToolStripMenuItem.Click += EditCommentToolStripMenuItem_Click;
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(181, 6);
+            toolStripMenuItem3.Size = new Size(169, 6);
             // 
             // ViewKeysToolStripMenuItem
             // 
             ViewKeysToolStripMenuItem.Image = Properties.Resources.Keyboard;
             ViewKeysToolStripMenuItem.Name = "ViewKeysToolStripMenuItem";
-            ViewKeysToolStripMenuItem.Size = new Size(184, 26);
+            ViewKeysToolStripMenuItem.Size = new Size(172, 22);
             ViewKeysToolStripMenuItem.Text = "查看按键(&K)...";
             ViewKeysToolStripMenuItem.Click += ViewKeysToolStripMenuItem_Click;
             // 
@@ -364,7 +367,7 @@
             ExportToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ExportAllToolStripMenuItem, ExportCustomToolStripMenuItem });
             ExportToolStripMenuItem.Image = Properties.Resources.Export;
             ExportToolStripMenuItem.Name = "ExportToolStripMenuItem";
-            ExportToolStripMenuItem.Size = new Size(184, 26);
+            ExportToolStripMenuItem.Size = new Size(172, 22);
             ExportToolStripMenuItem.Text = "导出原始数据(&P)";
             // 
             // ExportAllToolStripMenuItem
@@ -385,7 +388,7 @@
             // 
             // ToolToolStripMenuItem
             // 
-            ToolToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OptionToolStripMenuItem });
+            ToolToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OptionToolStripMenuItem, toolStripMenuItem6, AboutToolStripMenuItem });
             ToolToolStripMenuItem.Name = "ToolToolStripMenuItem";
             ToolToolStripMenuItem.Size = new Size(59, 21);
             ToolToolStripMenuItem.Text = "工具(&T)";
@@ -397,6 +400,18 @@
             OptionToolStripMenuItem.Size = new Size(127, 22);
             OptionToolStripMenuItem.Text = "选项(&O)...";
             OptionToolStripMenuItem.Click += OptionToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem6
+            // 
+            toolStripMenuItem6.Name = "toolStripMenuItem6";
+            toolStripMenuItem6.Size = new Size(124, 6);
+            // 
+            // AboutToolStripMenuItem
+            // 
+            AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
+            AboutToolStripMenuItem.Size = new Size(127, 22);
+            AboutToolStripMenuItem.Text = "关于(&A)...";
+            AboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
             // fileSystemWatcherFolder
             // 
@@ -760,7 +775,7 @@
             comboBoxEncoding.Location = new Point(49, 0);
             comboBoxEncoding.Margin = new Padding(2, 3, 2, 3);
             comboBoxEncoding.Name = "comboBoxEncoding";
-            comboBoxEncoding.Size = new Size(217, 25);
+            comboBoxEncoding.Size = new Size(239, 25);
             comboBoxEncoding.TabIndex = 7;
             comboBoxEncoding.ValueMember = "CodePage";
             comboBoxEncoding.SelectedIndexChanged += comboBoxEncoding_SelectedIndexChanged;
@@ -774,7 +789,7 @@
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(266, 411);
+            textBoxInfo.Size = new Size(288, 411);
             textBoxInfo.TabIndex = 6;
             // 
             // statusStripMain
@@ -807,6 +822,7 @@
             Controls.Add(statusStripMain);
             Controls.Add(toolStripMain);
             Controls.Add(menuStripMain);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStripMain;
             Margin = new Padding(2, 3, 2, 3);
             MinimumSize = new Size(885, 550);
@@ -913,9 +929,10 @@
         private ToolStripButton toolStripButtonViewKeys;
         private ToolStripMenuItem OpenShanghaiAliceToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem4;
-        private ToolStripMenuItem qToolStripMenuItem;
         private ToolStripMenuItem SaveReplayInfoToolStripMenuItem;
         private ToolStripMenuItem CopyInfoToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem5;
+        private ToolStripMenuItem AboutToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem6;
     }
 }

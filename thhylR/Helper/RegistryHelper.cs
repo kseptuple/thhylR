@@ -5,6 +5,7 @@ namespace thhylR.Helper
     public static class RegistryHelper
     {
         private static string appPath = $"\"{Application.ExecutablePath}\"";
+        private static string iconPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Icon\\IconFile.ico");
         public static bool isCurrentUserAssociated()
         {
             var associationName = (string)Registry.GetValue("HKEY_CURRENT_USER\\Software\\Classes\\.rpy", "", "");
@@ -43,7 +44,7 @@ namespace thhylR.Helper
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\.rpy", "", "TouhouReplay");
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay", "", ResourceLoader.GetText("RegistryExtensionName"));
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay\\Shell\\Open\\Command", "", exeCommand);
-            //Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\touhou_rpy\\DefaultIcon", "", "");
+            Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay\\DefaultIcon", "", iconPath);
         }
 
         public static void setAllUserAssociate()
@@ -52,7 +53,7 @@ namespace thhylR.Helper
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\.rpy", "", "TouhouReplay");
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay", "", ResourceLoader.GetText("RegistryExtensionName"));
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay\\Shell\\Open\\Command", "", exeCommand);
-            //Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\touhou_rpy\\DefaultIcon", "", "");
+            Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay\\DefaultIcon", "", iconPath);
         }
 
         public static void removeCurrentUserAssociate()

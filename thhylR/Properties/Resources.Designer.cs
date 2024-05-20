@@ -61,6 +61,22 @@ namespace thhylR.Properties {
         }
         
         /// <summary>
+        ///   查找类似 {\rtf1\ansi\ansicpg54936\deff0\nouicompat{\fonttbl{\f0\fnil\fprq2\fcharset134 \&apos;cb\&apos;ce\&apos;cc\&apos;e5;}}
+        ///{\colortbl ;\red0\green0\blue255;}
+        ///{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
+        ///\pard\nowidctlpar\sa200\sl276\slmult1\qc\f0\fs22\lang9\par
+        ///- AUTHOR -\par
+        ///Kasa Septuple: {{\field{\*\fldinst{HYPERLINK https://github.com/kseptuple/thhylR }}{\fldrslt{https://github.com/kseptuple/thhylR\ul0\cf0}}}}\f0\fs22\par
+        ///- SPECIAL THANKS -\par
+        ///wz520: {{\field{\*\fldinst{HYPERLINK https://github.com/wz520/thhyl [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap Copy {

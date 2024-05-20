@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using thhylR.Helper;
+
 namespace thhylR
 {
     internal static class Program
@@ -8,10 +11,33 @@ namespace thhylR
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+#if !DEBUG
             Application.Run(new FormMain());
+#else
+            FormMain formMain = null;
+            try
+            {
+                formMain = new FormMain();
+                Application.Run(formMain);
+            }
+            catch (Exception ex) 
+            {
+                string replayFile = null;
+                if (formMain != null && formMain.CurrentReplay != null)
+                {
+                    replayFile = formMain.CurrentReplay.FilePath;
+                }
+                string path = CrashHandler.DoCrashLog(ex, replayFile);
+                MessageBox.Show(ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var psi = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = path
+                };
+                Process.Start(psi);
+            }
+#endif
         }
     }
 }

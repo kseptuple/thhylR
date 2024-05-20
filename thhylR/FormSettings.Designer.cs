@@ -557,17 +557,18 @@
             // listBoxTabs
             // 
             listBoxTabs.FormattingEnabled = true;
+            listBoxTabs.IntegralHeight = false;
             listBoxTabs.ItemHeight = 17;
             listBoxTabs.Location = new Point(9, 10);
             listBoxTabs.Margin = new Padding(2, 3, 2, 3);
             listBoxTabs.Name = "listBoxTabs";
-            listBoxTabs.Size = new Size(118, 242);
+            listBoxTabs.Size = new Size(118, 237);
             listBoxTabs.TabIndex = 8;
             listBoxTabs.SelectedIndexChanged += listBoxTabs_SelectedIndexChanged;
             // 
             // buttonOK
             // 
-            buttonOK.Location = new Point(226, 257);
+            buttonOK.Location = new Point(226, 253);
             buttonOK.Margin = new Padding(2, 3, 2, 3);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(73, 25);
@@ -578,7 +579,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(303, 257);
+            buttonCancel.Location = new Point(303, 253);
             buttonCancel.Margin = new Padding(2, 3, 2, 3);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(73, 25);
@@ -590,7 +591,7 @@
             // buttonApply
             // 
             buttonApply.Enabled = false;
-            buttonApply.Location = new Point(380, 257);
+            buttonApply.Location = new Point(380, 253);
             buttonApply.Margin = new Padding(2, 3, 2, 3);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(73, 25);
@@ -609,7 +610,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(463, 291);
+            ClientSize = new Size(463, 284);
             Controls.Add(buttonApply);
             Controls.Add(buttonCancel);
             Controls.Add(buttonOK);

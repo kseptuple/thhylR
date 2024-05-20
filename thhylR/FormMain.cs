@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using thhylR.Common;
 using thhylR.Games;
@@ -36,8 +37,33 @@ namespace thhylR
 
         public FormMain()
         {
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
+
+            string crashReportPath = "CrashReports";
+            if (Directory.Exists(crashReportPath))
+            {
+                DateTime expireDate = DateTime.Now - TimeSpan.FromDays(30);
+                var files = Directory.EnumerateFiles(crashReportPath, "CrashReport*.zip");
+                foreach (var file in files)
+                {
+                    FileInfo fileInfo = new FileInfo(file);
+                    if (fileInfo.CreationTime <= expireDate)
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+            }
+
             InitializeComponent();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             dpiScale = DeviceDpi / 96.0;
 
             GameData.Init();
@@ -159,9 +185,6 @@ namespace thhylR
                     MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            //MessageBox.Show(splitContainerInfo.Height.ToString());
-            //MessageBox.Show(dataGridInfo.Height.ToString());
         }
 
         private void buttonOpen_Click(object sender, EventArgs e)
@@ -530,7 +553,12 @@ namespace thhylR
             }
             else
             {
-                Process.Start("explorer.exe", shanghaiAlicePath);
+                var psi = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = shanghaiAlicePath
+                };
+                Process.Start(psi);
             }
         }
 
@@ -576,8 +604,10 @@ namespace thhylR
 
         }
 
-
-
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new FormAbout().ShowDialog(this);
+        }
 
         public enum ReplayChangeType
         {

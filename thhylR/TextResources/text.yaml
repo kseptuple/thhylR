@@ -37,6 +37,7 @@ FormMain:
     - ToolToolStripMenuItem: 
       - 工具(&T)
       - OptionToolStripMenuItem: 选项(&O)...
+      - AboutToolStripMenuItem: 关于(&A)...
 FormSettings: 
   - 设置
   - tabControlMain: 
@@ -123,7 +124,8 @@ FormKeyViewer:
           在键盘模式下，同时按下多个方向键会算作多次按键；在摇杆模式下，方向变化一次算作一次按键。
           以下各项仅统计方向键。存在同时按上+下/左+右时，不能切换到摇杆模式。
   - buttonClose: 关闭
-
+FormAbout:
+  - 关于
 text:
   - GameName: 游戏名
   - ReplaySummary: 录像摘要
@@ -139,6 +141,12 @@ text:
   - ExportInfoFilter: 文本文件|*.txt
   - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
   - NotExistedFile: "找不到文件：{0}"
+  - ReplayOpenFail: 无法打开录像文件，请确认文件是否被其他进程占用！
+  - MoveFail: 移动文件失败！
+  - CopyFail: 复制文件失败！
+  - RenameFail: 重命名文件失败！
+  - DeleteFail: 删除文件失败！
+  - NoNextFile: 当前文件夹已没有录像文件！
   - ProblemFileNotExits: 该文件已不存在，请重新打开。
   - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错。
   - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错。
