@@ -73,6 +73,8 @@ namespace thhylR.Helper
 
         public int CurrentCodePage { get; set; }
 
+        public int KeyboardInputFrameTolerance { get; set; }
+
         public int MainFormTop { get; set; }
         public int MainFormLeft { get; set; }
         public int MainFormWidth { get; set; }
@@ -139,6 +141,8 @@ namespace thhylR.Helper
                 Settings.ShownScore = ShownScoreType.StageEnd;
 
                 Settings.CurrentCodePage = 932;
+
+                Settings.KeyboardInputFrameTolerance = 2;
 
                 Settings.MainFormLeft = -1;
                 Settings.MainFormTop = -1;

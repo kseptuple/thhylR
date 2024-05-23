@@ -11,6 +11,7 @@ FormMain:
     - FileToolStripMenuItem: 
       - 文件(&F)
       - OpenToolStripMenuItem: 打开(&O)...
+      - OpenFolderToolStripMenuItem: 打开文件夹(&F)...
       - CutToolStripMenuItem: 剪切(&T)
       - CopyToolStripMenuItem: 复制(&C)
       - MoveToToolStripMenuItem: 移动到(&M)...
@@ -120,9 +121,7 @@ FormKeyViewer:
       - 方向键统计
       - radioButtonController: 摇杆模式
       - radioButtonKey: 键盘模式
-      - labelDetail: |-
-          在键盘模式下，同时按下多个方向键会算作多次按键；在摇杆模式下，方向变化一次算作一次按键。
-          以下各项仅统计方向键。存在同时按上+下/左+右时，不能切换到摇杆模式。
+      - labelDiff: 容错
   - buttonClose: 关闭
 FormAbout:
   - 关于
@@ -147,8 +146,9 @@ text:
   - RenameFail: 重命名文件失败！
   - DeleteFail: 删除文件失败！
   - NoNextFile: 当前文件夹已没有录像文件！
+  - NoReplayInFolder: 文件夹{0}中没有录像文件，请重新选择！
   - ProblemFileNotExits: 该文件已不存在，请重新打开。
-  - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错。
+  - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错或者无法识别。
   - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错。
   - ProblemNotOpen: 未打开文件
   - ReplayOK: 录像文件正常
@@ -176,6 +176,7 @@ text:
   - NewFile: 打开目标文件
   - AdminHint: "[管理员]"
   - OpenTip: 打开录像
+  - OpenFolderTip: 打开文件夹
   - CopyTip: 复制录像到剪贴板
   - CutTip: 剪切录像到剪贴板
   - CopyToTip: 复制录像到指定文件夹
@@ -235,3 +236,12 @@ text:
   - ExportFileFilter: csv文件|*.csv
   - ExportKeySuccess: 导出按键记录成功！
   - ExportKeyFail: 导出按键记录失败！
+  - KeyDetail: |-
+      在键盘模式下，{0}，但总按键次数会计算多次；
+      在摇杆模式下，方向变化一次算作一次按键。
+      以下各项仅统计方向键。存在同时按上+下/左+右时，不能切换到摇杆模式。
+  - Key0Frame: 同一帧按下多个方向键算作一次按键
+  - Key1Frame: 1帧内按下多个方向键算作一次按键
+  - Key2Frame: 2帧内按下多个方向键算作一次按键
+  - Key3Frame: 3帧内按下多个方向键算作一次按键
+  - KeyDiffUnit: 帧

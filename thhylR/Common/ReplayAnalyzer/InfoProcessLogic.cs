@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using thhylR.Games;
 using thhylR.Helper;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace thhylR.Common
 {
@@ -41,71 +42,71 @@ namespace thhylR.Common
                     for (int i = 0; i < currentValueList.Count; i++)
                     {
                         var item = currentValueList[i];
-                        resultList.Add(calculateItem(item, i, modifier, (int)dr["Stage"], dr["ExtraData"].ToString()));
+                        resultList.Add(CalculateItem(data, item, i, modifier, (int)dr["Stage"], dr["ExtraData"].ToString()));
                     }
                     dr["Value"] = resultList;
                 }
                 else
                 {
-                    dr["Value"] = calculateItem(currentValue, 0, modifier, (int)dr["Stage"], dr["ExtraData"].ToString());
+                    dr["Value"] = CalculateItem(data, currentValue, 0, modifier, (int)dr["Stage"], dr["ExtraData"].ToString());
                 }
             }
+        }
 
-            object calculateItem(object item, int index, string modifier, int stage, string extraData)
+        public static object CalculateItem(List<DataRow> data, object item, int index, string modifier, int stage, string extraData)
+        {
+            MatchEvaluator modifierEvaluator = m =>
             {
-                MatchEvaluator modifierEvaluator = m =>
+                object itemToCalc = null;
+                var value = m.Value[1..^1];
+                if (value == ".")
                 {
-                    object itemToCalc = null;
-                    var value = m.Value[1..^1];
-                    if (value == ".")
+                    return "(" + item.ToString() + ")";
+                }
+                else
+                {
+                    var predicate = (DataRow d) =>
+                        d["Id"].ToString() == value
+                        && ((int)d["Stage"] == stage || (int)d["Stage"] == -1)
+                        && (d["ExtraData"].ToString() == extraData || d["ExtraData"].ToString() == string.Empty);
+
+                    var dataRow = data.FirstOrDefault(predicate);
+                    if (dataRow == null)
                     {
-                        return "(" + item.ToString() + ")";
+                        return "(" + value + ")";
                     }
                     else
                     {
-                        var predicate = (DataRow d) =>
-                            d["Id"].ToString() == value
-                            && ((int)d["Stage"] == stage || (int)d["Stage"] == -1)
-                            && (d["ExtraData"].ToString() == extraData || d["ExtraData"].ToString() == string.Empty);
-
-                        var dataRow = data.FirstOrDefault(predicate);
-                        if (dataRow == null)
+                        itemToCalc = dataRow["RawValue"] ?? string.Empty;
+                        object actualItemToCalc = null;
+                        if (itemToCalc is IList)
                         {
-                            return "(" + value + ")";
-                        }
-                        else
-                        {
-                            itemToCalc = dataRow["RawValue"] ?? string.Empty;
-                            object actualItemToCalc = null;
-                            if (itemToCalc is IList)
+                            var itemToCalcList = (IList)itemToCalc;
+                            if (itemToCalcList.Count <= index)
                             {
-                                var itemToCalcList = (IList)itemToCalc;
-                                if (itemToCalcList.Count <= index)
-                                {
-                                    actualItemToCalc = string.Empty;
-                                }
-                                else
-                                {
-                                    actualItemToCalc = itemToCalcList[index];
-                                }
-                                itemToCalc = actualItemToCalc;
+                                actualItemToCalc = string.Empty;
                             }
-                            return "(" + itemToCalc.ToString() + ")";
+                            else
+                            {
+                                actualItemToCalc = itemToCalcList[index];
+                            }
+                            itemToCalc = actualItemToCalc;
                         }
+                        return "(" + itemToCalc.ToString() + ")";
                     }
-                };
+                }
+            };
 
-                modifier = modifier.Replace("{{", "\uFDD0");
-                modifier = modifierReplacer.Replace(modifier, modifierEvaluator);
-                modifier = modifier.Replace("\uFDD0", "{");
-                try
-                {
-                    return ExpressionAnalyzer.getValue(modifier);
-                }
-                catch
-                {
-                    return "ERROR";
-                }
+            modifier = modifier.Replace("{{", "\uFDD0");
+            modifier = modifierReplacer.Replace(modifier, modifierEvaluator);
+            modifier = modifier.Replace("\uFDD0", "{");
+            try
+            {
+                return ExpressionAnalyzer.getValue(modifier);
+            }
+            catch
+            {
+                return "ERROR";
             }
         }
 

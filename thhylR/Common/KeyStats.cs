@@ -2,27 +2,26 @@
 {
     public class KeyStats
     {
-        public List<int> KeyPressCount { get; set; }
+        public List<List<int>> KeyPressCount { get; set; }
         public List<int> QuickKeyPressCount { get; set; }
         public int TotalKeys { get; set; }
         public int TotalKeyLength { get; set; }
         public double AverageKeyLength { get; set; }
-        private int maxKeyPressCount = -1;
-        public int MaxKeyPressCount
+        public KeyType Type { get; private set; }
+        private int[] maxKeyPressCount = [-1, -1, -1, -1];
+        public int GetMaxKeyPressCount(int index)
         {
-            get
-            {
-                if (maxKeyPressCount != -1) return maxKeyPressCount;
-                if (KeyPressCount == null) return -1;
-                maxKeyPressCount = KeyPressCount.Max();
-                return maxKeyPressCount;
-            }
+            if (maxKeyPressCount[index] != -1) return maxKeyPressCount[index];
+            if (KeyPressCount == null) return -1;
+            maxKeyPressCount[index] = KeyPressCount[index].Max();
+            return maxKeyPressCount[index];
         }
 
-        public KeyStats()
+        public KeyStats(KeyType keyType)
         {
-            KeyPressCount = new List<int>();
-            QuickKeyPressCount = new List<int> { 0, 0, 0 };
+            Type = keyType;
+            KeyPressCount = [[], [], [], []];
+            QuickKeyPressCount = [0, 0, 0];
             AverageKeyLength = 0d;
         }
     }
@@ -32,5 +31,11 @@
         public KeyStats KeyboardKey { get; set; }
         public KeyStats ControllerKey { get; set; }
         public int TotalFrames { get; set; }
+    }
+
+    public enum KeyType
+    {
+        Keyboard,
+        Controller
     }
 }

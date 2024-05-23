@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             buttonClose = new Button();
             tabControlKeys = new TabControl();
             tabPage1 = new TabPage();
@@ -38,6 +38,8 @@
             labelKeyDescription = new Label();
             dataGridViewKeys = new DataGridView();
             tabPage2 = new TabPage();
+            labelDiff = new Label();
+            comboBoxFrameDiff = new ComboBox();
             panelChart = new Panel();
             chartKeys = new System.Windows.Forms.DataVisualization.Charting.Chart();
             labelDetail = new Label();
@@ -148,6 +150,8 @@
             // tabPage2
             // 
             tabPage2.BackColor = SystemColors.Control;
+            tabPage2.Controls.Add(labelDiff);
+            tabPage2.Controls.Add(comboBoxFrameDiff);
             tabPage2.Controls.Add(panelChart);
             tabPage2.Controls.Add(labelDetail);
             tabPage2.Controls.Add(dataGridViewStats);
@@ -161,29 +165,50 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             // 
+            // labelDiff
+            // 
+            labelDiff.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            labelDiff.AutoSize = true;
+            labelDiff.Location = new Point(655, 7);
+            labelDiff.Name = "labelDiff";
+            labelDiff.Size = new Size(43, 17);
+            labelDiff.TabIndex = 7;
+            labelDiff.Text = "label2";
+            // 
+            // comboBoxFrameDiff
+            // 
+            comboBoxFrameDiff.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBoxFrameDiff.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxFrameDiff.FormattingEnabled = true;
+            comboBoxFrameDiff.Location = new Point(704, 4);
+            comboBoxFrameDiff.Name = "comboBoxFrameDiff";
+            comboBoxFrameDiff.Size = new Size(71, 25);
+            comboBoxFrameDiff.TabIndex = 6;
+            comboBoxFrameDiff.SelectedIndexChanged += comboBoxFrameDiff_SelectedIndexChanged;
+            // 
             // panelChart
             // 
             panelChart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelChart.BorderStyle = BorderStyle.Fixed3D;
             panelChart.Controls.Add(chartKeys);
-            panelChart.Location = new Point(5, 71);
+            panelChart.Location = new Point(5, 96);
             panelChart.Name = "panelChart";
-            panelChart.Size = new Size(771, 255);
+            panelChart.Size = new Size(771, 230);
             panelChart.TabIndex = 5;
             // 
             // chartKeys
             // 
-            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisY.MajorGrid.LineColor = Color.FromArgb(224, 224, 224);
-            chartArea1.AxisY.MajorTickMark.Enabled = false;
-            chartArea1.AxisY2.MajorGrid.Enabled = false;
-            chartArea1.Name = "ChartArea1";
-            chartArea1.Position.Auto = false;
-            chartArea1.Position.Height = 90F;
-            chartArea1.Position.Width = 98F;
-            chartArea1.Position.Y = 1F;
-            chartKeys.ChartAreas.Add(chartArea1);
+            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisY.MajorGrid.LineColor = Color.FromArgb(224, 224, 224);
+            chartArea2.AxisY.MajorTickMark.Enabled = false;
+            chartArea2.AxisY2.MajorGrid.Enabled = false;
+            chartArea2.Name = "ChartArea1";
+            chartArea2.Position.Auto = false;
+            chartArea2.Position.Height = 90F;
+            chartArea2.Position.Width = 98F;
+            chartArea2.Position.Y = 1F;
+            chartKeys.ChartAreas.Add(chartArea2);
             chartKeys.Dock = DockStyle.Fill;
             chartKeys.Location = new Point(0, 0);
             chartKeys.Margin = new Padding(2, 3, 2, 3);
@@ -193,26 +218,26 @@
     {
     Color.Red
     };
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series1.IsXValueIndexed = true;
-            series1.Name = "Series1";
-            series1.YValuesPerPoint = 6;
-            chartKeys.Series.Add(series1);
-            chartKeys.Size = new Size(767, 251);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series2.IsXValueIndexed = true;
+            series2.Name = "Series1";
+            series2.YValuesPerPoint = 6;
+            chartKeys.Series.Add(series2);
+            chartKeys.Size = new Size(767, 226);
             chartKeys.TabIndex = 0;
             chartKeys.Text = "chart1";
-            title1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            title1.Name = "Title1";
-            chartKeys.Titles.Add(title1);
+            title2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            title2.Name = "Title1";
+            chartKeys.Titles.Add(title2);
             // 
             // labelDetail
             // 
             labelDetail.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            labelDetail.Location = new Point(5, 28);
+            labelDetail.Location = new Point(5, 32);
             labelDetail.Margin = new Padding(2, 0, 2, 0);
             labelDetail.Name = "labelDetail";
-            labelDetail.Size = new Size(769, 40);
+            labelDetail.Size = new Size(771, 61);
             labelDetail.TabIndex = 4;
             labelDetail.Text = "labelDetail";
             // 
@@ -330,7 +355,7 @@
             Margin = new Padding(2, 3, 2, 3);
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new Size(940, 520);
+            MinimumSize = new Size(940, 540);
             Name = "FormKeyViewer";
             ShowIcon = false;
             ShowInTaskbar = false;
@@ -371,5 +396,7 @@
         private SaveFileDialog saveFileDialogExport;
         private Button buttonExport;
         private Panel panelChart;
+        private ComboBox comboBoxFrameDiff;
+        private Label labelDiff;
     }
 }

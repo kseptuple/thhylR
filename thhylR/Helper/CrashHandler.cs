@@ -1,9 +1,10 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
+﻿using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace thhylR.Helper
             return resultNum.ToString("0.00") + sizeUnits[i];
         }
 
-        public static string GetFullException (Exception ex)
+        public static string GetFullException(Exception ex)
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine(ex.Message);
@@ -84,31 +85,32 @@ namespace thhylR.Helper
             string zipName = "CrashReport " + date;
             string zipPath = autoRename(crashReportPath, zipName, ".zip");
 
-            ZipFile zipFile = ZipFile.Create(zipPath);
-            zipFile.BeginUpdate();
-            try
+            using (FileStream fs = File.Open(zipPath, FileMode.Create))
             {
-                zipFile.Add(logPath, filename + ".log");
-            }
-            catch
-            {
-
-            }
-
-            try
-            {
-                if (replayPath != null)
+                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
                 {
-                    zipFile.Add(replayPath, Path.GetFileName(replayPath));
+                    try
+                    {
+                        archive.CreateEntryFromFile(logPath, filename + ".log");
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                        if (replayPath != null)
+                        {
+                            archive.CreateEntryFromFile(replayPath, Path.GetFileName(replayPath));
+                        }
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
-            catch
-            {
-
-            }
-
-            zipFile.CommitUpdate();
-            zipFile.Close();
 
             try
             {

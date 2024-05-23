@@ -84,6 +84,17 @@ namespace thhylR
             openReplay(fileName);
         }
 
+        private void showOpenFolderDialog()
+        {
+            var dialogResult = folderBrowserDialog.ShowDialog(this);
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
+            var folderName = folderBrowserDialog.SelectedPath;
+            openFolder(folderName);
+        }
+
         private void openReplay(string fileName, bool refreshFileList = true)
         {
             var fileExt = Path.GetExtension(fileName);
@@ -103,7 +114,7 @@ namespace thhylR
                 MessageBox.Show(ResourceLoader.GetText("ReplayOpenFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
+
             CurrentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
             if (CurrentReplay != null)
             {
@@ -138,6 +149,18 @@ namespace thhylR
                 MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFileName(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void openFolder(string folderName)
+        {
+            var replayFiles = Directory.GetFiles(folderName, "*.rpy");
+            if (replayFiles.Length == 0)
+            {
+                MessageBox.Show(string.Format(ResourceLoader.GetText("NoReplayInFolder"), folderName),
+                    Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            openReplay(replayFiles[0]);
         }
 
         private void displayData(bool resetSelectedRows = true)
@@ -323,7 +346,7 @@ namespace thhylR
                         MessageBox.Show(ResourceLoader.GetText("RenameFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    
+
                     CurrentReplay.FilePath = fullName;
                     if (targetFileName != null)
                     {
@@ -337,11 +360,11 @@ namespace thhylR
         private void MoveCopyToCommnad(bool isMove)
         {
             if (CurrentReplay == null) return;
-            var dialogResult = folderBrowserDialogMoveCopy.ShowDialog(this);
+            var dialogResult = folderBrowserDialog.ShowDialog(this);
             if (dialogResult == DialogResult.OK)
             {
                 string currentFileName = Path.GetFileName(CurrentReplay.FilePath);
-                string path = Path.Combine(folderBrowserDialogMoveCopy.SelectedPath, currentFileName);
+                string path = Path.Combine(folderBrowserDialog.SelectedPath, currentFileName);
                 string targetFileName = null;
                 if (File.Exists(path))
                 {
@@ -351,10 +374,10 @@ namespace thhylR
                     {
                         if (formFileExist.Result == FileExistResult.Rename)
                         {
-                            targetFileName = autoRename(folderBrowserDialogMoveCopy.SelectedPath, currentFileName);
+                            targetFileName = autoRename(folderBrowserDialog.SelectedPath, currentFileName);
                             if (targetFileName != null)
                             {
-                                path = Path.Combine(folderBrowserDialogMoveCopy.SelectedPath, targetFileName);
+                                path = Path.Combine(folderBrowserDialog.SelectedPath, targetFileName);
                             }
                             else
                             {
@@ -380,7 +403,7 @@ namespace thhylR
                         MessageBox.Show(ResourceLoader.GetText("MoveFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    
+
                     switch (SettingProvider.Settings.OperAfterMove)
                     {
                         case FileOperate.KeepOrClose:
@@ -417,7 +440,7 @@ namespace thhylR
                         MessageBox.Show(ResourceLoader.GetText("CopyFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    
+
                     switch (SettingProvider.Settings.OperAfterCopy)
                     {
                         case FileOperate.New:
@@ -450,7 +473,7 @@ namespace thhylR
                     MessageBox.Show(ResourceLoader.GetText("DeleteFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                
+
                 switch (SettingProvider.Settings.OperAfterDelete)
                 {
                     case FileOperate.Next:

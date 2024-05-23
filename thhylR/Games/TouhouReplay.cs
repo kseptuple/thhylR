@@ -88,18 +88,19 @@ namespace thhylR.Games
             BeginOffset = beginOffset;
         }
 
-        public object GetItem(string name, List<GameCustomInfoItem> dataInfoList, out string displayName,
-            out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
+        public object GetItem(List<DataRow> allData, int stage, string extraData, string name, List<GameCustomInfoItem> dataInfoList, 
+            out string displayName, out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
         {
             displayName = null;
             subDataInfoList = null;
             var customInfoItem = dataInfoList.FirstOrDefault(i => i.Name == name);
             if (customInfoItem == null) return null;
-            return GetItem(customInfoItem, dataInfoList, out displayName, out subDataInfoList, isGetMark, extraOffset);
+            return GetItem(allData, stage, extraData, customInfoItem, dataInfoList, out displayName, out subDataInfoList, isGetMark, extraOffset);
         }
 
-        public object GetItem(GameCustomInfoItem customInfoItem, List<GameCustomInfoItem> dataInfoList, out string displayName,
-            out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
+        public object GetItem(List<DataRow> allData, int stage, string extraData, GameCustomInfoItem customInfoItem, 
+            List<GameCustomInfoItem> dataInfoList, out string displayName, out List<GameCustomInfoItem> subDataInfoList, 
+            bool isGetMark = false, int extraOffset = 0)
         {
             displayName = customInfoItem.DisplayName;
             subDataInfoList = null;
@@ -231,7 +232,7 @@ namespace thhylR.Games
                     bool continueAfterCap = false;
                     if (hasCap)
                     {
-                        var capAt = GetItem(customInfoItem.CapAt, dataInfoList, out _, out _, true);
+                        var capAt = GetItem(allData, stage, extraData, customInfoItem.CapAt, dataInfoList, out _, out _, true);
                         if (capAt != null && (capAt is int || capAt is decimal))
                         {
                             if (capAt is int _i)
@@ -269,7 +270,8 @@ namespace thhylR.Games
                         int currentOffset = offset + i * size;
                         if (hasEndMark)
                         {
-                            var isEndObj = GetItem(customInfoItem.EndMark, dataInfoList, out _, out _, true, currentOffset - BeginOffset);
+                            var isEndObj = GetItem(allData, stage, extraData, customInfoItem.EndMark, dataInfoList, out _, out _, 
+                                true, currentOffset - BeginOffset);
                             if (isEndObj != null && isEndObj is decimal)
                             {
                                 bool isEnd = (decimal)isEndObj != 0M;
@@ -278,7 +280,8 @@ namespace thhylR.Games
                         }
                         if (hasSkipMark)
                         {
-                            var isSkipObj = GetItem(customInfoItem.SkipMark, dataInfoList, out _, out _, true, currentOffset - BeginOffset);
+                            var isSkipObj = GetItem(allData, stage, extraData, customInfoItem.SkipMark, dataInfoList, out _, out _, 
+                                true, currentOffset - BeginOffset);
                             if (isSkipObj != null && isSkipObj is decimal)
                             {
                                 bool isSkip = (decimal)isSkipObj != 0M;
@@ -294,9 +297,10 @@ namespace thhylR.Games
             {
                 if (!string.IsNullOrEmpty(customInfoItem.Modifier))
                 {
-                    string expression = customInfoItem.Modifier.Replace("{.}", "(" + result.ToString() + ")");
-                    var expressionVal = ExpressionAnalyzer.getValue(expression);
-                    result = expressionVal;
+                    result = ReplayAnalyzer.CalculateItem(allData, result, 0, customInfoItem.Modifier, stage, extraData);
+                    //string expression = customInfoItem.Modifier.Replace("{.}", "(" + result.ToString() + ")");
+                    //var expressionVal = ExpressionAnalyzer.getValue(expression);
+                    //result = expressionVal;
                 }
             }
 

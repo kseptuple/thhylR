@@ -20,12 +20,6 @@ namespace thhylR.Common
             int offset = 0;
             switch (gameId)
             {
-                case "Th07":
-                    offset = 0x8c;
-                    value1 = 0x0009EE00;
-                    value2 = 0xAEC5445C;
-                    version = "0100b";
-                    break;
                 case "Th08":
                     offset = 0xc4;
                     value1 = 0x000CD400;
@@ -173,10 +167,7 @@ namespace thhylR.Common
             if (IsSpecialCHNVersion(gameData.GameName, afterDecompressData))
             {
                 result.ReplayProblem |= ReplayProblemEnum.ChnVerReplay;
-                if (gameData.GameName == "Th08")
-                {
-                    infoCodePage = defaultCHNCodePage;
-                }
+                infoCodePage = defaultCHNCodePage;
             }
 
             if (infoBlocks != null)
@@ -389,8 +380,6 @@ namespace thhylR.Common
             ProcessDisplayData(result.DisplayDataList);
             ShiftScore(result);
 
-            //result.DisplayData.AcceptChanges();
-
             return result;
 
             string getStageName(int stageId)
@@ -445,12 +434,14 @@ namespace thhylR.Common
                     if (!gameCustomInfo.UseAlternativeSource)
                     {
                         if (defaultData == null) continue;
-                        rawValue = defaultData.GetItem(gameCustomInfo, customInfoItem, out displayName, out subCustomInfoItem);
+                        rawValue = defaultData.GetItem(result.DisplayDataList, stage, extraData, gameCustomInfo, customInfoItem, 
+                            out displayName, out subCustomInfoItem);
                     }
                     else
                     {
                         if (alternativeData == null) continue;
-                        rawValue = alternativeData.GetItem(gameCustomInfo, customInfoItem, out displayName, out subCustomInfoItem);
+                        rawValue = alternativeData.GetItem(result.DisplayDataList, stage, extraData, gameCustomInfo, customInfoItem, 
+                            out displayName, out subCustomInfoItem);
                     }
                     displayName = displayName ?? string.Empty;
                     string name = pad + displayName;
@@ -542,7 +533,8 @@ namespace thhylR.Common
                         }
 
                         if (currentData == null) continue;
-                        object rawValue = currentData.GetItem(gameCustomInfo, customInfoItem, out displayName, out subCustomInfoItem);
+                        object rawValue = currentData.GetItem(result.DisplayDataList, stage, string.Empty, gameCustomInfo, customInfoItem, 
+                            out displayName, out subCustomInfoItem);
 
                         displayName = displayNamePrefix + (displayName ?? string.Empty);
                         string name = pad + displayName;

@@ -297,9 +297,7 @@
       Ignore: true
       IsVisible: false
     - Name: CardCapAt
-      Type: short
-      Offset: 0x0
-      Modifier: "{.}==6?0:256"
+      Modifier: "{Stage}==6?0:256"
       Ignore: true
       IsVisible: false
     - Name: Cards

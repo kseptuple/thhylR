@@ -24,6 +24,8 @@ namespace thhylR
         private bool isRadioButtonClicking = false;
         private double dpiScale = 0d;
 
+        private List<string> keyDetailTips = new List<string>();
+
         public FormKeyViewer(TouhouReplay replay) : this()
         {
             CurrentReplay = replay;
@@ -89,6 +91,26 @@ namespace thhylR
             saveFileDialogExport.Filter = ResourceLoader.GetText("ExportFileFilter");
             saveFileDialogExport.InitialDirectory = Path.GetDirectoryName(replay.FilePath);
 
+            keyDetailTips.Add(string.Format(ResourceLoader.GetText("KeyDetail"), ResourceLoader.GetText("Key0Frame")));
+            keyDetailTips.Add(string.Format(ResourceLoader.GetText("KeyDetail"), ResourceLoader.GetText("Key1Frame")));
+            keyDetailTips.Add(string.Format(ResourceLoader.GetText("KeyDetail"), ResourceLoader.GetText("Key2Frame")));
+            keyDetailTips.Add(string.Format(ResourceLoader.GetText("KeyDetail"), ResourceLoader.GetText("Key3Frame")));
+
+            for (int i = 0; i <= 3; i++)
+            {
+                comboBoxFrameDiff.Items.Add(i + ResourceLoader.GetText("KeyDiffUnit"));
+            }
+            var selectedTolerance = SettingProvider.Settings.KeyboardInputFrameTolerance;
+            if (selectedTolerance < comboBoxFrameDiff.Items.Count)
+            {
+                comboBoxFrameDiff.SelectedIndex = selectedTolerance;
+            }
+            else
+            {
+                comboBoxFrameDiff.SelectedIndex = 0;
+            }
+
+            labelDiff.Left = comboBoxFrameDiff.Left - comboBoxFrameDiff.Margin.Left - labelDiff.Width;
         }
 
         public TouhouReplay CurrentReplay { get; set; }
@@ -103,6 +125,7 @@ namespace thhylR
 
         private void listBoxStages_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listBoxStages.SelectedIndex == -1) return;
             KeyAndFrameData.ReadKeys(CurrentReplay, listBoxStages.SelectedIndex);
             dataGridViewKeys.Rows.Clear();
             keyList = CurrentReplay.Stages[listBoxStages.SelectedIndex].KeyList;
@@ -151,6 +174,7 @@ namespace thhylR
                 if (!radioButtonKey.Checked)
                 {
                     radioButtonKey.Checked = true;
+                    comboBoxFrameDiff.Enabled = true;
                 }
                 setChartContent(currentKeyStats.KeyboardKey);
                 radioButtonController.Enabled = false;
@@ -166,6 +190,7 @@ namespace thhylR
                 else
                 {
                     radioButtonController.Checked = true;
+                    comboBoxFrameDiff.Enabled = false;
                     setChartContent(currentKeyStats.ControllerKey);
                 }
 
@@ -180,6 +205,7 @@ namespace thhylR
             if (isRadioButtonClicking) return;
             isRadioButtonClicking = true;
             setChartContent(currentKeyStats.ControllerKey);
+            comboBoxFrameDiff.Enabled = false;
             isRadioButtonClicking = false;
         }
 
@@ -188,6 +214,7 @@ namespace thhylR
             if (isRadioButtonClicking) return;
             isRadioButtonClicking = true;
             setChartContent(currentKeyStats.KeyboardKey);
+            comboBoxFrameDiff.Enabled = true;
             isRadioButtonClicking = false;
         }
 
@@ -201,16 +228,21 @@ namespace thhylR
 
         private void setChartContent(KeyStats keyStats)
         {
-            chartKeys.Series[0].Points.DataBindY(keyStats.KeyPressCount, string.Empty);
+            int keyStatIndex = 0;
+            if (keyStats.Type == KeyType.Keyboard)
+            {
+                keyStatIndex = comboBoxFrameDiff.SelectedIndex;
+            }
+            chartKeys.Series[0].Points.DataBindY(keyStats.KeyPressCount[keyStatIndex], string.Empty);
             dataGridViewStats.Rows[1].Cells[1].Value = keyStats.TotalKeys;
             dataGridViewStats.Rows[2].Cells[1].Value = keyStats.AverageKeyLength.ToString("0.000");
-            dataGridViewStats.Rows[3].Cells[1].Value = keyStats.MaxKeyPressCount;
+            dataGridViewStats.Rows[3].Cells[1].Value = keyStats.GetMaxKeyPressCount(keyStatIndex);
             dataGridViewStats.Rows[1].Cells[3].Value = keyStats.QuickKeyPressCount[0];
             dataGridViewStats.Rows[2].Cells[3].Value = keyStats.QuickKeyPressCount[1];
             dataGridViewStats.Rows[3].Cells[3].Value = keyStats.QuickKeyPressCount[2];
         }
 
-        private readonly byte[] utf8BOM = new byte[3] { 0xEF, 0xBB, 0xBF };
+        private readonly byte[] utf8BOM = [0xEF, 0xBB, 0xBF];
         private void buttonExport_Click(object sender, EventArgs e)
         {
             int stageId = listBoxStages.SelectedIndex;
@@ -261,13 +293,20 @@ namespace thhylR
         private void FormKeyViewer_DpiChanged(object sender, DpiChangedEventArgs e)
         {
             dpiScale = DeviceDpi / 96.0;
-            MinimumSize = new Size((int)(940 * dpiScale), (int)(520 * dpiScale));
+            MinimumSize = new Size((int)(940 * dpiScale), (int)(540 * dpiScale));
         }
 
         private void FormKeyViewer_FormClosing(object sender, FormClosingEventArgs e)
         {
             SettingProvider.Settings.KeyViewerFormWidth = (int)(Width / dpiScale);
             SettingProvider.Settings.KeyViewerFormHeight = (int)(Height / dpiScale);
+            SettingProvider.Settings.KeyboardInputFrameTolerance = comboBoxFrameDiff.SelectedIndex;
+        }
+
+        private void comboBoxFrameDiff_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            labelDetail.Text = keyDetailTips[comboBoxFrameDiff.SelectedIndex];
+            showCharts();
         }
     }
 }

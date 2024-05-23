@@ -12,7 +12,7 @@ namespace thhylR
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-#if !DEBUG
+#if DEBUG
             Application.Run(new FormMain());
 #else
             FormMain formMain = null;

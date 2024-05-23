@@ -1,4 +1,5 @@
-﻿using thhylR.Games;
+﻿using System.Collections.Generic;
+using thhylR.Games;
 
 namespace thhylR.Common
 {
@@ -185,11 +186,11 @@ namespace thhylR.Common
             }
             else
             {
-                var keyDataEnd = keyDataOffsets.Offset + keyDataOffsets.Length;
                 if (keyDataSettings.FirstFrameIsNullFrame)
                 {
                     globalOffset += replay.GameData.StageSetting.KeySizeData;
                 }
+                var keyDataEnd = globalOffset + replay.GameData.StageSetting.KeySizeData * replay.Stages[stageIndex].FrameCount;
                 for (int i = globalOffset; i < keyDataEnd; i += replay.GameData.StageSetting.KeySizeData)
                 {
                     lastArrowCount[0] = lastArrowCount[1] = lastArrowCount[2] = lastArrowCount[3] = int.MaxValue;
@@ -244,18 +245,18 @@ namespace thhylR.Common
             for (int i = 0; i < 16; i++)
             {
                 ExtractedKey extractedKey = new ExtractedKey();
-                extractedKey.SingleKeyCounts = new bool[4];
+                extractedKey.SingleKeyPressed = new bool[4];
                 int n = i;
                 for (int j = 0; j < 4; j++)
                 {
                     if ((n & 1) != 0)
                     {
                         extractedKey.KeyCount++;
-                        extractedKey.SingleKeyCounts[j] = true;
+                        extractedKey.SingleKeyPressed[j] = true;
                     }
                     else
                     {
-                        extractedKey.SingleKeyCounts[j] = false;
+                        extractedKey.SingleKeyPressed[j] = false;
                     }
                     n >>= 1;
                 }
@@ -265,12 +266,15 @@ namespace thhylR.Common
 
         public static FullKeyStats GetKeyStats(List<byte> arrowKeyList, bool hasConflictKey)
         {
-            KeyStats keyboard = new KeyStats();
-            KeyStats controller = new KeyStats();
+            KeyStats keyboard = new KeyStats(KeyType.Keyboard);
+            KeyStats controller = new KeyStats(KeyType.Controller);
             FullKeyStats result = new FullKeyStats();
             result.TotalFrames = arrowKeyList.Count;
             result.KeyboardKey = keyboard;
             result.ControllerKey = controller;
+
+            byte[] paddedArrowKeys = new byte[arrowKeyList.Count + 3];
+            arrowKeyList.CopyTo(paddedArrowKeys, 0);
 
             Queue<byte> keyQueue = new Queue<byte>();
             keyQueue.EnsureCapacity(61);
@@ -278,22 +282,25 @@ namespace thhylR.Common
             {
                 keyQueue.Enqueue(0);
             }
-            int[] keyboardArrowLengthCounter = new int[4] { 0, 0, 0, 0 };
+            int[] keyboardArrowLengthCounter = [0, 0, 0, 0];
             int controllerArrowLengthCounter = 0;
 
-            int keyboardArrowCurrentSum = 0;
+            int[] keyboardArrowCurrentSum = [0, 0, 0, 0];
             int controllerArrowCurrentSum = 0;
 
             byte lastKey = 0;
+            byte[] currentVirtual = [0, 0, 0, 0];
 
-            for (int i = 0; i < arrowKeyList.Count; i++)
+            for (int i = 0; i < paddedArrowKeys.Length - 3; i++)
             {
-                byte currentKey = arrowKeyList[i];
+                byte currentKey = paddedArrowKeys[i];
+                byte keyToQueue = 0;
+
                 var tmpKey = extractedKeys[currentKey];
 
-                for (int j = 0; j < tmpKey.SingleKeyCounts.Length; j++)
+                for (int j = 0; j < tmpKey.SingleKeyPressed.Length; j++)
                 {
-                    if (tmpKey.SingleKeyCounts[j])
+                    if (tmpKey.SingleKeyPressed[j])
                     {
                         keyboardArrowLengthCounter[j]++;
                     }
@@ -311,6 +318,20 @@ namespace thhylR.Common
                             keyboardArrowLengthCounter[j] = 0;
                         }
                     }
+                }
+
+                byte tmpVirtualKey = 0;
+                for (int j = 0; j < 4; j++)
+                {
+                    tmpVirtualKey |= paddedArrowKeys[i + j];
+                    currentVirtual[j] = (byte)(currentVirtual[j] & (~lastKey | currentKey));
+                    if ((~currentVirtual[j] & currentKey) != 0)
+                    {
+                        keyboardArrowCurrentSum[j]++;
+                        keyToQueue |= 1;
+                        currentVirtual[j] = tmpVirtualKey;
+                    }
+                    keyToQueue <<= 1;
                 }
 
                 if (!hasConflictKey)
@@ -335,35 +356,51 @@ namespace thhylR.Common
                         if (currentKey != 0)
                         {
                             controllerArrowCurrentSum++;
+                            keyToQueue |= 1;
                         }
                     }
                 }
 
-                keyQueue.Enqueue(currentKey);
-                byte changedKey = (byte)(currentKey & (~lastKey));
-                keyboardArrowCurrentSum += extractedKeys[changedKey].KeyCount;
-
+                keyQueue.Enqueue(keyToQueue);
                 lastKey = currentKey;
 
-                byte outKey = keyQueue.Dequeue();
-                byte firstKey = keyQueue.Peek();
+                byte keyDequeue = keyQueue.Dequeue();
                 if (!hasConflictKey)
                 {
-                    if (outKey != firstKey && outKey != 0)
+                    if ((keyDequeue & 1) != 0)
                     {
                         controllerArrowCurrentSum--;
                     }
                 }
-                changedKey = (byte)(outKey & (~firstKey));
-
-                keyboardArrowCurrentSum -= extractedKeys[changedKey].KeyCount;
-
-                keyboard.KeyPressCount.Add(keyboardArrowCurrentSum);
-                controller.KeyPressCount.Add(controllerArrowCurrentSum);
+                controller.KeyPressCount[0].Add(controllerArrowCurrentSum);
+                for (int j = 3; j >= 0; j--)
+                {
+                    keyDequeue >>= 1;
+                    if ((keyDequeue & 1) != 0)
+                    {
+                        keyboardArrowCurrentSum[j]--;
+                    }
+                    keyboard.KeyPressCount[j].Add(keyboardArrowCurrentSum[j]);
+                }
             }
 
-            keyboard.AverageKeyLength = ((double)keyboard.TotalKeyLength) / keyboard.TotalKeys;
-            controller.AverageKeyLength = ((double)controller.TotalKeyLength) / controller.TotalKeys;
+            if (keyboard.TotalKeys == 0)
+            {
+                keyboard.AverageKeyLength = 0.0;
+            }
+            else
+            {
+                keyboard.AverageKeyLength = ((double)keyboard.TotalKeyLength) / keyboard.TotalKeys;
+            }
+
+            if (controller.TotalKeys == 0)
+            {
+                controller.AverageKeyLength = 0.0;
+            }
+            else
+            {
+                controller.AverageKeyLength = ((double)controller.TotalKeyLength) / controller.TotalKeys;
+            }
 
             return result;
         }
@@ -371,7 +408,7 @@ namespace thhylR.Common
         private class ExtractedKey
         {
             public int KeyCount { get; set; }
-            public bool[] SingleKeyCounts { get; set; }
+            public bool[] SingleKeyPressed { get; set; }
         }
     }
 }

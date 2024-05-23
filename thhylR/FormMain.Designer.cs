@@ -34,6 +34,7 @@
             menuStripMain = new MenuStrip();
             FileToolStripMenuItem = new ToolStripMenuItem();
             OpenToolStripMenuItem = new ToolStripMenuItem();
+            OpenFolderToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
             CutToolStripMenuItem = new ToolStripMenuItem();
             CopyToolStripMenuItem = new ToolStripMenuItem();
@@ -73,6 +74,7 @@
             fileSystemWatcherFolder = new FileSystemWatcher();
             toolStripMain = new ToolStrip();
             toolStripButtonOpen = new ToolStripButton();
+            toolStripButtonOpenFolder = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
             toolStripButtonCut = new ToolStripButton();
             toolStripButtonCopy = new ToolStripButton();
@@ -93,7 +95,7 @@
             toolStripButtonExportCustom = new ToolStripButton();
             toolStripSeparator4 = new ToolStripSeparator();
             toolStripButtonOption = new ToolStripButton();
-            folderBrowserDialogMoveCopy = new FolderBrowserDialog();
+            folderBrowserDialog = new FolderBrowserDialog();
             splitContainerMain = new SplitContainer();
             treeViewFiles = new TreeView();
             splitContainerInfo = new SplitContainer();
@@ -139,7 +141,7 @@
             // 
             // FileToolStripMenuItem
             // 
-            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, RenameToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, FirstReplayToolStripMenuItem, PreviousReplayToolStripMenuItem, NextReplayToolStripMenuItem, LastReplayToolStripMenuItem, toolStripMenuItem2, OpenShanghaiAliceToolStripMenuItem, toolStripMenuItem4, ExitToolStripMenuItem });
+            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenToolStripMenuItem, OpenFolderToolStripMenuItem, toolStripMenuItem1, CutToolStripMenuItem, CopyToolStripMenuItem, MoveToToolStripMenuItem, CopyToToolStripMenuItem, RenameToolStripMenuItem, DeleteToolStripMenuItem, SplitToolStripMenuItem, FirstReplayToolStripMenuItem, PreviousReplayToolStripMenuItem, NextReplayToolStripMenuItem, LastReplayToolStripMenuItem, toolStripMenuItem2, OpenShanghaiAliceToolStripMenuItem, toolStripMenuItem4, ExitToolStripMenuItem });
             FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             FileToolStripMenuItem.Size = new Size(58, 21);
             FileToolStripMenuItem.Text = "文件(&F)";
@@ -149,21 +151,29 @@
             OpenToolStripMenuItem.Image = Properties.Resources.OpenFile;
             OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
             OpenToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            OpenToolStripMenuItem.Size = new Size(239, 22);
+            OpenToolStripMenuItem.Size = new Size(224, 26);
             OpenToolStripMenuItem.Text = "打开(&O)";
             OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
+            // 
+            // OpenFolderToolStripMenuItem
+            // 
+            OpenFolderToolStripMenuItem.Image = Properties.Resources.OpenFolder;
+            OpenFolderToolStripMenuItem.Name = "OpenFolderToolStripMenuItem";
+            OpenFolderToolStripMenuItem.Size = new Size(224, 26);
+            OpenFolderToolStripMenuItem.Text = "打开文件夹(&F)";
+            OpenFolderToolStripMenuItem.Click += OpenFolderToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(236, 6);
+            toolStripMenuItem1.Size = new Size(221, 6);
             // 
             // CutToolStripMenuItem
             // 
             CutToolStripMenuItem.Image = Properties.Resources.Cut;
             CutToolStripMenuItem.Name = "CutToolStripMenuItem";
             CutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.X;
-            CutToolStripMenuItem.Size = new Size(239, 22);
+            CutToolStripMenuItem.Size = new Size(224, 26);
             CutToolStripMenuItem.Text = "剪切(&T)";
             CutToolStripMenuItem.Click += CutToolStripMenuItem_Click;
             // 
@@ -172,7 +182,7 @@
             CopyToolStripMenuItem.Image = Properties.Resources.Copy;
             CopyToolStripMenuItem.Name = "CopyToolStripMenuItem";
             CopyToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            CopyToolStripMenuItem.Size = new Size(239, 22);
+            CopyToolStripMenuItem.Size = new Size(224, 26);
             CopyToolStripMenuItem.Text = "复制(&C)";
             CopyToolStripMenuItem.Click += CopyToolStripMenuItem_Click;
             // 
@@ -181,7 +191,7 @@
             MoveToToolStripMenuItem.Image = Properties.Resources.MoveTo;
             MoveToToolStripMenuItem.Name = "MoveToToolStripMenuItem";
             MoveToToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.X;
-            MoveToToolStripMenuItem.Size = new Size(239, 22);
+            MoveToToolStripMenuItem.Size = new Size(224, 26);
             MoveToToolStripMenuItem.Text = "移动到(&M)...";
             MoveToToolStripMenuItem.Click += MoveToToolStripMenuItem_Click;
             // 
@@ -190,7 +200,7 @@
             CopyToToolStripMenuItem.Image = Properties.Resources.CopyTo;
             CopyToToolStripMenuItem.Name = "CopyToToolStripMenuItem";
             CopyToToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
-            CopyToToolStripMenuItem.Size = new Size(239, 22);
+            CopyToToolStripMenuItem.Size = new Size(224, 26);
             CopyToToolStripMenuItem.Text = "复制到(&P)...";
             CopyToToolStripMenuItem.Click += CopyToToolStripMenuItem_Click;
             // 
@@ -199,7 +209,7 @@
             RenameToolStripMenuItem.Image = Properties.Resources.Rename;
             RenameToolStripMenuItem.Name = "RenameToolStripMenuItem";
             RenameToolStripMenuItem.ShortcutKeys = Keys.F2;
-            RenameToolStripMenuItem.Size = new Size(239, 22);
+            RenameToolStripMenuItem.Size = new Size(224, 26);
             RenameToolStripMenuItem.Text = "重命名(&R)";
             RenameToolStripMenuItem.Click += RenameToolStripMenuItem_Click;
             // 
@@ -208,14 +218,14 @@
             DeleteToolStripMenuItem.Image = Properties.Resources.Delete;
             DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
             DeleteToolStripMenuItem.ShortcutKeys = Keys.Delete;
-            DeleteToolStripMenuItem.Size = new Size(239, 22);
+            DeleteToolStripMenuItem.Size = new Size(224, 26);
             DeleteToolStripMenuItem.Text = "删除(&D)";
             DeleteToolStripMenuItem.Click += DeleteToolStripMenuItem_Click;
             // 
             // SplitToolStripMenuItem
             // 
             SplitToolStripMenuItem.Name = "SplitToolStripMenuItem";
-            SplitToolStripMenuItem.Size = new Size(236, 6);
+            SplitToolStripMenuItem.Size = new Size(221, 6);
             // 
             // FirstReplayToolStripMenuItem
             // 
@@ -223,7 +233,7 @@
             FirstReplayToolStripMenuItem.Name = "FirstReplayToolStripMenuItem";
             FirstReplayToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Home";
             FirstReplayToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Home;
-            FirstReplayToolStripMenuItem.Size = new Size(239, 22);
+            FirstReplayToolStripMenuItem.Size = new Size(224, 26);
             FirstReplayToolStripMenuItem.Text = "第一个录像";
             FirstReplayToolStripMenuItem.Click += FirstReplayToolStripMenuItem_Click;
             // 
@@ -232,7 +242,7 @@
             PreviousReplayToolStripMenuItem.Image = Properties.Resources.Previous;
             PreviousReplayToolStripMenuItem.Name = "PreviousReplayToolStripMenuItem";
             PreviousReplayToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.PageUp;
-            PreviousReplayToolStripMenuItem.Size = new Size(239, 22);
+            PreviousReplayToolStripMenuItem.Size = new Size(224, 26);
             PreviousReplayToolStripMenuItem.Text = "上一个录像";
             PreviousReplayToolStripMenuItem.Click += PreviousReplayToolStripMenuItem_Click;
             // 
@@ -241,7 +251,7 @@
             NextReplayToolStripMenuItem.Image = Properties.Resources.Next;
             NextReplayToolStripMenuItem.Name = "NextReplayToolStripMenuItem";
             NextReplayToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Next;
-            NextReplayToolStripMenuItem.Size = new Size(239, 22);
+            NextReplayToolStripMenuItem.Size = new Size(224, 26);
             NextReplayToolStripMenuItem.Text = "下一个录像";
             NextReplayToolStripMenuItem.Click += NextReplayToolStripMenuItem_Click;
             // 
@@ -251,32 +261,32 @@
             LastReplayToolStripMenuItem.Name = "LastReplayToolStripMenuItem";
             LastReplayToolStripMenuItem.ShortcutKeyDisplayString = "";
             LastReplayToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.End;
-            LastReplayToolStripMenuItem.Size = new Size(239, 22);
+            LastReplayToolStripMenuItem.Size = new Size(224, 26);
             LastReplayToolStripMenuItem.Text = "最后一个录像";
             LastReplayToolStripMenuItem.Click += LastReplayToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(236, 6);
+            toolStripMenuItem2.Size = new Size(221, 6);
             // 
             // OpenShanghaiAliceToolStripMenuItem
             // 
             OpenShanghaiAliceToolStripMenuItem.Name = "OpenShanghaiAliceToolStripMenuItem";
-            OpenShanghaiAliceToolStripMenuItem.Size = new Size(239, 22);
+            OpenShanghaiAliceToolStripMenuItem.Size = new Size(224, 26);
             OpenShanghaiAliceToolStripMenuItem.Text = "打开ShanghaiAlice文件夹";
             OpenShanghaiAliceToolStripMenuItem.Click += OpenShanghaiAliceToolStripMenuItem_Click;
             // 
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(236, 6);
+            toolStripMenuItem4.Size = new Size(221, 6);
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             ExitToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.F4;
-            ExitToolStripMenuItem.Size = new Size(239, 22);
+            ExitToolStripMenuItem.Size = new Size(224, 26);
             ExitToolStripMenuItem.Text = "退出(&X)";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -426,7 +436,7 @@
             // toolStripMain
             // 
             toolStripMain.ImageScalingSize = new Size(20, 20);
-            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete, toolStripSeparator2, toolStripButtonFirst, toolStripButtonPrevious, toolStripButtonNext, toolStripButtonLast, toolStripSeparator3, toolStripButtonEditComment, toolStripSeparator5, toolStripButtonViewKeys, toolStripButtonExportAll, toolStripButtonExportCustom, toolStripSeparator4, toolStripButtonOption });
+            toolStripMain.Items.AddRange(new ToolStripItem[] { toolStripButtonOpen, toolStripButtonOpenFolder, toolStripSeparator1, toolStripButtonCut, toolStripButtonCopy, toolStripButtonMoveTo, toolStripButtonCopyTo, toolStripButtonRename, toolStripButtonDelete, toolStripSeparator2, toolStripButtonFirst, toolStripButtonPrevious, toolStripButtonNext, toolStripButtonLast, toolStripSeparator3, toolStripButtonEditComment, toolStripSeparator5, toolStripButtonViewKeys, toolStripButtonExportAll, toolStripButtonExportCustom, toolStripSeparator4, toolStripButtonOption });
             toolStripMain.Location = new Point(0, 25);
             toolStripMain.Name = "toolStripMain";
             toolStripMain.Size = new Size(935, 27);
@@ -442,6 +452,16 @@
             toolStripButtonOpen.Size = new Size(24, 24);
             toolStripButtonOpen.Text = "toolStripButton1";
             toolStripButtonOpen.Click += toolStripButtonOpen_Click;
+            // 
+            // toolStripButtonOpenFolder
+            // 
+            toolStripButtonOpenFolder.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButtonOpenFolder.Image = Properties.Resources.OpenFolder;
+            toolStripButtonOpenFolder.ImageTransparentColor = Color.Magenta;
+            toolStripButtonOpenFolder.Name = "toolStripButtonOpenFolder";
+            toolStripButtonOpenFolder.Size = new Size(24, 24);
+            toolStripButtonOpenFolder.Text = "toolStripButton1";
+            toolStripButtonOpenFolder.Click += toolStripButtonOpenFolder_Click;
             // 
             // toolStripSeparator1
             // 
@@ -715,7 +735,7 @@
             dataGridInfo.Columns.AddRange(new DataGridViewColumn[] { dataGridColumnName, dataGridColumnValue });
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F);
             dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -775,7 +795,7 @@
             comboBoxEncoding.Location = new Point(49, 0);
             comboBoxEncoding.Margin = new Padding(2, 3, 2, 3);
             comboBoxEncoding.Name = "comboBoxEncoding";
-            comboBoxEncoding.Size = new Size(239, 25);
+            comboBoxEncoding.Size = new Size(221, 25);
             comboBoxEncoding.TabIndex = 7;
             comboBoxEncoding.ValueMember = "CodePage";
             comboBoxEncoding.SelectedIndexChanged += comboBoxEncoding_SelectedIndexChanged;
@@ -789,7 +809,7 @@
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(288, 411);
+            textBoxInfo.Size = new Size(268, 411);
             textBoxInfo.TabIndex = 6;
             // 
             // statusStripMain
@@ -887,7 +907,7 @@
         private ToolStripMenuItem CopyToToolStripMenuItem;
         private ToolStripMenuItem DeleteToolStripMenuItem;
         private ToolStripMenuItem RenameToolStripMenuItem;
-        private FolderBrowserDialog folderBrowserDialogMoveCopy;
+        private FolderBrowserDialog folderBrowserDialog;
         private SplitContainer splitContainerMain;
         private SplitContainer splitContainerInfo;
         private TreeView treeViewFiles;
@@ -934,5 +954,7 @@
         private ToolStripSeparator toolStripMenuItem5;
         private ToolStripMenuItem AboutToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem6;
+        private ToolStripButton toolStripButtonOpenFolder;
+        private ToolStripMenuItem OpenFolderToolStripMenuItem;
     }
 }

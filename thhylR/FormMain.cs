@@ -94,6 +94,7 @@ namespace thhylR
             }
 
             toolStripButtonOpen.ToolTipText = ResourceLoader.GetText("OpenTip");
+            toolStripButtonOpenFolder.ToolTipText = ResourceLoader.GetText("OpenFolderTip");
             toolStripButtonCut.ToolTipText = ResourceLoader.GetText("CutTip");
             toolStripButtonCopy.ToolTipText = ResourceLoader.GetText("CopyTip");
             toolStripButtonMoveTo.ToolTipText = ResourceLoader.GetText("MoveToTip");
@@ -312,6 +313,16 @@ namespace thhylR
             openReplayCommand();
         }
 
+        private void OpenFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showOpenFolderDialog();
+        }
+
+        private void toolStripButtonOpenFolder_Click(object sender, EventArgs e)
+        {
+            showOpenFolderDialog();
+        }
+
         private void openReplayCommand()
         {
             showOpenReplayDialog();
@@ -379,14 +390,6 @@ namespace thhylR
             DeleteCommand();
         }
 
-        private void textBoxPath_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Tab)
-            {
-                e.IsInputKey = true;
-            }
-        }
-
         private void toolStripButtonFirst_Click(object sender, EventArgs e)
         {
             changeReplay(ReplayChangeType.First);
@@ -427,6 +430,14 @@ namespace thhylR
             changeReplay(ReplayChangeType.Last);
         }
 
+        private void textBoxPath_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
         private void textBoxPath_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
@@ -435,6 +446,10 @@ namespace thhylR
                 if (File.Exists(filename))
                 {
                     openReplay(filename);
+                }
+                else if (Directory.Exists(filename))
+                {
+                    openFolder(filename);
                 }
                 else
                 {
@@ -503,7 +518,6 @@ namespace thhylR
             if (CurrentReplay != null)
             {
                 DataTable allData = CurrentReplay.DisplayDataList.Where(d => d["Visible"].ToString() != "0").CopyToDataTable();
-                //DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
 
                 for (int i = 0; i < allData.Rows.Count; i++)
                 {
@@ -608,6 +622,17 @@ namespace thhylR
         {
             new FormAbout().ShowDialog(this);
         }
+
+#if DEBUG
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Alt | Keys.Shift | Keys.K))
+            {
+                throw new Exception("intended crash");
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+#endif
 
         public enum ReplayChangeType
         {
