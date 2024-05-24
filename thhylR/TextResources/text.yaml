@@ -1,5 +1,5 @@
 FormMain: 
-  - 东方回映录 Remake
+  - 东方回映录 ~ Touhou Replay Viewer (Remake)
   - splitContainerMain:
     - MainPanel2:
       - splitContainerInfo:
@@ -22,12 +22,13 @@ FormMain:
       - PreviousReplayToolStripMenuItem: 上一个录像
       - NextReplayToolStripMenuItem: 下一个录像
       - LastReplayToolStripMenuItem: 最后一个录像
+      - CurrentFolderToolStripMenuItem: 打开所在文件夹
       - OpenShanghaiAliceToolStripMenuItem: 打开ShanghaiAlice文件夹
       - ExitToolStripMenuItem: 退出(&X)
     - EditToolStripMenuItem: 
-      - 编辑(&E)
+      - 录像(&R)
       - SaveReplayInfoToolStripMenuItem: 保存录像信息(&S)...
-      - CopyInfoToolStripMenuItem: 复制信息到剪贴板
+      - CopyInfoToolStripMenuItem: 将信息复制到剪贴板
       - EncodingToolStripMenuItem: 编码(&N)
       - EditCommentToolStripMenuItem: 编辑注释(&M)...
       - ViewKeysToolStripMenuItem: 查看按键(&K)...
@@ -38,6 +39,7 @@ FormMain:
     - ToolToolStripMenuItem: 
       - 工具(&T)
       - OptionToolStripMenuItem: 选项(&O)...
+      - HelpToolStripMenuItem: 帮助(&H)...
       - AboutToolStripMenuItem: 关于(&A)...
 FormSettings: 
   - 设置

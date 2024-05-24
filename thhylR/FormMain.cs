@@ -188,6 +188,17 @@ namespace thhylR
             }
         }
 
+#if DEBUG
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.Alt | Keys.Shift | Keys.K))
+            {
+                throw new Exception("intended crash");
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+#endif
+
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             showOpenReplayDialog();
@@ -567,12 +578,16 @@ namespace thhylR
             }
             else
             {
-                var psi = new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = shanghaiAlicePath
-                };
-                Process.Start(psi);
+                RunFileHelper.Run(shanghaiAlicePath);
+            }
+        }
+
+        private void CurrentFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                var path = Path.GetDirectoryName(CurrentReplay.FilePath);
+                RunFileHelper.Run(path);
             }
         }
 
@@ -623,16 +638,10 @@ namespace thhylR
             new FormAbout().ShowDialog(this);
         }
 
-#if DEBUG
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (keyData == (Keys.Control | Keys.Alt | Keys.Shift | Keys.K))
-            {
-                throw new Exception("intended crash");
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
+            RunFileHelper.Run("Help\\index.html");
         }
-#endif
 
         public enum ReplayChangeType
         {

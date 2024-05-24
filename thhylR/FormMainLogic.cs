@@ -40,6 +40,8 @@ namespace thhylR
             toolStripButtonNext.Enabled = isExist;
             toolStripButtonLast.Enabled = isExist;
 
+            CurrentFolderToolStripMenuItem.Enabled = isExist;
+
             ExportToolStripMenuItem.Enabled = isFileOpen;
             ExportAllToolStripMenuItem.Enabled = isFileOpen;
             ExportCustomToolStripMenuItem.Enabled = isFileOpen;

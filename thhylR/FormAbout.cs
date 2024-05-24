@@ -29,12 +29,7 @@ namespace thhylR
 
         private void richTextBoxAbout_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            var psi = new ProcessStartInfo
-            {
-                UseShellExecute = true,
-                FileName = e.LinkText
-            };
-            Process.Start(psi);
+            RunFileHelper.Run(e.LinkText);
         }
     }
 }
