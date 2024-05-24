@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using thhylR.Games;
 using thhylR.Helper;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace thhylR.Common
 {

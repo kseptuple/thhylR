@@ -1,7 +1,5 @@
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.IO;
 using System.Text;
 using thhylR.Common;
 using thhylR.Games;

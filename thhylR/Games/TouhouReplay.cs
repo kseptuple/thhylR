@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using System.Text;
 using thhylR.Common;
-using thhylR.Helper;
 
 namespace thhylR.Games
 {
@@ -88,7 +87,7 @@ namespace thhylR.Games
             BeginOffset = beginOffset;
         }
 
-        public object GetItem(List<DataRow> allData, int stage, string extraData, string name, List<GameCustomInfoItem> dataInfoList, 
+        public object GetItem(List<DataRow> allData, int stage, string extraData, string name, List<GameCustomInfoItem> dataInfoList,
             out string displayName, out List<GameCustomInfoItem> subDataInfoList, bool isGetMark = false, int extraOffset = 0)
         {
             displayName = null;
@@ -98,8 +97,8 @@ namespace thhylR.Games
             return GetItem(allData, stage, extraData, customInfoItem, dataInfoList, out displayName, out subDataInfoList, isGetMark, extraOffset);
         }
 
-        public object GetItem(List<DataRow> allData, int stage, string extraData, GameCustomInfoItem customInfoItem, 
-            List<GameCustomInfoItem> dataInfoList, out string displayName, out List<GameCustomInfoItem> subDataInfoList, 
+        public object GetItem(List<DataRow> allData, int stage, string extraData, GameCustomInfoItem customInfoItem,
+            List<GameCustomInfoItem> dataInfoList, out string displayName, out List<GameCustomInfoItem> subDataInfoList,
             bool isGetMark = false, int extraOffset = 0)
         {
             displayName = customInfoItem.DisplayName;
@@ -270,7 +269,7 @@ namespace thhylR.Games
                         int currentOffset = offset + i * size;
                         if (hasEndMark)
                         {
-                            var isEndObj = GetItem(allData, stage, extraData, customInfoItem.EndMark, dataInfoList, out _, out _, 
+                            var isEndObj = GetItem(allData, stage, extraData, customInfoItem.EndMark, dataInfoList, out _, out _,
                                 true, currentOffset - BeginOffset);
                             if (isEndObj != null && isEndObj is decimal)
                             {
@@ -280,7 +279,7 @@ namespace thhylR.Games
                         }
                         if (hasSkipMark)
                         {
-                            var isSkipObj = GetItem(allData, stage, extraData, customInfoItem.SkipMark, dataInfoList, out _, out _, 
+                            var isSkipObj = GetItem(allData, stage, extraData, customInfoItem.SkipMark, dataInfoList, out _, out _,
                                 true, currentOffset - BeginOffset);
                             if (isSkipObj != null && isSkipObj is decimal)
                             {

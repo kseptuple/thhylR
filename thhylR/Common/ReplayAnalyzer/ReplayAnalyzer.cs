@@ -434,13 +434,13 @@ namespace thhylR.Common
                     if (!gameCustomInfo.UseAlternativeSource)
                     {
                         if (defaultData == null) continue;
-                        rawValue = defaultData.GetItem(result.DisplayDataList, stage, extraData, gameCustomInfo, customInfoItem, 
+                        rawValue = defaultData.GetItem(result.DisplayDataList, stage, extraData, gameCustomInfo, customInfoItem,
                             out displayName, out subCustomInfoItem);
                     }
                     else
                     {
                         if (alternativeData == null) continue;
-                        rawValue = alternativeData.GetItem(result.DisplayDataList, stage, extraData, gameCustomInfo, customInfoItem, 
+                        rawValue = alternativeData.GetItem(result.DisplayDataList, stage, extraData, gameCustomInfo, customInfoItem,
                             out displayName, out subCustomInfoItem);
                     }
                     displayName = displayName ?? string.Empty;
@@ -533,7 +533,7 @@ namespace thhylR.Common
                         }
 
                         if (currentData == null) continue;
-                        object rawValue = currentData.GetItem(result.DisplayDataList, stage, string.Empty, gameCustomInfo, customInfoItem, 
+                        object rawValue = currentData.GetItem(result.DisplayDataList, stage, string.Empty, gameCustomInfo, customInfoItem,
                             out displayName, out subCustomInfoItem);
 
                         displayName = displayNamePrefix + (displayName ?? string.Empty);

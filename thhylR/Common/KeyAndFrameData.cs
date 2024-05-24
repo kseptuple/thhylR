@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using thhylR.Games;
+﻿using thhylR.Games;
 
 namespace thhylR.Common
 {

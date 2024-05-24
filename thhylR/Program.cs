@@ -1,5 +1,7 @@
+#if !DEBUG
 using System.Diagnostics;
 using thhylR.Helper;
+#endif
 
 namespace thhylR
 {
@@ -21,7 +23,7 @@ namespace thhylR
                 formMain = new FormMain();
                 Application.Run(formMain);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 string replayFile = null;
                 if (formMain != null && formMain.CurrentReplay != null)
