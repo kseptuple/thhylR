@@ -25,5 +25,12 @@
 
 （部分早期游戏的体验版由于缺乏相应的录像以及游戏本体可能不支持）
 
+## 系统需求
+* Windows 7 或以上的操作系统
+* .net 8.0运行时（可选）
+
+## 发布地址
+https://github.com/kseptuple/thhylR/releases/latest
+
 ## 版权信息
 代码中 [/thhylR/Resources](https://github.com/kseptuple/thhylR/tree/main/thhylR/Resources) 文件夹中的图片来自于微软Visual Studio 2019 图像库，如需在你的程序中使用，请在 https://www.microsoft.com/en-us/download/details.aspx?id=35825 阅读使用协议并下载。
