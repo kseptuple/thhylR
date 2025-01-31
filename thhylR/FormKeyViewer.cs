@@ -204,7 +204,10 @@ namespace thhylR
         {
             if (isRadioButtonClicking) return;
             isRadioButtonClicking = true;
-            setChartContent(currentKeyStats.ControllerKey);
+            if (currentKeyStats != null)
+            {
+                setChartContent(currentKeyStats.ControllerKey);
+            }
             comboBoxFrameDiff.Enabled = false;
             isRadioButtonClicking = false;
         }
@@ -212,8 +215,12 @@ namespace thhylR
         private void radioButtonKey_CheckedChanged(object sender, EventArgs e)
         {
             if (isRadioButtonClicking) return;
+            if (currentKeyStats == null) return;
             isRadioButtonClicking = true;
-            setChartContent(currentKeyStats.KeyboardKey);
+            if (currentKeyStats != null)
+            {
+                setChartContent(currentKeyStats.KeyboardKey);
+            }
             comboBoxFrameDiff.Enabled = true;
             isRadioButtonClicking = false;
         }

@@ -150,17 +150,6 @@ namespace thhylR.Helper
                         }
                     }
                 }
-                //if (hasOverrideFields)
-                //{
-                //    foreach (var overrideField in overrideFields)
-                //    {
-                //        var property = type.GetProperty(overrideField, BindingFlags.Public | BindingFlags.Instance);
-                //        if (property != null)
-                //        {
-                //            property.SetValue(result, property.GetValue(target));
-                //        }
-                //    }
-                //}
                 target = result;
             }
             else

@@ -73,7 +73,18 @@ namespace thhylR.Common
                     }
                     if (isMatching)
                     {
+#if DEBUG
                         result = AnalyzeWithOffsets(replayData, gameData, codePage);
+#else
+                        try
+                        {
+                            result = AnalyzeWithOffsets(replayData, gameData, codePage);
+                        }
+                        catch
+                        {
+                            result = null;
+                        }
+#endif
                         if (result != null)
                             break;
                     }

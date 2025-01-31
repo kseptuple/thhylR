@@ -10,6 +10,9 @@ namespace thhylR.Common
             if (gameData.StageSetting.KeyData.KeyDataVersion == 1)
             {
                 replay.TotalFrameCount = 0;
+                double totalFPS = 0d;
+                var FPSDataGetter = getKeyDataGetter(gameData.StageSetting.KeyData.FPSSize);
+                var FPSStart = gameData.StageSetting.KeyData.FirstFPSFrameIsNullFrame ? gameData.StageSetting.KeyData.FPSSize : 0;
                 foreach (var stage in replay.Stages)
                 {
                     if (stage.KeyData.Length > 2 * gameData.StageSetting.KeySizeData)
@@ -18,13 +21,35 @@ namespace thhylR.Common
                         int length = BitConverter.ToInt32(replay.RawData, stage.KeyData.Offset + lengthPos) - 1;
                         stage.FrameCount = length;
                         replay.TotalFrameCount += length;
+                        if (stage.FPSData != null)
+                        {
+                            int lastFPSFrames = stage.FrameCount % 30;
+                            double stageTotalFPS = 0d;
+                            for (int i = FPSStart; i < stage.FPSData.Length; i+= gameData.StageSetting.KeyData.FPSSize)
+                            {
+                                int fps = FPSDataGetter(replay.RawData, stage.FPSData.Offset + i);
+                                if (i != stage.FPSData.Length - 1)
+                                {
+                                    stageTotalFPS += fps * 30;
+                                }
+                                else
+                                {
+                                    stageTotalFPS += fps * lastFPSFrames;
+                                }
+                            }
+                            totalFPS += stageTotalFPS;
+                            stage.CalculatedSlowRate = 1 - stageTotalFPS / stage.FrameCount / 60d;
+                        }
                     }
                 }
+                replay.CalculatedTotalSlowRate = 1 - totalFPS / replay.TotalFrameCount / 60d;
             }
             else if (gameData.StageSetting.KeyData.KeyDataVersion >= 2)
             {
                 replay.TotalFrameCount = 0;
                 double totalFPS = 0d;
+                var FPSDataGetter = getKeyDataGetter(gameData.StageSetting.KeyData.FPSSize);
+                var FPSStart = gameData.StageSetting.KeyData.FirstFPSFrameIsNullFrame ? gameData.StageSetting.KeyData.FPSSize : 0;
                 foreach (var stage in replay.Stages)
                 {
                     stage.FrameCount = stage.KeyData.Length / gameData.StageSetting.KeySizeData;
@@ -55,9 +80,9 @@ namespace thhylR.Common
 
                     int lastFPSFrames = stage.FrameCount % 30;
                     double stageTotalFPS = 0d;
-                    for (int i = 0; i < stage.FPSData.Length; i++)
+                    for (int i = FPSStart; i < stage.FPSData.Length; i += gameData.StageSetting.KeyData.FPSSize)
                     {
-                        int fps = replay.RawData[stage.FPSData.Offset + i];
+                        int fps = FPSDataGetter(replay.RawData, stage.FPSData.Offset + i);
                         if (i != stage.FPSData.Length - 1)
                         {
                             stageTotalFPS += fps * 30;
@@ -84,7 +109,8 @@ namespace thhylR.Common
             replay.Stages[stageIndex].ArrowKeyList = new List<byte>();
             replay.Stages[stageIndex].HasConflictKeys = false;
             Func<byte[], int, int> getKeyData = null;
-            var keyDataSettings = replay.GameData.StageSetting.KeyData;
+            GameOffsets gameData = replay.GameData;
+            var keyDataSettings = gameData.StageSetting.KeyData;
             int[] arrowBits = new int[4];
             byte[] arrowBitNum = new byte[4];
             for (int i = 0; i < keyDataSettings.KeyNames.Count; i++)
@@ -114,18 +140,8 @@ namespace thhylR.Common
                     }
                 }
             }
-            if (keyDataSettings.KeySize == 1)
-            {
-                getKeyData = (input, offset) => input[offset];
-            }
-            else if (keyDataSettings.KeySize == 2)
-            {
-                getKeyData = (input, offset) => BitConverter.ToInt16(input, offset);
-            }
-            else if (keyDataSettings.KeySize == 4)
-            {
-                getKeyData = (input, offset) => BitConverter.ToInt32(input, offset);
-            }
+
+            getKeyData = getKeyDataGetter(keyDataSettings.KeySize);
             if (getKeyData == null) return;
             var keyDataOffsets = replay.Stages[stageIndex].KeyData;
 
@@ -142,11 +158,11 @@ namespace thhylR.Common
                 byte currentArrowKey = 0;
                 int i = globalOffset;
                 int targetFrame = 0;
-                int secondFrame = BitConverter.ToInt32(replay.RawData, globalOffset + replay.GameData.StageSetting.KeySizeData);
+                int secondFrame = BitConverter.ToInt32(replay.RawData, globalOffset + gameData.StageSetting.KeySizeData);
                 if (secondFrame == 1)
                 {
                     targetFrame = 1;
-                    i += replay.GameData.StageSetting.KeySizeData;
+                    i += gameData.StageSetting.KeySizeData;
                 }
 
                 int totalFrames = replay.Stages[stageIndex].FrameCount;
@@ -158,7 +174,7 @@ namespace thhylR.Common
                         int keyDataInt = getKeyData(replay.RawData, i + 4);
                         currentFrameKeyNames = new string[totalKeys];
                         currentArrowKey = 0;
-                        i += replay.GameData.StageSetting.KeySizeData;
+                        i += gameData.StageSetting.KeySizeData;
                         targetFrame = BitConverter.ToInt32(replay.RawData, i);
                         for (int j = 0; j < keyIndices.Count; j++)
                         {
@@ -187,10 +203,10 @@ namespace thhylR.Common
             {
                 if (keyDataSettings.FirstFrameIsNullFrame)
                 {
-                    globalOffset += replay.GameData.StageSetting.KeySizeData;
+                    globalOffset += gameData.StageSetting.KeySizeData;
                 }
-                var keyDataEnd = globalOffset + replay.GameData.StageSetting.KeySizeData * replay.Stages[stageIndex].FrameCount;
-                for (int i = globalOffset; i < keyDataEnd; i += replay.GameData.StageSetting.KeySizeData)
+                var keyDataEnd = globalOffset + gameData.StageSetting.KeySizeData * replay.Stages[stageIndex].FrameCount;
+                for (int i = globalOffset; i < keyDataEnd; i += gameData.StageSetting.KeySizeData)
                 {
                     lastArrowCount[0] = lastArrowCount[1] = lastArrowCount[2] = lastArrowCount[3] = int.MaxValue;
                     int keyDataInt = getKeyData(replay.RawData, i);
@@ -216,8 +232,10 @@ namespace thhylR.Common
                     replay.Stages[stageIndex].ArrowKeyList.Add(currentArrowKey);
                 }
             }
+            var FPSDataGetter = getKeyDataGetter(gameData.StageSetting.KeyData.FPSSize);
+            var FPSStart = gameData.StageSetting.KeyData.FirstFPSFrameIsNullFrame ? gameData.StageSetting.KeyData.FPSSize : 0;
 
-            if (replay.GameData.StageSetting.FPSStartData != -1 || replay.GameData.ReplayStructVersion != 1)
+            if (gameData.StageSetting.FPSStartData != -1 || gameData.ReplayStructVersion != 1)
             {
                 replay.Stages[stageIndex].FPSList = new List<int>();
                 int frameCount = replay.Stages[stageIndex].FrameCount;
@@ -225,9 +243,9 @@ namespace thhylR.Common
                 var frameDataOffsets = replay.Stages[stageIndex].FPSData;
                 var frameDataEnd = frameDataOffsets.Offset + frameDataOffsets.Length;
 
-                for (int i = frameDataOffsets.Offset; i < frameDataEnd; i++)
+                for (int i = frameDataOffsets.Offset + FPSStart; i < frameDataEnd; i+= gameData.StageSetting.KeyData.FPSSize)
                 {
-                    int currentFrameFPS = replay.RawData[i];
+                    int currentFrameFPS = FPSDataGetter(replay.RawData, i);
                     int count = i != frameDataEnd ? 30 : remainFrame;
                     for (int j = 0; j < count; j++)
                     {
@@ -235,6 +253,24 @@ namespace thhylR.Common
                     }
                 }
             }
+        }
+
+        private static Func<byte[], int, int> getKeyDataGetter(int keyDataSize)
+        {
+            Func<byte[], int, int> result = null;
+            if (keyDataSize == 1)
+            {
+                result = (input, offset) => input[offset];
+            }
+            else if (keyDataSize == 2)
+            {
+                result = (input, offset) => BitConverter.ToInt16(input, offset);
+            }
+            else if (keyDataSize == 4)
+            {
+                result = (input, offset) => BitConverter.ToInt32(input, offset);
+            }
+            return result;
         }
 
         private static List<ExtractedKey> extractedKeys = new List<ExtractedKey>();

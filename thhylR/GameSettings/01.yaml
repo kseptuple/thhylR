@@ -86,6 +86,238 @@
     Type: float
     Formatter: "{.:0.00}%"
     UseAlternativeSource: true
+- GameName: Th07Trail001
+  Identifier: T7RP
+  GameDisplayName: 东方妖妖梦　～ Perfect Cherry Blossom.
+  ReplayStructVersion: 1
+  GameVersion: 0x4
+  MatchingGameVersion:
+  - 0x1
+  - 0x2
+  - 0x3
+  DecodeSetting:
+    DecodeVersion: 1
+    DecompressVersion: 0
+    DecodeStartData: 0x0F
+    DecodeBaseParam: 0x0E
+    DecodeAdderData: 7
+    DecompressStartData: 0xA8
+  StageSetting:
+    FirstStage: 0x8C
+    TotalStageCountData: 3
+    StageHeaderSizeData: 0x18
+    KeySizeData: 8
+    IsStageEndScore: true
+    KeyData:
+      KeyDataVersion: 1
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0
+      Type: int
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x11
+      Type: byte
+      Formatter: life
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x12
+      Type: byte
+      Formatter: bomb
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x10
+      Type: byte
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x0c
+      Type: int
+    - Name: Point
+      DisplayName: 累计蓝点
+      Offset: 0x6
+      Type: short
+    - Name: Cherry
+      DisplayName: 樱点
+      Offset: 0x8
+      Type: int
+    - Name: SpellCount
+      DisplayName: 收取符卡数
+      Offset: 0x15
+      Type: byte
+    - Name: StageRank
+      DisplayName: Rank
+      Offset: 0x13
+      Type: byte
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x19
+    Type: string
+    Size: 9
+    UseAlternativeSource: true
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: string
+    Size: 9
+    UseAlternativeSource: true
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x6
+    Type: byte
+    EnumList: Th07Chara
+    UseAlternativeSource: true
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x7
+    Type: byte
+    EnumList: Th07Difficulty
+    UseAlternativeSource: true
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x24
+    Type: int
+    Modifier: "{.}*10"
+    Formatter: score
+    UseAlternativeSource: true
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x84
+    Type: float
+    Formatter: "{.:0.00}%"
+    UseAlternativeSource: true
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x4e
+    Type: byte
+    Modifier: "{.}!=0?1:0"
+    EnumList: YesNo
+    UseAlternativeSource: true
+- GameName: Th07Trail004
+  Identifier: T7RP
+  GameDisplayName: 东方妖妖梦　～ Perfect Cherry Blossom.
+  ReplayStructVersion: 1
+  GameVersion: 0x4
+  MatchingGameVersion:
+  - 0x4
+  - 0x5
+  - 0x6
+  - 0x7
+  DecodeSetting:
+    DecodeVersion: 1
+    DecompressVersion: 0
+    DecodeStartData: 0x0E
+    DecodeBaseParam: 0x0D
+    DecodeAdderData: 7
+    DecompressStartData: 0xCC
+  StageSetting:
+    FirstStage: 0x94
+    FPSStartData: 7
+    TotalStageCountData: 14
+    StageHeaderSizeData: 0x18
+    KeySizeData: 8
+    IsStageEndScore: true
+    KeyData:
+      KeyDataVersion: 1
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+      FirstFPSFrameIsNullFrame: true
+      FPSSize: 2
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0
+      Type: int
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x11
+      Type: byte
+      Formatter: life
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x12
+      Type: byte
+      Formatter: bomb
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x10
+      Type: byte
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x0c
+      Type: int
+    - Name: Point
+      DisplayName: 累计蓝点
+      Offset: 0x6
+      Type: short
+    - Name: Cherry
+      DisplayName: 樱点
+      Offset: 0x8
+      Type: int
+    - Name: SpellCount
+      DisplayName: 收取符卡数
+      Offset: 0x15
+      Type: byte
+    - Name: StageRank
+      DisplayName: Rank
+      Offset: 0x13
+      Type: byte
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x19
+    Type: string
+    Size: 9
+    UseAlternativeSource: true
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: string
+    Size: 9
+    UseAlternativeSource: true
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x6
+    Type: byte
+    EnumList: Th07Chara
+    UseAlternativeSource: true
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x7
+    Type: byte
+    EnumList: Th07Difficulty
+    UseAlternativeSource: true
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x24
+    Type: int
+    Modifier: "{.}*10"
+    Formatter: score
+    UseAlternativeSource: true
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x84
+    Type: float
+    Formatter: "{.:0.00}%"
+    UseAlternativeSource: true
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x4e
+    Type: byte
+    Modifier: "{.}!=0?1:0"
+    EnumList: YesNo
+    UseAlternativeSource: true
 - GameName: Th07
   Identifier: T7RP
   GameDisplayName: 东方妖妖梦　～ Perfect Cherry Blossom.
@@ -105,7 +337,6 @@
     TotalStageCountData: 14
     StageHeaderSizeData: 0x2C
     KeySizeData: 4
-    FirstFrameIsNullFrame: true
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 2
@@ -230,7 +461,6 @@
     TotalStageCountData: 18
     StageHeaderSizeData: 0x24
     KeySizeData: 2
-    FirstFrameIsNullFrame: true
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 2

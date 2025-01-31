@@ -120,6 +120,8 @@ namespace thhylR.Common
         public List<string> KeyNames { get; set; }
         public int KeySize { get; set; }
         public int KeyDataVersion { get; set; }
+        public bool FirstFPSFrameIsNullFrame { get; set; } = false;
+        public int FPSSize { get; set; } = 1;
     }
 
     public class GameCustomInfoItem
