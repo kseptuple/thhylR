@@ -199,6 +199,7 @@ namespace thhylR.Games
                         itemGetter = o =>
                         {
                             int rawInt = BitConverter.ToInt32(Data, o);
+                            if (rawInt == 0) return 99999M;
                             int decimalPart = rawInt % 100 - 33;
                             if (decimalPart < 0)
                             {
@@ -240,6 +241,7 @@ namespace thhylR.Games
                         itemGetter = o =>
                         {
                             int rawInt = BitConverter.ToInt32(Data, o);
+                            if (rawInt == 0) return 99999M;
                             int decimalPart = rawInt % 100 - 33;
                             if (decimalPart < 0)
                             {

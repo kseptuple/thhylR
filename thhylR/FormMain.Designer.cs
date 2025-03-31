@@ -418,7 +418,7 @@
             OptionToolStripMenuItem.Image = Properties.Resources.Settings;
             OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
             OptionToolStripMenuItem.Size = new Size(184, 26);
-            OptionToolStripMenuItem.Text = "选项(&O)...";
+            OptionToolStripMenuItem.Text = "设置(&O)...";
             OptionToolStripMenuItem.Click += OptionToolStripMenuItem_Click;
             // 
             // toolStripMenuItem6

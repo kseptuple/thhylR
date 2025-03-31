@@ -1,5 +1,7 @@
+using System;
 using System.ComponentModel;
 using System.Data;
+using System.Reflection;
 using System.Text;
 using thhylR.Common;
 using thhylR.Games;
@@ -67,19 +69,26 @@ namespace thhylR
 
             dpiScale = DeviceDpi / 96.0;
 
+            ResourceLoader.Init();
+            ResourceLoader.InitTextResource();
+            ResourceLoader.SetFormText(this);
+
+            bool isVersionNewest = VersionManager.Manage();
+            Text += $" {Assembly.GetEntryAssembly().GetName().Version}";
+            if (!isVersionNewest)
+            {
+                MessageBox.Show(ResourceLoader.GetText("DataFileIsNewer"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             GameData.Init();
             EnumData.Init();
             SettingProvider.Init();
-            ResourceLoader.Init();
             EncodingHelper.Init();
-            ResourceLoader.InitTextResource();
 
             splitContainerMain.Panel1.Name = "MainPanel1";
             splitContainerMain.Panel2.Name = "MainPanel2";
             splitContainerInfo.Panel1.Name = "InfoPanel1";
             splitContainerInfo.Panel2.Name = "InfoPanel2";
-
-            ResourceLoader.SetFormText(this);
 
             dataGridInfo.AutoGenerateColumns = false;
             dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;

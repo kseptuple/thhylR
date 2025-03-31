@@ -11,6 +11,7 @@
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	<ApplicationIcon>Icon\IconMain.ico</ApplicationIcon>
 	<FileVersion>1.0.1</FileVersion>
+	<AssemblyVersion>1.0.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -160,6 +161,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Icon\IconFile.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="version.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TextResources\text.yaml">

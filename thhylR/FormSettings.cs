@@ -333,7 +333,7 @@ namespace thhylR
                         string[] arguments = null;
                         if (owner.CurrentReplay != null)
                         {
-                            arguments = new string[] { owner.CurrentReplay.FilePath };
+                            arguments = [owner.CurrentReplay.FilePath];
                         }
                         IsExit = PrivilegeHelper.Promote(arguments);
                         if (!IsExit)

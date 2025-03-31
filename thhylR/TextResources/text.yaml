@@ -38,7 +38,7 @@ FormMain:
         - ExportCustomToolStripMenuItem: 自定义(&C)...
     - ToolToolStripMenuItem: 
       - 工具(&T)
-      - OptionToolStripMenuItem: 选项(&O)...
+      - OptionToolStripMenuItem: 设置(&S)...
       - HelpToolStripMenuItem: 帮助(&H)...
       - AboutToolStripMenuItem: 关于(&A)...
 FormSettings: 
@@ -193,7 +193,7 @@ text:
   - ViewKeysTip: 查看按键记录
   - ExportAllTip: 导出全部数据
   - ExportCustomTip: 导出自定义数据
-  - OptionTip: 程序选项
+  - OptionTip: 程序设置
   - ExportAllSuccess: 导出数据成功！
   - ExportAllFail: 导出数据失败！
   - ExportInfoColon: "："
@@ -247,3 +247,4 @@ text:
   - Key2Frame: 2帧内按下多个方向键算作一次按键
   - Key3Frame: 3帧内按下多个方向键算作一次按键
   - KeyDiffUnit: 帧
+  - DataFileIsNewer: 当前的游戏数据文件需要更新版本的程序才能正常处理，请下载完整的最新版本的程序。
