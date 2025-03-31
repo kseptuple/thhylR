@@ -145,6 +145,7 @@ namespace thhylR.Common
         public string FixedValue { get; set; }
         public string CapAt { get; set; }
         public object AfterCapValue { get; set; }
+        public bool MultilineList { get; set; } = false;
     }
 
     public abstract class GameDataCloneableClass

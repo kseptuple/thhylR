@@ -54,6 +54,10 @@ namespace thhylR.Common
 
         public static object CalculateItem(List<DataRow> data, object item, int index, string modifier, int stage, string extraData)
         {
+            if (item == null)
+            {
+                item = string.Empty;
+            }
             MatchEvaluator modifierEvaluator = m =>
             {
                 object itemToCalc = null;

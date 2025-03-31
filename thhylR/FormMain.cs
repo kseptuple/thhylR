@@ -33,6 +33,9 @@ namespace thhylR
         private bool isEncodingChanging = false;
         private double dpiScale = 0d;
 
+        private object locker = new object();
+        private bool isToolStripClicked = false;
+
         public FormMain()
         {
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
@@ -197,6 +200,22 @@ namespace thhylR
         }
 #endif
 
+        //绕过WinForm的ToolStripButton在win11下的堆栈溢出bug
+        private bool setToolStripClicked()
+        {
+            lock (locker)
+            {
+                if (isToolStripClicked) return false;
+                isToolStripClicked = true;
+            }
+            return true;
+        }
+
+        private void removeToolStripClicked()
+        {
+            isToolStripClicked = false;
+        }
+
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             showOpenReplayDialog();
@@ -228,7 +247,9 @@ namespace thhylR
 
         private void toolStripButtonExportAll_Click(object sender, EventArgs e)
         {
+            if (!setToolStripClicked()) return;
             ExportAllCommand();
+            removeToolStripClicked();
         }
 
         private void toolStripButtonExportCustom_Click(object sender, EventArgs e)
@@ -314,7 +335,9 @@ namespace thhylR
 
         private void toolStripButtonOpen_Click(object sender, EventArgs e)
         {
+            if (!setToolStripClicked()) return;
             openReplayCommand();
+            removeToolStripClicked();
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -329,7 +352,9 @@ namespace thhylR
 
         private void toolStripButtonOpenFolder_Click(object sender, EventArgs e)
         {
+            if (!setToolStripClicked()) return;
             showOpenFolderDialog();
+            removeToolStripClicked();
         }
 
         private void openReplayCommand()
@@ -369,13 +394,17 @@ namespace thhylR
 
         private void toolStripButtonMoveTo_Click(object sender, EventArgs e)
         {
+            if (!setToolStripClicked()) return;
             MoveCopyToCommnad(true);
+            removeToolStripClicked();
         }
 
 
         private void toolStripButtonCopyTo_Click(object sender, EventArgs e)
         {
+            if (!setToolStripClicked()) return;
             MoveCopyToCommnad(false);
+            removeToolStripClicked();
         }
 
 

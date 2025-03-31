@@ -105,201 +105,283 @@ namespace thhylR.Games
             subDataInfoList = null;
             object result = null;
             int offset = BeginOffset + extraOffset + customInfoItem.Offset;
-            if (customInfoItem.Type == null) return null;
-            string type = customInfoItem.Type.ToLower();
-            bool isList = false;
-            if (type.EndsWith("[]"))
+            if (customInfoItem.Type != null)
             {
-                isList = true;
-                type = type[..^2];
-            }
-            Func<int, object> itemGetter = null;
-            int size = 0;
-            switch (type)
-            {
-                case "byte":
-                    itemGetter = o => Data[o];
-                    size = 1;
-                    break;
-                case "sbyte":
-                    itemGetter = o => (sbyte)Data[o];
-                    size = 1;
-                    break;
-                case "short":
-                    itemGetter = o => BitConverter.ToInt16(Data, o);
-                    size = 2;
-                    break;
-                case "ushort":
-                    itemGetter = o => BitConverter.ToUInt16(Data, o);
-                    size = 2;
-                    break;
-                case "int":
-                    itemGetter = o => BitConverter.ToInt32(Data, o);
-                    size = 4;
-                    break;
-                case "uint":
-                    itemGetter = o => BitConverter.ToUInt32(Data, o);
-                    size = 4;
-                    break;
-                case "long":
-                    itemGetter = o => BitConverter.ToInt64(Data, o);
-                    size = 8;
-                    break;
-                case "ulong":
-                    itemGetter = o => BitConverter.ToUInt64(Data, o);
-                    size = 8;
-                    break;
-                case "utcdateint":
-                    itemGetter = o => DateTimeOffset.FromUnixTimeSeconds(BitConverter.ToInt32(Data, o)).LocalDateTime;
-                    size = 4;
-                    break;
-                case "utcdatelong":
-                    itemGetter = o => DateTimeOffset.FromUnixTimeSeconds(BitConverter.ToInt64(Data, o)).LocalDateTime;
-                    size = 8;
-                    break;
-                case "win32date":
-                    itemGetter = o => win32FileTimeEpoch.AddTicks(BitConverter.ToInt64(Data, o)).ToLocalTime();
-                    size = 8;
-                    break;
-                case "float":
-                    itemGetter = o => BitConverter.ToSingle(Data, o);
-                    size = 4;
-                    break;
-                case "double":
-                    itemGetter = o => BitConverter.ToDouble(Data, o);
-                    size = 8;
-                    break;
-                case "string":
-                    size = customInfoItem.Size;
-                    if (customInfoItem.Size <= 0)
-                    {
-                        size = 0;
-                        itemGetter = o => string.Empty;
-                    }
-                    else
-                    {
-                        itemGetter = o =>
-                        {
-                            string str = Encoding.ASCII.GetString(Data[o..(o + size)]);
-                            int endPos = str.IndexOf('\0');
-                            if (endPos == 0)
-                            {
-                                str = string.Empty;
-                            }
-                            else if (endPos != -1)
-                            {
-                                str = str[..endPos];
-                            }
-                            return str;
-                        };
-                    }
-                    break;
-                case "object":
-                    size = customInfoItem.Size;
-                    if (customInfoItem.Size <= 0 || customInfoItem.SubItems == null)
-                    {
-                        size = 0;
-                        itemGetter = o => null;
-                    }
-                    else
-                    {
-                        subDataInfoList = customInfoItem.SubItems;
-                        itemGetter = o => new GameDataSource(Data, o);
-                    }
-                    break;
-                default:
-                    break;
-            }
-            if (itemGetter == null)
-            {
-                return null;
-            }
-
-            if (!isList)
-            {
-                result = itemGetter(offset);
-            }
-            else
-            {
-                List<object> _result = new List<object>();
-                if (customInfoItem.Count >= 0)
+                string type = customInfoItem.Type.ToLower();
+                bool isList = false;
+                if (type.EndsWith("[]"))
                 {
-                    bool hasEndMark = !string.IsNullOrEmpty(customInfoItem.EndMark);
-                    bool hasSkipMark = !string.IsNullOrEmpty(customInfoItem.SkipMark);
-                    bool hasCap = !string.IsNullOrEmpty(customInfoItem.CapAt);
-                    int cap = -1;
-                    bool continueAfterCap = false;
-                    if (hasCap)
-                    {
-                        var capAt = GetItem(allData, stage, extraData, customInfoItem.CapAt, dataInfoList, out _, out _, true);
-                        if (capAt != null && (capAt is int || capAt is decimal))
+                    isList = true;
+                    type = type[..^2];
+                }
+                Func<int, object> itemGetter = null;
+                int size = 0;
+                switch (type)
+                {
+                    case "byte":
+                        itemGetter = o => Data[o];
+                        size = 1;
+                        break;
+                    case "sbyte":
+                        itemGetter = o => (sbyte)Data[o];
+                        size = 1;
+                        break;
+                    case "short":
+                        itemGetter = o => BitConverter.ToInt16(Data, o);
+                        size = 2;
+                        break;
+                    case "ushort":
+                        itemGetter = o => BitConverter.ToUInt16(Data, o);
+                        size = 2;
+                        break;
+                    case "int":
+                        itemGetter = o => BitConverter.ToInt32(Data, o);
+                        size = 4;
+                        break;
+                    case "uint":
+                        itemGetter = o => BitConverter.ToUInt32(Data, o);
+                        size = 4;
+                        break;
+                    case "long":
+                        itemGetter = o => BitConverter.ToInt64(Data, o);
+                        size = 8;
+                        break;
+                    case "ulong":
+                        itemGetter = o => BitConverter.ToUInt64(Data, o);
+                        size = 8;
+                        break;
+                    case "utcdateint":
+                        itemGetter = o => DateTimeOffset.FromUnixTimeSeconds(BitConverter.ToInt32(Data, o)).LocalDateTime;
+                        size = 4;
+                        break;
+                    case "utcdatelong":
+                        itemGetter = o => DateTimeOffset.FromUnixTimeSeconds(BitConverter.ToInt64(Data, o)).LocalDateTime;
+                        size = 8;
+                        break;
+                    case "win32date":
+                        itemGetter = o => win32FileTimeEpoch.AddTicks(BitConverter.ToInt64(Data, o)).ToLocalTime();
+                        size = 8;
+                        break;
+                    case "float":
+                        itemGetter = o => BitConverter.ToSingle(Data, o);
+                        size = 4;
+                        break;
+                    case "double":
+                        itemGetter = o => BitConverter.ToDouble(Data, o);
+                        size = 8;
+                        break;
+                    case "string":
+                        size = customInfoItem.Size;
+                        if (customInfoItem.Size <= 0)
                         {
-                            if (capAt is int _i)
-                            {
-                                cap = _i;
-                            }
-                            else if (capAt is decimal _d)
-                            {
-                                cap = decimal.ToInt32(_d);
-                            }
-                            if (customInfoItem.AfterCapValue != null)
-                            {
-                                continueAfterCap = true;
-                            }
+                            size = 0;
+                            itemGetter = o => string.Empty;
                         }
                         else
                         {
-                            hasCap = false;
-                        }
-                    }
-                    for (int i = 0; i < customInfoItem.Count; i++)
-                    {
-                        if (hasCap && i >= cap)
-                        {
-                            if (continueAfterCap)
+                            itemGetter = o =>
                             {
-                                _result.Add(customInfoItem.AfterCapValue);
-                                continue;
+                                string str = Encoding.ASCII.GetString(Data[o..(o + size)]);
+                                int endPos = str.IndexOf('\0');
+                                if (endPos == 0)
+                                {
+                                    str = string.Empty;
+                                }
+                                else if (endPos != -1)
+                                {
+                                    str = str[..endPos];
+                                }
+                                return str;
+                            };
+                        }
+                        break;
+                    case "sctime11":
+                        itemGetter = o =>
+                        {
+                            int rawInt = BitConverter.ToInt32(Data, o);
+                            int decimalPart = rawInt % 100 - 33;
+                            if (decimalPart < 0)
+                            {
+                                decimalPart += 100;
+                            }
+                            int integerPart = rawInt / 100 % 1000 - 66;
+                            if (integerPart < 0)
+                            {
+                                integerPart += 1000;
+                            }
+                            int checksum = rawInt / 100000;
+
+                            if (decimalPart + integerPart + 22 != checksum)
+                            {
+                                if (rawInt < 0)    //why?
+                                {
+                                    decimalPart = rawInt % 100 + 67;
+                                    if (decimalPart < 0)
+                                    {
+                                        decimalPart += 100;
+                                    }
+                                }
+
+                                int tmpVal = (rawInt - decimalPart) / 100 - 22066 - 1000 * decimalPart;
+                                int test = tmpVal % 1001;
+                                integerPart = tmpVal / 1001;
+                                if (test == 0 && integerPart <= 999)
+                                {
+                                    return integerPart + decimalPart / 100M;
+                                }
+
+                                return 99999M;
+                            }
+                            return integerPart + decimalPart / 100M;
+                        };
+                        size = 4;
+                        break;
+                    case "sctime":
+                        itemGetter = o =>
+                        {
+                            int rawInt = BitConverter.ToInt32(Data, o);
+                            int decimalPart = rawInt % 100 - 33;
+                            if (decimalPart < 0)
+                            {
+                                decimalPart += 100;
+                            }
+                            int integerPart = rawInt / 100 % 1000 - 66;
+                            if (integerPart < 0)
+                            {
+                                integerPart += 1000;
+                            }
+                            int checksum = rawInt / 100000;
+
+                            if (decimalPart + integerPart + 22 != checksum)
+                            {
+                                if (rawInt < 0)    //why?
+                                {
+                                    decimalPart = rawInt % 100 + 67;
+                                    if (decimalPart < 0)
+                                    {
+                                        decimalPart += 100;
+                                    }
+                                }
+                                int tmpVar = (rawInt - decimalPart) / 100 - 22000 - 1000 * decimalPart;
+                                integerPart = tmpVar / 1000;
+                                if (tmpVar > -66000)
+                                {
+                                    integerPart--;
+                                }
+                                if (integerPart < 0 && (integerPart * 1000 + (integerPart + 66) % 1000 == tmpVar))
+                                {
+                                    return integerPart + decimalPart / 100M;
+                                }
+                                return 99999M;
+                            }
+                            return integerPart + decimalPart / 100M;
+                        };
+                        size = 4;
+                        break;
+                    case "object":
+                        size = customInfoItem.Size;
+                        if (customInfoItem.Size <= 0 || customInfoItem.SubItems == null)
+                        {
+                            size = 0;
+                            itemGetter = o => null;
+                        }
+                        else
+                        {
+                            subDataInfoList = customInfoItem.SubItems;
+                            itemGetter = o => new GameDataSource(Data, o);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                if (itemGetter == null)
+                {
+                    return null;
+                }
+
+                if (!isList)
+                {
+                    result = itemGetter(offset);
+                }
+                else
+                {
+                    List<object> _result = new List<object>();
+                    if (customInfoItem.Count >= 0)
+                    {
+                        bool hasEndMark = !string.IsNullOrEmpty(customInfoItem.EndMark);
+                        bool hasSkipMark = !string.IsNullOrEmpty(customInfoItem.SkipMark);
+                        bool hasCap = !string.IsNullOrEmpty(customInfoItem.CapAt);
+                        int cap = -1;
+                        bool continueAfterCap = false;
+                        if (hasCap)
+                        {
+                            var capAt = GetItem(allData, stage, extraData, customInfoItem.CapAt, dataInfoList, out _, out _, true);
+                            if (capAt != null && (capAt is int || capAt is decimal))
+                            {
+                                if (capAt is int _i)
+                                {
+                                    cap = _i;
+                                }
+                                else if (capAt is decimal _d)
+                                {
+                                    cap = decimal.ToInt32(_d);
+                                }
+                                if (customInfoItem.AfterCapValue != null)
+                                {
+                                    continueAfterCap = true;
+                                }
                             }
                             else
                             {
-                                break;
+                                hasCap = false;
                             }
                         }
-                        int currentOffset = offset + i * size;
-                        if (hasEndMark)
+                        for (int i = 0; i < customInfoItem.Count; i++)
                         {
-                            var isEndObj = GetItem(allData, stage, extraData, customInfoItem.EndMark, dataInfoList, out _, out _,
-                                true, currentOffset - BeginOffset);
-                            if (isEndObj != null && isEndObj is decimal)
+                            if (hasCap && i >= cap)
                             {
-                                bool isEnd = (decimal)isEndObj != 0M;
-                                if (isEnd) break;
+                                if (continueAfterCap)
+                                {
+                                    _result.Add(customInfoItem.AfterCapValue);
+                                    continue;
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
-                        }
-                        if (hasSkipMark)
-                        {
-                            var isSkipObj = GetItem(allData, stage, extraData, customInfoItem.SkipMark, dataInfoList, out _, out _,
-                                true, currentOffset - BeginOffset);
-                            if (isSkipObj != null && isSkipObj is decimal)
+                            int currentOffset = offset + i * size;
+                            if (hasEndMark)
                             {
-                                bool isSkip = (decimal)isSkipObj != 0M;
-                                if (isSkip) continue;
+                                var isEndObj = GetItem(allData, stage, extraData, customInfoItem.EndMark, dataInfoList, out _, out _,
+                                    true, currentOffset - BeginOffset);
+                                if (isEndObj != null && isEndObj is decimal)
+                                {
+                                    bool isEnd = (decimal)isEndObj != 0M;
+                                    if (isEnd) break;
+                                }
                             }
+                            if (hasSkipMark)
+                            {
+                                var isSkipObj = GetItem(allData, stage, extraData, customInfoItem.SkipMark, dataInfoList, out _, out _,
+                                    true, currentOffset - BeginOffset);
+                                if (isSkipObj != null && isSkipObj is decimal)
+                                {
+                                    bool isSkip = (decimal)isSkipObj != 0M;
+                                    if (isSkip) continue;
+                                }
+                            }
+                            _result.Add(itemGetter(currentOffset));
                         }
-                        _result.Add(itemGetter(currentOffset));
                     }
+                    result = _result;
                 }
-                result = _result;
             }
             if (isGetMark)
             {
                 if (!string.IsNullOrEmpty(customInfoItem.Modifier))
                 {
                     result = ReplayAnalyzer.CalculateItem(allData, result, 0, customInfoItem.Modifier, stage, extraData);
-                    //string expression = customInfoItem.Modifier.Replace("{.}", "(" + result.ToString() + ")");
-                    //var expressionVal = ExpressionAnalyzer.getValue(expression);
-                    //result = expressionVal;
                 }
             }
 

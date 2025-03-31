@@ -139,6 +139,20 @@
     - Name: PositionDisplay
       DisplayName: 自机位置
       Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+    - Name: SCTimeEndMark
+      Type: sctime
+      Offset: 0x0
+      Modifier: "{.}==(99999)"
+      Ignore: true
+      IsVisible: false
+    - Name: SCTime
+      Type: sctime[]
+      Offset: 0x104
+      Count: 20
+      MultilineList: true
+      EndMark: SCTimeEndMark
+      DisplayName: 符卡实际时间
+      Formatter: "{.:0.00}秒"
   CustomReplayInfo:
   - Name: Player
     DisplayName: 玩家
@@ -297,7 +311,7 @@
       Ignore: true
       IsVisible: false
     - Name: CardCapAt
-      Modifier: "{Stage}==6?0:256"
+      Modifier: "{Stage}==5?0:256"
       Ignore: true
       IsVisible: false
     - Name: Cards
@@ -375,6 +389,20 @@
     - Name: PositionDisplay
       DisplayName: 自机位置
       Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+    - Name: SCTimeEndMark
+      Type: sctime
+      Offset: 0x0
+      Modifier: "{.}==(99999)"
+      Ignore: true
+      IsVisible: false
+    - Name: SCTime
+      Type: sctime[]
+      Offset: 0x18
+      Count: 20
+      MultilineList: true
+      EndMark: SCTimeEndMark
+      DisplayName: 符卡实际时间
+      Formatter: "{.:0.00}秒"
   CustomReplayInfo:
   - Name: Player
     DisplayName: 玩家
@@ -544,3 +572,17 @@
     - Name: PositionDisplay
       DisplayName: 自机位置
       Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+    - Name: SCTimeEndMark
+      Type: sctime
+      Offset: 0x0
+      Modifier: "{.}==(99999)"
+      Ignore: true
+      IsVisible: false
+    - Name: SCTime
+      Type: sctime[]
+      Offset: 0x114
+      Count: 20
+      MultilineList: true
+      EndMark: SCTimeEndMark
+      DisplayName: 符卡实际时间
+      Formatter: "{.:0.00}秒"
