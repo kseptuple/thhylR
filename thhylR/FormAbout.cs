@@ -86,7 +86,7 @@ namespace thhylR
             
             await Task.Run(() =>
             {
-                Thread.Sleep(2500);
+                Thread.Sleep(3700);
                 try
                 {
                     Invoke(() =>
