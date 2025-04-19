@@ -253,8 +253,8 @@ namespace thhylR
 
         private void changeReplay(ReplayChangeType changeType)
         {
-            TreeNode rootNode = treeViewFiles.Nodes[0];
-            TreeNode targetNode = null;
+            System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
+            System.Windows.Forms.TreeNode targetNode = null;
             if (rootNode.Nodes.Count == 0)
             {
                 return;
@@ -411,7 +411,7 @@ namespace thhylR
                         case FileOperate.KeepOrClose:
                             break;
                         case FileOperate.Next:
-                            TreeNode rootNode = treeViewFiles.Nodes[0];
+                            System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
                             if (rootNode.Nodes.Count == 0)
                             {
                                 MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -479,7 +479,7 @@ namespace thhylR
                 switch (SettingProvider.Settings.OperAfterDelete)
                 {
                     case FileOperate.Next:
-                        TreeNode rootNode = treeViewFiles.Nodes[0];
+                        System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
                         if (rootNode.Nodes.Count == 0)
                         {
                             MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);

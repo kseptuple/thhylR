@@ -1,75 +1,79 @@
-﻿namespace thhylR.Common
+﻿using System.Diagnostics;
+
+namespace thhylR.Common
 {
-    public class ReplayDecrypt
+    public static class ReplayDecrypt
     {
-        private static uint GetBits(byte[] data, ref uint pointer, ref byte filter, byte length)
-        {
-            unchecked
-            {
-                byte i;
-                uint result = 0;
-                byte current;
-                current = data[pointer];
-                for (i = 0; i < length; ++i)
-                {
-                    result <<= 1;
-                    if ((current & filter) != 0)
-                        result |= 0x1;
-                    filter >>= 1;
-                    if (filter == 0)
-                    {
-                        pointer++;
-                        if (pointer < data.Length)
-                            current = data[pointer];
-                        filter = 0x80;
-                    }
-                }
-                return result;
-            }
-        }
 
         public static byte[] Decompress(byte[] originalData, int decompressedLength, int originalLength)
         {
-            byte[] decode = new byte[decompressedLength];
+            byte[] decompressed = new byte[decompressedLength];
             unchecked
             {
-                uint pointer = 0, dest = 0, index, bits, i;
-                byte filter = 0x80;
-                byte[] dict = new byte[0x2000];
-                //memset(dict, 0, 0x2010);
-                while (pointer < originalLength)
+                uint pos = 0;
+                uint indexInDict = 0;
+                uint bitsData;
+                int decompressPos = 0;
+                int bitPos = 7;
+                int dictPosInData = 0;
+                uint matchLength = 0;
+                while ((originalLength - pos) * 8 + bitPos >= 16)
                 {
-                    bits = GetBits(originalData, ref pointer, ref filter, 1);
-                    if (pointer >= originalLength)
-                        return decode;
-                    if (bits != 0)
+                    bitsData = getByBits(1);
+                    if (bitsData != 0)
                     {
-                        bits = GetBits(originalData, ref pointer, ref filter, 8);
-                        if (pointer >= originalLength)
-                            return decode;
-                        decode[dest] = (byte)bits;
-                        dict[dest & 0x1fff] = (byte)bits;
-                        dest++;
+                        bitsData = getByBits(8);
+                        decompressed[decompressPos] = (byte)bitsData;
+                        decompressPos++;
                     }
                     else
                     {
-                        bits = GetBits(originalData, ref pointer, ref filter, 13);
-                        if (pointer >= originalLength)
-                            return decode;
-                        index = bits - 1;
-                        bits = GetBits(originalData, ref pointer, ref filter, 4);
-                        if (pointer >= originalLength)
-                            return decode;
-                        bits += 3;
-                        for (i = 0; i < bits; ++i)
+                        if ((originalLength - pos) * 8 + bitPos < 24)
                         {
-                            dict[dest & 0x1fff] = dict[index + i & 0x1fff];
-                            decode[dest] = dict[index + i & 0x1fff];
-                            dest++;
+                            return decompressed;
+                        }
+                        bitsData = getByBits(13);
+                        indexInDict = bitsData - 1;
+                        bitsData = getByBits(4);
+                        matchLength = bitsData + 3;
+                        dictPosInData = (int)(decompressPos - ((uint)(decompressPos - indexInDict) & 0x1fff));
+                        for (uint i = 0; i < matchLength; ++i)
+                        {
+                            decompressed[decompressPos] = decompressed[dictPosInData + i];
+                            decompressPos++;
                         }
                     }
                 }
-                return decode;
+                return decompressed;
+
+
+                uint getByBits(int length)
+                {
+                    unchecked
+                    {
+                        bitPos++;
+                        int mask = 0;
+                        uint result = 0;
+                        while (length >= bitPos)
+                        {
+                            mask = (1 << bitPos) - 1;
+                            result <<= bitPos;
+                            result |= (uint)(originalData[pos] & mask);
+                            length -= bitPos;
+                            pos++;
+                            bitPos = 8;
+                        }
+
+                        mask = (1 << length) - 1;
+                        bitPos -= length;
+
+                        result <<= length;
+                        result |= (uint)((originalData[pos] >> bitPos) & mask);
+
+                        bitPos--;
+                        return result;
+                    }
+                }
             }
         }
 
@@ -86,36 +90,46 @@
         {
             unchecked
             {
-                byte[] tbuf = data[0..length];
-                //buffer.CopyTo(tbuf, 0);
-                //memcpy(tbuf, buffer, length);
-                int i, p = 0, tp1, tp2, hf, left = length;
-                if (left % blockSize < blockSize / 4)
-                    left -= left % blockSize;
-                left -= length & 1;
-                while (left != 0)
+                byte[] encodedData = data[0..length];
+
+                int decodeLengthLeft = length;
+                if (decodeLengthLeft % blockSize < blockSize / 4)
                 {
-                    if (left < blockSize)
-                        blockSize = left;
-                    tp1 = p + blockSize - 1;
-                    tp2 = p + blockSize - 2;
-                    hf = (blockSize + (blockSize & 0x1)) / 2;
-                    for (i = 0; i < hf; ++i, ++p)
-                    {
-                        data[tp1] = (byte)(tbuf[p] ^ key);
-                        key += add;
-                        tp1 -= 2;
-                    }
-                    hf = blockSize / 2;
-                    for (i = 0; i < hf; ++i, ++p)
-                    {
-                        data[tp2] = (byte)(tbuf[p] ^ key);
-                        key += add;
-                        tp2 -= 2;
-                    }
-                    left -= blockSize;
+                    decodeLengthLeft -= decodeLengthLeft % blockSize;
                 }
-                //delete[] tbuf;
+
+                decodeLengthLeft -= length & 1;
+                int encodedPos = 0;
+                int decodedPos = 0;
+                int currentBlockStart = 0;
+
+                while (decodeLengthLeft > 0)
+                {
+                    if (decodeLengthLeft < blockSize)
+                    {
+                        blockSize = decodeLengthLeft;
+                    }
+                    currentBlockStart = encodedPos;
+
+                    decodedPos = currentBlockStart + blockSize - 1;
+                    while (decodedPos >= currentBlockStart)
+                    {
+                        data[decodedPos] = (byte)(encodedData[encodedPos] ^ key);
+                        key += add;
+                        decodedPos -= 2;
+                        encodedPos++;
+                    }
+
+                    decodedPos = currentBlockStart + blockSize - 2;
+                    while (decodedPos >= currentBlockStart)
+                    {
+                        data[decodedPos] = (byte)(encodedData[encodedPos] ^ key);
+                        key += add;
+                        decodedPos -= 2;
+                        encodedPos++;
+                    }
+                    decodeLengthLeft -= blockSize;
+                }
             }
         }
     }

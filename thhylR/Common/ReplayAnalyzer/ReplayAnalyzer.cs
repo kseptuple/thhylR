@@ -508,7 +508,7 @@ namespace thhylR.Common
                         }
                         else
                         {
-                            insertIntoDisplayTable(name, null, ResourceLoader.GetText("EmptyList"), gameCustomInfo.Name, stage, null, null, 
+                            insertIntoDisplayTable(name, null, ResourceLoader.GetText("EmptyList"), gameCustomInfo.Name, stage, null, null,
                                 gameCustomInfo.IsVisible, null, extraData);
                         }
                     }
@@ -616,7 +616,7 @@ namespace thhylR.Common
                             }
                             else
                             {
-                                insertIntoDisplayTable(name, null, ResourceLoader.GetText("EmptyList"), id, stage, null, null, 
+                                insertIntoDisplayTable(name, null, ResourceLoader.GetText("EmptyList"), id, stage, null, null,
                                     gameCustomInfo.IsVisible, null);
                             }
                         }

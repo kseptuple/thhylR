@@ -105,7 +105,7 @@ namespace thhylR.Common
             modifier = modifier.Replace("\uFDD0", "{");
             try
             {
-                return ExpressionAnalyzer.getValue(modifier);
+                return ExpressionAnalyzer.GetValue(modifier);
             }
             catch
             {
@@ -162,7 +162,7 @@ namespace thhylR.Common
                         visible = visible.Replace("\uFDD0", "{");
                         try
                         {
-                            var value = ExpressionAnalyzer.getValue(visible);
+                            var value = ExpressionAnalyzer.GetValue(visible);
                             dr["Visible"] = value;
                         }
                         catch

@@ -209,7 +209,7 @@ namespace thhylR
         }
 #endif
 
-        //绕过WinForm的ToolStripButton在win11下的堆栈溢出bug
+        //缁曡繃WinForm鐨凾oolStripButton鍦╳in11涓嬬殑鍫嗘爤婧㈠嚭bug
         private bool setToolStripClicked()
         {
             lock (locker)
