@@ -64,6 +64,8 @@ namespace thhylR
             if (CurrentReplay != null && !isExist)
             {
                 CurrentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
+                toolStripStatusLabelInfo.Image = Resources.StatusWarning;
+                toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
             }
         }
 
@@ -246,6 +248,8 @@ namespace thhylR
                     {
                         setFileIsOpen(false);
                         CurrentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
+                        toolStripStatusLabelInfo.Image = Resources.StatusWarning;
+                        toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
                     }
                 }
             }

@@ -20,6 +20,12 @@ namespace thhylR.Common
             int offset = 0;
             switch (gameId)
             {
+                case "Th07":
+                    offset = 0x8c;
+                    value1 = 0x0009EE00;
+                    value2 = 0xAEC5445C;
+                    version = "0100b";
+                    break;
                 case "Th08":
                     offset = 0xc4;
                     value1 = 0x000CD400;
