@@ -375,5 +375,18 @@
   - 魔理沙
   - 咲夜
   - 早苗
-
-  
+- Name: Th20Chara
+  EnumValues:
+  - 灵梦
+  - 魔理沙
+- Name: Th20CharaType
+  EnumValues:
+  - Scarlet Devil
+  - Creature Red
+  - Snow Blossom
+  - Blue Season
+  - Yellow Subterranean
+  - Imperishable Moon
+  - Beast Hardness
+  - Shintoism Wind
+  - 常见魔石

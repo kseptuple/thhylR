@@ -100,6 +100,9 @@
     <None Update="GameSettings\02.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="GameSettings\07.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Help\contents\comment.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

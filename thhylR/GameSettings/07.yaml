@@ -1,0 +1,252 @@
+﻿- GameName: Th20Trail
+  Identifier: t20t
+  GameDisplayName: 东方锦上京 ～ Fossilized Wonders.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x30
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x28
+    AfterDecompressLength: 0x2C
+  StageSetting:
+    FirstStageData: 0x100
+    TotalStageCount: 0xd4
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0x2a0
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x08
+    TotalSizeOrFpsSizeOfStage: 0x0c
+    KeyData:
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "", "B", "Fc", "↑", "↓", "←", "→", ""]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x70
+      Type: uint
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x128
+      Type: int
+      Formatter: life
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x130
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x13c
+      Type: int
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x140
+      Type: int
+      Formatter: "{.}/3"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0xa0
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 异变值
+      Offset: 0xb4
+      Type: int
+      Modifier: "{.}/5000"
+      Formatter: "0.00"
+    - Name: YihenAttackGauge
+      Offset: 0xbc
+      Type: int
+      IsVisible: false
+    - Name: YihenAttackGaugeMax
+      Offset: 0xc0
+      Type: int
+      IsVisible: false
+    - Name: YihenAttackGaugeDisplay
+      DisplayName: 异变攻击槽
+      Formatter: "{YihenAttackGauge}/{YihenAttackGaugeMax}"
+    - Name: YihenEnemyGauge
+      Offset: 0xcc
+      Type: int
+      IsVisible: false
+    - Name: YihenEnemyGaugeMax
+      Offset: 0xd0
+      Type: int
+      IsVisible: false
+    - Name: YihenEnemyGaugeDisplay
+      DisplayName: 异变敌人槽
+      Formatter: "{YihenEnemyGauge}/{YihenEnemyGaugeMax}"
+    - Name: YihenEnemyRed
+      Offset: 0xd4
+      DisplayName: 异变敌人红色值
+      Type: int
+    - Name: YihenEnemyBlue
+      Offset: 0xd8
+      DisplayName: 异变敌人蓝色值
+      Type: int
+    - Name: YihenEnemyYellow
+      Offset: 0xdc
+      DisplayName: 异变敌人黄色值
+      Type: int
+    - Name: YihenEnemyGreen
+      Offset: 0xe0
+      DisplayName: 异变敌人绿色值
+      Type: int
+    - Name: YihenEnemyRedLevel
+      Offset: 0xe4
+      DisplayName: 红色异变敌人等级
+      Type: int
+    - Name: YihenEnemyRedCount
+      Offset: 0xf4
+      DisplayName: 红色异变敌人出现次数
+      Type: int
+    - Name: YihenEnemyBlueLevel
+      Offset: 0xe8
+      DisplayName: 蓝色异变敌人等级
+      Type: int
+    - Name: YihenEnemyBlueCount
+      Offset: 0xf8
+      DisplayName: 蓝色异变敌人出现次数
+      Type: int
+    - Name: YihenEnemyYellowLevel
+      Offset: 0xec
+      DisplayName: 黄色异变敌人等级
+      Type: int
+    - Name: YihenEnemyYellowCount
+      Offset: 0xfc
+      DisplayName: 黄色异变敌人出现次数
+      Type: int
+    - Name: YihenEnemyGreenLevel
+      Offset: 0xf0
+      DisplayName: 绿色异变敌人等级
+      Type: int
+    - Name: YihenEnemyGreenCount
+      Offset: 0x100
+      DisplayName: 绿色异变敌人出现次数
+      Type: int
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x154
+      Type: int
+    - Name: ExtentCount
+      DisplayName: 奖残次数
+      Offset: 0x134
+      Type: int
+    - Name: XPosRaw
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x14
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x14
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+    - Name: SCTimeEndMark
+      Type: sctime
+      Offset: 0x0
+      Modifier: "{.}==(99999)"
+      Ignore: true
+      IsVisible: false
+    - Name: SCTime
+      Type: sctime[]
+      Offset: 0x1c
+      Count: 20
+      MultilineList: true
+      EndMark: SCTimeEndMark
+      DisplayName: 符卡实际时间
+      Formatter: "{.:0.00}秒"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: Chara
+    Offset: 0xd8
+    Type: int
+    EnumList: Th20Chara
+    IsVisible: false
+  - Name: CharaType
+    Offset: 0xdc
+    Type: int
+    EnumList: Th20CharaType
+    IsVisible: false
+  - Name: CharaDisplay
+    DisplayName: 角色
+    Formatter: "{Chara} {CharaType}"
+  - Name: Equip1Type
+    DisplayName: 扩散石
+    Offset: 0xe0
+    Type: int
+    EnumList: Th20CharaType
+  - Name: Equip2Type
+    DisplayName: 集中石
+    Offset: 0xe4
+    Type: int
+    EnumList: Th20CharaType
+  - Name: Equip3Type
+    DisplayName: 支援石
+    Offset: 0xe8
+    Type: int
+    EnumList: Th20CharaType
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0xf0
+    Type: int
+    EnumList: Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0xf4
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x18
+    Type: uint
+    Modifier: "{.}*10"
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0xd0
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0xa4
+    Type: int
+    Modifier: "({.}&256)!=0?1:0"
+    EnumList: YesNo

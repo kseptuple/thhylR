@@ -211,6 +211,12 @@ namespace thhylR.Common
             addDisplayData(gameData.CustomReplayInfo, defaultData, alternativeData, -1);
 
             var stageSetting = gameData.StageSetting;
+#if DEBUG
+            if (stageSetting == null)
+            {
+                return result;
+            }
+#endif
             bool hasFPSData = true;
             if (stageSetting.FPSStartData == -1 && gameData.ReplayStructVersion == 1)
             {

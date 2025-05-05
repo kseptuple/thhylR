@@ -187,7 +187,7 @@ namespace thhylR
 
             for (int i = 0; i < allData.Rows.Count; i++)
             {
-                if ((bool)allData.Rows[i]["IsSymbol"])
+                if (!Convert.IsDBNull(allData.Rows[i]["IsSymbol"]) && (bool)allData.Rows[i]["IsSymbol"])
                 {
                     dataGridInfo.Rows[i].Cells["dataGridColumnValue"].Style.Font = symbolFont;
                 }

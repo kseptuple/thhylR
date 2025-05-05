@@ -211,6 +211,7 @@ namespace thhylR
             int commentBlockIndex = infoBlocks.FindIndex(b => b.BlockType == InfoBlock.UserBlockType.Comment);
             byte[] blockData = currentEncoding.GetBytes(textBoxComment.Text);
             blockData = blockData.Append((byte)0).ToArray();
+            bool requireChangeLastBlock = false;
             if (commentBlockIndex != -1)
             {
                 var commentBlock = infoBlocks[commentBlockIndex];
@@ -220,11 +221,23 @@ namespace thhylR
             else
             {
                 var commentBlock = new InfoBlock(InfoBlock.UserBlockType.Comment, blockData);
+                var lastBlock = infoBlocks.Last();
+                if (lastBlock.Data[^1] != 0)
+                {
+                    lastBlock.Length = lastBlock.Length + 1;
+                    lastBlock.Data = lastBlock.Data.Append((byte)0).ToArray();
+                    requireChangeLastBlock = true;
+                }
                 infoBlocks.Add(commentBlock);
                 commentBlockIndex = infoBlocks.Count - 1;
             }
 
             int userBlockStart = userBlockAddress;
+
+            if (requireChangeLastBlock)
+            {
+                commentBlockIndex--;
+            }
 
             for (int i = 0; i < commentBlockIndex; i++)
             {
