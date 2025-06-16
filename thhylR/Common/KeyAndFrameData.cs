@@ -50,8 +50,10 @@ namespace thhylR.Common
                 double totalFPS = 0d;
                 var FPSDataGetter = getKeyDataGetter(gameData.StageSetting.KeyData.FPSSize);
                 var FPSStart = gameData.StageSetting.KeyData.FirstFPSFrameIsNullFrame ? gameData.StageSetting.KeyData.FPSSize : 0;
-                foreach (var stage in replay.Stages)
+                for (int i = 0; i < replay.Stages.Count; i++)
                 {
+                    var requireCountFrame = !gameData.StageSetting.IsVSGame || i < replay.Stages.Count / 2;
+                    var stage = replay.Stages[i];
                     stage.FrameCount = stage.KeyData.Length / gameData.StageSetting.KeySizeData;
                     if (gameData.StageSetting.KeyData.FirstFrameIsNullFrame)
                     {
@@ -76,14 +78,17 @@ namespace thhylR.Common
                             stage.FrameCount--;
                         }
                     }
-                    replay.TotalFrameCount += stage.FrameCount;
+                    if (requireCountFrame)
+                    {
+                        replay.TotalFrameCount += stage.FrameCount;
+                    }
 
                     int lastFPSFrames = stage.FrameCount % 30;
                     double stageTotalFPS = 0d;
-                    for (int i = FPSStart; i < stage.FPSData.Length; i += gameData.StageSetting.KeyData.FPSSize)
+                    for (int j = FPSStart; j < stage.FPSData.Length; j += gameData.StageSetting.KeyData.FPSSize)
                     {
-                        int fps = FPSDataGetter(replay.RawData, stage.FPSData.Offset + i);
-                        if (i != stage.FPSData.Length - 1)
+                        int fps = FPSDataGetter(replay.RawData, stage.FPSData.Offset + j);
+                        if (j != stage.FPSData.Length - 1)
                         {
                             stageTotalFPS += fps * 30;
                         }
@@ -92,7 +97,10 @@ namespace thhylR.Common
                             stageTotalFPS += fps * lastFPSFrames;
                         }
                     }
-                    totalFPS += stageTotalFPS;
+                    if (requireCountFrame)
+                    {
+                        totalFPS += stageTotalFPS;
+                    }
                     stage.CalculatedSlowRate = 1 - stageTotalFPS / stage.FrameCount / 60d;
                 }
                 replay.CalculatedTotalSlowRate = 1 - totalFPS / replay.TotalFrameCount / 60d;

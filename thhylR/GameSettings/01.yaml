@@ -655,7 +655,7 @@
     Size: 10
   - Name: Difficulty
     DisplayName: 难度
-    Offset: 0xcc
+    Offset: 0x17
     Type: byte
     EnumList: Difficulty
   - Name: LifeStartP1

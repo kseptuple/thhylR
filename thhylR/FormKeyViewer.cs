@@ -151,7 +151,14 @@ namespace thhylR
             {
                 if (fpsList != null)
                 {
-                    e.Value = fpsList[e.RowIndex];
+                    if (e.RowIndex >= fpsList.Count)
+                    {
+                        e.Value = "-";          //TH09 bug
+                    }
+                    else
+                    {
+                        e.Value = fpsList[e.RowIndex];
+                    }
                 }
             }
         }

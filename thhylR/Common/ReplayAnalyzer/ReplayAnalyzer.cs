@@ -668,7 +668,16 @@ namespace thhylR.Common
             string formatFrameCount(int frames)
             {
                 TimeSpan ts = TimeSpan.FromSeconds(frames / 60d);
-                string time = ts.ToString("m\\:ss\\.fff");
+                string time = null;
+                if (ts.Hours > 0)
+                {
+                    string hours = ((int)ts.TotalHours).ToString();
+                    time = $"{hours}:{ts:mm\\:ss\\.fff}";
+                }
+                else
+                {
+                    time = ts.ToString("m\\:ss\\.fff");
+                }
                 return string.Format(ResourceLoader.GetText("GameLengthFormat"), frames, time);
             }
 
