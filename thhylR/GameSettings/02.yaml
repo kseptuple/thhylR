@@ -32,7 +32,7 @@
       KeyDataVersion: 3
       HasTerminateMark: false
       KeySize: 2
-      KeyNames: ["B", "A", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+      KeyNames: ["", "A", "Fc", "", "↑", "↓", "←", "→", "Sk"]
   CustomReplayInfo:
   - Name: Player
     DisplayName: 玩家
@@ -64,12 +64,6 @@
     Offset: 0xdc
     Type: int
     Modifier: "({.}&8)!=0?1:0"
-    EnumList: YesNo
-  - Name: ShotSlow
-    DisplayName: 射击时低速
-    Offset: 0xdc
-    Type: int
-    Modifier: "({.}&512)!=0?1:0"
     EnumList: YesNo
 - GameName: Th10
   Identifier: t10r

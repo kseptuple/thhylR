@@ -453,7 +453,8 @@
     DecodeBaseParam: 0x15
     DecodeAdderData: 7
     DecompressStartData: 0x68
-    CalculateDecompressLength: true
+    # CalculateDecompressLength: true
+    DecompressLength: 0x18
     AfterDecompressLength: 0x1C
   StageSetting:
     FirstStage: 0x20
@@ -589,7 +590,8 @@
     DecodeBaseParam: 0x15
     DecodeAdderData: 7
     DecompressStartData: 0xC0
-    CalculateDecompressLength: true
+    # CalculateDecompressLength: true
+    DecompressLength: 0x18
     AfterDecompressLength: 0x1C
   StageSetting:
     FirstStage: 0x20
