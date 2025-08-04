@@ -1,0 +1,76 @@
+- GameName: Thalco
+  Identifier: al1r
+  GameDisplayName: 黄昏酒场　～Uwabami Breakers～
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  ReplayVersion: 0x04
+  MatchingReplayVersion:
+  - 3
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x80
+    DecodeBaseParamDataV2:
+    - 0xaa
+    - 0x3d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x7a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0x60
+    TotalStageCount: 0x4c
+    TotalStageCountData: 3
+    StageHeaderSizeData: 0x18
+    KeySizeData: 8
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    KeyData:
+      KeyDataVersion: 3
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "C", "Fc", "↑", "↓", "←", "→", "", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0c
+      Type: int
+      Formatter: score
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x0c
+    Type: UTCDateInt
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x5c
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStageAlco
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x10
+    Type: int
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x48
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x44
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo

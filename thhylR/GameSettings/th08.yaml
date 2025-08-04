@@ -1,0 +1,137 @@
+- GameName: Th08
+  Identifier: T8RP
+  GameDisplayName: 东方永夜抄　～ Imperishable Night.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 1
+  DecodeSetting:
+    DecodeVersion: 1
+    DecompressVersion: 1
+    DecodeStartData: 0x18
+    DecodeBaseParam: 0x15
+    DecodeAdderData: 7
+    DecompressStartData: 0x68
+    # CalculateDecompressLength: true
+    DecompressLength: 0x18
+    AfterDecompressLength: 0x1C
+  StageSetting:
+    FirstStage: 0x20
+    FPSStartData: 9
+    TotalStageCountData: 18
+    StageHeaderSizeData: 0x24
+    KeySizeData: 2
+    IsStageEndScore: true
+    KeyData:
+      KeyDataVersion: 2
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0
+      Type: int
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x1d
+      Type: byte
+      Formatter: life
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x1e
+      Type: byte
+      Formatter: bomb
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x1c
+      Type: byte
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x8
+      Type: int
+    - Name: PointExtent
+      Offset: 0x10
+      Type: int
+      IsVisible: false
+    - Name: Point
+      Offset: 0x4
+      Type: int
+      IsVisible: false
+    - Name: PointDisplay
+      DisplayName: 蓝点
+      Formatter: "{Point}/{PointExtent}"
+    - Name: YoukaiRate
+      DisplayName: 妖率
+      Offset: 0x18
+      Type: short
+      Modifier: "{.}/100"
+      Formatter: "{.:0.00}%"
+    - Name: Night
+      DisplayName: 夜点
+      Offset: 0x14
+      Type: int
+    - Name: StageTimePass
+      DisplayName: 时刻
+      Offset: 0x22
+      Type: byte
+      EnumList: Th08Time
+    - Name: SpellCount
+      DisplayName: 收取符卡数
+      Offset: 0x21
+      Type: byte
+    - Name: StageRank
+      DisplayName: Rank
+      Offset: 0x1f
+      Type: byte
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0a
+    Type: string
+    Size: 9
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x4
+    Type: string
+    Size: 6
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x2
+    Type: byte
+    EnumList: Th08Chara
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x3
+    Type: byte
+    EnumList: Difficulty
+  - Name: SpellNoPlusOne
+    Offset: 0x14
+    Type: short
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0x14
+    Type: short
+    EnumList: Th08SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x48
+    Type: int
+    Modifier: "{.}*10"
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0xb0
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x72
+    Type: byte
+    Modifier: "{.}!=0?1:0"
+    EnumList: YesNo

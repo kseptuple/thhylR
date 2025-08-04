@@ -1,17 +1,24 @@
-- GameName: Th12
-  Identifier: t12r
-  GameDisplayName: 东方星莲船　～ Undefined Fantastic Object.
+- GameName: Th13
+  Identifier: t13r
+  GameDisplayName: 东方神灵庙　～ Ten Desires.
   InfoBlock: 0x0c
   ReplayStructVersion: 2
+  GameVersion: 0x10
+  MatchingGameVersion:
+  - 0x100
+  - 0
+  ReplayVersion: 0x04
+  MatchingReplayVersion:
+  - 2
   DecodeSetting:
     DecodeVersion: 2
     DecompressVersion: 1
     DecodeStartData: 0x24
     BlockSizeDataV2: 
-    - 0x800
-    - 0x40
+    - 0x400
+    - 0x100
     DecodeBaseParamDataV2:
-    - 0x5e
+    - 0x5c
     - 0x7d
     DecodeAdderDataV2:
     - 0xe1
@@ -19,10 +26,10 @@
     DecompressLength: 0x1C
     AfterDecompressLength: 0x20
   StageSetting:
-    FirstStageData: 0x70
+    FirstStageData: 0x74
     TotalStageCount: 0x58
     TotalStageCountData: 7
-    StageHeaderSizeData: 0xa0
+    StageHeaderSizeData: 0xc4
     KeySizeData: 6
     StageNumOfStage: 0x0
     KeyCountOfStage: 0x04
@@ -30,78 +37,85 @@
     KeyData:
       KeyDataVersion: 3
       KeySize: 2
-      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk"]
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk", "", "C"]
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
-      Offset: 0x0c
-      Type: int
+      Offset: 0x1c
+      Type: uint
       Modifier: "{.}*10"
       Formatter: score
     - Name: Life
       DisplayName: 残机
-      Offset: 0x18
-      Type: short
+      Offset: 0x50
+      Type: int
       Formatter: life
     - Name: LifeFragment
       DisplayName: 残机碎片
-      Offset: 0x1a
-      Type: short
-      EnumList: Th12LifeFragment
-      Formatter: "{.}/4"
+      Offset: 0x54
+      Type: int
+      Formatter: "{.}/{ExtentCount}"
+    - Name: ExtentCount
+      Offset: 0x58
+      Type: int
+      EnumList: Th13ExtentCount
+      IsVisible: false
     - Name: Bomb
       DisplayName: 符卡
-      Offset: 0x1c
-      Type: short
+      Offset: 0x5c
+      Type: int
       Formatter: bomb
     - Name: BombFragment
       DisplayName: 符卡碎片
-      Offset: 0x1e
-      Type: short
-      EnumList: Th12BombFragment
-      Formatter: "{.}/3"
+      Offset: 0x60
+      Type: int
+      Formatter: "{.}/8"
     - Name: Power
       DisplayName: 灵力
-      Offset: 0x10
+      Offset: 0x44
       Type: int
       Modifier: "{.}/100"
       Formatter: "0.00"
     - Name: PointScore
       DisplayName: 最大得点
-      Offset: 0x14
+      Offset: 0x38
       Type: int
       Modifier: "{.}\\1000*10"
       Formatter: "{.} ({PointScoreRaw})"
     - Name: PointScoreRaw
-      Offset: 0x14
+      Offset: 0x38
       Type: int
       Modifier: "{.}/100"
       IsVisible: false
     - Name: Graze
       DisplayName: 擦弹
-      Offset: 0x44
+      Offset: 0x2c
       Type: int
-    - Name: UFO
-      DisplayName: 飞碟
-      Offset: 0x20
-      Type: int[]
-      Count: 3
-      EnumList: Th12UFO
+    - Name: SpiritGauge
+      DisplayName: 灵界槽
+      Offset: 0x64
+      Type: int
+      Modifier: "{.}/200"
+      Formatter: "{.:0.00} ({SpiritGaugeRaw}/600)"
+    - Name: SpiritGaugeRaw
+      Offset: 0x64
+      Type: int
+      IsVisible: false
     - Name: XPosRaw
-      Offset: 0x30
+      Offset: 0x0c
       Type: int
       IsVisible: false
     - Name: YPosRaw
-      Offset: 0x34
+      Offset: 0x10
       Type: int
       IsVisible: false
     - Name: XPos
-      Offset: 0x30
+      Offset: 0x0c
       Type: int
       Modifier: "{.}/128+224"
       IsVisible: false
     - Name: YPos
-      Offset: 0x34
+      Offset: 0x10
       Type: int
       Modifier: "{.}/128+16"
       IsVisible: false
@@ -116,7 +130,7 @@
       IsVisible: false
     - Name: SCTime
       Type: sctime[]
-      Offset: 0x4c
+      Offset: 0x70
       Count: 20
       MultilineList: true
       EndMark: SCTimeEndMark
@@ -134,33 +148,38 @@
     Type: UTCDateLong
     Formatter: yyyy/MM/dd HH:mm:ss
   - Name: Chara
+    DisplayName: 角色
     Offset: 0x5c
     Type: int
-    EnumList: Th12Chara
-    IsVisible: false
-  - Name: CharaType
-    Offset: 0x60
-    Type: int
-    EnumList: Th12CharaType
-    IsVisible: false
-  - Name: CharaDisplay
-    DisplayName: 角色
-    Formatter: "{Chara}{CharaType}"
+    EnumList: Th13Chara
   - Name: Difficulty
     DisplayName: 难度
     Offset: 0x64
     Type: int
-    EnumList: Difficulty
+    EnumList: Th13Difficulty
   - Name: LastStage
     DisplayName: 最终关卡
     Offset: 0x68
     Type: int
     Modifier: "{.}-1"
     EnumList: LastStage
+    IsVisible: "{SpellNo}==(-1)"
+  - Name: SpellNoPlusOne
+    Offset: 0x70
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0x70
+    Type: int
+    EnumList: Th13SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
   - Name: Score
     DisplayName: 得分
     Offset: 0x14
-    Type: int
+    Type: uint
     Modifier: "{.}*10"
     Formatter: score
   - Name: SlowRate
@@ -180,153 +199,103 @@
     Type: int
     Modifier: "({.}&512)!=0?1:0"
     EnumList: YesNo
-- GameName: Th125
-  Identifier: t125
-  GameDisplayName: Double Spoiler　～ 东方文花帖
-  InfoBlock: 0x0c
-  ReplayStructVersion: 2
-  DecodeSetting:
-    DecodeVersion: 2
-    DecompressVersion: 1
-    DecodeStartData: 0x24
-    BlockSizeDataV2: 
-    - 0x800
-    - 0x40
-    DecodeBaseParamDataV2:
-    - 0x5e
-    - 0x7d
-    DecodeAdderDataV2:
-    - 0xe1
-    - 0x3a
-    DecompressLength: 0x1C
-    AfterDecompressLength: 0x20
-  NeedStage: false
+- GameName: Th13Trial
+  Identifier: t13r
+  Alias: Th13
+  OverrideFields:
+  - GameName
+  - MatchingGameVersion
+  - MatchingReplayVersion
+  - CustomReplayInfo
+  MatchingGameVersion:
+  - 0x1
+  MatchingReplayVersion:
+  - 1
   StageSetting:
-    FirstStageData: 0x68
-    TotalStageCountData: 1
-    StageHeaderSizeData: 0xa0
-    KeySizeData: 3
-    KeyCountOfStage: 0x04
-    TotalSizeOrFpsSizeOfStage: 0x08
-    KeyData:
-      KeyDataVersion: 3
-      KeySize: 1
-      KeyNames: ["A", "B", "Fc", "↑", "↓", "←", "→", "Sk"]
-  CustomReplayInfo:
-  - Name: Player
-    DisplayName: 玩家
-    Offset: 0x0
-    Type: string
-    Size: 12
-  - Name: ClearTime
-    DisplayName: 录像日期
-    Offset: 0x0c
-    Type: UTCDateLong
-    Formatter: yyyy/MM/dd HH:mm:ss
-  - Name: Chara
-    DisplayName: 角色
-    Offset: 0x58
-    Type: int
-    EnumList: Th125Chara
-  - Name: StageNo
-    DisplayName: 关卡
-    Offset: 0x68
-    Type: short
-    EnumList: Th125SpellList
-  - Name: Score
-    DisplayName: 得分
-    Offset: 0x14
-    Type: int
-    Formatter: score
-  - Name: SlowRate
-    DisplayName: 处理落率
-    Offset: 0x54
-    Type: float
-    Formatter: "{.:0.00}%"
-- GameName: Th128
-  Identifier: 128r
-  GameDisplayName: 妖精大战争　～ 东方三月精
-  InfoBlock: 0x0c
-  ReplayStructVersion: 2
-  DecodeSetting:
-    DecodeVersion: 2
-    DecompressVersion: 1
-    DecodeStartData: 0x24
-    BlockSizeDataV2: 
-    - 0x800
-    - 0x80
-    DecodeBaseParamDataV2:
-    - 0x5e
-    - 0x7d
-    DecodeAdderDataV2:
-    - 0xe7
-    - 0x36
-    DecompressLength: 0x1C
-    AfterDecompressLength: 0x20
-  StageSetting:
+    OverrideFields:
+    - FirstStageData
+    - StageHeaderSizeData
+    - CustomStageInfo
     FirstStageData: 0x70
-    TotalStageCount: 0x58
-    TotalStageCountData: 16
-    StageHeaderSizeData: 0x90
-    KeySizeData: 6
-    StageNumOfStage: 0x0
-    KeyCountOfStage: 0x04
-    TotalSizeOrFpsSizeOfStage: 0x08
-    KeyData:
-      KeyDataVersion: 3
-      KeySize: 2
-      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "C"]
+    StageHeaderSizeData: 0xc0
     CustomStageInfo:
     - Name: StageScore
       DisplayName: 得分
-      Offset: 0x0c
-      Type: int
+      Offset: 0x1c
+      Type: uint
       Modifier: "{.}*10"
       Formatter: score
     - Name: Life
-      DisplayName: 干劲
-      Offset: 0x80
+      DisplayName: 残机
+      Offset: 0x4c
+      Type: int
+      Formatter: life
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x50
+      Type: int
+      Formatter: "{.}/{ExtentCount}"
+    - Name: ExtentCount
+      Offset: 0x54
+      Type: int
+      EnumList: Th13TrialExtentCount
+      IsVisible: false
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x58
+      Type: int
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x5c
+      Type: int
+      Formatter: "{.}/8"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x40
       Type: int
       Modifier: "{.}/100"
-      Formatter: "{.:0.00}%"
-    - Name: FreezePower
-      DisplayName: 冰冻力
-      Offset: 0x14
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x34
       Type: int
-      Modifier: "{.}/1000"
-      Formatter: "{.:0.00}%"
-    - Name: PerfectFreeze
-      DisplayName: 完美冻结
-      Offset: 0x84
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x34
       Type: int
       Modifier: "{.}/100"
-      Formatter: "{.:0.00}%"
-    - Name: FreezeArea
-      DisplayName: 冰冻面积
-      Offset: 0x88
-      Type: float
-      Formatter: "{.:0.00}%"
-    - Name: FreezeLevel
-      DisplayName: 火力
-      Offset: 0x10
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x2c
       Type: int
-      Modifier: "{.}+1"
-      Formatter: "Level {.}"
+    - Name: SpiritGauge
+      DisplayName: 灵界槽
+      Offset: 0x60
+      Type: int
+      Modifier: "{.}/200"
+      Formatter: "{.:0.00} ({SpiritGaugeRaw}/600)"
+    - Name: SpiritGaugeRaw
+      Offset: 0x60
+      Type: int
+      IsVisible: false
     - Name: XPosRaw
-      Offset: 0x18
+      Offset: 0x0c
       Type: int
       IsVisible: false
     - Name: YPosRaw
-      Offset: 0x1c
+      Offset: 0x10
       Type: int
       IsVisible: false
     - Name: XPos
-      Offset: 0x18
+      Offset: 0x0c
       Type: int
       Modifier: "{.}/128+224"
       IsVisible: false
     - Name: YPos
-      Offset: 0x1c
+      Offset: 0x10
       Type: int
       Modifier: "{.}/128+16"
       IsVisible: false
@@ -341,7 +310,7 @@
       IsVisible: false
     - Name: SCTime
       Type: sctime[]
-      Offset: 0x30
+      Offset: 0x6c
       Count: 20
       MultilineList: true
       EndMark: SCTimeEndMark
@@ -358,21 +327,26 @@
     Offset: 0x0c
     Type: UTCDateLong
     Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x5c
+    Type: int
+    EnumList: Th13Chara
   - Name: Difficulty
     DisplayName: 难度
     Offset: 0x64
     Type: int
-    EnumList: Difficulty
+    EnumList: Th13Difficulty
   - Name: LastStage
     DisplayName: 最终关卡
     Offset: 0x68
     Type: int
     Modifier: "{.}-1"
-    EnumList: Th128LastStage
+    EnumList: LastStage
   - Name: Score
     DisplayName: 得分
     Offset: 0x14
-    Type: int
+    Type: uint
     Modifier: "{.}*10"
     Formatter: score
   - Name: SlowRate

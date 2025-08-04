@@ -1,0 +1,147 @@
+- GameName: Th10
+  Identifier: t10r
+  GameDisplayName: 东方风神录　～ Mountain of Faith.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x80
+    DecodeBaseParamDataV2:
+    - 0xaa
+    - 0x3d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x7a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0x64
+    TotalStageCount: 0x4c
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0x1c4
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    KeyData:
+      KeyDataVersion: 3
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x1c
+      Type: int
+      Formatter: life
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/20"
+      Formatter: "0.00"
+    - Name: Faith
+      DisplayName: 信仰点
+      Offset: 0x14
+      Type: int
+      Modifier: "{.}*10"
+    - Name: FaithGauge
+      DisplayName: 信仰槽
+      Offset: 0x18
+      Type: int
+      Formatter: "{.}/130"
+    - Name: XPosRaw
+      Offset: 0x24
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x28
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x24
+      Type: int
+      Modifier: "{.}/100+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x28
+      Type: int
+      Modifier: "{.}/100+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x0c
+    Type: UTCDateInt
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: Chara
+    Offset: 0x50
+    Type: int
+    EnumList: Th10Chara
+    IsVisible: false
+  - Name: CharaType
+    Offset: 0x54
+    Type: int
+    EnumList: Th10CharaType
+    IsVisible: false
+  - Name: CharaDisplay
+    DisplayName: 角色
+    Formatter: "{Chara}{CharaType}"
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x58
+    Type: int
+    EnumList: Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x5c
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x10
+    Type: int
+    Modifier: "{.}*10"
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x48
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x44
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x44
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShowFaithGauge
+    DisplayName: 显示信仰槽
+    Offset: 0x44
+    Type: int
+    Modifier: "({.}&128)!=0?1:0"
+    EnumList: YesNo

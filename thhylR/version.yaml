@@ -1,2 +1,10 @@
-Version: 1.0.1.0
-OutdatedFiles: []
+Version: 1.1.0.0
+OutdatedFiles: 
+  - GameSettings\\01.yaml
+  - GameSettings\\02.yaml
+  - GameSettings\\03.yaml
+  - GameSettings\\04.yaml
+  - GameSettings\\05.yaml
+  - GameSettings\\06.yaml
+  - GameSettings\\07.yaml
+

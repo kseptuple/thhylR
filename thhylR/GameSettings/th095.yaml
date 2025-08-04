@@ -1,0 +1,67 @@
+- GameName: Th095
+  Identifier: t95r
+  GameDisplayName: 东方文花帖　～ Shoot the Bullet.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x80
+    DecodeBaseParamDataV2:
+    - 0xaa
+    - 0x3d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x7a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  NeedStage: false
+  StageSetting:
+    FirstStageData: 0xec
+    TotalStageCountData: 1
+    StageHeaderSizeData: 0x0c
+    KeySizeData: 6
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    UseFpsSize: true
+    UseKeyDataSize: true
+    KeyData:
+      KeyDataVersion: 3
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["", "A", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x7
+    Type: string
+    Size: 9
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: UTCDateInt
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: StageNo
+    DisplayName: 关卡
+    Offset: 0x0
+    Type: short
+    EnumList: Th095SpellList
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x14
+    Type: int
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0xe0
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0xdc
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo

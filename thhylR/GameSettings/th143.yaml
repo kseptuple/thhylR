@@ -1,0 +1,117 @@
+- GameName: Th143
+  Identifier: t143
+  GameDisplayName: 弹幕天邪鬼　～ Impossible Spell Card.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x400
+    - 0x100
+    DecodeBaseParamDataV2:
+    - 0x5c
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  NeedStage: false
+  StageSetting:
+    FirstStageData: 0xa8
+    TotalStageCountData: 1
+    StageHeaderSizeData: 0x10c
+    KeySizeData: 6
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    KeyData:
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk", "", "C"]
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x14
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: DayNo
+    Offset: 0x88
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SceneNo
+    Offset: 0x8c
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: StageNo
+    DisplayName: 关卡
+    Offset: 0x90
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: Th143SpellList
+    Formatter: "{DayNo}-{SceneNo} {.}"
+  - Name: MainItem
+    DisplayName: 主道具
+    Offset: 0x94
+    Type: int
+    EnumList: Th143Item
+  - Name: MainItemCount
+    DisplayName: 主道具数量
+    Offset: 0xa0
+    Type: int
+  - Name: MainItemDuaration
+    DisplayName: 主道具持续时间
+    Offset: 0xa4
+    Type: int
+    Modifier: "{.}/60"
+    IsVisible: "{MainItem}!=1&&{MainItem}!=4&&{MainItem}!=5&&{MainItem}!=8"
+    Formatter: "{.:0.00}秒"
+  - Name: MainItemRange
+    DisplayName: 主道具范围
+    Offset: 0xa4
+    Type: int
+    Modifier: "{MainItem}==1?{.}:{.}/128*100"
+    IsVisible: "{MainItem}==1||{MainItem}==5"
+    Formatter: "{.:0}%"
+  - Name: SubItem
+    DisplayName: 副道具
+    Offset: 0x98
+    Type: int
+    Modifier: "{.}==0&&{SubItemCount}==0?9:{.}"
+    EnumList: Th143Item
+  - Name: SubItemCount
+    DisplayName: 副道具数量
+    Offset: 0x9c
+    Type: int
+    IsVisible: "{SubItem}!=9"
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x1c
+    Type: uint
+    Modifier: "{.}*10"
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x7c
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x58
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x58
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo

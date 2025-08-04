@@ -1,6 +1,6 @@
 ﻿- GameName: Th20Trail
   Identifier: t20t
-  GameDisplayName: 东方锦上京 ～ Fossilized Wonders.
+  GameDisplayName: 东方锦上京　～ Fossilized Wonders.
   InfoBlock: 0x0c
   ReplayStructVersion: 2
   DecodeSetting:
@@ -208,12 +208,12 @@
     DisplayName: 角色
     Formatter: "{Chara} {CharaType}"
   - Name: Equip1Type
-    DisplayName: 扩散石
+    DisplayName: 集中石
     Offset: 0xe0
     Type: int
     EnumList: Th20CharaType
   - Name: Equip2Type
-    DisplayName: 集中石
+    DisplayName: 扩散石
     Offset: 0xe4
     Type: int
     EnumList: Th20CharaType

@@ -1,0 +1,88 @@
+- GameName: Th06
+  Identifier: T6RP
+  GameDisplayName: 东方红魔乡　～ the Embodiment of Scarlet Devil.
+  ReplayStructVersion: 1
+  DecodeSetting:
+    DecodeVersion: 1
+    DecompressVersion: 0
+    DecodeStartData: 0x0F
+    DecodeBaseParam: 0x0E
+    DecodeAdderData: 7
+    DecompressStartData: 0x50
+  StageSetting:
+    FirstStage: 0x34
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0x10
+    KeySizeData: 8
+    IsStageEndScore: true
+    KeyData:
+      KeyDataVersion: 1
+      FirstFrameIsNullFrame: true
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0
+      Type: int
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x9
+      Type: byte
+      Formatter: life
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x0a
+      Type: byte
+      Formatter: bomb
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x8
+      Type: byte
+    - Name: Point
+      DisplayName: 累计蓝点
+      Offset: 0x6
+      Type: short
+    - Name: StageRank
+      DisplayName: Rank
+      Offset: 0x0b
+      Type: byte
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x19
+    Type: string
+    Size: 9
+    UseAlternativeSource: true
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x10
+    Type: string
+    Size: 9
+    UseAlternativeSource: true
+  - Name: Chara
+    DisplayName: 角色
+    Offset: 0x06
+    Type: byte
+    EnumList: Th06Chara
+    UseAlternativeSource: true
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x07
+    Type: byte
+    EnumList: Difficulty
+    UseAlternativeSource: true
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x24
+    Type: int
+    Formatter: score
+    UseAlternativeSource: true
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x2C
+    Type: float
+    Formatter: "{.:0.00}%"
+    UseAlternativeSource: true

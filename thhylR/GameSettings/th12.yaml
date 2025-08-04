@@ -1,0 +1,182 @@
+- GameName: Th12
+  Identifier: t12r
+  GameDisplayName: 东方星莲船　～ Undefined Fantastic Object.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 2
+  DecodeSetting:
+    DecodeVersion: 2
+    DecompressVersion: 1
+    DecodeStartData: 0x24
+    BlockSizeDataV2: 
+    - 0x800
+    - 0x40
+    DecodeBaseParamDataV2:
+    - 0x5e
+    - 0x7d
+    DecodeAdderDataV2:
+    - 0xe1
+    - 0x3a
+    DecompressLength: 0x1C
+    AfterDecompressLength: 0x20
+  StageSetting:
+    FirstStageData: 0x70
+    TotalStageCount: 0x58
+    TotalStageCountData: 7
+    StageHeaderSizeData: 0xa0
+    KeySizeData: 6
+    StageNumOfStage: 0x0
+    KeyCountOfStage: 0x04
+    TotalSizeOrFpsSizeOfStage: 0x08
+    KeyData:
+      KeyDataVersion: 3
+      KeySize: 2
+      KeyNames: ["A", "B", "", "Fc", "↑", "↓", "←", "→", "", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0c
+      Type: int
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x18
+      Type: short
+      Formatter: life
+    - Name: LifeFragment
+      DisplayName: 残机碎片
+      Offset: 0x1a
+      Type: short
+      EnumList: Th12LifeFragment
+      Formatter: "{.}/4"
+    - Name: Bomb
+      DisplayName: 符卡
+      Offset: 0x1c
+      Type: short
+      Formatter: bomb
+    - Name: BombFragment
+      DisplayName: 符卡碎片
+      Offset: 0x1e
+      Type: short
+      EnumList: Th12BombFragment
+      Formatter: "{.}/3"
+    - Name: Power
+      DisplayName: 灵力
+      Offset: 0x10
+      Type: int
+      Modifier: "{.}/100"
+      Formatter: "0.00"
+    - Name: PointScore
+      DisplayName: 最大得点
+      Offset: 0x14
+      Type: int
+      Modifier: "{.}\\1000*10"
+      Formatter: "{.} ({PointScoreRaw})"
+    - Name: PointScoreRaw
+      Offset: 0x14
+      Type: int
+      Modifier: "{.}/100"
+      IsVisible: false
+    - Name: Graze
+      DisplayName: 擦弹
+      Offset: 0x44
+      Type: int
+    - Name: UFO
+      DisplayName: 飞碟
+      Offset: 0x20
+      Type: int[]
+      Count: 3
+      EnumList: Th12UFO
+    - Name: XPosRaw
+      Offset: 0x30
+      Type: int
+      IsVisible: false
+    - Name: YPosRaw
+      Offset: 0x34
+      Type: int
+      IsVisible: false
+    - Name: XPos
+      Offset: 0x30
+      Type: int
+      Modifier: "{.}/128+224"
+      IsVisible: false
+    - Name: YPos
+      Offset: 0x34
+      Type: int
+      Modifier: "{.}/128+16"
+      IsVisible: false
+    - Name: PositionDisplay
+      DisplayName: 自机位置
+      Formatter: "{XPos:0},{YPos:0} ({XPosRaw},{YPosRaw})"
+    - Name: SCTimeEndMark
+      Type: sctime
+      Offset: 0x0
+      Modifier: "{.}==(99999)"
+      Ignore: true
+      IsVisible: false
+    - Name: SCTime
+      Type: sctime[]
+      Offset: 0x4c
+      Count: 20
+      MultilineList: true
+      EndMark: SCTimeEndMark
+      DisplayName: 符卡实际时间
+      Formatter: "{.:0.00}秒"
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0
+    Type: string
+    Size: 12
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x0c
+    Type: UTCDateLong
+    Formatter: yyyy/MM/dd HH:mm:ss
+  - Name: Chara
+    Offset: 0x5c
+    Type: int
+    EnumList: Th12Chara
+    IsVisible: false
+  - Name: CharaType
+    Offset: 0x60
+    Type: int
+    EnumList: Th12CharaType
+    IsVisible: false
+  - Name: CharaDisplay
+    DisplayName: 角色
+    Formatter: "{Chara}{CharaType}"
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x64
+    Type: int
+    EnumList: Difficulty
+  - Name: LastStage
+    DisplayName: 最终关卡
+    Offset: 0x68
+    Type: int
+    Modifier: "{.}-1"
+    EnumList: LastStage
+  - Name: Score
+    DisplayName: 得分
+    Offset: 0x14
+    Type: int
+    Modifier: "{.}*10"
+    Formatter: score
+  - Name: SlowRate
+    DisplayName: 处理落率
+    Offset: 0x54
+    Type: float
+    Formatter: "{.:0.00}%"
+  - Name: NoDInput
+    DisplayName: 不使用Direct Input
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&8)!=0?1:0"
+    EnumList: YesNo
+  - Name: ShotSlow
+    DisplayName: 射击时低速
+    Offset: 0x50
+    Type: int
+    Modifier: "({.}&512)!=0?1:0"
+    EnumList: YesNo

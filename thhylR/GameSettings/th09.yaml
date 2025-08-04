@@ -1,0 +1,106 @@
+- GameName: Th09
+  Identifier: T9RP
+  GameDisplayName: 东方花映塚　～ Phantasmagoria of Flower View.
+  InfoBlock: 0x0c
+  ReplayStructVersion: 1
+  DecodeSetting:
+    DecodeVersion: 1
+    DecompressVersion: 1
+    DecodeStartData: 0x18
+    DecodeBaseParam: 0x15
+    DecodeAdderData: 7
+    DecompressStartData: 0xC0
+    # CalculateDecompressLength: true
+    DecompressLength: 0x18
+    AfterDecompressLength: 0x1C
+  StageSetting:
+    FirstStage: 0x20
+    FPSStartData: 30
+    TotalStageCountData: 40
+    StageHeaderSizeData: 0x20
+    KeySizeData: 2
+    IsVSGame: true
+    KeyData:
+      KeyDataVersion: 2
+      HasTerminateMark: false
+      KeySize: 2
+      KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
+    CustomStageInfo:
+    - Name: StageScore
+      DisplayName: 得分
+      Offset: 0x0
+      Type: int
+      Modifier: "{.}*10"
+      Formatter: score
+    - Name: Chara
+      Offset: 0x6
+      Type: byte
+      IsVisible: false
+      EnumList: Th09Chara
+    - Name: CharaDisplay
+      DisplayName: 角色
+      Formatter: "{CharaP1} VS {CharaP2}"
+      SpecificPlayer: Player1
+    - Name: PlayerType
+      Offset: 0x7
+      Type: byte
+      EnumList: Th09PlayerType
+      IsVisible: false
+    - Name: PlayerTypeDisplay
+      DisplayName: 对战类型
+      Formatter: "{PlayerTypeP1}对{PlayerTypeP2}"
+      SpecificPlayer: Player1
+      IsVisible: "{Stage} == 9 ? 1 : 0"
+    - Name: Place
+      DisplayName: 场景
+      Offset: 0x9
+      Type: sbyte
+      SpecificPlayer: Player1
+      Modifier: "{.}+2"
+      EnumList: Th09Place
+      IsVisible: "{Stage} == 9 ? 1 : 0"
+    - Name: Life
+      DisplayName: 残机
+      Offset: 0x8
+      Type: byte
+      Formatter: life
+  CustomReplayInfo:
+  - Name: Player
+    DisplayName: 玩家
+    Offset: 0x0e
+    Type: string
+    Size: 9
+  - Name: ClearTime
+    DisplayName: 录像日期
+    Offset: 0x4
+    Type: string
+    Size: 10
+  - Name: Difficulty
+    DisplayName: 难度
+    Offset: 0x17
+    Type: byte
+    EnumList: Difficulty
+  - Name: LifeStartP1
+    DisplayName: 1P初始生命值
+    Offset: 0x126
+    Type: byte
+    Modifier: "{.}/2"
+    Formatter: "0.0"
+  - Name: LifeStartP2
+    DisplayName: 2P初始生命值
+    Offset: 0x127
+    Type: byte
+    Modifier: "{.}/2"
+    Formatter: "0.0"
+  - Name: ChargeTypeP1
+    DisplayName: 1P蓄力类型
+    Offset: 0xd0
+    Type: byte
+    Modifier: "{.}!=0?1:0"
+    EnumList: Th09ChargeType
+  - Name: ChargeTypeP2
+    DisplayName: 2P蓄力类型
+    Offset: 0xd1
+    Type: byte
+    Modifier: "{.}!=0?1:0"
+    EnumList: Th09ChargeType
