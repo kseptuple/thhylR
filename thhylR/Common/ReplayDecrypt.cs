@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace thhylR.Common
+﻿namespace thhylR.Common
 {
     public static class ReplayDecrypt
     {
@@ -79,7 +77,7 @@ namespace thhylR.Common
 
         public static void DecodeV1(byte[] data, int start, int end, byte key, byte add)
         {
-            for (int i = start; i < end; ++i)
+            for (int i = start; i < end; i++)
             {
                 data[i] -= key;
                 key += add;

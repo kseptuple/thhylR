@@ -222,12 +222,6 @@
     Offset: 0xa4
     Type: float
     Formatter: "{.:0.00}%"
-  - Name: NoDInput
-    DisplayName: 不使用Direct Input
-    Offset: 0x6c
-    Type: int
-    Modifier: "({.}&8)!=0?1:0"
-    EnumList: YesNo
   - Name: ShotSlow
     DisplayName: 射击时低速
     Offset: 0x6c
