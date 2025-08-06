@@ -219,7 +219,7 @@
     UseAlternativeSource: true
   - Name: SlowRate
     DisplayName: 处理落率
-    Offset: 0x84
+    Offset: 0x88
     Type: float
     Formatter: "{.:0.00}%"
     UseAlternativeSource: true
