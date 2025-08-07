@@ -1,8 +1,10 @@
-﻿using thhylR.Games;
+﻿using System.Reflection;
+using thhylR.Games;
 
 namespace thhylR.Common
 {
-    public static class ReplayExporter
+	[Obfuscation(Exclude = false)]
+	public static class ReplayExporter
     {
         private static EnumItemList stageEnumDataList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == "StageEnum");
 

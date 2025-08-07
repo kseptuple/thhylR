@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 
 namespace thhylR.Helper
 {
+    [Obfuscation(Exclude = false)]
     public static class ExpressionAnalyzer
     {
         private static readonly List<string> multipleCharOperators = ["**", "&&", "||", "==", "!=", "<=", ">="];
@@ -13,7 +15,7 @@ namespace thhylR.Helper
             var result = calculateValue(expressionTree);
             if (result == null)
             {
-                throw new Exception("gramma error");
+                throw new SyntaxException();
             }
             return result.Value;
         }
@@ -63,7 +65,7 @@ namespace thhylR.Helper
                         }
                         if (!changeSuccess)
                         {
-                            throw new Exception("gramma error");
+                            throw new SyntaxException();
                         }
                         currentPos++;
                     }
@@ -453,5 +455,7 @@ namespace thhylR.Helper
             }
         }
     }
+
+    public class SyntaxException : Exception { }
 }
 

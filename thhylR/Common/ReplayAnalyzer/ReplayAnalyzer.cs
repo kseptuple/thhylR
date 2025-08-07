@@ -1,56 +1,18 @@
 ﻿using System.Data;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using thhylR.Games;
 using thhylR.Helper;
 
 namespace thhylR.Common
 {
+    [Obfuscation(Exclude = false)]
     public static partial class ReplayAnalyzer
     {
         public static int defaultCodePage = 932;
-        public static int defaultCHNCodePage = 936;
 
         private static EnumItemList stageEnumDataList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == "StageEnum");
-
-        public static bool IsSpecialCHNVersion(string gameId, byte[] afterDecompressData)
-        {
-            string version = null;
-            uint value1 = 0, value2 = 0;
-            int offset = 0;
-            switch (gameId)
-            {
-                case "Th07":
-                    offset = 0x8c;
-                    value1 = 0x0009EE00;
-                    value2 = 0xAEC5445C;
-                    version = "0100b";
-                    break;
-                case "Th08":
-                    offset = 0xc4;
-                    value1 = 0x000CD400;
-                    value2 = 0xA26861B9;
-                    version = "0100d";
-                    break;
-                case "Th09":
-                    offset = 0x11c;
-                    value1 = 0x000A7400;
-                    value2 = 0xABEE4C8F;
-                    version = "0150a";
-                    break;
-                default:
-                    return false;
-            }
-            if (Encoding.ASCII.GetString(afterDecompressData[offset..(offset + 5)]) != version)
-            {
-                return false;
-            }
-            if (BitConverter.ToUInt32(afterDecompressData, offset - 8) == value1 && BitConverter.ToUInt32(afterDecompressData, offset - 4) == value2)
-            {
-                return false;
-            }
-            return true;
-        }
 
         public static TouhouReplay Analyze(byte[] replayData, int codePage)
         {
@@ -180,11 +142,9 @@ namespace thhylR.Common
             result.GameCustomDataHeader = new GameDataSource(result.Header);
             result.GameCustomDataBody = new GameDataSource(result.RawData);
 
-            int infoCodePage = defaultCodePage;
-            if (IsSpecialCHNVersion(gameData.GameName, afterDecompressData))
+            if (Th789ChecksumData.IsModdedVersion(gameData.GameName, afterDecompressData))
             {
                 result.ReplayProblem |= ReplayProblemEnum.ChnVerReplay;
-                infoCodePage = defaultCHNCodePage;
             }
 
             if (infoBlocks != null)
@@ -192,7 +152,7 @@ namespace thhylR.Common
                 var userBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.UserInfo);
                 if (userBlock != null)
                 {
-                    string replaySummary = UserInfo.GetStringFromByteArray(infoCodePage, userBlock.Data);
+                    string replaySummary = UserInfo.GetStringFromByteArray(defaultCodePage, userBlock.Data);
                     insertIntoDisplayTable(ResourceLoader.GetText("ReplaySummary"), replaySummary, replaySummary, "ReplaySummary", -1);
                 }
                 var commentBlock = infoBlocks.FirstOrDefault(b => b.BlockType == InfoBlock.UserBlockType.Comment);

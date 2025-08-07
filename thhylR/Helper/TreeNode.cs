@@ -1,10 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace thhylR.Helper
 {
+    [Obfuscation(Exclude = false)]
     public abstract class TreeNode<T, TNode> where TNode : TreeNode<T, TNode>
     {
         protected TNode parent = null;
@@ -263,6 +265,7 @@ namespace thhylR.Helper
         }
     }
 
+    [Obfuscation(Exclude = false)]
     public class ExpressionTreeNode<T> : TreeNode<T, ExpressionTreeNode<T>>
     {
         public ExpressionTreeNode(bool initializeChildren = false)
@@ -287,6 +290,7 @@ namespace thhylR.Helper
         public int CurrentChildrenIndex { get; set; }
     }
 
+    [Obfuscation(Exclude = false)]
     public class BinaryTreeNode<T> : TreeNode<T, BinaryTreeNode<T>>
     {
         public override ObservableCollection<BinaryTreeNode<T>> Children

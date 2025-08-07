@@ -107,9 +107,13 @@ namespace thhylR.Common
             {
                 return ExpressionAnalyzer.GetValue(modifier);
             }
+            catch (SyntaxException) 
+            {
+                return ResourceLoader.GetText("SyntaxError");
+            }
             catch
             {
-                return "ERROR";
+                return ResourceLoader.GetText("OtherError");
             }
         }
 
@@ -410,6 +414,10 @@ namespace thhylR.Common
                 else if (formatter == "score")
                 {
                     string itemStr = item.ToString();
+                    if (!decimal.TryParse(itemStr, out _))
+                    {
+                        return itemStr;
+                    }
                     bool isMinus = itemStr.StartsWith('-');
                     string result = null;
                     if (isMinus)

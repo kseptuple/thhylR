@@ -1,9 +1,11 @@
 ﻿using System.Data;
+using System.Reflection;
 using System.Text;
 using thhylR.Common;
 
 namespace thhylR.Games
 {
+    [Obfuscation(Exclude = false)]
     public class TouhouReplay
     {
         public GameOffsets GameData { get; set; }
@@ -66,6 +68,7 @@ namespace thhylR.Games
         public int Length { get; set; }
     }
 
+    [Obfuscation(Exclude = false)]
     public class GameDataSource
     {
         public byte[] Data { get; set; }
@@ -391,6 +394,7 @@ namespace thhylR.Games
         }
     }
 
+    [Obfuscation(Exclude = false)]
     public class StageData
     {
         public string StageName { get; set; }

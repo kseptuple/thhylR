@@ -248,3 +248,5 @@ text:
   - Key3Frame: 3帧内按下多个方向键算作一次按键
   - KeyDiffUnit: 帧
   - DataFileIsNewer: 当前的游戏数据文件需要更新版本的程序才能正常处理，请下载完整的最新版本的程序。
+  - SyntaxError: <语法错误>
+  - OtherError: <错误>
