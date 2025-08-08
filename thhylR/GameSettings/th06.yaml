@@ -9,6 +9,9 @@
     DecodeBaseParam: 0x0E
     DecodeAdderData: 7
     DecompressStartData: 0x50
+    DecodeChecksumStartData: 0x0E
+    DecodeChecksumBaseData: 0x3F000318
+    DecodeChecksum: 0x8
   StageSetting:
     FirstStage: 0x34
     TotalStageCountData: 7

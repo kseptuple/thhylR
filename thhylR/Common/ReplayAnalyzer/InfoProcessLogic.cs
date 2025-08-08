@@ -107,7 +107,7 @@ namespace thhylR.Common
             {
                 return ExpressionAnalyzer.GetValue(modifier);
             }
-            catch (SyntaxException) 
+            catch (SyntaxException)
             {
                 return ResourceLoader.GetText("SyntaxError");
             }

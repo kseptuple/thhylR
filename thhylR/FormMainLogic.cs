@@ -55,6 +55,9 @@ namespace thhylR
             SaveReplayInfoToolStripMenuItem.Enabled = isFileOpen;
             CopyInfoToolStripMenuItem.Enabled = isFileOpen;
 
+            DataGridCopyAllToolStripMenuItem.Enabled = isFileOpen;
+            DataGridCopyToolStripMenuItem.Enabled = isFileOpen;
+
             if (!isExist)
             {
                 toolStripButtonEditComment.Enabled = false;
@@ -212,7 +215,15 @@ namespace thhylR
             treeViewFiles.Nodes.Clear();
             treeViewFiles.Nodes.Add(path);
             bool hasFile = false;
-            var fileList = Directory.GetFiles(path, "*.rpy");
+            string[] fileList = null;
+            try
+            {
+                fileList = Directory.GetFiles(path, "*.rpy");
+            }
+            catch
+            {
+                return false;
+            }
             for (int i = 0; i < fileList.Length; i++)
             {
                 var file = fileList[i];
@@ -243,13 +254,18 @@ namespace thhylR
                 }
                 else
                 {
-                    var hasFile = setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
-                    if (!hasFile)
+                    if (!Directory.Exists(fileSystemWatcherFolder.Path))
                     {
+                        treeViewFiles.Nodes.Clear();
                         setFileIsOpen(false);
-                        CurrentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
-                        toolStripStatusLabelInfo.Image = Resources.StatusWarning;
-                        toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
+                    }
+                    else
+                    {
+                        var hasFile = setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+                        if (!hasFile)
+                        {
+                            setFileIsOpen(false);
+                        }
                     }
                 }
             }
@@ -770,6 +786,31 @@ namespace thhylR
                 }
                 sb.AppendLine();
             }
+            return sb.ToString();
+        }
+
+        private string InfoLineToString()
+        {
+            if (CurrentReplay == null) return null;
+            if (dataGridInfo.SelectedRows.Count == 0) return null;
+
+            StringBuilder sb = new StringBuilder();
+            var dataRow = ((DataRowView)dataGridInfo.SelectedRows[0].DataBoundItem).Row;
+
+            if (dataRow["Visible"].ToString() == "0") return null;
+            string name = dataRow["Name"].ToString();
+            if (!string.IsNullOrEmpty(name))
+            {
+                sb.Append(name).Append(exportInfoColon);
+                string id = dataRow["Id"].ToString();
+                if (id == "ReplaySummary" || id == "Comment")
+                {
+                    sb.AppendLine();
+                }
+                string value = dataRow["Value"].ToString().TrimEnd();
+                sb.Append(value);
+            }
+
             return sb.ToString();
         }
 

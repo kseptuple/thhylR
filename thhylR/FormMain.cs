@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using System.Data;
 using System.Reflection;
@@ -124,6 +123,9 @@ namespace thhylR
             toolStripButtonExportCustom.ToolTipText = ResourceLoader.GetText("ExportCustomTip");
 
             toolStripButtonOption.ToolTipText = ResourceLoader.GetText("OptionTip");
+
+            DataGridCopyAllToolStripMenuItem.Text = ResourceLoader.GetText("DataGridCopyAllToolStripMenuText");
+            DataGridCopyToolStripMenuItem.Text = ResourceLoader.GetText("DataGridCopyToolStripMenuText");
 
             toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ProblemNotOpen");
 
@@ -677,6 +679,44 @@ namespace thhylR
         private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RunFileHelper.Run("Help\\index.html");
+        }
+
+        private void DataGridCopyAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                ClipboardHelper.TextToClipboard(InfoToString());
+            }
+        }
+
+        private void DataGridCopyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                ClipboardHelper.TextToClipboard(InfoLineToString());
+            }
+        }
+
+        private void dataGridInfo_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var clicked = dataGridInfo.HitTest(e.X, e.Y);
+                if (clicked.RowIndex < 0) return;
+                dataGridInfo.ClearSelection();
+                dataGridInfo.Rows[clicked.RowIndex].Selected = true;
+            }
+        }
+
+        private void dataGridInfo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                if (e.Control && e.KeyCode == Keys.C)
+                {
+                    ClipboardHelper.TextToClipboard(InfoLineToString());
+                }
+            }
         }
 
         public enum ReplayChangeType

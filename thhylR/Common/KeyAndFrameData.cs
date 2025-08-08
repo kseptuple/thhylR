@@ -3,8 +3,8 @@ using thhylR.Games;
 
 namespace thhylR.Common
 {
-	[Obfuscation(Exclude = false)]
-	public static class KeyAndFrameData
+    [Obfuscation(Exclude = false)]
+    public static class KeyAndFrameData
     {
         public static void InitFrameCountAndFPS(TouhouReplay replay)
         {
@@ -27,7 +27,7 @@ namespace thhylR.Common
                         {
                             int lastFPSFrames = stage.FrameCount % 30;
                             double stageTotalFPS = 0d;
-                            for (int i = FPSStart; i < stage.FPSData.Length; i+= gameData.StageSetting.KeyData.FPSSize)
+                            for (int i = FPSStart; i < stage.FPSData.Length; i += gameData.StageSetting.KeyData.FPSSize)
                             {
                                 int fps = FPSDataGetter(replay.RawData, stage.FPSData.Offset + i);
                                 if (i != stage.FPSData.Length - 1)
@@ -253,7 +253,7 @@ namespace thhylR.Common
                 var frameDataOffsets = replay.Stages[stageIndex].FPSData;
                 var frameDataEnd = frameDataOffsets.Offset + frameDataOffsets.Length;
 
-                for (int i = frameDataOffsets.Offset + FPSStart; i < frameDataEnd; i+= gameData.StageSetting.KeyData.FPSSize)
+                for (int i = frameDataOffsets.Offset + FPSStart; i < frameDataEnd; i += gameData.StageSetting.KeyData.FPSSize)
                 {
                     int currentFrameFPS = FPSDataGetter(replay.RawData, i);
                     int count = i != frameDataEnd ? 30 : remainFrame;

@@ -2,7 +2,7 @@
 
 namespace thhylR.Common
 {
-    [Obfuscation(Exclude=false)]
+    [Obfuscation(Exclude = false)]
     public static class ReplayDecrypt
     {
 

@@ -3,8 +3,8 @@ using System.Text;
 
 namespace thhylR.Common
 {
-	[Obfuscation(Exclude = false)]
-	public static class UserInfo
+    [Obfuscation(Exclude = false)]
+    public static class UserInfo
     {
         public static List<InfoBlock> GetReplayInfoBlocks(byte[] replayData, int infoBlockStart)
         {

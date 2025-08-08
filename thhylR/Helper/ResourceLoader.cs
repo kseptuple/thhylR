@@ -24,7 +24,7 @@ namespace thhylR.Helper
                 {
 
                 }
-            };
+            }
         }
 
         public static string GetText(string resourceName)
@@ -99,9 +99,9 @@ namespace thhylR.Helper
                             }
                         }
                     }
-                    if (control is MenuStrip)
+                    if (control is MenuStrip menuObj)
                     {
-                        setMenuText(((MenuStrip)control).Items, dynamicObject);
+                        setMenuText(menuObj.Items, dynamicObject);
                     }
                     if (control.HasChildren)
                     {

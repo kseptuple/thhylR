@@ -1,6 +1,4 @@
-﻿using System.Drawing.Imaging;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Text;
 using thhylR.Helper;
 
 namespace thhylR
@@ -83,7 +81,7 @@ namespace thhylR
             richtextArea.Dispose();
 
             pictureBoxEaster.Visible = true;
-            
+
             await Task.Run(() =>
             {
                 Thread.Sleep(3700);

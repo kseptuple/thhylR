@@ -36,6 +36,7 @@ FormMain:
         - 导出原始数据(&P)
         - ExportAllToolStripMenuItem: 全部(&A)...
         - ExportCustomToolStripMenuItem: 自定义(&C)...
+      - RepairToolStripMenuItem: 修复录像(&R)...
     - ToolToolStripMenuItem: 
       - 工具(&T)
       - OptionToolStripMenuItem: 设置(&S)...
@@ -105,6 +106,8 @@ FormExport:
   - buttonClose: 关闭
 FormReplayProblem: 
   - 录像异常信息
+  - buttonFix: 修复...
+  - buttonClose: 关闭
 FormKeyViewer:
   - 按键查看
   - label1: 关卡
@@ -190,6 +193,7 @@ text:
   - NextReplayTip: 打开下一个录像文件
   - LastReplayTip: 打开最后一个录像文件
   - EditCommentTip: 编辑录像注释
+  - RepairTip: 修复录像
   - ViewKeysTip: 查看按键记录
   - ExportAllTip: 导出全部数据
   - ExportCustomTip: 导出自定义数据
@@ -250,3 +254,4 @@ text:
   - DataFileIsNewer: 当前的游戏数据文件需要更新版本的程序才能正常处理，请下载完整的最新版本的程序。
   - SyntaxError: <语法错误>
   - OtherError: <错误>
+  - ReplayFixWarning: 即将保存修复后的录像，录像修复不能保证100%成功，请尽量不要覆盖原录像。
