@@ -77,6 +77,7 @@ namespace thhylR.Common
         }
     }
 
+    [Obfuscation(Exclude = false)]
     public class InfoBlock
     {
         public string Marker { get; set; }

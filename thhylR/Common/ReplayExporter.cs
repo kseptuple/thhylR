@@ -180,6 +180,7 @@ namespace thhylR.Common
         }
     }
 
+    [Obfuscation(Exclude = false)]
     public class ReplayBlock
     {
         public string Name { get; set; }
@@ -190,6 +191,7 @@ namespace thhylR.Common
         public ReplayBlockType Type { get; set; }
     }
 
+    [Obfuscation(Exclude = false)]
     public enum ReplayBlockType
     {
         Header,

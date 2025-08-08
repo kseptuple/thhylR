@@ -198,6 +198,8 @@ text:
   - ExportAllTip: 导出全部数据
   - ExportCustomTip: 导出自定义数据
   - OptionTip: 程序设置
+  - DataGridCopyAllToolStripMenuText: 复制全部信息
+  - DataGridCopyToolStripMenuText: 复制选中信息
   - ExportAllSuccess: 导出数据成功！
   - ExportAllFail: 导出数据失败！
   - ExportInfoColon: "："

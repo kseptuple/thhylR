@@ -36,5 +36,6 @@ namespace thhylR.Common
         }
     }
 
+    [Obfuscation(Exclude = false)]
     public record GameChecksum(int ChecksumOffset, int ExeSize, uint ExeChecksum, string GameVersion);
 }

@@ -54,6 +54,7 @@ namespace thhylR.Games
     }
 
     [Flags]
+    [Obfuscation(Exclude = false)]
     public enum ReplayProblemEnum
     {
         None = 0,
@@ -62,6 +63,7 @@ namespace thhylR.Games
         StageLengthError = 0x4,
     }
 
+    [Obfuscation(Exclude = false)]
     public class DataOffsetAndLength
     {
         public int Offset { get; set; }
