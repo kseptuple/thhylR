@@ -68,6 +68,11 @@ namespace thhylR
 
             dpiScale = DeviceDpi / 96.0;
 
+            splitContainerMain.Panel1.Name = "MainPanel1";
+            splitContainerMain.Panel2.Name = "MainPanel2";
+            splitContainerInfo.Panel1.Name = "InfoPanel1";
+            splitContainerInfo.Panel2.Name = "InfoPanel2";
+
             ResourceLoader.Init();
             ResourceLoader.InitTextResource();
             ResourceLoader.SetFormText(this);
@@ -83,11 +88,6 @@ namespace thhylR
             EnumData.Init();
             SettingProvider.Init();
             EncodingHelper.Init();
-
-            splitContainerMain.Panel1.Name = "MainPanel1";
-            splitContainerMain.Panel2.Name = "MainPanel2";
-            splitContainerInfo.Panel1.Name = "InfoPanel1";
-            splitContainerInfo.Panel2.Name = "InfoPanel2";
 
             dataGridInfo.AutoGenerateColumns = false;
             dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;

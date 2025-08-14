@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             openReplayDialog = new OpenFileDialog();
             menuStripMain = new MenuStrip();
@@ -756,15 +756,15 @@
             dataGridInfo.ColumnHeadersVisible = false;
             dataGridInfo.Columns.AddRange(new DataGridViewColumn[] { dataGridColumnName, dataGridColumnValue });
             dataGridInfo.ContextMenuStrip = contextMenuStripData;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle1;
-            dataGridInfo.Location = new Point(0, 23);
+            dataGridViewCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle.BackColor = SystemColors.Window;
+            dataGridViewCellStyle.Font = new Font("Microsoft YaHei UI", 12F);
+            dataGridViewCellStyle.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle.WrapMode = DataGridViewTriState.False;
+            dataGridInfo.DefaultCellStyle = dataGridViewCellStyle;
+            dataGridInfo.Location = new Point(0, 26);
             dataGridInfo.Margin = new Padding(2, 3, 2, 3);
             dataGridInfo.MultiSelect = false;
             dataGridInfo.Name = "dataGridInfo";
@@ -840,7 +840,7 @@
             comboBoxEncoding.Location = new Point(49, 0);
             comboBoxEncoding.Margin = new Padding(2, 3, 2, 3);
             comboBoxEncoding.Name = "comboBoxEncoding";
-            comboBoxEncoding.Size = new Size(229, 25);
+            comboBoxEncoding.Size = new Size(237, 25);
             comboBoxEncoding.TabIndex = 7;
             comboBoxEncoding.ValueMember = "CodePage";
             comboBoxEncoding.SelectedIndexChanged += comboBoxEncoding_SelectedIndexChanged;
@@ -848,13 +848,13 @@
             // textBoxInfo
             // 
             textBoxInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxInfo.Location = new Point(0, 23);
+            textBoxInfo.Location = new Point(0, 26);
             textBoxInfo.Margin = new Padding(2, 3, 2, 3);
             textBoxInfo.Multiline = true;
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(278, 411);
+            textBoxInfo.Size = new Size(286, 411);
             textBoxInfo.TabIndex = 6;
             // 
             // statusStripMain

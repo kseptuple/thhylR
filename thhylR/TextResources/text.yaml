@@ -6,7 +6,7 @@ FormMain:
         - InfoPanel1:
           - label1: 文件名：
         - InfoPanel2:
-          - label2: 编码：
+          - label2: 注释编码：
   - menuStripMain:
     - FileToolStripMenuItem: 
       - 文件(&F)

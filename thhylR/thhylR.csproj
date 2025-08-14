@@ -15,11 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="THRPYINFO.cs~RF8cd8a4.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.8" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
