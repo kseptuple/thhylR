@@ -15,8 +15,8 @@ namespace thhylR.Helper
             result.AppendLine($"是否64位系统：{(Environment.Is64BitOperatingSystem ? "是" : "否")}");
             result.AppendLine($"系统语言：{CultureInfo.CurrentCulture.DisplayName}");
             result.AppendLine($"逻辑处理器数量：{Environment.ProcessorCount}");
-            result.AppendLine($"物理内存：{GetSizeDisplay(computerInfo.AvailablePhysicalMemory)}/{GetSizeDisplay(computerInfo.TotalPhysicalMemory)}");
-            result.AppendLine($"虚拟内存：{GetSizeDisplay(computerInfo.AvailableVirtualMemory)}/{GetSizeDisplay(computerInfo.TotalVirtualMemory)}");
+            result.AppendLine($"物理内存（可用/全部）：{GetSizeDisplay(computerInfo.AvailablePhysicalMemory)}/{GetSizeDisplay(computerInfo.TotalPhysicalMemory)}");
+            result.AppendLine($"虚拟内存（可用/全部）：{GetSizeDisplay(computerInfo.AvailableVirtualMemory)}/{GetSizeDisplay(computerInfo.TotalVirtualMemory)}");
             result.AppendLine($"为本程序分配的内存：{GetSizeDisplay((ulong)Environment.WorkingSet)}");
             result.AppendLine($"GC托管内存：{GetSizeDisplay((ulong)GC.GetTotalMemory(false))}");
             result.AppendLine($"当前时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
@@ -124,7 +124,7 @@ namespace thhylR.Helper
             while (File.Exists(Path.Combine(path, acutalFilename + extesion)))
             {
                 suffix++;
-                acutalFilename = filename + $"({suffix})";
+                acutalFilename = filename + $" ({suffix})";
             }
             return Path.Combine(path, acutalFilename + extesion);
         }
