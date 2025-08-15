@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using thhylR.Games;
+﻿using thhylR.Games;
 
 namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public static class ReplayExporter
     {
         private static EnumItemList stageEnumDataList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == "StageEnum");
@@ -180,7 +178,6 @@ namespace thhylR.Common
         }
     }
 
-    [Obfuscation(Exclude = false)]
     public class ReplayBlock
     {
         public string Name { get; set; }
@@ -191,7 +188,6 @@ namespace thhylR.Common
         public ReplayBlockType Type { get; set; }
     }
 
-    [Obfuscation(Exclude = false)]
     public enum ReplayBlockType
     {
         Header,

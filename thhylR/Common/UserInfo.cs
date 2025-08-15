@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 
 namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public static class UserInfo
     {
         public static List<InfoBlock> GetReplayInfoBlocks(byte[] replayData, int infoBlockStart)
@@ -77,7 +75,6 @@ namespace thhylR.Common
         }
     }
 
-    [Obfuscation(Exclude = false)]
     public class InfoBlock
     {
         public string Marker { get; set; }

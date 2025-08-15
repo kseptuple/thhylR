@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 
 namespace thhylR.Helper
 {
-    [Obfuscation(Exclude = false)]
     public static class ExpressionAnalyzer
     {
         private static readonly List<string> multipleCharOperators = ["**", "&&", "||", "==", "!=", "<=", ">="];

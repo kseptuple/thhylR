@@ -1,8 +1,5 @@
-﻿using System.Reflection;
-
-namespace thhylR.Common
+﻿namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public static class ReplayDecrypt
     {
 

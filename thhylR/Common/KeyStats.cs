@@ -1,8 +1,5 @@
-﻿using System.Reflection;
-
-namespace thhylR.Common
+﻿namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public class KeyStats
     {
         public List<List<int>> KeyPressCount { get; set; }
@@ -29,7 +26,6 @@ namespace thhylR.Common
         }
     }
 
-    [Obfuscation(Exclude = false)]
     public class FullKeyStats
     {
         public KeyStats KeyboardKey { get; set; }
@@ -37,7 +33,6 @@ namespace thhylR.Common
         public int TotalFrames { get; set; }
     }
 
-    [Obfuscation(Exclude = false)]
     public enum KeyType
     {
         Keyboard,

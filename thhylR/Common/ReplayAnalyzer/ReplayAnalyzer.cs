@@ -1,13 +1,11 @@
 ﻿using System.Data;
 using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 using thhylR.Games;
 using thhylR.Helper;
 
 namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public static partial class ReplayAnalyzer
     {
         public static int defaultCodePage = 932;

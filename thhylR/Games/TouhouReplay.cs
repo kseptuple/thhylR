@@ -1,11 +1,9 @@
 ﻿using System.Data;
-using System.Reflection;
 using System.Text;
 using thhylR.Common;
 
 namespace thhylR.Games
 {
-    [Obfuscation(Exclude = false)]
     public class TouhouReplay
     {
         public GameOffsets GameData { get; set; }
@@ -54,7 +52,6 @@ namespace thhylR.Games
     }
 
     [Flags]
-    [Obfuscation(Exclude = false)]
     public enum ReplayProblemEnum
     {
         None = 0,
@@ -63,14 +60,12 @@ namespace thhylR.Games
         StageLengthError = 0x4,
     }
 
-    [Obfuscation(Exclude = false)]
     public class DataOffsetAndLength
     {
         public int Offset { get; set; }
         public int Length { get; set; }
     }
 
-    [Obfuscation(Exclude = false)]
     public class GameDataSource
     {
         public byte[] Data { get; set; }
@@ -396,7 +391,6 @@ namespace thhylR.Games
         }
     }
 
-    [Obfuscation(Exclude = false)]
     public class StageData
     {
         public string StageName { get; set; }

@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using thhylR.Games;
+﻿using thhylR.Games;
 
 namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public static class KeyAndFrameData
     {
         public static void InitFrameCountAndFPS(TouhouReplay replay)

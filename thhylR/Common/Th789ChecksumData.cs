@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 
 namespace thhylR.Common
 {
-    [Obfuscation(Exclude = false)]
     public static class Th789ChecksumData
     {
         public static Dictionary<string, GameChecksum> GameChecksums =
@@ -36,6 +34,5 @@ namespace thhylR.Common
         }
     }
 
-    [Obfuscation(Exclude = false)]
     public record GameChecksum(int ChecksumOffset, int ExeSize, uint ExeChecksum, string GameVersion);
 }
