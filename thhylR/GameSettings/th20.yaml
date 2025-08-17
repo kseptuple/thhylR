@@ -1,5 +1,5 @@
-﻿- GameName: Th20Trail
-  Identifier: t20t
+﻿- GameName: Th20
+  Identifier: t20r
   GameDisplayName: 东方锦上京　～ Fossilized Wonders.
   InfoBlock: 0x0c
   ReplayStructVersion: 2
@@ -250,3 +250,9 @@
     Type: int
     Modifier: "({.}&256)!=0?1:0"
     EnumList: YesNo
+- GameName: Th20Trail
+  Identifier: t20t
+  Alias: Th20
+  OverrideFields:
+  - GameName
+  - Identifier
