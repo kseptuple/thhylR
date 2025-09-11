@@ -233,6 +233,19 @@
     Type: int
     Modifier: "{.}-1"
     EnumList: LastStage
+    IsVisible: "{SpellNo}==(-1)"
+  - Name: SpellNoPlusOne
+    Offset: 0xfc
+    Type: int
+    Modifier: "{.}+1"
+    IsVisible: false
+  - Name: SpellNo
+    DisplayName: 符卡
+    Offset: 0xfc
+    Type: int
+    EnumList: Th20SpellList
+    Formatter: "No.{SpellNoPlusOne} {.}"
+    IsVisible: "{.}!=(-1)"
   - Name: Score
     DisplayName: 得分
     Offset: 0x18
