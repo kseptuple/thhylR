@@ -388,7 +388,7 @@ namespace thhylR.Helper
         /// </summary>
         /// <param name="target"></param>
         /// <returns>is root node</returns>
-        public bool MoveToNode(BinaryTreeNode<T> target)
+        public bool OverwriteNode(BinaryTreeNode<T> target)
         {
             if (target.parent == null)
             {
@@ -404,6 +404,27 @@ namespace thhylR.Helper
                 target.parent.children[target.nodeIndex] = this;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="position"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public void InsertAsChild(BinaryTreeNode<T> target, NodePosition position)
+        {
+            if (Left != null || Right != null)
+            {
+                throw new InvalidOperationException();
+            }
+            if (parent != null)
+            {
+                parent.children[nodeIndex] = null;
+            }
+
+            children[(int)position] = target.children[(int)position];
+            target.children[(int)position] = this;
         }
 
         public enum NodePosition
