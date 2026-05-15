@@ -13,8 +13,8 @@ namespace thhylR
             InitializeComponent();
             ResourceLoader.SetFormText(this);
             TopMost = SettingProvider.Settings.OnTop;
-            var ms = new MemoryStream();
-            var richTextBytes = Encoding.UTF8.GetBytes(Properties.Resources.About);
+            using MemoryStream ms = new MemoryStream();
+            var richTextBytes = Properties.Resources.About;
             ms.Write(richTextBytes, 0, richTextBytes.Length);
             ms.Seek(0, SeekOrigin.Begin);
             richTextBoxAbout.LoadFile(ms, RichTextBoxStreamType.RichText);
@@ -84,7 +84,7 @@ namespace thhylR
 
             await Task.Run(() =>
             {
-                Thread.Sleep(3700);
+                Thread.Sleep(4000);
                 try
                 {
                     Invoke(() =>
@@ -93,6 +93,11 @@ namespace thhylR
                         pictureBoxEaster.Image = null;
                         pictureBoxEaster.BackgroundImage = null;
                         background.Dispose();
+                        using MemoryStream ms = new MemoryStream();
+                        var richTextBytes = Properties.Resources.AboutAfter;
+                        ms.Write(richTextBytes, 0, richTextBytes.Length);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        richTextBoxAbout.LoadFile(ms, RichTextBoxStreamType.RichText);
                     });
                 }
                 catch (InvalidOperationException)

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using thhylR.Common;
 using thhylR.Helper;
 
@@ -6,6 +7,7 @@ namespace thhylR
 {
     public partial class FormCommentEditor : Form
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string FileName { get; set; }
         private List<InfoBlock> infoBlocks;
 

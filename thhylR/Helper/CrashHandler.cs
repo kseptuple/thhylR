@@ -106,14 +106,9 @@ namespace thhylR.Helper
                 }
             }
 
-            try
-            {
-                File.Delete(logPath);
-            }
-            catch
-            {
 
-            }
+            FileDeleteHelper.DeleteFile(logPath);
+
             return crashReportPath;
         }
 

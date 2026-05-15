@@ -1,4 +1,7 @@
 ﻿function jump(page, anchor) {
+    if (arguments.length == 1) {
+        anchor = "";
+    }
     if (!/^[a-zA-Z0-9-_]+$/.test(page)) {
         page = "main";
         anchor = "";

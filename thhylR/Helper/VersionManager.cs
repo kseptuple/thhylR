@@ -54,11 +54,7 @@ namespace thhylR.Helper
                     {
                         if (File.Exists(currentFile))
                         {
-                            try
-                            {
-                                File.Delete(currentFile);
-                            }
-                            catch
+                            if (!FileDeleteHelper.DeleteFile(currentFile))
                             {
                                 newFileList.Add(currentFile);
                             }

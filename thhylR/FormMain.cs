@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using thhylR.Common;
@@ -16,6 +17,7 @@ namespace thhylR
 
         public BindingList<string> currentPathFiles = new BindingList<string>();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TouhouReplay CurrentReplay { get; set; }
 
         private string fileToOpen = null;
@@ -34,8 +36,8 @@ namespace thhylR
         private bool isEncodingChanging = false;
         private double dpiScale = 0d;
 
+        private bool isExitRoutineExecuted = false;
         private object locker = new object();
-        private bool isToolStripClicked = false;
 
         public FormMain()
         {
@@ -51,19 +53,23 @@ namespace thhylR
                     FileInfo fileInfo = new FileInfo(file);
                     if (fileInfo.CreationTime <= expireDate)
                     {
-                        try
-                        {
-                            File.Delete(file);
-                        }
-                        catch
-                        {
-
-                        }
+                        FileDeleteHelper.DeleteFile(file);
                     }
                 }
             }
 
             InitializeComponent();
+
+            Application.ApplicationExit += appExit;
+
+            AppDomain.CurrentDomain.ProcessExit += appExit;
+            AppDomain.CurrentDomain.DomainUnload += appExit;
+
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler((obj, e) =>
+            {
+                appExit(obj, e);
+            });
+
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             dpiScale = DeviceDpi / 96.0;
@@ -88,6 +94,7 @@ namespace thhylR
             EnumData.Init();
             SettingProvider.Init();
             EncodingHelper.Init();
+
 
             dataGridInfo.AutoGenerateColumns = false;
             dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;
@@ -211,22 +218,6 @@ namespace thhylR
         }
 #endif
 
-        //绕过WinForm的ToolStripButton在win11下的堆栈溢出bug
-        private bool setToolStripClicked()
-        {
-            lock (locker)
-            {
-                if (isToolStripClicked) return false;
-                isToolStripClicked = true;
-            }
-            return true;
-        }
-
-        private void removeToolStripClicked()
-        {
-            isToolStripClicked = false;
-        }
-
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             showOpenReplayDialog();
@@ -243,7 +234,7 @@ namespace thhylR
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            Application.Exit();
         }
 
         private void ExportAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -258,9 +249,7 @@ namespace thhylR
 
         private void toolStripButtonExportAll_Click(object sender, EventArgs e)
         {
-            if (!setToolStripClicked()) return;
             ExportAllCommand();
-            removeToolStripClicked();
         }
 
         private void toolStripButtonExportCustom_Click(object sender, EventArgs e)
@@ -346,9 +335,7 @@ namespace thhylR
 
         private void toolStripButtonOpen_Click(object sender, EventArgs e)
         {
-            if (!setToolStripClicked()) return;
             openReplayCommand();
-            removeToolStripClicked();
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -363,9 +350,7 @@ namespace thhylR
 
         private void toolStripButtonOpenFolder_Click(object sender, EventArgs e)
         {
-            if (!setToolStripClicked()) return;
             showOpenFolderDialog();
-            removeToolStripClicked();
         }
 
         private void openReplayCommand()
@@ -405,17 +390,13 @@ namespace thhylR
 
         private void toolStripButtonMoveTo_Click(object sender, EventArgs e)
         {
-            if (!setToolStripClicked()) return;
             MoveCopyToCommnad(true);
-            removeToolStripClicked();
         }
 
 
         private void toolStripButtonCopyTo_Click(object sender, EventArgs e)
         {
-            if (!setToolStripClicked()) return;
             MoveCopyToCommnad(false);
-            removeToolStripClicked();
         }
 
 
@@ -552,14 +533,7 @@ namespace thhylR
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SettingProvider.Settings.MainFormLeft = Left;
-            SettingProvider.Settings.MainFormTop = Top;
-            SettingProvider.Settings.MainFormHeight = (int)(Height / dpiScale);
-            SettingProvider.Settings.MainFormWidth = (int)(Width / dpiScale);
-            SettingProvider.Settings.MainFormSplitter1Pos = (int)(splitContainerMain.SplitterDistance / dpiScale);
-            SettingProvider.Settings.MainFormSplitter2Pos = (int)(splitContainerInfo.SplitterDistance / dpiScale);
 
-            SettingProvider.SaveSettings();
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -642,7 +616,7 @@ namespace thhylR
             }
         }
 
-        private readonly byte[] utf8BOM = new byte[3] { 0xEF, 0xBB, 0xBF };
+        private readonly byte[] utf8BOM = [0xEF, 0xBB, 0xBF];
         private void SaveReplayInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CurrentReplay != null)

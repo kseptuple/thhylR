@@ -486,11 +486,7 @@ namespace thhylR
             var result = MessageBox.Show(ResourceLoader.GetText("DeleteWarning"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                try
-                {
-                    File.Delete(CurrentReplay.FilePath);
-                }
-                catch
+                if (!FileDeleteHelper.DeleteFile(CurrentReplay.FilePath))
                 {
                     MessageBox.Show(ResourceLoader.GetText("DeleteFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -827,6 +823,23 @@ namespace thhylR
             splitContainerMain.Panel2MinSize = (int)(660 * dpiScale);
             splitContainerInfo.Panel1MinSize = (int)(400 * dpiScale);
             splitContainerInfo.Panel2MinSize = (int)(250 * dpiScale);
+        }
+
+        private void appExit(object sender, EventArgs e)
+        {
+            lock (locker)
+            {
+                if (isExitRoutineExecuted) return;
+                isExitRoutineExecuted = true;
+            }
+            SettingProvider.Settings.MainFormLeft = Left;
+            SettingProvider.Settings.MainFormTop = Top;
+            SettingProvider.Settings.MainFormHeight = (int)(Height / dpiScale);
+            SettingProvider.Settings.MainFormWidth = (int)(Width / dpiScale);
+            SettingProvider.Settings.MainFormSplitter1Pos = (int)(splitContainerMain.SplitterDistance / dpiScale);
+            SettingProvider.Settings.MainFormSplitter2Pos = (int)(splitContainerInfo.SplitterDistance / dpiScale);
+
+            SettingProvider.SaveSettings();
         }
     }
 }

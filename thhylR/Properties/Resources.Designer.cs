@@ -19,7 +19,7 @@ namespace thhylR.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,18 +61,22 @@ namespace thhylR.Properties {
         }
         
         /// <summary>
-        ///   查找类似 {\rtf1\ansi\ansicpg54936\deff0\nouicompat{\fonttbl{\f0\fnil\fprq2\fcharset134 \&apos;cb\&apos;ce\&apos;cc\&apos;e5;}}
-        ///{\colortbl ;\red0\green0\blue255;}
-        ///{\*\mmathPr\mdispDef1\mwrapIndent1440 }\viewkind4\uc1 
-        ///\pard\nowidctlpar\sa200\sl276\slmult1\qc\f0\fs22\lang9\par
-        ///- AUTHOR -\par
-        ///Kasa Septuple: {{\field{\*\fldinst{HYPERLINK https://github.com/kseptuple/thhylR }}{\fldrslt{https://github.com/kseptuple/thhylR\ul0\cf0}}}}\f0\fs22\par
-        ///- SPECIAL THANKS -\par
-        ///wz520: {{\field{\*\fldinst{HYPERLINK https://github.com/wz520/thhyl [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
-        internal static string About {
+        internal static byte[] About {
             get {
-                return ResourceManager.GetString("About", resourceCulture);
+                object obj = ResourceManager.GetObject("About", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
+        internal static byte[] AboutAfter {
+            get {
+                object obj = ResourceManager.GetObject("AboutAfter", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -92,6 +96,16 @@ namespace thhylR.Properties {
         internal static System.Drawing.Bitmap CopyTo {
             get {
                 object obj = ResourceManager.GetObject("CopyTo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap CopyToClipboard {
+            get {
+                object obj = ResourceManager.GetObject("CopyToClipboard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -182,6 +196,16 @@ namespace thhylR.Properties {
         internal static System.Drawing.Bitmap FolderOpened {
             get {
                 object obj = ResourceManager.GetObject("FolderOpened", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Help {
+            get {
+                object obj = ResourceManager.GetObject("Help", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

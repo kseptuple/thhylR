@@ -36,6 +36,7 @@
             // richTextBoxAbout
             // 
             richTextBoxAbout.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            richTextBoxAbout.BorderStyle = BorderStyle.None;
             richTextBoxAbout.Location = new Point(0, 0);
             richTextBoxAbout.Name = "richTextBoxAbout";
             richTextBoxAbout.ReadOnly = true;

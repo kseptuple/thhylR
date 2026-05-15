@@ -1,4 +1,5 @@
-﻿using thhylR.Common;
+﻿using System.ComponentModel;
+using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
 
@@ -8,6 +9,7 @@ namespace thhylR
     {
         private CheckBox checkBoxSelectAll = new CheckBox();
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TouhouReplay CurrentReplay { get; set; }
 
         private Dictionary<ReplayBlockType, string> replayBlockName = new Dictionary<ReplayBlockType, string>();

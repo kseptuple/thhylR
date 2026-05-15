@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
@@ -113,6 +114,7 @@ namespace thhylR
             labelDiff.Left = comboBoxFrameDiff.Left - comboBoxFrameDiff.Margin.Left - labelDiff.Width;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TouhouReplay CurrentReplay { get; set; }
         private List<int> keyBits = new List<int>();
         private List<string[]> keyList = null;
