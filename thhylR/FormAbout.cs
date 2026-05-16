@@ -72,10 +72,13 @@ namespace thhylR
             pictureBoxEaster.Top = richTextBoxAbout.Height - pictureBoxEaster.Height;
             pictureBoxEaster.Left = (richTextBoxAbout.Width - pictureBoxEaster.Width) / 2;
 
+            int extraWidth = pictureBoxEaster.Width / 2;
+            int extraHeight = pictureBoxEaster.Height;
+
             Graphics g = richTextBoxAbout.CreateGraphics();
-            Bitmap richtextArea = new Bitmap(richTextBoxAbout.Width, richTextBoxAbout.Height);
-            richTextBoxAbout.DrawToBitmap(richtextArea, new Rectangle(0, 0, richTextBoxAbout.Width, richTextBoxAbout.Height));
-            Rectangle cropArea = new Rectangle(pictureBoxEaster.Left, pictureBoxEaster.Top, pictureBoxEaster.Width, pictureBoxEaster.Height);
+            Bitmap richtextArea = new Bitmap(richTextBoxAbout.Width + pictureBoxEaster.Width, richTextBoxAbout.Height + pictureBoxEaster.Height);
+            richTextBoxAbout.DrawToBitmap(richtextArea, new Rectangle(extraWidth, extraHeight, richTextBoxAbout.Width, richTextBoxAbout.Height));
+            Rectangle cropArea = new Rectangle(pictureBoxEaster.Left + extraWidth, pictureBoxEaster.Top + extraHeight, pictureBoxEaster.Width, pictureBoxEaster.Height);
             Bitmap background = richtextArea.Clone(cropArea, richtextArea.PixelFormat);
             pictureBoxEaster.BackgroundImage = background;
             richtextArea.Dispose();
