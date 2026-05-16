@@ -8,12 +8,13 @@ namespace thhylR.Common
 {
     public static partial class ReplayAnalyzer
     {
-        public static int defaultCodePage = 932;
+        private const int defaultCodePage = 932;
 
         private static EnumItemList stageEnumDataList = EnumData.EnumDataList.FirstOrDefault(e => e.Name == "StageEnum");
 
         public static TouhouReplay Analyze(byte[] replayData, int codePage)
         {
+            if (replayData.Length < 4) return null;
             TouhouReplay result = null;
             var identifier = Encoding.ASCII.GetString(replayData[0..4]);
             foreach (var gameData in GameData.GameDataList)
@@ -762,7 +763,7 @@ namespace thhylR.Common
                         isLengthCorrupted = true;
                         keyCount = (int)Math.Floor(dataSize / (stageData.KeySizeData + 1.0 / 30));
                         rawStageLength = keyCount * stageData.KeySizeData;
-                        Debug.Assert(keyCount / 30 + 1 + rawStageLength == dataSize);
+                        Debug.Assert(keyCount / 30 + (keyCount % 30 == 0 ? 0 : 1) + rawStageLength == dataSize);
                     }
                     fpsItem.Length = dataSize - rawStageLength;
                 }

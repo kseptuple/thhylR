@@ -29,9 +29,9 @@ namespace thhylR.Helper
 
         public static string GetText(string resourceName)
         {
-            if (textResources.ContainsKey(resourceName))
+            if (textResources.TryGetValue(resourceName, out string value))
             {
-                return textResources[resourceName];
+                return value;
             }
             else
             {
@@ -114,8 +114,7 @@ namespace thhylR.Helper
             {
                 foreach (object item in menuItemList)
                 {
-                    var menuItem = item as ToolStripMenuItem;
-                    if (menuItem == null)
+                    if (item is not ToolStripMenuItem menuItem)
                         continue;
                     dynamic dynamicObject = null;
                     menuItem.Text = string.Empty;

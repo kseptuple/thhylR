@@ -6,7 +6,7 @@ namespace thhylR.Helper
     {
         private static string appPath = $"\"{Application.ExecutablePath}\"";
         private static string iconPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Icon\\IconFile.ico");
-        public static bool isCurrentUserAssociated()
+        public static bool IsCurrentUserAssociated()
         {
             var associationName = (string)Registry.GetValue("HKEY_CURRENT_USER\\Software\\Classes\\.rpy", "", "");
 
@@ -22,7 +22,7 @@ namespace thhylR.Helper
             return false;
         }
 
-        public static bool isAllUserAssociated()
+        public static bool IsAllUserAssociated()
         {
             var associationName = (string)Registry.GetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\.rpy", "", "");
 
@@ -38,7 +38,7 @@ namespace thhylR.Helper
             return false;
         }
 
-        public static void setCurrentUserAssociate()
+        public static void SetCurrentUserAssociate()
         {
             var exeCommand = $"{appPath} \"%1\"";
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\.rpy", "", "TouhouReplay");
@@ -47,7 +47,7 @@ namespace thhylR.Helper
             Registry.SetValue("HKEY_CURRENT_USER\\Software\\Classes\\TouhouReplay\\DefaultIcon", "", iconPath);
         }
 
-        public static void setAllUserAssociate()
+        public static void SetAllUserAssociate()
         {
             var exeCommand = $"{appPath} \"%1\"";
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\.rpy", "", "TouhouReplay");
@@ -56,13 +56,13 @@ namespace thhylR.Helper
             Registry.SetValue("HKEY_LOCAL_MACHINE\\Software\\Classes\\TouhouReplay\\DefaultIcon", "", iconPath);
         }
 
-        public static void removeCurrentUserAssociate()
+        public static void RemoveCurrentUserAssociate()
         {
             Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\.rpy");
             Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\TouhouReplay");
         }
 
-        public static void removeAllUserAssociate()
+        public static void RemoveAllUserAssociate()
         {
             Registry.LocalMachine.DeleteSubKeyTree("Software\\Classes\\.rpy");
             Registry.LocalMachine.DeleteSubKeyTree("Software\\Classes\\TouhouReplay");

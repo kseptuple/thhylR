@@ -7,11 +7,11 @@
             if (filePath != null && filePath.Length > 0)
             {
                 Clipboard.Clear();
-                byte[] bytes = new byte[] { (byte)(cut ? 2 : 1), 0, 0, 0 };
+                byte[] bytes = [(byte)(cut ? 2 : 1), 0, 0, 0];
                 MemoryStream dropEffect = new MemoryStream();
                 dropEffect.Write(bytes, 0, bytes.Length);
 
-                IDataObject data = new DataObject(DataFormats.FileDrop, filePath);
+                DataObject data = new DataObject(DataFormats.FileDrop, filePath);
                 data.SetData("Preferred DropEffect", dropEffect);
                 Clipboard.SetDataObject(data);
             }

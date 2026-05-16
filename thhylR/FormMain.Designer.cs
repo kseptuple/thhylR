@@ -421,28 +421,28 @@
             // 
             OptionToolStripMenuItem.Image = Properties.Resources.Settings;
             OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
-            OptionToolStripMenuItem.Size = new Size(184, 26);
+            OptionToolStripMenuItem.Size = new Size(147, 22);
             OptionToolStripMenuItem.Text = "设置(&O)...";
             OptionToolStripMenuItem.Click += OptionToolStripMenuItem_Click;
             // 
             // toolStripMenuItem6
             // 
             toolStripMenuItem6.Name = "toolStripMenuItem6";
-            toolStripMenuItem6.Size = new Size(181, 6);
+            toolStripMenuItem6.Size = new Size(144, 6);
             // 
             // HelpToolStripMenuItem
             // 
             HelpToolStripMenuItem.Image = Properties.Resources.Help;
             HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
             HelpToolStripMenuItem.ShortcutKeys = Keys.F1;
-            HelpToolStripMenuItem.Size = new Size(184, 26);
+            HelpToolStripMenuItem.Size = new Size(147, 22);
             HelpToolStripMenuItem.Text = "帮助(&H)...";
             HelpToolStripMenuItem.Click += HelpToolStripMenuItem_Click;
             // 
             // AboutToolStripMenuItem
             // 
             AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            AboutToolStripMenuItem.Size = new Size(184, 26);
+            AboutToolStripMenuItem.Size = new Size(147, 22);
             AboutToolStripMenuItem.Text = "关于(&A)...";
             AboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
@@ -760,7 +760,7 @@
             dataGridInfo.ContextMenuStrip = contextMenuStripData;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font(Control.DefaultFont.Name, 12F);
+            dataGridViewCellStyle1.Font = new Font("Microsoft YaHei UI", 12F);
             dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -842,7 +842,7 @@
             comboBoxEncoding.Location = new Point(49, 0);
             comboBoxEncoding.Margin = new Padding(2, 3, 2, 3);
             comboBoxEncoding.Name = "comboBoxEncoding";
-            comboBoxEncoding.Size = new Size(241, 25);
+            comboBoxEncoding.Size = new Size(243, 25);
             comboBoxEncoding.TabIndex = 7;
             comboBoxEncoding.ValueMember = "CodePage";
             comboBoxEncoding.SelectedIndexChanged += comboBoxEncoding_SelectedIndexChanged;
@@ -856,7 +856,7 @@
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(290, 411);
+            textBoxInfo.Size = new Size(292, 411);
             textBoxInfo.TabIndex = 6;
             // 
             // statusStripMain

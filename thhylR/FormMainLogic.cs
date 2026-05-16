@@ -102,14 +102,17 @@ namespace thhylR
             openFolder(folderName);
         }
 
-        private void openReplay(string fileName, bool refreshFileList = true)
+        private bool openReplay(string fileName, bool refreshFileList = true, bool quietMode = false)
         {
             var fileExt = Path.GetExtension(fileName);
-            if (fileExt.ToLower() != ".rpy")
+            if (!fileExt.Equals(".rpy", StringComparison.OrdinalIgnoreCase))
             {
-                MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFileName(fileName)),
-                    Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (!quietMode)
+                {
+                    MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFullPath(fileName)),
+                        Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return false;
             }
             byte[] fileData = null;
             try
@@ -118,10 +121,13 @@ namespace thhylR
             }
             catch
             {
-                MessageBox.Show(ResourceLoader.GetText("ReplayOpenFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (!quietMode)
+                {
+                    MessageBox.Show(ResourceLoader.GetText("ReplayOpenFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return false;
             }
-
+            TouhouReplay lastReplay = CurrentReplay;
             CurrentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
             if (CurrentReplay != null)
             {
@@ -150,11 +156,17 @@ namespace thhylR
                     toolStripStatusLabelInfo.Image = Resources.StatusWarning;
                     toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
                 }
+                return true;
             }
             else
             {
-                MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFileName(fileName)),
+                if (!quietMode)
+                {
+                    MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFullPath(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                CurrentReplay = lastReplay;
+                return false;
             }
         }
 
@@ -167,7 +179,15 @@ namespace thhylR
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            openReplay(replayFiles[0]);
+            for (int i = 0; i < replayFiles.Length; i++)
+            {
+                if (openReplay(replayFiles[i], true, true))
+                {
+                    return;
+                }
+            }
+            MessageBox.Show(string.Format(ResourceLoader.GetText("NoReplayInFolder"), folderName),
+                Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void displayData(bool resetSelectedRows = true)
@@ -185,7 +205,6 @@ namespace thhylR
                 scrollRowIndex = dataGridInfo.FirstDisplayedScrollingRowIndex;
             }
             DataTable allData = CurrentReplay.DisplayDataList.Where(d => d["Visible"].ToString() != "0").CopyToDataTable();
-            //DataTable allData = CurrentReplay.DisplayData.Select("Visible <> 0").CopyToDataTable();
             dataGridInfo.DataSource = allData;
 
             for (int i = 0; i < allData.Rows.Count; i++)
@@ -244,7 +263,7 @@ namespace thhylR
 
         private void folderChanged()
         {
-            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path) && CurrentReplay != null)
+            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path))
             {
                 if (fileToOpen != null)
                 {
@@ -261,7 +280,12 @@ namespace thhylR
                     }
                     else
                     {
-                        var hasFile = setFiles(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+                        string filename = null;
+                        if (CurrentReplay != null && ((CurrentReplay.ReplayProblem & ReplayProblemEnum.FileNotExist) == ReplayProblemEnum.None))
+                        {
+                            filename = Path.GetFileName(CurrentReplay.FilePath);
+                        }
+                        var hasFile = setFiles(fileSystemWatcherFolder.Path, filename);
                         if (!hasFile)
                         {
                             setFileIsOpen(false);
@@ -308,7 +332,7 @@ namespace thhylR
         {
             if (CurrentReplay != null)
             {
-                ClipboardHelper.FileToClipboard(new string[] { CurrentReplay.FilePath }, true);
+                ClipboardHelper.FileToClipboard([CurrentReplay.FilePath], true);
             }
         }
 
@@ -316,7 +340,7 @@ namespace thhylR
         {
             if (CurrentReplay != null)
             {
-                ClipboardHelper.FileToClipboard(new string[] { CurrentReplay.FilePath }, false);
+                ClipboardHelper.FileToClipboard([CurrentReplay.FilePath], false);
             }
         }
 
@@ -432,7 +456,7 @@ namespace thhylR
                             break;
                         case FileOperate.Next:
                             System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
-                            if (rootNode.Nodes.Count == 0)
+                            if (rootNode.Nodes.Count == 1)
                             {
                                 MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 break;
@@ -496,7 +520,7 @@ namespace thhylR
                 {
                     case FileOperate.Next:
                         System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
-                        if (rootNode.Nodes.Count == 0)
+                        if (rootNode.Nodes.Count == 1)
                         {
                             MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             break;
@@ -825,7 +849,7 @@ namespace thhylR
             splitContainerInfo.Panel2MinSize = (int)(250 * dpiScale);
         }
 
-        private void appExit(object sender, EventArgs e)
+        private void AppExit(object sender, EventArgs e)
         {
             lock (locker)
             {

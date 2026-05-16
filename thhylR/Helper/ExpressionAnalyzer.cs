@@ -328,8 +328,7 @@ namespace thhylR.Helper
 
             public override bool Equals(object obj)
             {
-                ExpressionOperators oper = obj as ExpressionOperators;
-                if (oper == null) return false;
+                if (obj is not ExpressionOperators oper) return false;
                 if (Oper != oper.Oper) return false;
                 if (Oper != null) return true;
                 else if (Value == oper.Value) return true;

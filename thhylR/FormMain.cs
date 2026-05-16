@@ -30,15 +30,18 @@ namespace thhylR
         private bool showAllEncodingsOld = false;
 
         private List<ToolStripMenuItem> encodingMenuItem = new List<ToolStripMenuItem>();
-        private readonly List<Keys> encodingMenuHotkeys = new List<Keys>() { Keys.F5, Keys.F6, Keys.F7, Keys.F8 };
+        private readonly List<Keys> encodingMenuHotkeys = [Keys.F5, Keys.F6, Keys.F7, Keys.F8];
 
         private List<EncodingInfo> encodingList = new List<EncodingInfo>();
         private bool isEncodingChanging = false;
         private double dpiScale = 0d;
 
         private bool isExitRoutineExecuted = false;
+#if NET10_0_OR_GREATER
+        private Lock locker = new Lock();
+#else
         private object locker = new object();
-
+#endif
 #if !NET10_0_OR_GREATER
         private bool isToolStripClicked = false;
 #endif
@@ -64,14 +67,14 @@ namespace thhylR
 
             InitializeComponent();
 
-            Application.ApplicationExit += appExit;
+            Application.ApplicationExit += AppExit;
 
-            AppDomain.CurrentDomain.ProcessExit += appExit;
-            AppDomain.CurrentDomain.DomainUnload += appExit;
+            AppDomain.CurrentDomain.ProcessExit += AppExit;
+            AppDomain.CurrentDomain.DomainUnload += AppExit;
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler((obj, e) =>
             {
-                appExit(obj, e);
+                AppExit(obj, e);
             });
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -295,7 +298,10 @@ namespace thhylR
             if (treeViewFiles.SelectedNode != treeViewFiles.Nodes[0])
             {
                 string path = Path.Combine(treeViewFiles.Nodes[0].Text, treeViewFiles.SelectedNode.Text);
-                openReplay(path, false);
+                if (!openReplay(path, false))
+                {
+                    treeViewFiles.SelectedNode = treeViewFiles.Nodes[0].Nodes[currentFilePos];
+                }
                 currentFilePos = treeViewFiles.SelectedNode.Index;
             }
             isSelecting = false;
@@ -308,7 +314,20 @@ namespace thhylR
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (files.Length > 0)
                 {
-                    openReplay(files[0]);
+                    var file = files[0];
+                    if (File.Exists(file))
+                    {
+                        openReplay(file);
+                    }
+                    else if (Directory.Exists(file))
+                    {
+                        openFolder(file);
+                    }
+                    else
+                    {
+                        MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), file), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    Activate();
                 }
             }
         }

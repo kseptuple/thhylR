@@ -14,7 +14,7 @@ namespace thhylR.Helper
                 for (int i = 1; i < args.Length; i++)
                 {
                     var arg = args[i];
-                    if (arg.Contains(" "))
+                    if (arg.Contains(' '))
                     {
                         arguments[i - 1] = "\"" + arg + "\"";
                     }

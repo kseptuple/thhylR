@@ -143,15 +143,15 @@ text:
   - ReplayFileFilter: 录像文件|*.rpy
   - RawDataFilter: 原始数据|*.bin
   - ExportInfoFilter: 文本文件|*.txt
-  - NotSupportedFile: "{0} 不是该程序支持的录像文件！"
+  - NotSupportedFile: "{0} 不是该程序支持的录像文件。"
   - NotExistedFile: "找不到文件：{0}"
-  - ReplayOpenFail: 无法打开录像文件，请确认文件是否被其他进程占用！
-  - MoveFail: 移动文件失败！
-  - CopyFail: 复制文件失败！
-  - RenameFail: 重命名文件失败！
-  - DeleteFail: 删除文件失败！
-  - NoNextFile: 当前文件夹已没有录像文件！
-  - NoReplayInFolder: 文件夹{0}中没有录像文件，请重新选择！
+  - ReplayOpenFail: 无法打开录像文件，请确认文件是否被其他进程占用。
+  - MoveFail: 移动文件失败
+  - CopyFail: 复制文件失败
+  - RenameFail: 重命名文件失败
+  - DeleteFail: 删除文件失败
+  - NoNextFile: 当前文件夹已没有录像文件。
+  - NoReplayInFolder: 文件夹{0}中没有录像文件。
   - ProblemFileNotExits: 该文件已不存在，请重新打开。
   - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错或者无法识别。
   - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错。
@@ -162,7 +162,7 @@ text:
   - ReplayOKDisplay: 录像文件正常。
   - RegistryExtensionName: 东方Project录像文件
   - RegistrySetFailAdmin: 需要管理员权限才能设置，是否以管理员身份重新启动？
-  - RegistrySetFail: 设置文件关联失败！
+  - RegistrySetFail: 设置文件关联失败
   - RestartFail: 重新启动失败，请尝试手动以管理员身份运行。
   - EncodingNone: 无
   - EncodingDefault: 系统默认
@@ -200,15 +200,15 @@ text:
   - OptionTip: 程序设置
   - DataGridCopyAllToolStripMenuText: 复制全部信息
   - DataGridCopyToolStripMenuText: 复制选中信息
-  - ExportAllSuccess: 导出数据成功！
-  - ExportAllFail: 导出数据失败！
+  - ExportAllSuccess: 导出数据成功
+  - ExportAllFail: 导出数据失败
   - ExportInfoColon: "："
-  - ExportInfoSuccess: 导出录像信息成功！
-  - ExportInfoFail: 导出录像信息失败！
+  - ExportInfoSuccess: 导出录像信息成功
+  - ExportInfoFail: 导出录像信息失败
   - AutoRenameFail: 自动重命名失败，请手动修改文件名。
   - AutoRenameComplete: "文件已自动重命名为{0}。"
   - DeleteWarning: 确定要删除该文件吗？文件将不会移动到回收站，而是直接删除！
-  - ShanghaiAliceNotExists: 找不到ShanghaiAlice文件夹！
+  - ShanghaiAliceNotExists: 找不到ShanghaiAlice文件夹
   - NonShiftJISWarning: 使用shift-jis以外的编码可能导致其他程序无法读取注释，是否继续保存？
   - CommentCloseWarning: 有未保存的修改，是否保存？
   - ExportId: 序号
@@ -227,7 +227,7 @@ text:
   - ExportNotStart: 未开始
   - ExportFail: 失败
   - ExportRename: 已重命名
-  - ExportNotSelected: 请先选择至少一项再导出！
+  - ExportNotSelected: 请先选择至少一项再导出。
   - FrameNumber: 帧
   - FPS: 帧率
   - KeyPressChartTitle: 每秒按键次数
@@ -242,8 +242,8 @@ text:
   - StatConflictYes: 有
   - StatConflictNo: 无
   - ExportFileFilter: csv文件|*.csv
-  - ExportKeySuccess: 导出按键记录成功！
-  - ExportKeyFail: 导出按键记录失败！
+  - ExportKeySuccess: 导出按键记录成功
+  - ExportKeyFail: 导出按键记录失败
   - KeyDetail: |-
       在键盘模式下，{0}，但总按键次数会计算多次；
       在摇杆模式下，方向变化一次算作一次按键。

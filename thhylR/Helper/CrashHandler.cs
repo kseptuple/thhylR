@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO.Compression;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace thhylR.Helper
 {
@@ -13,14 +14,20 @@ namespace thhylR.Helper
             ComputerInfo computerInfo = new ComputerInfo();
             result.AppendLine($"操作系统：{Environment.OSVersion.VersionString}");
             result.AppendLine($"是否64位系统：{(Environment.Is64BitOperatingSystem ? "是" : "否")}");
+            result.AppendLine($".NET运行时：{RuntimeInformation.FrameworkDescription}");
             result.AppendLine($"系统语言：{CultureInfo.CurrentCulture.DisplayName}");
             result.AppendLine($"逻辑处理器数量：{Environment.ProcessorCount}");
             result.AppendLine($"物理内存（可用/全部）：{GetSizeDisplay(computerInfo.AvailablePhysicalMemory)}/{GetSizeDisplay(computerInfo.TotalPhysicalMemory)}");
             result.AppendLine($"虚拟内存（可用/全部）：{GetSizeDisplay(computerInfo.AvailableVirtualMemory)}/{GetSizeDisplay(computerInfo.TotalVirtualMemory)}");
             result.AppendLine($"为本程序分配的内存：{GetSizeDisplay((ulong)Environment.WorkingSet)}");
             result.AppendLine($"GC托管内存：{GetSizeDisplay((ulong)GC.GetTotalMemory(false))}");
+            var tmpForm = new Form();
+            var currentScreen = Screen.FromControl(tmpForm);
+            result.AppendLine($"屏幕大小：{currentScreen.Bounds.Width} * {currentScreen.Bounds.Height}");
+            result.AppendLine($"屏幕缩放尺寸：{Math.Floor(tmpForm.DeviceDpi / 96f * 100)}%");
             result.AppendLine($"当前时间：{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
             result.AppendLine($"时区：{TimeZoneInfo.Local.DisplayName}");
+            tmpForm.Dispose();
             return result.ToString();
         }
 
@@ -41,14 +48,21 @@ namespace thhylR.Helper
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine(ex.Message);
-            result.AppendLine(ex.StackTrace);
-            ex = ex.InnerException;
-            while (ex != null)
+            if (ex is not ExternalException)
             {
-                result.AppendLine();
-                result.AppendLine("root cause:");
                 result.AppendLine(ex.StackTrace);
                 ex = ex.InnerException;
+                while (ex != null)
+                {
+                    result.AppendLine();
+                    result.AppendLine("root cause:");
+                    result.AppendLine(ex.StackTrace);
+                    ex = ex.InnerException;
+                }
+            }
+            else
+            {
+                result.AppendLine("(stack trace unavailable)");
             }
             return result.ToString();
         }
@@ -81,31 +95,28 @@ namespace thhylR.Helper
 
             using (FileStream fs = File.Open(zipPath, FileMode.Create))
             {
-                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
+                using var archive = new ZipArchive(fs, ZipArchiveMode.Create);
+                try
                 {
-                    try
-                    {
-                        archive.CreateEntryFromFile(logPath, filename + ".log");
-                    }
-                    catch
-                    {
+                    archive.CreateEntryFromFile(logPath, filename + ".log");
+                }
+                catch
+                {
 
-                    }
+                }
 
-                    try
+                try
+                {
+                    if (replayPath != null)
                     {
-                        if (replayPath != null)
-                        {
-                            archive.CreateEntryFromFile(replayPath, Path.GetFileName(replayPath));
-                        }
-                    }
-                    catch
-                    {
-
+                        archive.CreateEntryFromFile(replayPath, Path.GetFileName(replayPath));
                     }
                 }
-            }
+                catch
+                {
 
+                }
+            }
 
             FileDeleteHelper.DeleteFile(logPath);
 

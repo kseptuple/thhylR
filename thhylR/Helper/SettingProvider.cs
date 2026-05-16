@@ -16,7 +16,7 @@ namespace thhylR.Helper
         public FileOperate OperAfterDelete { get; set; }
 
         [YamlIgnore]
-        private bool registerReplayUser = RegistryHelper.isCurrentUserAssociated();
+        private bool registerReplayUser = RegistryHelper.IsCurrentUserAssociated();
         [YamlIgnore]
         public bool RegisterReplayUser
         {
@@ -28,18 +28,18 @@ namespace thhylR.Helper
             {
                 if (value && !registerReplayUser)
                 {
-                    RegistryHelper.setCurrentUserAssociate();
+                    RegistryHelper.SetCurrentUserAssociate();
                     registerReplayUser = value;
                 }
                 else if (!value && registerReplayUser)
                 {
-                    RegistryHelper.removeCurrentUserAssociate();
+                    RegistryHelper.RemoveCurrentUserAssociate();
                     registerReplayUser = value;
                 }
             }
         }
         [YamlIgnore]
-        private bool registerReplaySystem = RegistryHelper.isAllUserAssociated();
+        private bool registerReplaySystem = RegistryHelper.IsAllUserAssociated();
         [YamlIgnore]
         public bool RegisterReplaySystem
         {
@@ -51,12 +51,12 @@ namespace thhylR.Helper
             {
                 if (value && !registerReplaySystem)
                 {
-                    RegistryHelper.setAllUserAssociate();
+                    RegistryHelper.SetAllUserAssociate();
                     registerReplaySystem = value;
                 }
                 else if (!value && registerReplaySystem)
                 {
-                    RegistryHelper.removeAllUserAssociate();
+                    RegistryHelper.RemoveAllUserAssociate();
                     registerReplaySystem = value;
                 }
             }
@@ -128,13 +128,13 @@ namespace thhylR.Helper
                 Settings.OperAfterCopy = FileOperate.KeepOrClose;
                 Settings.OperAfterDelete = FileOperate.Next;
                 Settings.ShowAllEncodings = false;
-                Settings.Encodings = new List<ProgramSettings.CommonEncoding>
-                {
+                Settings.Encodings =
+                [
                     new() { EncodingId = 932, UseEncoding = true },
                     new() { EncodingId = 65001, UseEncoding = true },
                     new() { EncodingId = 0, UseEncoding = true },
                     new() { EncodingId = -1, UseEncoding = false }
-                };
+                ];
 
                 Settings.NormalFont = new Font(SystemFonts.DefaultFont.Name, 12F, FontStyle.Regular);
                 Settings.SymbolFont = new Font("Segoe UI Symbol", 12F, FontStyle.Regular);

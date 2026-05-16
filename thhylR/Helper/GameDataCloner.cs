@@ -70,16 +70,19 @@ namespace thhylR.Helper
                 {
                     newObjects = new Dictionary<Type, List<object>>();
                 }
-                if (!cachedObjects.ContainsKey(type))
+                if (!cachedObjects.TryGetValue(type, out List<object> sourceList))
                 {
-                    cachedObjects.Add(type, new List<object>());
+                    sourceList = new List<object>();
+                    cachedObjects.Add(type, sourceList);
                 }
-                if (!newObjects.ContainsKey(type))
+                if (!newObjects.TryGetValue(type, out List<object> resultList))
                 {
-                    newObjects.Add(type, new List<object>());
+                    resultList = new List<object>();
+                    newObjects.Add(type, resultList);
                 }
-                cachedObjects[type].Add(source);
-                newObjects[type].Add(result);
+
+                sourceList.Add(source);
+                resultList.Add(result);
 
                 if (target != null && !type.Equals(target.GetType()))
                 {
@@ -123,9 +126,9 @@ namespace thhylR.Helper
 
                             if (fieldType.IsClass && !fieldType.Equals(typeof(string)))
                             {
-                                if (cachedObjects.ContainsKey(fieldType))
+                                if (cachedObjects.TryGetValue(fieldType, out List<object> cachedList))
                                 {
-                                    for (int i = 0; i < cachedObjects[fieldType].Count; i++)
+                                    for (int i = 0; i < cachedList.Count; i++)
                                     {
                                         if (object.ReferenceEquals(cachedObjects[fieldType][i], value))
                                         {

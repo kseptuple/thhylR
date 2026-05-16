@@ -1,7 +1,4 @@
-#if !DEBUG
-using System.Diagnostics;
 using thhylR.Helper;
-#endif
 
 namespace thhylR
 {
@@ -14,32 +11,70 @@ namespace thhylR
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-#if DEBUG
-            Application.Run(new FormMain());
-#else
+
             FormMain formMain = null;
-            try
+#if !DEBUG
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            ThreadExceptionEventHandler threadExceptionHandler = null;
+            threadExceptionHandler = (sender, e) =>
             {
-                formMain = new FormMain();
-                Application.Run(formMain);
-            }
-            catch (Exception ex)
-            {
-                string replayFile = null;
-                if (formMain != null && formMain.CurrentReplay != null)
+                try
                 {
-                    replayFile = formMain.CurrentReplay.FilePath;
+                    exceptionHandler(formMain, e.Exception);
                 }
-                string path = CrashHandler.DoCrashLog(ex, replayFile);
-                MessageBox.Show(ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                var psi = new ProcessStartInfo
+                catch (Exception ex) 
                 {
-                    UseShellExecute = true,
-                    FileName = path
-                };
-                Process.Start(psi);
-            }
+                    MessageBox.Show(ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                Application.Exit();
+            };
+            Application.ThreadException += threadExceptionHandler;
+
+            UnhandledExceptionEventHandler unhandledExceptionHandler = null;
+            unhandledExceptionHandler = (sender, e) =>
+            {
+                try
+                {
+                    if (e.ExceptionObject is Exception ex)
+                    {
+                        exceptionHandler(formMain, ex);
+                    }
+                    else
+                    {
+                        exceptionHandler(formMain, new ExternalException(e.ExceptionObject.ToString()));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                if (e.IsTerminating)
+                {
+                    Application.Exit();
+                }
+            };
+            AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
 #endif
+            formMain = new FormMain();
+            Application.Run(formMain);
         }
+
+        private static void exceptionHandler(FormMain formMain, Exception ex)
+        {
+            string replayFile = null;
+            if (formMain != null && formMain.CurrentReplay != null)
+            {
+                replayFile = formMain.CurrentReplay.FilePath;
+            }
+            string path = CrashHandler.DoCrashLog(ex, replayFile);
+            MessageBox.Show(ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            RunFileHelper.Run(path);
+        }
+    }
+
+    public class ExternalException(string message) : Exception(message)
+    {
     }
 }
