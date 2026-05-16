@@ -39,6 +39,10 @@ namespace thhylR
         private bool isExitRoutineExecuted = false;
         private object locker = new object();
 
+#if !NET10_0_OR_GREATER
+        private bool isToolStripClicked = false;
+#endif
+
         public FormMain()
         {
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
@@ -218,6 +222,24 @@ namespace thhylR
         }
 #endif
 
+
+#if !NET10_0_OR_GREATER
+        private bool setToolStripClicked()
+        {
+            lock (locker)
+            {
+                if (isToolStripClicked) return false;
+                isToolStripClicked = true;
+            }
+            return true;
+        }
+
+        private void removeToolStripClicked()
+        {
+            isToolStripClicked = false;
+        }
+#endif
+
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             showOpenReplayDialog();
@@ -249,7 +271,13 @@ namespace thhylR
 
         private void toolStripButtonExportAll_Click(object sender, EventArgs e)
         {
+#if !NET10_0_OR_GREATER
+            if (!setToolStripClicked()) return;
             ExportAllCommand();
+            removeToolStripClicked();
+#else
+            ExportAllCommand();
+#endif
         }
 
         private void toolStripButtonExportCustom_Click(object sender, EventArgs e)
@@ -335,7 +363,13 @@ namespace thhylR
 
         private void toolStripButtonOpen_Click(object sender, EventArgs e)
         {
+#if !NET10_0_OR_GREATER
+            if (!setToolStripClicked()) return;
             openReplayCommand();
+            removeToolStripClicked();
+#else
+            openReplayCommand();
+#endif
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -350,7 +384,13 @@ namespace thhylR
 
         private void toolStripButtonOpenFolder_Click(object sender, EventArgs e)
         {
+#if !NET10_0_OR_GREATER
+            if (!setToolStripClicked()) return;
             showOpenFolderDialog();
+            removeToolStripClicked();
+#else
+            showOpenFolderDialog();
+#endif
         }
 
         private void openReplayCommand()
@@ -390,15 +430,25 @@ namespace thhylR
 
         private void toolStripButtonMoveTo_Click(object sender, EventArgs e)
         {
+#if !NET10_0_OR_GREATER
+            if (!setToolStripClicked()) return;
             MoveCopyToCommnad(true);
+            removeToolStripClicked();
+#else
+            MoveCopyToCommnad(true);
+#endif
         }
-
 
         private void toolStripButtonCopyTo_Click(object sender, EventArgs e)
         {
+#if !NET10_0_OR_GREATER
+            if (!setToolStripClicked()) return;
             MoveCopyToCommnad(false);
+            removeToolStripClicked();
+#else
+            MoveCopyToCommnad(false);
+#endif
         }
-
 
         private void MoveToToolStripMenuItem_Click(object sender, EventArgs e)
         {
