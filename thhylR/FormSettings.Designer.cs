@@ -47,8 +47,6 @@
             comboBoxLifeStyle = new ComboBox();
             comboBoxScoreStyle = new ComboBox();
             tabPage2 = new TabPage();
-            comboBoxOperAfterDelete = new ComboBox();
-            label8 = new Label();
             comboBoxOperAfterCopy = new ComboBox();
             label7 = new Label();
             comboBoxOperAfterMove = new ComboBox();
@@ -92,7 +90,7 @@
             tabControlMain.Margin = new Padding(2, 3, 2, 3);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(326, 241);
+            tabControlMain.Size = new Size(369, 241);
             tabControlMain.SizeMode = TabSizeMode.Fixed;
             tabControlMain.TabIndex = 7;
             // 
@@ -112,7 +110,7 @@
             tabPage1.Margin = new Padding(2, 3, 2, 3);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(2, 3, 2, 3);
-            tabPage1.Size = new Size(318, 213);
+            tabPage1.Size = new Size(361, 213);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "显示格式";
             tabPage1.UseVisualStyleBackColor = true;
@@ -121,10 +119,10 @@
             // 
             comboBoxScoreType.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxScoreType.FormattingEnabled = true;
-            comboBoxScoreType.Location = new Point(147, 5);
+            comboBoxScoreType.Location = new Point(185, 5);
             comboBoxScoreType.Margin = new Padding(2, 3, 2, 3);
             comboBoxScoreType.Name = "comboBoxScoreType";
-            comboBoxScoreType.Size = new Size(163, 25);
+            comboBoxScoreType.Size = new Size(172, 25);
             comboBoxScoreType.TabIndex = 18;
             // 
             // label9
@@ -140,10 +138,10 @@
             // buttonFontSymbol
             // 
             buttonFontSymbol.Enabled = false;
-            buttonFontSymbol.Location = new Point(159, 199);
+            buttonFontSymbol.Location = new Point(182, 199);
             buttonFontSymbol.Margin = new Padding(2, 3, 2, 3);
             buttonFontSymbol.Name = "buttonFontSymbol";
-            buttonFontSymbol.Size = new Size(150, 25);
+            buttonFontSymbol.Size = new Size(175, 25);
             buttonFontSymbol.TabIndex = 16;
             buttonFontSymbol.Text = "符号字体...";
             buttonFontSymbol.UseVisualStyleBackColor = true;
@@ -154,7 +152,7 @@
             buttonFontNormal.Location = new Point(5, 199);
             buttonFontNormal.Margin = new Padding(2, 3, 2, 3);
             buttonFontNormal.Name = "buttonFontNormal";
-            buttonFontNormal.Size = new Size(150, 25);
+            buttonFontNormal.Size = new Size(175, 25);
             buttonFontNormal.TabIndex = 15;
             buttonFontNormal.Text = "字体...";
             buttonFontNormal.UseVisualStyleBackColor = true;
@@ -172,7 +170,7 @@
             groupBox1.Margin = new Padding(2, 3, 2, 3);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(2, 3, 2, 3);
-            groupBox1.Size = new Size(305, 76);
+            groupBox1.Size = new Size(352, 76);
             groupBox1.TabIndex = 14;
             groupBox1.TabStop = false;
             groupBox1.Text = "效果示例";
@@ -200,7 +198,7 @@
             // labelBomb
             // 
             labelBomb.AutoSize = true;
-            labelBomb.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            labelBomb.Font = new Font("Segoe UI Symbol", 9F);
             labelBomb.Location = new Point(65, 54);
             labelBomb.Margin = new Padding(2, 0, 2, 0);
             labelBomb.Name = "labelBomb";
@@ -275,10 +273,10 @@
             // 
             comboBoxLifeStyle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxLifeStyle.FormattingEnabled = true;
-            comboBoxLifeStyle.Location = new Point(147, 63);
+            comboBoxLifeStyle.Location = new Point(185, 62);
             comboBoxLifeStyle.Margin = new Padding(2, 3, 2, 3);
             comboBoxLifeStyle.Name = "comboBoxLifeStyle";
-            comboBoxLifeStyle.Size = new Size(163, 25);
+            comboBoxLifeStyle.Size = new Size(172, 25);
             comboBoxLifeStyle.TabIndex = 7;
             comboBoxLifeStyle.SelectedIndexChanged += comboBoxLifeStyle_SelectedIndexChanged;
             // 
@@ -286,17 +284,15 @@
             // 
             comboBoxScoreStyle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxScoreStyle.FormattingEnabled = true;
-            comboBoxScoreStyle.Location = new Point(147, 34);
+            comboBoxScoreStyle.Location = new Point(185, 34);
             comboBoxScoreStyle.Margin = new Padding(2, 3, 2, 3);
             comboBoxScoreStyle.Name = "comboBoxScoreStyle";
-            comboBoxScoreStyle.Size = new Size(163, 25);
+            comboBoxScoreStyle.Size = new Size(172, 25);
             comboBoxScoreStyle.TabIndex = 6;
             comboBoxScoreStyle.SelectedIndexChanged += comboBoxScoreStyle_SelectedIndexChanged;
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(comboBoxOperAfterDelete);
-            tabPage2.Controls.Add(label8);
             tabPage2.Controls.Add(comboBoxOperAfterCopy);
             tabPage2.Controls.Add(label7);
             tabPage2.Controls.Add(comboBoxOperAfterMove);
@@ -308,45 +304,25 @@
             tabPage2.Margin = new Padding(2, 3, 2, 3);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(2, 3, 2, 3);
-            tabPage2.Size = new Size(318, 213);
+            tabPage2.Size = new Size(361, 213);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "程序";
             tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxOperAfterDelete
-            // 
-            comboBoxOperAfterDelete.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxOperAfterDelete.FormattingEnabled = true;
-            comboBoxOperAfterDelete.Location = new Point(132, 83);
-            comboBoxOperAfterDelete.Margin = new Padding(2, 3, 2, 3);
-            comboBoxOperAfterDelete.Name = "comboBoxOperAfterDelete";
-            comboBoxOperAfterDelete.Size = new Size(118, 25);
-            comboBoxOperAfterDelete.TabIndex = 10;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(5, 86);
-            label8.Margin = new Padding(2, 0, 2, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(80, 17);
-            label8.TabIndex = 9;
-            label8.Text = "删除文件后：";
             // 
             // comboBoxOperAfterCopy
             // 
             comboBoxOperAfterCopy.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxOperAfterCopy.FormattingEnabled = true;
-            comboBoxOperAfterCopy.Location = new Point(132, 54);
+            comboBoxOperAfterCopy.Location = new Point(155, 58);
             comboBoxOperAfterCopy.Margin = new Padding(2, 3, 2, 3);
             comboBoxOperAfterCopy.Name = "comboBoxOperAfterCopy";
-            comboBoxOperAfterCopy.Size = new Size(118, 25);
+            comboBoxOperAfterCopy.Size = new Size(135, 25);
             comboBoxOperAfterCopy.TabIndex = 8;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(5, 57);
+            label7.Location = new Point(4, 61);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(80, 17);
@@ -357,16 +333,16 @@
             // 
             comboBoxOperAfterMove.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxOperAfterMove.FormattingEnabled = true;
-            comboBoxOperAfterMove.Location = new Point(132, 26);
+            comboBoxOperAfterMove.Location = new Point(155, 27);
             comboBoxOperAfterMove.Margin = new Padding(2, 3, 2, 3);
             comboBoxOperAfterMove.Name = "comboBoxOperAfterMove";
-            comboBoxOperAfterMove.Size = new Size(118, 25);
+            comboBoxOperAfterMove.Size = new Size(135, 25);
             comboBoxOperAfterMove.TabIndex = 6;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(5, 28);
+            label6.Location = new Point(4, 30);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
             label6.Size = new Size(80, 17);
@@ -376,7 +352,7 @@
             // checkBoxRegisterAll
             // 
             checkBoxRegisterAll.AutoSize = true;
-            checkBoxRegisterAll.Location = new Point(5, 138);
+            checkBoxRegisterAll.Location = new Point(4, 116);
             checkBoxRegisterAll.Margin = new Padding(2, 3, 2, 3);
             checkBoxRegisterAll.Name = "checkBoxRegisterAll";
             checkBoxRegisterAll.Size = new Size(277, 21);
@@ -387,7 +363,7 @@
             // checkBoxRegisterCurrent
             // 
             checkBoxRegisterCurrent.AutoSize = true;
-            checkBoxRegisterCurrent.Location = new Point(5, 112);
+            checkBoxRegisterCurrent.Location = new Point(4, 89);
             checkBoxRegisterCurrent.Margin = new Padding(2, 3, 2, 3);
             checkBoxRegisterCurrent.Name = "checkBoxRegisterCurrent";
             checkBoxRegisterCurrent.Size = new Size(169, 21);
@@ -398,7 +374,7 @@
             // checkBoxOnTop
             // 
             checkBoxOnTop.AutoSize = true;
-            checkBoxOnTop.Location = new Point(5, 5);
+            checkBoxOnTop.Location = new Point(4, 6);
             checkBoxOnTop.Margin = new Padding(2, 3, 2, 3);
             checkBoxOnTop.Name = "checkBoxOnTop";
             checkBoxOnTop.Size = new Size(75, 21);
@@ -414,7 +390,7 @@
             tabPage3.Location = new Point(4, 24);
             tabPage3.Margin = new Padding(2, 3, 2, 3);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(318, 213);
+            tabPage3.Size = new Size(361, 213);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "编码切换";
             tabPage3.UseVisualStyleBackColor = true;
@@ -568,7 +544,7 @@
             // 
             // buttonOK
             // 
-            buttonOK.Location = new Point(226, 253);
+            buttonOK.Location = new Point(269, 253);
             buttonOK.Margin = new Padding(2, 3, 2, 3);
             buttonOK.Name = "buttonOK";
             buttonOK.Size = new Size(73, 25);
@@ -579,7 +555,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(303, 253);
+            buttonCancel.Location = new Point(346, 253);
             buttonCancel.Margin = new Padding(2, 3, 2, 3);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(73, 25);
@@ -591,7 +567,7 @@
             // buttonApply
             // 
             buttonApply.Enabled = false;
-            buttonApply.Location = new Point(380, 253);
+            buttonApply.Location = new Point(423, 253);
             buttonApply.Margin = new Padding(2, 3, 2, 3);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(73, 25);
@@ -610,7 +586,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(463, 284);
+            ClientSize = new Size(511, 284);
             Controls.Add(buttonApply);
             Controls.Add(buttonCancel);
             Controls.Add(buttonOK);
@@ -679,8 +655,6 @@
         private Button buttonFontNormal;
         private Label label3;
         private Label labelScore;
-        private ComboBox comboBoxOperAfterDelete;
-        private Label label8;
         private ComboBox comboBoxOperAfterCopy;
         private Label label7;
         private ComboBox comboBoxOperAfterMove;

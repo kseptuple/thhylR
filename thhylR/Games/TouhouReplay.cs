@@ -27,27 +27,27 @@ namespace thhylR.Games
         public GameDataSource GameCustomDataHeader { get; set; }
         public GameDataSource GameCustomDataBody { get; set; }
 
-        public DataTable DisplayData { get; set; }
+        public DataTable DisplayDataTemplate { get; set; }
         public List<DataRow> DisplayDataList { get; set; } = new List<DataRow>();
 
         public ReplayProblemEnum ReplayProblem { get; set; }
 
         public TouhouReplay()
         {
-            DisplayData = new DataTable();
-            DisplayData.Columns.Add("Name");
-            DisplayData.Columns.Add("DisplayValue");
-            DisplayData.Columns.Add(new DataColumn("Value", typeof(object)));
-            DisplayData.Columns.Add(new DataColumn("RawValue", typeof(object)));
-            DisplayData.Columns.Add("Id");
-            DisplayData.Columns.Add("Modifier");
-            DisplayData.Columns.Add("Formatter");
-            DisplayData.Columns.Add("Visible");
-            DisplayData.Columns.Add("EnumList");
-            DisplayData.Columns.Add(new DataColumn("Stage", typeof(int)));
-            DisplayData.Columns.Add(new DataColumn("IsSymbol", typeof(bool)));
-            DisplayData.Columns.Add("ExtraData");
-            DisplayData.AcceptChanges();
+            DisplayDataTemplate = new DataTable();
+            DisplayDataTemplate.Columns.Add("Name");
+            DisplayDataTemplate.Columns.Add("DisplayValue");
+            DisplayDataTemplate.Columns.Add(new DataColumn("Value", typeof(object)));
+            DisplayDataTemplate.Columns.Add(new DataColumn("RawValue", typeof(object)));
+            DisplayDataTemplate.Columns.Add("Id");
+            DisplayDataTemplate.Columns.Add("Modifier");
+            DisplayDataTemplate.Columns.Add("Formatter");
+            DisplayDataTemplate.Columns.Add("Visible");
+            DisplayDataTemplate.Columns.Add("EnumList");
+            DisplayDataTemplate.Columns.Add(new DataColumn("Stage", typeof(int)));
+            DisplayDataTemplate.Columns.Add(new DataColumn("IsSymbol", typeof(bool)));
+            DisplayDataTemplate.Columns.Add("ExtraData");
+            DisplayDataTemplate.AcceptChanges();
         }
     }
 
@@ -56,8 +56,10 @@ namespace thhylR.Games
     {
         None = 0,
         FileNotExist = 0x1,
-        ChnVerReplay = 0x2,
-        StageLengthError = 0x4,
+        FileChanged = 0x2,
+        InvalidFile = 0x4,
+        ChnVerReplay = 0x8,
+        StageLengthError = 0x10,
     }
 
     public class DataOffsetAndLength

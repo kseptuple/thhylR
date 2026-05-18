@@ -29,6 +29,11 @@ namespace thhylR
                     sb.Append("* ");
                     sb.AppendLine(ResourceLoader.GetText("ProblemFileNotExits"));
                 }
+                if (replayProblem.HasFlag(ReplayProblemEnum.FileChanged))
+                {
+                    sb.Append("* ");
+                    sb.AppendLine(ResourceLoader.GetText("ProblemFileChanged"));
+                }
                 if (replayProblem.HasFlag(ReplayProblemEnum.ChnVerReplay))
                 {
                     sb.Append("* ");
@@ -38,6 +43,11 @@ namespace thhylR
                 {
                     sb.Append("* ");
                     sb.AppendLine(ResourceLoader.GetText("ProblemLengthError"));
+                }
+                if (replayProblem.HasFlag(ReplayProblemEnum.InvalidFile))
+                {
+                    sb.Append("* ");
+                    sb.AppendLine(ResourceLoader.GetText("ProblemInvalidFile"));
                 }
                 textBoxReplayProblem.Text = sb.ToString();
             }

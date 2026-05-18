@@ -23,6 +23,8 @@ namespace thhylR
         private bool neverSaved = true;
         private double dpiScale = 0d;
 
+        private FormMain formMain = null;
+
         public FormCommentEditor()
         {
             InitializeComponent();
@@ -53,8 +55,9 @@ namespace thhylR
             saveFileDialogComment.Filter = ResourceLoader.GetText("ReplayFileFilter");
         }
 
-        public FormCommentEditor(string fileName, List<InfoBlock> infoBlocks, int codePage, int userBlockAddress) : this()
+        public FormCommentEditor(FormMain formMain, string fileName, List<InfoBlock> infoBlocks, int codePage, int userBlockAddress) : this()
         {
+            this.formMain = formMain;
             FileName = fileName;
             this.infoBlocks = infoBlocks;
             currentCodePage = codePage;
@@ -245,20 +248,22 @@ namespace thhylR
             {
                 userBlockStart += infoBlocks[i].Length;
             }
-
-            using (FileStream fs = File.OpenWrite(FileName))
+            try
             {
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    fs.Seek(userBlockStart, SeekOrigin.Begin);
+                using FileStream fs = File.OpenWrite(FileName);
+                using StreamWriter sw = new StreamWriter(fs);
+                fs.Seek(userBlockStart, SeekOrigin.Begin);
 
-                    for (int i = commentBlockIndex; i < infoBlocks.Count; i++)
-                    {
-                        fs.Write(UserInfo.GetByteArray(infoBlocks[i]));
-                    }
-                    fs.SetLength(fs.Position);
-                    fs.Flush();
+                for (int i = commentBlockIndex; i < infoBlocks.Count; i++)
+                {
+                    fs.Write(UserInfo.GetByteArray(infoBlocks[i]));
                 }
+                fs.SetLength(fs.Position);
+                fs.Flush();
+            }
+            catch
+            {
+                MessageBox.Show(ResourceLoader.GetText("CommentSaveFail"), formText, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             Text = formText;
@@ -269,6 +274,11 @@ namespace thhylR
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            if (formMain.CurrentReplay.ReplayProblem.HasFlag(Games.ReplayProblemEnum.FileNotExist) || formMain.CurrentReplay.ReplayProblem.HasFlag(Games.ReplayProblemEnum.FileChanged))
+            {
+                MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), FileName), formText, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             saveComment();
         }
 

@@ -104,19 +104,14 @@ namespace thhylR
             checkBoxRegisterCurrent.Checked = settings.RegisterReplayUser;
             checkBoxRegisterAll.Checked = settings.RegisterReplaySystem;
 
-            comboBoxOperAfterMove.Items.Add(ResourceLoader.GetText("KeepFile"));
             comboBoxOperAfterMove.Items.Add(ResourceLoader.GetText("NextFile"));
             comboBoxOperAfterMove.Items.Add(ResourceLoader.GetText("NewFile"));
 
             comboBoxOperAfterCopy.Items.Add(ResourceLoader.GetText("KeepFile"));
             comboBoxOperAfterCopy.Items.Add(ResourceLoader.GetText("NewFile"));
 
-            comboBoxOperAfterDelete.Items.Add(ResourceLoader.GetText("KeepFile"));
-            comboBoxOperAfterDelete.Items.Add(ResourceLoader.GetText("NextFile"));
-
-            comboBoxOperAfterMove.SelectedIndex = (int)settings.OperAfterMove;
-            comboBoxOperAfterCopy.SelectedIndex = settings.OperAfterCopy == FileOperate.KeepOrClose ? 0 : 1;
-            comboBoxOperAfterDelete.SelectedIndex = settings.OperAfterDelete == FileOperate.KeepOrClose ? 0 : 1;
+            comboBoxOperAfterMove.SelectedIndex = settings.OperAfterMove == FileOperate.New ? 1 : 0;
+            comboBoxOperAfterCopy.SelectedIndex = settings.OperAfterCopy == FileOperate.New ? 1 : 0;
 
             radioButtonAllEncoding.Checked = settings.ShowAllEncodings;
             radioButtonCommonEncoding.Checked = !settings.ShowAllEncodings;
@@ -275,9 +270,8 @@ namespace thhylR
             settings.OnTop = checkBoxOnTop.Checked;
             settings.ShowAllEncodings = radioButtonAllEncoding.Checked;
 
-            settings.OperAfterMove = (FileOperate)comboBoxOperAfterMove.SelectedIndex;
+            settings.OperAfterMove = comboBoxOperAfterMove.SelectedIndex == 0 ? FileOperate.Next : FileOperate.New;
             settings.OperAfterCopy = comboBoxOperAfterCopy.SelectedIndex == 0 ? FileOperate.KeepOrClose : FileOperate.New;
-            settings.OperAfterDelete = comboBoxOperAfterDelete.SelectedIndex == 0 ? FileOperate.KeepOrClose : FileOperate.Next;
 
             settings.Encodings[0].UseEncoding = checkBoxEncode1.Checked;
             settings.Encodings[0].EncodingId = (int)comboBoxEncode1.GetSelectedValue();

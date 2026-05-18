@@ -4,31 +4,28 @@ using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
 using thhylR.Properties;
+using YamlDotNet.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace thhylR
 {
     public partial class FormMain : Form
     {
-        private void setFileIsOpen(bool isExist)
+        private void setFileIsOpen(bool isOpen, bool isExist, bool isChanged = false)
         {
-            if (isExist)
-            {
-                isFileOpen = true;
-            }
+            CutToolStripMenuItem.Enabled = isExist && !isChanged;
+            CopyToolStripMenuItem.Enabled = isExist && !isChanged;
+            MoveToToolStripMenuItem.Enabled = isExist && !isChanged;
+            CopyToToolStripMenuItem.Enabled = isExist && !isChanged;
+            RenameToolStripMenuItem.Enabled = isExist && !isChanged;
+            DeleteToolStripMenuItem.Enabled = isExist && !isChanged;
 
-            CutToolStripMenuItem.Enabled = isExist;
-            CopyToolStripMenuItem.Enabled = isExist;
-            MoveToToolStripMenuItem.Enabled = isExist;
-            CopyToToolStripMenuItem.Enabled = isExist;
-            RenameToolStripMenuItem.Enabled = isExist;
-            DeleteToolStripMenuItem.Enabled = isExist;
-
-            toolStripButtonCut.Enabled = isExist;
-            toolStripButtonCopy.Enabled = isExist;
-            toolStripButtonMoveTo.Enabled = isExist;
-            toolStripButtonCopyTo.Enabled = isExist;
-            toolStripButtonRename.Enabled = isExist;
-            toolStripButtonDelete.Enabled = isExist;
+            toolStripButtonCut.Enabled = isExist && !isChanged;
+            toolStripButtonCopy.Enabled = isExist && !isChanged;
+            toolStripButtonMoveTo.Enabled = isExist && !isChanged;
+            toolStripButtonCopyTo.Enabled = isExist && !isChanged;
+            toolStripButtonRename.Enabled = isExist && !isChanged;
+            toolStripButtonDelete.Enabled = isExist && !isChanged;
 
             FirstReplayToolStripMenuItem.Enabled = isExist;
             PreviousReplayToolStripMenuItem.Enabled = isExist;
@@ -42,34 +39,46 @@ namespace thhylR
 
             CurrentFolderToolStripMenuItem.Enabled = isExist;
 
-            ExportToolStripMenuItem.Enabled = isFileOpen;
-            ExportAllToolStripMenuItem.Enabled = isFileOpen;
-            ExportCustomToolStripMenuItem.Enabled = isFileOpen;
+            ExportToolStripMenuItem.Enabled = isOpen;
+            ExportAllToolStripMenuItem.Enabled = isOpen;
+            ExportCustomToolStripMenuItem.Enabled = isOpen;
 
-            toolStripButtonExportAll.Enabled = isFileOpen;
-            toolStripButtonExportCustom.Enabled = isFileOpen;
+            toolStripButtonExportAll.Enabled = isOpen;
+            toolStripButtonExportCustom.Enabled = isOpen;
 
-            ViewKeysToolStripMenuItem.Enabled = isFileOpen;
-            toolStripButtonViewKeys.Enabled = isFileOpen;
+            ViewKeysToolStripMenuItem.Enabled = isOpen;
+            toolStripButtonViewKeys.Enabled = isOpen;
 
-            SaveReplayInfoToolStripMenuItem.Enabled = isFileOpen;
-            CopyInfoToolStripMenuItem.Enabled = isFileOpen;
+            SaveReplayInfoToolStripMenuItem.Enabled = isOpen;
+            CopyInfoToolStripMenuItem.Enabled = isOpen;
 
-            DataGridCopyAllToolStripMenuItem.Enabled = isFileOpen;
-            DataGridCopyToolStripMenuItem.Enabled = isFileOpen;
+            DataGridCopyAllToolStripMenuItem.Enabled = isOpen;
+            DataGridCopyToolStripMenuItem.Enabled = isOpen;
 
-            if (!isExist)
+            if (!isOpen)
             {
                 toolStripButtonEditComment.Enabled = false;
                 EditCommentToolStripMenuItem.Enabled = false;
             }
+        }
 
-            if (CurrentReplay != null && !isExist)
-            {
-                CurrentReplay.ReplayProblem |= ReplayProblemEnum.FileNotExist;
-                toolStripStatusLabelInfo.Image = Resources.StatusWarning;
-                toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
-            }
+        private void closeReplayByFileMissing()
+        {
+            CurrentReplay = new TouhouReplay();
+            setReplayProblem(ReplayProblemEnum.FileNotExist);
+            displayData();
+            textBoxInfo.Text = string.Empty;
+            textBoxPath.Text = string.Empty;
+        }
+
+        private void closeReplayByInvalidFile(string filePath)
+        {
+            CurrentReplay = new TouhouReplay();
+            CurrentReplay.FilePath = filePath;
+            displayData();
+            textBoxInfo.Text = string.Empty;
+            textBoxPath.Text = filePath;
+            setReplayProblem(ReplayProblemEnum.InvalidFile);
         }
 
         //private void closeReplay()
@@ -79,6 +88,16 @@ namespace thhylR
         //    isFileOpen = false;
         //    setFileIsOpen(false);
         //}
+
+        private void setReplayProblem(ReplayProblemEnum problem)
+        {
+            if (CurrentReplay != null)
+            {
+                CurrentReplay.ReplayProblem = problem;
+                toolStripStatusLabelInfo.Image = Resources.StatusWarning;
+                toolStripStatusLabelInfo.Text = ResourceLoader.GetText("ReplayWarning");
+            }
+        }
 
         private void showOpenReplayDialog()
         {
@@ -102,11 +121,15 @@ namespace thhylR
             openFolder(folderName);
         }
 
-        private bool openReplay(string fileName, bool refreshFileList = true, bool quietMode = false)
+        private bool openReplay(string fileName, bool changeFolder = true, bool allowInvalidFile = false, bool quietMode = false)
         {
             var fileExt = Path.GetExtension(fileName);
             if (!fileExt.Equals(".rpy", StringComparison.OrdinalIgnoreCase))
             {
+                if (allowInvalidFile)
+                {
+                    openInvalidFile();
+                }
                 if (!quietMode)
                 {
                     MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFullPath(fileName)),
@@ -121,6 +144,10 @@ namespace thhylR
             }
             catch
             {
+                if (allowInvalidFile)
+                {
+                    openInvalidFile();
+                }
                 if (!quietMode)
                 {
                     MessageBox.Show(ResourceLoader.GetText("ReplayOpenFail"), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -129,19 +156,28 @@ namespace thhylR
             }
             TouhouReplay lastReplay = CurrentReplay;
             CurrentReplay = ReplayAnalyzer.Analyze(fileData, SettingProvider.Settings.CurrentCodePage);
+
             if (CurrentReplay != null)
             {
                 textBoxPath.Text = fileName;
                 CurrentReplay.FilePath = fileName;
                 displayData();
 
-                if (refreshFileList)
+                if (changeFolder)
                 {
                     var replayPath = Path.GetDirectoryName(fileName);
-                    setFiles(replayPath, Path.GetFileName(fileName));
+                    loadFolderAndPickFileInTreeView(replayPath, Path.GetFileName(fileName));
                     fileSystemWatcherFolder.Path = replayPath;
+                    fileSystemWatcherParent.EnableRaisingEvents = false;
+                    var parentFolder = Directory.GetParent(replayPath);
+                    if (parentFolder != null)
+                    {
+                        fileSystemWatcherParent.Path = parentFolder.FullName;
+                        fileSystemWatcherParent.Filter = Path.GetFileName(replayPath);
+                        fileSystemWatcherParent.EnableRaisingEvents = true;
+                    }
                 }
-                setFileIsOpen(true);
+                setFileIsOpen(true, true);
 
                 EditCommentToolStripMenuItem.Enabled = CurrentReplay.InfoBlocks != null;
                 toolStripButtonEditComment.Enabled = CurrentReplay.InfoBlocks != null;
@@ -160,13 +196,27 @@ namespace thhylR
             }
             else
             {
+                if (allowInvalidFile)
+                {
+                    openInvalidFile();
+                }
                 if (!quietMode)
                 {
                     MessageBox.Show(string.Format(ResourceLoader.GetText("NotSupportedFile"), Path.GetFullPath(fileName)),
                     Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                CurrentReplay = lastReplay;
+                if (!allowInvalidFile)
+                {
+                    CurrentReplay = lastReplay;
+                }
                 return false;
+            }
+
+
+            void openInvalidFile()
+            {
+                setFileIsOpen(false, true);
+                closeReplayByInvalidFile(fileName);
             }
         }
 
@@ -181,7 +231,7 @@ namespace thhylR
             }
             for (int i = 0; i < replayFiles.Length; i++)
             {
-                if (openReplay(replayFiles[i], true, true))
+                if (openReplay(replayFiles[i], quietMode: true))
                 {
                     return;
                 }
@@ -200,11 +250,14 @@ namespace thhylR
                 if (dataGridInfo.SelectedRows.Count > 0)
                 {
                     selectedRow = dataGridInfo.SelectedRows[0].Index;
-
                 }
-                scrollRowIndex = dataGridInfo.FirstDisplayedScrollingRowIndex;
+                if (dataGridInfo.Rows.Count > 0)
+                {
+                    scrollRowIndex = dataGridInfo.FirstDisplayedScrollingRowIndex;
+                }
             }
-            DataTable allData = CurrentReplay.DisplayDataList.Where(d => d["Visible"].ToString() != "0").CopyToDataTable();
+            var dataRowCollection = CurrentReplay.DisplayDataList.Where(d => d["Visible"].ToString() != "0");
+            DataTable allData = dataRowCollection.Any() ? dataRowCollection.CopyToDataTable() : emptyDisplayTable;
             dataGridInfo.DataSource = allData;
 
             for (int i = 0; i < allData.Rows.Count; i++)
@@ -225,35 +278,39 @@ namespace thhylR
                 {
                     dataGridInfo.Rows[selectedRow].Selected = true;
                 }
-                dataGridInfo.FirstDisplayedScrollingRowIndex = scrollRowIndex;
+                if (dataGridInfo.Rows.Count > 0)
+                {
+                    dataGridInfo.FirstDisplayedScrollingRowIndex = scrollRowIndex;
+                }
             }
         }
 
-        private bool setFiles(string path, string filename)
+        private bool loadFolderAndPickFileInTreeView(string path, string filename)
         {
             treeViewFiles.Nodes.Clear();
             treeViewFiles.Nodes.Add(path);
             bool hasFile = false;
-            string[] fileList = null;
+            List<string> fileList = null;
             try
             {
-                fileList = Directory.GetFiles(path, "*.rpy");
+                fileList = Directory.GetFiles(path, "*.rpy").ToList();
+                fileList.Sort();
             }
             catch
             {
                 return false;
             }
-            for (int i = 0; i < fileList.Length; i++)
+            for (int i = 0; i < fileList.Count; i++)
             {
                 var file = fileList[i];
                 var currentFileName = Path.GetFileName(file);
                 treeViewFiles.Nodes[0].Nodes.Add(currentFileName);
-                if (!isSelecting && currentFileName == filename)
+                if (currentFileName == filename)
                 {
-                    isSelecting = true;
+                    bypassTreeviewSelectEvent = true;
                     treeViewFiles.SelectedNode = treeViewFiles.Nodes[0].Nodes[i];
+                    bypassTreeviewSelectEvent = false;
                     currentFilePos = i;
-                    isSelecting = false;
                     hasFile = true;
                 }
             }
@@ -261,38 +318,77 @@ namespace thhylR
             return hasFile;
         }
 
-        private void folderChanged()
+        private bool loadFolderAndOpenNextFileInTreeView(string path, string filename)
         {
-            if (!string.IsNullOrEmpty(fileSystemWatcherFolder.Path))
+            treeViewFiles.Nodes.Clear();
+            treeViewFiles.Nodes.Add(path);
+            bool hasFile = false;
+            bool hasOriginalFile = false;
+            bool foundOriginalFile = false;
+            string[] fileFullNames = null;
+            List<string> fileList = new List<string>();
+            try
             {
-                if (fileToOpen != null)
+                fileFullNames = Directory.GetFiles(path, "*.rpy");
+            }
+            catch
+            {
+                return false;
+            }
+
+            for (int i = 0; i < fileFullNames.Length; i++)
+            {
+                fileList.Add(Path.GetFileName(fileFullNames[i]));
+            }
+            if (!fileList.Contains(filename))
+            {
+                fileList.Add(filename);
+            }
+            else
+            {
+                hasOriginalFile = true;
+            }
+            fileList.Sort();
+
+            if (fileList.Count == 1)
+            {
+                treeViewFiles.Nodes[0].Expand();
+                return false;
+            }
+            var pos = -1;
+            for (int i = 0; i < fileList.Count; i++)
+            {
+                var currentFileName = fileList[i];
+                if (currentFileName == filename && !foundOriginalFile)
                 {
-                    string newFile = fileToOpen;
-                    fileToOpen = null;
-                    openReplay(newFile);
+                    foundOriginalFile = true;
+                    if (hasOriginalFile)
+                    {
+                        treeViewFiles.Nodes[0].Nodes.Add(currentFileName);
+                    }
+
+                    if (i == fileList.Count - 1)
+                    {
+                        pos = i - 1;
+                        hasFile = true;
+                    }
                 }
                 else
                 {
-                    if (!Directory.Exists(fileSystemWatcherFolder.Path))
+                    treeViewFiles.Nodes[0].Nodes.Add(currentFileName);
+                    if (foundOriginalFile && !hasFile)
                     {
-                        treeViewFiles.Nodes.Clear();
-                        setFileIsOpen(false);
-                    }
-                    else
-                    {
-                        string filename = null;
-                        if (CurrentReplay != null && ((CurrentReplay.ReplayProblem & ReplayProblemEnum.FileNotExist) == ReplayProblemEnum.None))
-                        {
-                            filename = Path.GetFileName(CurrentReplay.FilePath);
-                        }
-                        var hasFile = setFiles(fileSystemWatcherFolder.Path, filename);
-                        if (!hasFile)
-                        {
-                            setFileIsOpen(false);
-                        }
+                        pos = hasOriginalFile ? i : i - 1;
+                        hasFile = true;
                     }
                 }
             }
+            if (hasFile)
+            {
+                treeViewFiles.SelectedNode = treeViewFiles.Nodes[0].Nodes[pos];
+            }
+            treeViewFiles.Nodes[0].Expand();
+            return hasFile;
         }
 
         private void changeReplay(ReplayChangeType changeType)
@@ -394,6 +490,7 @@ namespace thhylR
                     }
 
                     CurrentReplay.FilePath = fullName;
+                    textBoxPath.Text = fullName;
                     if (targetFileName != null)
                     {
                         MessageBox.Show(string.Format(ResourceLoader.GetText("AutoRenameComplete"), targetFileName),
@@ -452,26 +549,31 @@ namespace thhylR
 
                     switch (SettingProvider.Settings.OperAfterMove)
                     {
-                        case FileOperate.KeepOrClose:
-                            break;
+                        case FileOperate.New:
+                            if (!CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.InvalidFile))
+                            {
+                                openReplay(path);
+                                break;
+                            }
+                            goto case FileOperate.Next;
                         case FileOperate.Next:
+                        default:
                             System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
                             if (rootNode.Nodes.Count == 1)
                             {
+                                setFileIsOpen(false, false);
+                                closeReplayByFileMissing();
                                 MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 break;
                             }
                             else if (currentFilePos < rootNode.Nodes.Count - 1)
                             {
-                                fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[currentFilePos + 1].Text);
+                                treeViewFiles.SelectedNode = rootNode.Nodes[currentFilePos + 1];
                             }
                             else
                             {
-                                fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[^1].Text);
+                                treeViewFiles.SelectedNode = rootNode.Nodes[^2];
                             }
-                            break;
-                        case FileOperate.New:
-                            openReplay(path);
                             break;
                     }
                 }
@@ -490,8 +592,12 @@ namespace thhylR
                     switch (SettingProvider.Settings.OperAfterCopy)
                     {
                         case FileOperate.New:
-                            openReplay(path);
-                            break;
+                            if (!CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.InvalidFile))
+                            {
+                                openReplay(path);
+                                break;
+                            }
+                            goto case FileOperate.KeepOrClose;
                         case FileOperate.KeepOrClose:
                         default:
                             break;
@@ -516,27 +622,21 @@ namespace thhylR
                     return;
                 }
 
-                switch (SettingProvider.Settings.OperAfterDelete)
+                System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
+                if (rootNode.Nodes.Count == 1)
                 {
-                    case FileOperate.Next:
-                        System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
-                        if (rootNode.Nodes.Count == 1)
-                        {
-                            MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
-                        }
-                        else if (currentFilePos < rootNode.Nodes.Count - 1)
-                        {
-                            fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[currentFilePos + 1].Text);
-                        }
-                        else
-                        {
-                            fileToOpen = Path.Combine(rootNode.Text, rootNode.Nodes[^1].Text);
-                        }
-                        break;
-                    case FileOperate.KeepOrClose:
-                    default:
-                        break;
+                    setFileIsOpen(false, false);
+                    closeReplayByFileMissing();
+                    MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if (currentFilePos < rootNode.Nodes.Count - 1)
+                {
+                    treeViewFiles.SelectedNode = rootNode.Nodes[currentFilePos + 1];
+                }
+                else
+                {
+                    treeViewFiles.SelectedNode = rootNode.Nodes[^2];
                 }
             }
         }
@@ -617,7 +717,7 @@ namespace thhylR
 
                 loadEncodingList();
 
-                if (CurrentReplay != null)
+                if (CurrentReplay != null && CurrentReplay.DisplayDataList.Count != 0)
                 {
                     ReplayAnalyzer.FormatData(CurrentReplay.DisplayDataList);
                     ReplayAnalyzer.ShiftScore(CurrentReplay);
@@ -630,7 +730,7 @@ namespace thhylR
         {
             if (CurrentReplay != null && CurrentReplay.InfoBlocks != null)
             {
-                FormCommentEditor editor = new FormCommentEditor(CurrentReplay.FilePath, CurrentReplay.InfoBlocks,
+                FormCommentEditor editor = new FormCommentEditor(this, CurrentReplay.FilePath, CurrentReplay.InfoBlocks,
                     SettingProvider.Settings.CurrentCodePage, CurrentReplay.InfoBlockStart);
                 var result = editor.ShowDialog(this);
                 if (result == DialogResult.OK)

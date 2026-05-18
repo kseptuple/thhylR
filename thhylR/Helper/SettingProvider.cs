@@ -13,7 +13,6 @@ namespace thhylR.Helper
 
         public FileOperate OperAfterMove { get; set; }
         public FileOperate OperAfterCopy { get; set; }
-        public FileOperate OperAfterDelete { get; set; }
 
         [YamlIgnore]
         private bool registerReplayUser = RegistryHelper.IsCurrentUserAssociated();
@@ -61,6 +60,7 @@ namespace thhylR.Helper
                 }
             }
         }
+
         public bool ShowAllEncodings { get; set; }
         public List<CommonEncoding> Encodings { get; set; }
         [YamlIgnore]
@@ -126,7 +126,6 @@ namespace thhylR.Helper
                 Settings.OnTop = false;
                 Settings.OperAfterMove = FileOperate.Next;
                 Settings.OperAfterCopy = FileOperate.KeepOrClose;
-                Settings.OperAfterDelete = FileOperate.Next;
                 Settings.ShowAllEncodings = false;
                 Settings.Encodings =
                 [

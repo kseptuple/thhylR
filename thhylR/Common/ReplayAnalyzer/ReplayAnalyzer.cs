@@ -603,7 +603,7 @@ namespace thhylR.Common
             void insertIntoDisplayTable(string name, object value, object rawValue, string id, int stage,
                 string modifier = "", string formatter = "", string isVisible = "", string enumList = "", string extraData = "")
             {
-                DataRow dr = result.DisplayData.NewRow();
+                DataRow dr = result.DisplayDataTemplate.NewRow();
                 dr["Name"] = name;
                 dr["Value"] = value;
                 dr["RawValue"] = rawValue;

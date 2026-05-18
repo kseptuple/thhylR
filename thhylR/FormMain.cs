@@ -1,17 +1,20 @@
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.IO.Packaging;
 using System.Reflection;
 using System.Text;
 using thhylR.Common;
 using thhylR.Games;
 using thhylR.Helper;
+using thhylR.Properties;
 
 namespace thhylR
 {
     public partial class FormMain : Form
     {
-        private bool isSelecting = false;
+        private bool isModalShowing = false;
+        private bool bypassTreeviewSelectEvent = false;
 
         private int currentFilePos = -1;
 
@@ -20,12 +23,8 @@ namespace thhylR
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TouhouReplay CurrentReplay { get; set; }
 
-        private string fileToOpen = null;
-
         private Font normalFont;
         private Font symbolFont;
-
-        private bool isFileOpen = false;
 
         private bool showAllEncodingsOld = false;
 
@@ -46,8 +45,13 @@ namespace thhylR
         private bool isToolStripClicked = false;
 #endif
 
+        private DataTable emptyDisplayTable = new DataTable();
+
         public FormMain()
         {
+            Application.EnterThreadModal += (s, e) => isModalShowing = true;
+            Application.LeaveThreadModal += (s, e) => isModalShowing = false;
+
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
 
             string crashReportPath = "CrashReports";
@@ -101,7 +105,6 @@ namespace thhylR
             EnumData.Init();
             SettingProvider.Init();
             EncodingHelper.Init();
-
 
             dataGridInfo.AutoGenerateColumns = false;
             dataGridInfo.DefaultCellStyle.Font = SettingProvider.Settings.NormalFont;
@@ -197,7 +200,11 @@ namespace thhylR
             comboBoxEncoding.SetSelectedValue(SettingProvider.Settings.CurrentCodePage);
             isEncodingChanging = false;
 
-            setFileIsOpen(false);
+            emptyDisplayTable.Columns.Add("Name");
+            emptyDisplayTable.Columns.Add("DisplayValue");
+            emptyDisplayTable.AcceptChanges();
+
+            setFileIsOpen(false, false);
 
             var args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
@@ -290,21 +297,16 @@ namespace thhylR
 
         private void treeViewFiles_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (isSelecting)
+            if (bypassTreeviewSelectEvent)
             {
                 return;
             }
-            isSelecting = true;
             if (treeViewFiles.SelectedNode != treeViewFiles.Nodes[0])
             {
                 string path = Path.Combine(treeViewFiles.Nodes[0].Text, treeViewFiles.SelectedNode.Text);
-                if (!openReplay(path, false))
-                {
-                    treeViewFiles.SelectedNode = treeViewFiles.Nodes[0].Nodes[currentFilePos];
-                }
                 currentFilePos = treeViewFiles.SelectedNode.Index;
+                openReplay(path, false, true);
             }
-            isSelecting = false;
         }
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
@@ -344,14 +346,169 @@ namespace thhylR
             }
         }
 
-        private void fileSystemWatcherFolder_Events(object sender, FileSystemEventArgs e)
+        private void fileSystemWatcherParent_Deleted(object sender, FileSystemEventArgs e)
         {
-            folderChanged();
+            if (!Directory.Exists(fileSystemWatcherFolder.Path))
+            {
+                treeViewFiles.Nodes[0].Nodes.Clear();
+                setFileIsOpen(true, false);
+                setReplayProblem(ReplayProblemEnum.FileNotExist);
+                if (!isModalShowing)
+                {
+                    MessageBox.Show(ResourceLoader.GetText("FolderDeletedMessage"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                return;
+            }
+        }
+
+        private void fileSystemWatcherParent_Renamed(object sender, RenamedEventArgs e)
+        {
+            if (!Directory.Exists(fileSystemWatcherFolder.Path))
+            {
+                treeViewFiles.Nodes[0].Nodes.Clear();
+                setFileIsOpen(true, false);
+                setReplayProblem(ReplayProblemEnum.FileNotExist);
+                if (!isModalShowing)
+                {
+                    MessageBox.Show(ResourceLoader.GetText("FolderDeletedMessage"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                return;
+            }
+        }
+
+        private void fileSystemWatcherFolder_Changed(object sender, FileSystemEventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                if (e.FullPath == CurrentReplay.FilePath && !CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.FileNotExist)
+                    && !CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.FileChanged))
+                {
+                    setReplayProblem(ReplayProblemEnum.FileChanged);
+                    setFileIsOpen(true, true, true);
+                    if (isModalShowing)
+                    {
+                        return;
+                    }
+                    var result = MessageBox.Show(ResourceLoader.GetText("FileChangedMessage"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        if (File.Exists(CurrentReplay.FilePath))
+                        {
+                            openReplay(CurrentReplay.FilePath, true, true);
+                        }
+                        else
+                        {
+                            MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), CurrentReplay.FilePath), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                    else
+                    {
+                        if (CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.FileNotExist))
+                        {
+                            loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, null);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void fileSystemWatcherFolder_Deleted(object sender, FileSystemEventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                if (CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.FileNotExist))
+                {
+                    loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, null);
+                }
+                else
+                {
+                    if (e.FullPath == CurrentReplay.FilePath)
+                    {
+                        showFileDeletedMessage();
+                    }
+                    else
+                    {
+                        loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+                    }
+                }
+            }
+        }
+
+        private void showFileDeletedMessage()
+        {
+            setReplayProblem(ReplayProblemEnum.FileNotExist);
+            setFileIsOpen(true, false);
+            loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, null);
+            if (isModalShowing)
+            {
+                return;
+            }
+            System.Windows.Forms.TreeNode rootNode = treeViewFiles.Nodes[0];
+            if (rootNode.Nodes.Count == 0)
+            {
+                MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var result = MessageBox.Show(ResourceLoader.GetText("FileDeletedMessage"), Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                rootNode = treeViewFiles.Nodes[0];
+                if (rootNode.Nodes.Count == 0)
+                {
+                    MessageBox.Show(ResourceLoader.GetText("NoNextFile"), Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                loadFolderAndOpenNextFileInTreeView(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+            }
+        }
+
+
+        private void fileSystemWatcherFolder_Created(object sender, FileSystemEventArgs e)
+        {
+            if (CurrentReplay != null)
+            {
+                if (CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.FileNotExist))
+                {
+                    loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, null);
+                }
+                else
+                {
+                    loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+                }
+            }
         }
 
         private void fileSystemWatcherFolder_Renamed(object sender, RenamedEventArgs e)
         {
-            folderChanged();
+            if (CurrentReplay != null)
+            {
+                if (CurrentReplay.ReplayProblem.HasFlag(ReplayProblemEnum.FileNotExist))
+                {
+                    loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, null);
+                }
+                else
+                {
+                    if (e.OldFullPath == CurrentReplay.FilePath)
+                    {
+                        if (Path.GetExtension(e.FullPath) != ".rpy")
+                        {
+                            showFileDeletedMessage();
+                        }
+                        else
+                        {
+                            CurrentReplay.FilePath = e.FullPath;
+                            textBoxPath.Text = CurrentReplay.FilePath;
+                            loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+                        }
+                    }
+                    else
+                    {
+                        loadFolderAndPickFileInTreeView(fileSystemWatcherFolder.Path, Path.GetFileName(CurrentReplay.FilePath));
+                    }
+                }
+            }
         }
 
         private void treeViewFiles_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -553,6 +710,7 @@ namespace thhylR
                 else
                 {
                     MessageBox.Show(string.Format(ResourceLoader.GetText("NotExistedFile"), filename), Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    textBoxPath.Text = CurrentReplay?.FilePath ?? string.Empty;
                 }
             }
         }

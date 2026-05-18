@@ -67,6 +67,7 @@ FormSettings:
       - label8: 删除文件后：
       - checkBoxRegisterCurrent: 关联.rpy文件（当前用户）
       - checkBoxRegisterAll: 关联.rpy文件（所有用户）（需要管理员权限）
+      - checkBoxPersistWhenNotExist: 文件不存在时仍保持打开状态
     - tabPage3:
       - 编码切换
       - radioButtonAllEncoding: 显示全部编码
@@ -150,11 +151,16 @@ text:
   - CopyFail: 复制文件失败
   - RenameFail: 重命名文件失败
   - DeleteFail: 删除文件失败
-  - NoNextFile: 当前文件夹已没有录像文件。
+  - NoNextFile: 当前文件夹中已没有录像文件。
   - NoReplayInFolder: 文件夹{0}中没有录像文件。
-  - ProblemFileNotExits: 该文件已不存在，请重新打开。
+  - ProblemFileNotExits: 当前文件已被移动或删除。
+  - ProblemFileChanged: 当前文件已被修改，请重新打开。
+  - FileDeletedMessage: 当前文件已被移动或删除，是否打开下一个文件？
+  - FileChangedMessage: 当前文件已被修改，是否重新打开？
+  - FolderDeletedMessage: 当前文件夹已被移动或删除。
   - ProblemCHSVersion: 该录像文件并非通过日文原版游戏保存，可能会导致游戏出错或者无法识别。
   - ProblemLengthError: 该录像文件关卡长度不正确，可能会导致游戏出错。
+  - ProblemInvalidFile: 该录像不是该程序支持的录像文件。
   - ProblemNotOpen: 未打开文件
   - ReplayOK: 录像文件正常
   - ReplayWarning: 录像文件异常
@@ -211,6 +217,7 @@ text:
   - ShanghaiAliceNotExists: 找不到ShanghaiAlice文件夹
   - NonShiftJISWarning: 使用shift-jis以外的编码可能导致其他程序无法读取注释，是否继续保存？
   - CommentCloseWarning: 有未保存的修改，是否保存？
+  - CommentSaveFail: 保存文件失败。
   - ExportId: 序号
   - ExportFileName: 文件名
   - ExportBlockType: 类型

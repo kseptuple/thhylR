@@ -115,6 +115,7 @@
             textBoxInfo = new TextBox();
             statusStripMain = new StatusStrip();
             toolStripStatusLabelInfo = new ToolStripStatusLabel();
+            fileSystemWatcherParent = new FileSystemWatcher();
             menuStripMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcherFolder).BeginInit();
             toolStripMain.SuspendLayout();
@@ -129,6 +130,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridInfo).BeginInit();
             contextMenuStripData.SuspendLayout();
             statusStripMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcherParent).BeginInit();
             SuspendLayout();
             // 
             // openReplayDialog
@@ -450,10 +452,11 @@
             // 
             fileSystemWatcherFolder.EnableRaisingEvents = true;
             fileSystemWatcherFolder.Filter = "*.rpy";
-            fileSystemWatcherFolder.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            fileSystemWatcherFolder.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite;
             fileSystemWatcherFolder.SynchronizingObject = this;
-            fileSystemWatcherFolder.Created += fileSystemWatcherFolder_Events;
-            fileSystemWatcherFolder.Deleted += fileSystemWatcherFolder_Events;
+            fileSystemWatcherFolder.Changed += fileSystemWatcherFolder_Changed;
+            fileSystemWatcherFolder.Created += fileSystemWatcherFolder_Created;
+            fileSystemWatcherFolder.Deleted += fileSystemWatcherFolder_Deleted;
             fileSystemWatcherFolder.Renamed += fileSystemWatcherFolder_Renamed;
             // 
             // toolStripMain
@@ -842,7 +845,7 @@
             comboBoxEncoding.Location = new Point(49, 0);
             comboBoxEncoding.Margin = new Padding(2, 3, 2, 3);
             comboBoxEncoding.Name = "comboBoxEncoding";
-            comboBoxEncoding.Size = new Size(243, 25);
+            comboBoxEncoding.Size = new Size(253, 25);
             comboBoxEncoding.TabIndex = 7;
             comboBoxEncoding.ValueMember = "CodePage";
             comboBoxEncoding.SelectedIndexChanged += comboBoxEncoding_SelectedIndexChanged;
@@ -856,7 +859,7 @@
             textBoxInfo.Name = "textBoxInfo";
             textBoxInfo.ReadOnly = true;
             textBoxInfo.ScrollBars = ScrollBars.Vertical;
-            textBoxInfo.Size = new Size(292, 411);
+            textBoxInfo.Size = new Size(302, 411);
             textBoxInfo.TabIndex = 6;
             // 
             // statusStripMain
@@ -878,6 +881,14 @@
             toolStripStatusLabelInfo.Size = new Size(151, 20);
             toolStripStatusLabelInfo.Text = "toolStripStatusLabel1";
             toolStripStatusLabelInfo.Click += toolStripStatusLabelInfo_Click;
+            // 
+            // fileSystemWatcherParent
+            // 
+            fileSystemWatcherParent.EnableRaisingEvents = true;
+            fileSystemWatcherParent.NotifyFilter = NotifyFilters.DirectoryName;
+            fileSystemWatcherParent.SynchronizingObject = this;
+            fileSystemWatcherParent.Deleted += fileSystemWatcherParent_Deleted;
+            fileSystemWatcherParent.Renamed += fileSystemWatcherParent_Renamed;
             // 
             // FormMain
             // 
@@ -920,6 +931,7 @@
             contextMenuStripData.ResumeLayout(false);
             statusStripMain.ResumeLayout(false);
             statusStripMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcherParent).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1009,5 +1021,6 @@
         private ContextMenuStrip contextMenuStripData;
         private ToolStripMenuItem DataGridCopyToolStripMenuItem;
         private ToolStripMenuItem DataGridCopyAllToolStripMenuItem;
+        private FileSystemWatcher fileSystemWatcherParent;
     }
 }
