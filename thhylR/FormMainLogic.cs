@@ -951,11 +951,9 @@ namespace thhylR
 
         private void AppExit(object sender, EventArgs e)
         {
-            lock (locker)
-            {
-                if (isExitRoutineExecuted) return;
-                isExitRoutineExecuted = true;
-            }
+            if (isExitRoutineExecuted) return;
+            isExitRoutineExecuted = true;
+            
             SettingProvider.Settings.MainFormLeft = Left;
             SettingProvider.Settings.MainFormTop = Top;
             SettingProvider.Settings.MainFormHeight = (int)(Height / dpiScale);

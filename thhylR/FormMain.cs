@@ -36,11 +36,7 @@ namespace thhylR
         private double dpiScale = 0d;
 
         private bool isExitRoutineExecuted = false;
-#if NET10_0_OR_GREATER
-        private Lock locker = new Lock();
-#else
-        private object locker = new object();
-#endif
+
 #if !NET10_0_OR_GREATER
         private bool isToolStripClicked = false;
 #endif
@@ -236,11 +232,8 @@ namespace thhylR
 #if !NET10_0_OR_GREATER
         private bool setToolStripClicked()
         {
-            lock (locker)
-            {
-                if (isToolStripClicked) return false;
-                isToolStripClicked = true;
-            }
+            if (isToolStripClicked) return false;
+            isToolStripClicked = true;
             return true;
         }
 
