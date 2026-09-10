@@ -191,7 +191,7 @@ namespace thhylR.Common
             List<DataOffsetAndLength> stages = null;
             if (gameData.ReplayStructVersion == 1)
             {
-                stages = GetStagePointersV1(header, stageSetting.FirstStage, stageSetting.TotalStageCountData, afterDecompressData.Length);
+                stages = GetStagePointersV1(header, stageSetting.FirstStage, stageSetting.TotalStageCountData, afterDecompressData.Length, stageSetting.IsStageOffsetInt64);
             }
             else if (gameData.ReplayStructVersion == 2)
             {
@@ -666,7 +666,7 @@ namespace thhylR.Common
             }
         }
 
-        public static List<DataOffsetAndLength> GetStagePointersV1(byte[] header, int firstOffset, int stageCount, int totalSize)
+        public static List<DataOffsetAndLength> GetStagePointersV1(byte[] header, int firstOffset, int stageCount, int totalSize, bool isStageOffsetInt64)
         {
             int offset = firstOffset;
             int headerSize = header.Length;
@@ -675,7 +675,17 @@ namespace thhylR.Common
             for (int i = 0; i < stageCount; i++)
             {
                 DataOffsetAndLength item = new DataOffsetAndLength();
-                int stageOffset = BitConverter.ToInt32(header, offset) - headerSize;
+                int stageOffset = 0;
+                if (isStageOffsetInt64)
+                {
+                    stageOffset = (int)BitConverter.ToInt64(header, offset) - headerSize;
+                    offset += 8;
+                }
+                else
+                {
+                    stageOffset = BitConverter.ToInt32(header, offset) - headerSize;
+                    offset += 4;
+                }
                 if (stageOffset >= 0 && stageOffset < totalSize)
                 {
                     item.Offset = stageOffset;
@@ -701,7 +711,6 @@ namespace thhylR.Common
                 {
                     result.Add(null);
                 }
-                offset += 4;
             }
             result[lastValidStage].Length = totalSize - result[lastValidStage].Offset;
             return result;

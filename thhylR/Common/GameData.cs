@@ -105,6 +105,7 @@ namespace thhylR.Common
         public bool UseFpsSize { get; set; } = false;
         public bool UseKeyDataSize { get; set; } = false;
         public bool IsVSGame { get; set; } = false;
+        public bool IsStageOffsetInt64 { get; set; } = false;
         public List<GameCustomInfoItem> CustomStageInfo { get; set; }
         public KeyDataSetting KeyData { get; set; }
     }

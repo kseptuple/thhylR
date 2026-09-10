@@ -18,7 +18,8 @@ namespace thhylR.Common
                     if (stage.KeyData.Length > 2 * gameData.StageSetting.KeySizeData)
                     {
                         int lengthPos = stage.KeyData.Length - 2 * gameData.StageSetting.KeySizeData;
-                        int length = BitConverter.ToInt32(replay.RawData, stage.KeyData.Offset + lengthPos) - 1;
+                        int diff = gameData.StageSetting.KeyData.FirstFrameIsNullFrame ? 1 : 0;
+                        int length = BitConverter.ToInt32(replay.RawData, stage.KeyData.Offset + lengthPos) - diff;
                         stage.FrameCount = length;
                         replay.TotalFrameCount += length;
                         if (stage.FPSData != null)
@@ -157,19 +158,21 @@ namespace thhylR.Common
 
             int globalOffset = keyDataOffsets.Offset;
 
-            int[] lastArrowCount = new int[4] { int.MaxValue, int.MaxValue, int.MaxValue, int.MaxValue };
+            int[] lastArrowCount = [int.MaxValue, int.MaxValue, int.MaxValue, int.MaxValue];
 
             if (keyDataSettings.KeyDataVersion == 1)
             {
-                int currentFrame = 1;
+                int start = gameData.StageSetting.KeyData.FirstFrameIsNullFrame ? 1 : 0;
+                int diff = gameData.StageSetting.KeyData.FirstFrameIsNullFrame ? 0 : 1;
+                int currentFrame = start;
                 string[] currentFrameKeyNames = null;
                 byte currentArrowKey = 0;
                 int i = globalOffset;
                 int targetFrame = 0;
                 int secondFrame = BitConverter.ToInt32(replay.RawData, globalOffset + gameData.StageSetting.KeySizeData);
-                if (secondFrame == 1)
+                if (secondFrame == start)
                 {
-                    targetFrame = 1;
+                    //targetFrame = 1;
                     i += gameData.StageSetting.KeySizeData;
                 }
 
@@ -198,14 +201,14 @@ namespace thhylR.Common
                                 }
                             }
                         }
+                        if ((currentArrowKey & 3) == 3 || (currentArrowKey & 12) == 12)
+                            replay.Stages[stageIndex].HasConflictKeys = true;
                     }
-                    if ((currentArrowKey & 3) == 3 || (currentArrowKey & 12) == 12)
-                        replay.Stages[stageIndex].HasConflictKeys = true;
                     currentFrame++;
                     replay.Stages[stageIndex].KeyList.Add(currentFrameKeyNames);
                     replay.Stages[stageIndex].ArrowKeyList.Add(currentArrowKey);
 
-                } while (currentFrame <= totalFrames);
+                } while (currentFrame <= totalFrames - diff);
             }
             else
             {
@@ -325,14 +328,14 @@ namespace thhylR.Common
             {
                 keyQueue.Enqueue(0);
             }
-            int[] keyboardArrowLengthCounter = [0, 0, 0, 0];
+            int[] keyboardArrowLengthCounter = [ 0, 0, 0, 0 ];
             int controllerArrowLengthCounter = 0;
 
-            int[] keyboardArrowCurrentSum = [0, 0, 0, 0];
+            int[] keyboardArrowCurrentSum = [ 0, 0, 0, 0 ];
             int controllerArrowCurrentSum = 0;
 
             byte lastKey = 0;
-            byte[] currentVirtual = [0, 0, 0, 0];
+            byte[] currentVirtual = [ 0, 0, 0, 0 ];
 
             for (int i = 0; i < paddedArrowKeys.Length - 3; i++)
             {
