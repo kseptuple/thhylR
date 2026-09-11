@@ -18,8 +18,7 @@ namespace thhylR.Common
                     if (stage.KeyData.Length > 2 * gameData.StageSetting.KeySizeData)
                     {
                         int lengthPos = stage.KeyData.Length - 2 * gameData.StageSetting.KeySizeData;
-                        int diff = gameData.StageSetting.KeyData.FirstFrameIsNullFrame ? 1 : 0;
-                        int length = BitConverter.ToInt32(replay.RawData, stage.KeyData.Offset + lengthPos) - diff;
+                        int length = BitConverter.ToInt32(replay.RawData, stage.KeyData.Offset + lengthPos);
                         stage.FrameCount = length;
                         replay.TotalFrameCount += length;
                         if (stage.FPSData != null)
@@ -56,10 +55,7 @@ namespace thhylR.Common
                     var requireCountFrame = !gameData.StageSetting.IsVSGame || i < replay.Stages.Count / 2;
                     var stage = replay.Stages[i];
                     stage.FrameCount = stage.KeyData.Length / gameData.StageSetting.KeySizeData;
-                    if (gameData.StageSetting.KeyData.FirstFrameIsNullFrame)
-                    {
-                        stage.FrameCount--;
-                    }
+
                     if (gameData.StageSetting.KeyData.HasTerminateMark)
                     {
                         int lastKey = stage.KeyData.Length - gameData.StageSetting.KeySizeData;
@@ -162,31 +158,28 @@ namespace thhylR.Common
 
             if (keyDataSettings.KeyDataVersion == 1)
             {
-                int start = gameData.StageSetting.KeyData.FirstFrameIsNullFrame ? 1 : 0;
-                int diff = gameData.StageSetting.KeyData.FirstFrameIsNullFrame ? 0 : 1;
-                int currentFrame = start;
-                string[] currentFrameKeyNames = null;
+                int currentFrame = 0;
+                string[] currentFrameKeyNames = new string[totalKeys];
                 byte currentArrowKey = 0;
                 int i = globalOffset;
-                int targetFrame = 0;
-                int secondFrame = BitConverter.ToInt32(replay.RawData, globalOffset + gameData.StageSetting.KeySizeData);
-                if (secondFrame == start)
-                {
-                    //targetFrame = 1;
-                    i += gameData.StageSetting.KeySizeData;
-                }
+                int nextFrameNumber = BitConverter.ToInt32(replay.RawData, i);
 
                 int totalFrames = replay.Stages[stageIndex].FrameCount;
                 do
                 {
-                    if (targetFrame <= currentFrame)
+                    if (nextFrameNumber <= currentFrame)
                     {
                         lastArrowCount[0] = lastArrowCount[1] = lastArrowCount[2] = lastArrowCount[3] = int.MaxValue;
-                        int keyDataInt = getKeyData(replay.RawData, i + 4);
+                        int keyDataInt = 0;
                         currentFrameKeyNames = new string[totalKeys];
                         currentArrowKey = 0;
-                        i += gameData.StageSetting.KeySizeData;
-                        targetFrame = BitConverter.ToInt32(replay.RawData, i);
+                        do
+                        {
+                            keyDataInt = getKeyData(replay.RawData, i + 4);
+                            i += gameData.StageSetting.KeySizeData;
+                            nextFrameNumber = BitConverter.ToInt32(replay.RawData, i);
+                        } while (nextFrameNumber <= currentFrame);
+                        
                         for (int j = 0; j < keyIndices.Count; j++)
                         {
                             if ((keyDataInt & keyFlags[j]) != 0)
@@ -208,14 +201,10 @@ namespace thhylR.Common
                     replay.Stages[stageIndex].KeyList.Add(currentFrameKeyNames);
                     replay.Stages[stageIndex].ArrowKeyList.Add(currentArrowKey);
 
-                } while (currentFrame <= totalFrames - diff);
+                } while (currentFrame < totalFrames);
             }
             else
             {
-                if (keyDataSettings.FirstFrameIsNullFrame)
-                {
-                    globalOffset += gameData.StageSetting.KeySizeData;
-                }
                 var keyDataEnd = globalOffset + gameData.StageSetting.KeySizeData * replay.Stages[stageIndex].FrameCount;
                 for (int i = globalOffset; i < keyDataEnd; i += gameData.StageSetting.KeySizeData)
                 {

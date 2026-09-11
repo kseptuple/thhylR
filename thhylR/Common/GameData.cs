@@ -106,13 +106,13 @@ namespace thhylR.Common
         public bool UseKeyDataSize { get; set; } = false;
         public bool IsVSGame { get; set; } = false;
         public bool IsStageOffsetInt64 { get; set; } = false;
+        public bool IsInterlacedFPSStages { get; set; } = false;
         public List<GameCustomInfoItem> CustomStageInfo { get; set; }
         public KeyDataSetting KeyData { get; set; }
     }
 
     public class KeyDataSetting : GameDataCloneableClass
     {
-        public bool FirstFrameIsNullFrame { get; set; } = false;
         public bool HasTerminateMark { get; set; } = true;
         public List<string> KeyNames { get; set; }
         public int KeySize { get; set; }

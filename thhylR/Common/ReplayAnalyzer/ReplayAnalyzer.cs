@@ -207,21 +207,32 @@ namespace thhylR.Common
                 return null;
             }
 
-            int stageCount = hasFPSData ? stages.Count / 2 : stages.Count;
+            int stageCount = (hasFPSData || stageSetting.IsInterlacedFPSStages) ? stages.Count / 2 : stages.Count;
             result.Stages = new List<StageData>();
             int FPSPosStart = stageSetting.FPSStartData == -1 ? stageCount : stageSetting.FPSStartData;
             int currentFPSPos = FPSPosStart;
             for (int i = 0; i < stageCount; i++)
             {
-                if (stages[i] != null)
+                var currentStage = stages[i];
+                if (stageSetting.IsInterlacedFPSStages)
                 {
-                    var stageData = new StageData();
-                    stageData.HeaderData = new DataOffsetAndLength();
-                    stageData.HeaderData.Offset = stages[i].Offset;
-                    stageData.HeaderData.Length = stageSetting.StageHeaderSizeData;
-                    stageData.KeyData = new DataOffsetAndLength();
-                    stageData.KeyData.Offset = stages[i].Offset + stageSetting.StageHeaderSizeData;
-                    stageData.KeyData.Length = stages[i].Length - stageSetting.StageHeaderSizeData;
+                    currentStage = stages[i * 2];
+                }
+                if (currentStage != null)
+                {
+                    var stageData = new StageData
+                    {
+                        HeaderData = new DataOffsetAndLength
+                        {
+                            Offset = currentStage.Offset,
+                            Length = stageSetting.StageHeaderSizeData
+                        },
+                        KeyData = new DataOffsetAndLength()
+                        {
+                            Offset = currentStage.Offset + stageSetting.StageHeaderSizeData,
+                            Length = currentStage.Length - stageSetting.StageHeaderSizeData,
+                        }
+                    };
                     if (hasFPSData)
                     {
                         stageData.FPSData = stages[currentFPSPos];
@@ -250,6 +261,10 @@ namespace thhylR.Common
                 if (hasFPSData)
                 {
                     currentFPSPos++;
+                    if (stageSetting.IsInterlacedFPSStages)
+                    {
+                        currentFPSPos++;
+                    }
                     if (currentFPSPos >= stages.Count)
                     {
                         currentFPSPos = FPSPosStart;

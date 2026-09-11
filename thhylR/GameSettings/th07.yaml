@@ -25,7 +25,6 @@
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 1
-      FirstFrameIsNullFrame: true
       HasTerminateMark: false
       KeySize: 2
       KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
@@ -144,7 +143,6 @@
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 1
-      FirstFrameIsNullFrame: true
       HasTerminateMark: false
       KeySize: 2
       KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]
@@ -262,7 +260,6 @@
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 2
-      FirstFrameIsNullFrame: true
       HasTerminateMark: false
       KeySize: 2
       KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]

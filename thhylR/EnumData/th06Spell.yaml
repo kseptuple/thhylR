@@ -1,0 +1,136 @@
+- Name: Th06SpellList
+  EnumValues:
+  - 月符「Moonlight Ray」
+  - 月符「Moonlight Ray」
+  - 夜符「Night Bird」
+  - 夜符「Night Bird」
+  - 夜符「Night Bird」
+  - 暗符「Demarcation」
+  - 暗符「Demarcation」
+  - 暗符「Demarcation」
+  - 暗符「Demarcation」
+  - 冰符「Icicle Fall」
+  - 冰符「Icicle Fall」
+  - 雹符「Hailstorm」
+  - 雹符「Hailstorm」
+  - 冻符「Perfect Freeze」
+  - 冻符「Perfect Freeze」
+  - 冻符「Perfect Freeze」
+  - 冻符「Perfect Freeze」
+  - 雪符「Diamond Blizzard」
+  - 雪符「Diamond Blizzard」
+  - 雪符「Diamond Blizzard」
+  - 华符「芳华绚烂」
+  - 华符「芳华绚烂」
+  - 华符「Selaginella 9」
+  - 华符「Selaginella 9」
+  - 虹符「彩虹的风铃」
+  - 虹符「彩虹的风铃」
+  - 虹符「彩虹的风铃」
+  - 虹符「彩虹的风铃」
+  - 幻符「华想梦葛」
+  - 幻符「华想梦葛」
+  - 彩符「彩雨」
+  - 彩符「彩雨」
+  - 彩符「彩光乱舞」
+  - 彩符「彩光乱舞」
+  - 彩符「极彩台风」
+  - 彩符「极彩台风」
+  - 彩符「极彩台风」
+  - 火符「Agni Shine」
+  - 火符「Agni Shine」
+  - 火符「Agni Shine上级」
+  - 火符「Agni Shine上级」
+  - 火符「Agni Shine上级」
+  - 火符「Agni Radiance」
+  - 火符「Agni Radiance」
+  - 水符「Princess Undine」
+  - 水符「Princess Undine」
+  - 水符「Bury in Lake」
+  - 水符「Bury in Lake」
+  - 木符「Sylphy Horn」
+  - 木符「Sylphy Horn」
+  - 木符「Sylphy Horn上级」
+  - 木符「Sylphy Horn上级」
+  - 木符「Sylphy Horn上级」
+  - 木符「Green Storm」
+  - 木符「Green Storm」
+  - 土符「Lazy Trilithon」
+  - 土符「Lazy Trilithon」
+  - 土符「Lazy Trilithon上级」
+  - 土符「Lazy Trilithon上级」
+  - 土符「Lazy Trilithon上级」
+  - 土符「Trilithon Shake」
+  - 土符「Trilithon Shake」
+  - 金符「Metal Fatigue」
+  - 金符「Silver Dragon」
+  - 金符「Silver Dragon」
+  - 火&土符「Lava Cromlech」
+  - 火&土符「Lava Cromlech」
+  - 火&土符「Lava Cromlech」
+  - 火&土符「Lava Cromlech」
+  - 木&火符「Forest Blaze」
+  - 木&火符「Forest Blaze」
+  - 木&火符「Forest Blaze」
+  - 木&火符「Forest Blaze」
+  - 水&木符「Water Elf」
+  - 水&木符「Water Elf」
+  - 水&木符「Water Elf」
+  - 水&木符「Water Elf」
+  - 金&水符「Mercury Poison」
+  - 金&水符「Mercury Poison」
+  - 金&水符「Mercury Poison」
+  - 土&金符「Emerald Megalith」
+  - 土&金符「Emerald Megalith」
+  - 土&金符「Emerald Megalith」
+  - 土&金符「Emerald Megalith」
+  - 奇术「Misdirection」
+  - 奇术「Misdirection」
+  - 奇术「幻惑Misdirection」
+  - 奇术「幻惑Misdirection」
+  - 幻在「Clock Corpse」
+  - 幻在「Clock Corpse」
+  - 幻幽「Jack the Ludo Bile」
+  - 幻幽「Jack the Ludo Bile」
+  - 幻象「Luna Clock」
+  - 幻象「Luna Clock」
+  - 幻世「The World」
+  - 幻世「The World」
+  - 女仆秘技「操弄玩偶」
+  - 女仆秘技「操弄玩偶」
+  - 女仆秘技「杀人玩偶」
+  - 女仆秘技「杀人玩偶」
+  - 奇术「Eternal Meek」
+  - 奇术「Eternal Meek」
+  - 奇术「Eternal Meek」
+  - 天罚「Star of David」
+  - 神罚「年幼的恶魔之王」
+  - 神罚「年幼的恶魔之王」
+  - 冥符「红色的冥界」
+  - 狱符「千根针的针山」
+  - 狱符「千根针的针山」
+  - 咒诅「弗拉德·采佩什的诅咒」
+  - 神术「吸血鬼幻想」
+  - 神术「吸血鬼幻想」
+  - 红符「Scarlet Shoot」
+  - 红符「Scarlet Meister」
+  - 红符「Scarlet Meister」
+  - 「Red Magic」
+  - 「红色的幻想乡」
+  - 「红色的幻想乡」
+  - 月符「Silent Selene」
+  - 日符「Royal Flare」
+  - 火水木金土符「贤者之石」
+  - 禁忌「Cranberry Trap」
+  - 禁忌「Laevatein」
+  - 禁忌「Four of a Kind」
+  - 禁忌「Kagome Kagome」
+  - 禁忌「恋之迷宫」
+  - 禁弹「Starbow Break」
+  - 禁弹「Catadioptric」
+  - 禁弹「刻着过去的钟表」
+  - 秘弹「之后就一个人都没有了吗？」
+  - QED「495年的波纹」
+  - 咒弹「Fragile Wing」
+  - 咒弹「伏行之血痕」
+  - 「弹幕的心脏」

@@ -13,7 +13,7 @@
     DecodeAdderData: 7
     DecompressStartData: 0x78
     DecodeChecksumStartData: 0x12
-    DecodeChecksumBaseData: 0x2F000318
+    DecodeChecksumBaseData: 0x2F10A329
     DecodeChecksum: 0xC
   StageSetting:
     FirstStage: 0x40
@@ -24,7 +24,6 @@
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 1
-      FirstFrameIsNullFrame: false
       HasTerminateMark: false
       KeySize: 2
       KeyNames: ["A", "B", "Fc", "Sk", "↑", "↓", "←", "→"]
@@ -87,6 +86,21 @@
     Type: byte
     EnumList: Difficulty
     UseAlternativeSource: true
+    IsVisible: "{Mode}!=3"
+  - Name: SpellNoPlusOne
+    Offset: 0x8
+    Type: short
+    Modifier: "{.}+1"
+    UseAlternativeSource: true
+    IsVisible: false
+  - Name: int
+    DisplayName: 符卡
+    Offset: 0x8
+    Type: int
+    EnumList: Th06SpellList
+    UseAlternativeSource: true
+    Formatter: "No.{SpellNoPlusOne:000} {.}"
+    IsVisible: "{Mode}==3"
   - Name: Score
     DisplayName: 得分
     Offset: 0x28
@@ -99,7 +113,7 @@
     Type: float
     Formatter: "{.:0.00}%"
     UseAlternativeSource: true
-- GameName: Th06
+- GameName: Th06c
   Identifier: T6RP
   GameDisplayName: 东方红魔乡：原典　～ the Embodiment of Scarlet Devil.
   ReplayStructVersion: 1
@@ -125,7 +139,6 @@
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 1
-      FirstFrameIsNullFrame: false
       HasTerminateMark: false
       KeySize: 2
       KeyNames: ["A", "B", "Fc", "Sk", "↑", "↓", "←", "→"]
@@ -216,7 +229,6 @@
     IsStageEndScore: true
     KeyData:
       KeyDataVersion: 1
-      FirstFrameIsNullFrame: true
       HasTerminateMark: false
       KeySize: 2
       KeyNames: ["A", "B", "Fc", "", "↑", "↓", "←", "→", "Sk"]

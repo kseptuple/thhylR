@@ -10,8 +10,8 @@
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	<ApplicationIcon>Icon\IconMain.ico</ApplicationIcon>
-	<FileVersion>1.2.0</FileVersion>
-	<AssemblyVersion>1.2.0.0</AssemblyVersion>
+	<FileVersion>1.2.1</FileVersion>
+	<AssemblyVersion>1.2.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +40,9 @@
 
   <ItemGroup>
     <None Update="EnumData\KeyNames.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="EnumData\th06Spell.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="EnumData\th20Spell.yaml">
